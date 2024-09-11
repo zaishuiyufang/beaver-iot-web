@@ -1,0 +1,96 @@
+/**
+ * 多端复用样式资源
+ *
+ * 注意：shared/src/style 已通过工程处理将所有 Less Variables & Mixins 注入到
+ * 全局中，可直接使用，无需再手动引入
+ */
+@import './themes/index.less';
+@import './mui-polyfill.less';
+
+@ms-header-height: 56px;
+@ms-footer-height: 72px;
+
+body {
+    min-width: 768px;
+    background-color: var(--body-background);
+    .text-size(@font-size-base);
+}
+
+// ---------- Layout ----------
+.@{prefix}-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 0;
+
+    &-header {
+        display: flex;
+        align-items: center;
+        height: @ms-header-height;
+        min-height: @ms-header-height;
+        background-color: var(--header-background);
+
+        &&-transparent {
+            background-color: transparent;
+        }
+    }
+
+    &-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        height: 0;
+        background-color: var(--body-background);
+    }
+}
+
+.@{prefix}-main {
+    flex: 1;
+    height: 0;
+    margin: 0 @margin-lg @margin-lg;
+    background-color: var(--main-background);
+    border-radius: @border-radius-xs;
+
+    &:first-child:not(.@{prefix}-main-blank) {
+        margin-top: @margin-lg;
+    }
+
+    // 高度撑满整屏
+    &-full {
+        height: calc(100% - @margin-lg);
+    }
+
+    &-transparent {
+        background-color: transparent;
+    }
+}
+
+.@{prefix}-footer {
+    display: flex;
+    align-items: center;
+    height: @ms-footer-height;
+    padding: 0 @padding-lg;
+    background-color: var(--main-background);
+    border-top: 1px solid var(--border-color-gray-light);
+}
+
+.@{prefix}-main-blank {
+    flex: 1;
+}
+
+// ---------- Scrollbar ----------
+// https://developer.mozilla.org/zh-CN/docs/Web/CSS/::-webkit-scrollbar
+::-webkit-scrollbar {
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-corner {
+    // 同时有垂直滚动条和水平滚动条时交汇的部分背景色
+    background-color: transparent;
+}
+
+// 滚动条上的按钮（上下箭头部分）
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
