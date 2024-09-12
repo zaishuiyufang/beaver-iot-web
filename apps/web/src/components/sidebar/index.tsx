@@ -9,9 +9,11 @@ import {
     Popover,
     Stack,
     Tooltip,
+    IconButton,
     type MenuItemProps,
 } from '@mui/material';
 import { MenuOpen as MenuOpenIcon, KeyboardArrowDown } from '@mui/icons-material';
+import { Logo } from '@milesight/shared/src/components';
 import './style.less';
 
 interface Props {
@@ -37,9 +39,7 @@ const Sidebar: React.FC<Props> = ({ menus, logoLinkTo = '/' }) => {
 
     return (
         <div className={cls('ms-layout-left ms-sidebar', { 'ms-sidebar-shrink': shrink })}>
-            <h3 className="ms-sidebar-logo">
-                <Link to={logoLinkTo}>Milesight</Link>
-            </h3>
+            <Logo className="ms-sidebar-logo" to="/" mini={shrink} />
             <MenuList className="ms-sidebar-menus">
                 {menus?.map(menu => (
                     <MenuItem
@@ -68,7 +68,11 @@ const Sidebar: React.FC<Props> = ({ menus, logoLinkTo = '/' }) => {
                         className={cls('ms-sidebar-user-trigger', { active: !!userMenuAnchorEl })}
                         onClick={e => setUserMenuAnchorEl(e.currentTarget)}
                     >
-                        <Avatar alt="avatar" src="https://mui.com/static/images/avatar/3.jpg" />
+                        <Avatar
+                            alt="avatar"
+                            src="https://mui.com/static/images/avatar/3.jpg"
+                            sx={{ width: 32, height: 32 }}
+                        />
                         <span className="ms-name">Admin</span>
                         <KeyboardArrowDown className="ms-icon" />
                     </Stack>
@@ -76,11 +80,11 @@ const Sidebar: React.FC<Props> = ({ menus, logoLinkTo = '/' }) => {
                         open={!!userMenuAnchorEl}
                         anchorEl={userMenuAnchorEl}
                         anchorOrigin={{
-                            vertical: 'top',
+                            vertical: -10,
                             horizontal: 'left',
                         }}
                         transformOrigin={{
-                            vertical: 72,
+                            vertical: 'bottom',
                             horizontal: 'left',
                         }}
                         onClose={() => setUserMenuAnchorEl(null)}
@@ -88,9 +92,9 @@ const Sidebar: React.FC<Props> = ({ menus, logoLinkTo = '/' }) => {
                         <p>UserMenu</p>
                     </Popover>
                 </div>
-                <div className="ms-oprt-shrink" onClick={() => setShrink(!shrink)}>
+                <IconButton className="ms-oprt-shrink" onClick={() => setShrink(!shrink)}>
                     <MenuOpenIcon />
-                </div>
+                </IconButton>
             </div>
         </div>
     );
