@@ -75,6 +75,9 @@ export const getMuiSchemes = () => {
                     light: '#40C776',
                     dark: '#10944E',
                 },
+                background: {
+                    default: '#F7F8FA',
+                },
             },
         },
         dark: {
@@ -108,6 +111,9 @@ export const getMuiSchemes = () => {
                     main: '#40C776',
                     light: '#1EBA62',
                     dark: '#66D48E',
+                },
+                background: {
+                    default: '#000000',
                 },
             },
         },
