@@ -22,7 +22,13 @@ export type RequestFunctionOptions = AxiosRequestConfig & {
      *
      * 注意：工具库不做相应实现，业务中应配合相关 error handler 来自行处理
      */
-    $ignoreError?: boolean | string[] | { codes: string[]; handler: (code: string) => void }[];
+    $ignoreError?:
+        | boolean
+        | string[]
+        | {
+              codes: string[];
+              handler: (code: string, resp?: AxiosResponse<unknown, any>) => void;
+          }[];
     /**
      * 是否允许并行重复请求
      *

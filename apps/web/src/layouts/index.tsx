@@ -1,29 +1,31 @@
 import { useLocation } from 'react-router';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useI18n } from '@milesight/shared/src/hooks';
+import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 
 import BasicLayout from './BasicLayout';
 import BlankLayout from './BlankLayout';
 
 function Layout() {
     const location = useLocation();
-    const { lang, muiLocale } = useI18n();
-    const theme = createTheme(
+    const { muiLocale } = useI18n();
+    const { muiPalettes, colorSchemeSelector } = useTheme();
+    const muiTheme = createTheme(
         {
-            palette: {
-                primary: { main: '#1976d2' },
+            colorSchemes: { light: muiPalettes.light, dark: muiPalettes.dark },
+            cssVariables: {
+                colorSchemeSelector,
             },
         },
         muiLocale!,
     );
 
     // Todo: lang 为 undefined 时，说明文案还未加载完成，此时需全局 loading 等待
-    console.log({ lang, muiLocale });
+    // console.log({ lang, muiLocale });
 
     if (['/auth/login', '/auth/register', '/403', '/404', '/500'].includes(location.pathname)) {
         return (
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={muiTheme}>
                 <CssBaseline />
                 <BlankLayout />
             </ThemeProvider>
@@ -31,7 +33,7 @@ function Layout() {
     }
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={muiTheme}>
             <CssBaseline />
             <BasicLayout />
         </ThemeProvider>
