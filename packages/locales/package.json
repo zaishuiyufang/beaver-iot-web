@@ -12,10 +12,13 @@
         "build": "rimraf dist && rollup -c",
         "import": "node ./scripts/index.js import",
         "export": "node ./scripts/index.js export --error-map",
-        "exportall": "node ./scripts/index.js export --all --error-map"
+        "exportall": "node ./scripts/index.js export --all --error-map",
+        "lint": "eslint ./src --cache --cache-location=./node_modules/.cache/.eslintcache",
+        "lint:fix": "eslint ./src --fix --quiet --cache --cache-location=./node_modules/.cache/.eslintcache"
     },
     "devDependencies": {
         "@babel/core": "^7.22.10",
+        "@milesight/spec": "workspace:*",
         "@rollup/plugin-babel": "^6.0.3",
         "@rollup/plugin-dynamic-import-vars": "^2.0.5",
         "@rollup/plugin-json": "^6.0.0",

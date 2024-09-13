@@ -14,12 +14,19 @@
         "i18n:export-all": "pnpm --filter=@milesight/locales run exportall",
         "clean": "rimraf -g node_modules */**/node_modules",
         "clean:cache": "rimraf -g */**/node_modules/.vite */**/node_modules/.cache",
+        "lint:apps": "pnpm --filter=@app/* -r run lint:fix",
+        "lint:pkgs": "pnpm --filter=@milesight/* -r run lint:fix",
+        "stylelint:apps": "pnpm --filter=@app/* -r run stylelint:fix",
+        "stylelint:pkgs": "pnpm --filter=@milesight/* -r run stylelint:fix",
+        "commitlint": "commitlint",
+        "lint-staged": "lint-staged",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "prepare": "husky install",
+        "prepare": "husky",
         "preinstall": "node --import tsx ./scripts/only-allow.ts pnpm",
         "postinstall": "pnpm --filter=@milesight/* -r run build"
     },
     "devDependencies": {
+        "@commitlint/cli": "^19.4.1",
         "@changesets/cli": "^2.27.8",
         "@milesight/spec": "workspace:*",
         "@types/node": "^20.4.8",
@@ -31,5 +38,11 @@
         "rimraf": "^6.0.1",
         "tsx": "^4.19.0",
         "typescript": "^5.6.2"
+    },
+    "lint-staged": {
+        "apps/**/*.{js,ts,tsx}": "pnpm run lint:apps",
+        "packages/**/*.{js,ts,tsx}": "pnpm run lint:pkgs",
+        "apps/**/*.{css,less}": "pnpm run stylelint:apps",
+        "packages/**/*.{css,less}": "pnpm run stylelint:pkgs"
     }
 }

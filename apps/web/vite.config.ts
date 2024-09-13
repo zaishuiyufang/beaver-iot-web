@@ -24,7 +24,7 @@ export default defineConfig({
         }),
         stylelint({
             fix: true,
-            cacheLocation: path.join(__dirname, 'node_modules/.vite/.stylelintcache'),
+            cacheLocation: path.join(__dirname, 'node_modules/.cache/.stylelintcache'),
             emitWarning: !isProd,
         }),
         /**

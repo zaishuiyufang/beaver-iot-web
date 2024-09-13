@@ -1,10 +1,16 @@
 {
     "name": "@app/web",
+    "private": true,
     "version": "0.0.1",
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "lint": "eslint ./src --cache --cache-location=./node_modules/.cache/.eslintcache",
+        "lint:fix": "eslint ./src --fix --quiet --cache --cache-location=./node_modules/.cache/.eslintcache",
+        "stylelint": "stylelint ./src/**/*.{css,less} --cache --cache-location=./node_modules/.cache/.stylelintcache",
+        "stylelint:fix": "stylelint ./src/**/*.{css,less} --fix --cache --cache-location=./node_modules/.cache/.stylelintcache",
+        "ts-check": "tsc --noEmit"
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",
@@ -34,6 +40,7 @@
         "@types/react": "^18.3.5",
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.1",
+        "eslint": "^8.56.0",
         "less": "^4.2.0",
         "stylelint": "^15.11.0",
         "typescript": "^5.6.2",
