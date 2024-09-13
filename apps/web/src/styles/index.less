@@ -12,6 +12,7 @@ body {
     min-height: 0;
 
     &-left {
+        flex-shrink: 0;
         width: 256px;
     }
 
@@ -19,6 +20,7 @@ body {
         display: flex;
         flex: 1;
         flex-direction: column;
+        width: 0;
         height: 100%;
         background-color: var(--body-background);
     }
@@ -44,21 +46,4 @@ body {
 
 .@{prefix}-main-blank {
     flex: 1;
-}
-
-// ---------- Scrollbar ----------
-// https://developer.mozilla.org/zh-CN/docs/Web/CSS/::-webkit-scrollbar
-::-webkit-scrollbar {
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-corner {
-    // 同时有垂直滚动条和水平滚动条时交汇的部分背景色
-    background-color: transparent;
-}
-
-// 滚动条上的按钮（上下箭头部分）
-::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
 }
