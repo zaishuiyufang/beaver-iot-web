@@ -61,6 +61,10 @@ export enum EErrorMessages {
      */
     phone = 'valid.input.phone',
     /**
+     * +86 手机号码
+     */
+    cnPhone = 'valid.input.cn_phone',
+    /**
      * Zip/Postal Code- 邮政编码类
      */
     postalCode = 'valid.input.postal_code',
@@ -87,7 +91,7 @@ export enum EErrorMessages {
     /**
      * username校验
      */
-     username = 'valid.input.username',
+    username = 'valid.input.username',
     /**
      * 密码校验
      */
@@ -152,12 +156,48 @@ export enum EErrorMessages {
      * Url Address - URL地址
      */
     url = 'valid.input.url',
+    /**
+     * 不含空格的ASCII字符
+     */
+    noIncludesSpaceAscii = 'valid.input.no_includes_space_ascii',
+    /**
+     * 仅允许输入大写字母、小写字母、数字及“_”、“-”
+     */
+    stringRulesOne = 'valid.input.string_rules_one',
+    /**
+     * 仅允许输入大写字母、小写字母、数字及!"#$%&'()*+,-./:;<=>@[]^_`{|}~
+     */
+    stringRulesTwo = 'valid.input.string_rules_two',
+    /**
+     * 检测是否为 ipv4/ipv6 或域名
+     */
+    ipOrDomain = 'valid.input.ip_or_domain',
+    /**
+     * 整数校验（正整数、负整数和零）
+     */
+    integerPositiveNegativeZero = 'valid.input.integer_positive_negative_zero',
+    /**
+     * 正整数校验（正整数和零）
+     */
+    integerPositiveZero = 'valid.input.integer_positive_zero',
+    /**
+     * 必须以 http/https 开头
+     */
+    startWithHttpOrHttps = 'valid.input.start_with_http_https',
+    /**
+     * 必须以 ws/wss 开头
+     */
+    startWithWsOrWss = 'valid.input.start_with_ws_wss',
+    /**
+     * 不允许字符: &/\:*?'"<>|%
+     */
+    notAllowStringOne = 'valid.input.not_allow_string',
 }
 
-let intlInstance: typeof intl;
-export const intlInstanceGenerator = (instance: typeof intl) => {
-    intlInstance = instance;
-};
+// let intlInstance: typeof intl;
+// export const intlInstanceGenerator = (instance: typeof intl) => {
+//     intlInstance = instance;
+// };
 
 /**
  * 取得 国际化处理后的 错误信息
@@ -166,11 +206,10 @@ export const intlInstanceGenerator = (instance: typeof intl) => {
  * @returns {String} 找不到任何的 key 就会返回 'error' 字符串
  */
 const getErrorMessage = (key: EErrorMessages | string, options?: Record<string, any>): string => {
-    if (!intlInstance) {
-        throw Error('Please init intlInstance first.');
-    }
-
-    return intlInstance.getHTML(key, options).d('error');
+    // if (!intlInstance) {
+    //     throw Error('Please init intlInstance first.');
+    // }
+    return intl.getHTML(key, options).d('error');
 };
 
 export default getErrorMessage;

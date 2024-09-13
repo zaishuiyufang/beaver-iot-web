@@ -4,6 +4,13 @@
     "version": "1.0.0",
     "license": "MIT",
     "description": "Common code for IOT apps.",
+    "scripts": {
+        "lint": "eslint ./src --cache --cache-location=./node_modules/.cache/.eslintcache",
+        "lint:fix": "eslint ./src --fix --quiet --cache --cache-location=./node_modules/.cache/.eslintcache",
+        "stylelint": "stylelint ./src/**/*.{css,less} --cache --cache-location=./node_modules/.cache/.stylelintcache",
+        "stylelint:fix": "stylelint ./src/**/*.{css,less} --fix --cache --cache-location=./node_modules/.cache/.stylelintcache",
+        "ts-check": "tsc --noEmit"
+    },
     "dependencies": {
         "@milesight/locales": "workspace:*",
         "@mui/material": "^6.0.2",
@@ -22,6 +29,7 @@
         "react-intl-universal": "^2.11.1",
         "react-router": "^6.26.1",
         "react-router-dom": "^6.26.1",
+        "validator": "^13.12.0",
         "zustand": "^4.5.5"
     },
     "devDependencies": {
@@ -30,6 +38,7 @@
         "@types/qs": "^6.9.15",
         "@types/react": "^18.3.5",
         "@types/react-dom": "^18.3.0",
+        "@types/validator": "^13.12.1",
         "vite": "^5.4.3"
     }
 }

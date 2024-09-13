@@ -22,10 +22,7 @@ export const copyText = (content: string): Promise<boolean> => {
 
     // 是否降级使用
     const isFallback = !navigator.clipboard;
-    const fallbackCopy = (
-        txt: string,
-        cb: (success: boolean) => void = () => {}
-    ) => {
+    const fallbackCopy = (txt: string, cb: (success: boolean) => void = () => {}) => {
         const textarea = document.createElement('textarea');
 
         textarea.value = txt;
@@ -35,10 +32,7 @@ export const copyText = (content: string): Promise<boolean> => {
         document.body.appendChild(textarea);
 
         if (isIOS()) {
-            const {
-                readOnly,
-                contentEditable: editable,
-            } = textarea;
+            const { readOnly, contentEditable: editable } = textarea;
             textarea.contentEditable = 'true';
             textarea.readOnly = false;
 
@@ -61,22 +55,28 @@ export const copyText = (content: string): Promise<boolean> => {
             document.execCommand('copy');
             cb(true);
         } catch (err) {
+            // eslint-disable-next-line no-console
             console.warn(err);
             cb(false);
         }
 
         document.body.removeChild(textarea);
-    }
+    };
 
     if (!isFallback) {
-        return new Promise((resolve) => {
-            navigator.clipboard.writeText(content).then(() => {
-                resolve(true);
-            }, () => {
-                fallbackCopy(content, resolve);
-            });
+        return new Promise(resolve => {
+            navigator.clipboard.writeText(content).then(
+                () => {
+                    resolve(true);
+                },
+                () => {
+                    fallbackCopy(content, resolve);
+                },
+            );
         });
     }
 
-    return new Promise((resolve) => fallbackCopy(content, resolve));
-}
+    return new Promise(resolve => {
+        fallbackCopy(content, resolve);
+    });
+};

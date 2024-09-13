@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { isEqual as _isEqual } from 'lodash-es';
 import validator from 'validator';
 
@@ -7,9 +8,8 @@ import validator from 'validator';
 export function isEmpty(value: any, options?: validator.IsEmptyOptions): boolean {
     if (typeof value === 'string') {
         return validator.isEmpty(value, options);
-    } else {
-        return value === null || value === undefined || value.length === 0;
     }
+    return value === null || value === undefined || value.length === 0;
 }
 
 /**
@@ -266,7 +266,7 @@ export function isMobilePhone(
         return /^[a-zA-Z0-9\(\)\.\-+\*#]{1,31}$/.test(`${value}`);
     }
 
-    return validator.isMobilePhone(`${value}`, locale ? locale : 'any', otherOptions);
+    return validator.isMobilePhone(`${value}`, locale || 'any', otherOptions);
 }
 
 /**
@@ -283,7 +283,7 @@ export function isPostalCode(
         return /^[a-zA-Z0-9\(\)\.\-+\*#\s]{1,31}$/.test(`${value}`);
     }
 
-    return validator.isPostalCode(`${value}`, locale ? locale : 'any');
+    return validator.isPostalCode(`${value}`, locale || 'any');
 }
 
 /**
@@ -296,7 +296,21 @@ export function isPort(value: string): boolean {
 /**
  * 是否是包含汉字
  */
- export function isChinaString(value: string): boolean {
-    var patrn= new RegExp("[\\u4E00-\\u9FFF]+", "g");
-        return patrn.test(`${value}`);
+export function isChinaString(value: string): boolean {
+    const patrn = /[\u4E00-\u9FFF]+/g;
+    return patrn.test(`${value}`);
+}
+
+/**
+ * 是否为 ASCII 字符
+ */
+export function isAscii(value: string): boolean {
+    return validator.isAscii(value);
+}
+
+/**
+ * 是否是字母
+ */
+export function isAlpha(value: string): boolean {
+    return validator.isAlpha(value);
 }
