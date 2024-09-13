@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useMatches } from 'react-router';
 import { Link } from 'react-router-dom';
 import cls from 'classnames';
@@ -31,7 +31,7 @@ interface Props {
     onMenuClick?: MenuItemProps['onClick'];
 }
 
-const Sidebar: React.FC<Props> = ({ menus, logoLinkTo = '/' }) => {
+const Sidebar: React.FC<Props> = memo(({ menus, logoLinkTo = '/' }) => {
     const routes = useMatches().slice(1);
     const selectedKeys = routes.map(route => route.pathname);
     const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -43,6 +43,7 @@ const Sidebar: React.FC<Props> = ({ menus, logoLinkTo = '/' }) => {
             <MenuList className="ms-sidebar-menus">
                 {menus?.map(menu => (
                     <MenuItem
+                        key={menu.path}
                         className="ms-sidebar-menu-item"
                         selected={selectedKeys.includes(menu.path)}
                     >
@@ -98,6 +99,6 @@ const Sidebar: React.FC<Props> = ({ menus, logoLinkTo = '/' }) => {
             </div>
         </div>
     );
-};
+});
 
 export default Sidebar;

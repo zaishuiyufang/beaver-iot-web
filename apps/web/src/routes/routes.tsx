@@ -43,14 +43,32 @@ const routes: RouteObjectType[] = [
     },
     {
         path: '/device',
+        element: <Outlet />,
         handle: {
             title: 'Device',
             icon: <DevicesIcon />,
         },
-        async lazy() {
-            const { default: Component } = await import('@/pages/device');
-            return { Component };
-        },
+        children: [
+            {
+                index: true,
+                async lazy() {
+                    const { default: Component } = await import('@/pages/device');
+                    return { Component };
+                },
+            },
+            {
+                index: true,
+                path: 'detail',
+                handle: {
+                    title: 'Detail',
+                    icon: <DevicesIcon />,
+                },
+                async lazy() {
+                    const { default: Component } = await import('@/pages/device/views/detail');
+                    return { Component };
+                },
+            },
+        ],
     },
     {
         path: '/setting',
@@ -65,6 +83,9 @@ const routes: RouteObjectType[] = [
     },
     {
         path: '/auth',
+        handle: {
+            layout: 'blank',
+        },
         element: <Outlet />,
         children: [
             {

@@ -19,29 +19,26 @@ body {
         display: flex;
         flex: 1;
         flex-direction: column;
-        height: 0;
+        height: 100%;
         background-color: var(--body-background);
     }
 }
 
 .@{prefix}-main {
-    flex: 1;
-    height: 0;
-    margin: 0 @margin-lg @margin-lg;
-    background-color: var(--main-background);
-    border-radius: @border-radius-xs;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-    &:first-child:not(.@{prefix}-main-blank) {
-        margin-top: @margin-lg;
-    }
+    > .@{prefix}-view {
+        flex: 1;
+        height: 0;
+        padding: @padding-lg;
 
-    // 高度撑满整屏
-    &-full {
-        height: calc(100% - @margin-lg);
-    }
-
-    &-transparent {
-        background-color: transparent;
+        > .@{prefix}-view__inner {
+            height: 100%;
+            background-color: var(--component-background);
+            border-radius: @border-radius-base;
+        }
     }
 }
 
