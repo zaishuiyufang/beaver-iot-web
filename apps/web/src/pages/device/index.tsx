@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import { Button, Stack, Box, IconButton } from '@mui/material';
-import { DataGrid, GridColDef, DEFAULT_GRID_AUTOSIZE_OPTIONS } from '@mui/x-data-grid';
+import { useMemo } from 'react';
+import { Button, Stack, IconButton } from '@mui/material';
+import { type GridColDef } from '@mui/x-data-grid';
 import { ListAlt, DeleteOutline } from '@mui/icons-material';
-import { Breadcrumbs } from '@/components';
+import { Breadcrumbs, TablePro } from '@/components';
 import './style.less';
 
 const columns: GridColDef[] = [
@@ -75,38 +75,37 @@ const rows = [
     { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
     { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+    { id: 10, lastName: 'Jimmy', firstName: 'Abc', age: 42 },
+    { id: 11, lastName: 'Lily', firstName: 'Abc', age: 22 },
 ];
 
-const paginationModel = { page: 0, pageSize: 5 };
-
 export default () => {
+    const toolbarRender = useMemo(() => {
+        return (
+            <Stack className="ms-operations-btns" direction="row" spacing="12px">
+                <Button variant="contained" sx={{ height: 36 }}>
+                    Add
+                </Button>
+                <Button variant="outlined" color="error" sx={{ height: 36 }}>
+                    Delete
+                </Button>
+            </Stack>
+        );
+    }, []);
+
     return (
         <div className="ms-main">
             <Breadcrumbs />
             <div className="ms-view ms-view-device">
                 <div className="ms-view__inner">
-                    <div className="ms-operations">
-                        <Stack className="ms-operations-btns" direction="row" spacing="12px">
-                            <Button variant="contained" sx={{ height: 36 }}>
-                                Add
-                            </Button>
-                            <Button variant="outlined" color="error" sx={{ height: 36 }}>
-                                Delete
-                            </Button>
-                        </Stack>
-                    </div>
-                    <div className="ms-table-wrap">
-                        <DataGrid
-                            checkboxSelection
-                            disableRowSelectionOnClick
-                            rows={rows}
-                            columns={columns}
-                            initialState={{ pagination: { paginationModel } }}
-                            // autosizeOptions={{ ...DEFAULT_GRID_AUTOSIZE_OPTIONS, expand: true }}
-                            pageSizeOptions={[5, 10]}
-                            sx={{ border: 0 }}
-                        />
-                    </div>
+                    <TablePro
+                        columns={columns}
+                        rows={rows}
+                        rowCount={50}
+                        toolbarRender={toolbarRender}
+                        onSearch={() => console.log('search')}
+                        onRefreshButtonClick={() => console.log('refresh')}
+                    />
                 </div>
             </div>
         </div>
