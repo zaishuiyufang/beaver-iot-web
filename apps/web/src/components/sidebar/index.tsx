@@ -43,6 +43,7 @@ const Sidebar: React.FC<Props> = memo(({ menus, logoLinkTo = '/' }) => {
             <MenuList className="ms-sidebar-menus">
                 {menus?.map(menu => (
                     <MenuItem
+                        disableRipple
                         key={menu.path}
                         className="ms-sidebar-menu-item"
                         selected={selectedKeys.includes(menu.path)}
