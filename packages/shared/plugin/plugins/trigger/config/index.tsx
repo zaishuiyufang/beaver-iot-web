@@ -1,5 +1,5 @@
-import RenderPlugin from '../../../render-plugin';
-import config from './config.json';
+import RenderPlugin from '../../../render';
+import config from '../config.json';
 
 const Plugin = () => {
     return <RenderPlugin config={config} />

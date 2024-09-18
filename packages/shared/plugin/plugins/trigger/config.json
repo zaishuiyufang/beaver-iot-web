@@ -16,6 +16,7 @@
                     "title": "Entity",
                     "key": "entity",
                     "style": "width: 100%",
+                    "getDataUrl": "",
                     "componentProps": {
                         "size": "small"
                     },
@@ -107,9 +108,46 @@
                 },
                 {
                     "type": "iconColorSelect",
+                    "title": "Color",
                     "key": "iconColor",
                     "componentProps": {
                         "size": "small"
+                    }
+                }
+            ]
+        }
+    ],
+    "view": [
+        {
+            "tag": "div",
+            "themes": {
+                "default": {
+                    "class": "trigger-view"
+                }
+            },
+            "children": [
+                {
+                    "tag": "icon",
+                    "showDependend": {
+                        "showIcon": true,
+                        "icon": true
+                    },
+                    "params": [
+                        "icon"
+                    ]
+                },
+                {
+                    "tag": "div",
+                    "showDependend": {
+                        "showTitle": true
+                    },
+                    "params": [
+                        "title"
+                    ],
+                    "themes": {
+                        "default": {
+                            "class": "trigger-view-title"
+                        }
                     }
                 }
             ]

@@ -1,3 +1,4 @@
+import * as MUI from '@mui/material';
 import * as Milesight from '../components';
 import { CustomComponentProps, ComponentProps } from './typings';
 import { parseStyleString } from './util';
@@ -21,7 +22,7 @@ const CreatPlugin = (props: IPlugin) => {
                     const themeStyle = item?.theme?.[currentTheme].style ? parseStyleString(item?.theme?.[currentTheme].style) : undefined;
                     const className = item?.theme?.[currentTheme]?.class ? item?.theme?.[currentTheme]?.class : undefined;
                     return components?.map((component: ComponentProps) => {
-                        const AllComponent: any = Milesight;
+                        const AllComponent: any = { ...Milesight, ...MUI };
                         if (AllComponent[component.type]) {
                             const Component = AllComponent[component.type];
                             const commonStyle = component?.style ? parseStyleString(component?.style) : undefined;
