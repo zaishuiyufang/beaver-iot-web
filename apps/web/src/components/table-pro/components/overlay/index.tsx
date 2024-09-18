@@ -28,7 +28,7 @@ interface NoDataOverlayProps extends PropsFromSlot<GridSlots['noRowsOverlay']> {
     content?: React.ReactNode;
 }
 
-interface NoResultOverlayProps extends PropsFromSlot<GridSlots['noResultsOverlay']> {
+interface NoResultsOverlayProps extends PropsFromSlot<GridSlots['noResultsOverlay']> {
     /** 提示文案 */
     content?: React.ReactNode;
 }
@@ -72,7 +72,7 @@ const NoDataOverlay: React.FC<NoDataOverlayProps> = React.memo(({ content = 'No 
 /**
  * Table 筛选无数据占位
  */
-const NoResultOverlay: React.FC<NoResultOverlayProps> = React.memo(
+const NoResultsOverlay: React.FC<NoResultsOverlayProps> = React.memo(
     ({ content = 'No Results Found.' }) => {
         return (
             <StyledGridOverlay>
@@ -107,5 +107,5 @@ const NoResultOverlay: React.FC<NoResultOverlayProps> = React.memo(
     },
 );
 
-export { NoDataOverlay, NoResultOverlay };
+export { NoDataOverlay, NoResultsOverlay };
 export default NoDataOverlay;

@@ -6,6 +6,8 @@ import {
     GridPagination,
     type GridFooterContainerProps,
 } from '@mui/x-data-grid';
+import cls from 'classnames';
+import './style.less';
 
 interface CustomFooterProps extends GridFooterContainerProps {
     /** 刷新按钮点击回调 */
@@ -15,23 +17,21 @@ interface CustomFooterProps extends GridFooterContainerProps {
 /**
  * 自定义表格页脚组件
  */
-const CustomFooter: React.FC<CustomFooterProps> = ({ onRefreshButtonClick, ...props }) => {
+const CustomFooter: React.FC<CustomFooterProps> = ({
+    onRefreshButtonClick,
+    className,
+    ...props
+}) => {
     return (
-        <GridFooterContainer {...props}>
+        <GridFooterContainer className={cls('ms-table-pro__footer', className)} {...props}>
             <IconButton
                 size="small"
+                className="ms-table-pro__refresh-btn"
                 onClick={onRefreshButtonClick}
-                sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '4px',
-                    border: '1px solid #e5e5e5',
-                    color: 'text.secondary',
-                }}
             >
                 <Refresh sx={{ width: 24, height: 24 }} />
             </IconButton>
-            <GridPagination />
+            <GridPagination className="ms-table-pro__pagination" />
         </GridFooterContainer>
     );
 };
