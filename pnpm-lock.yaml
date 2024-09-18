@@ -295,6 +295,9 @@ importers:
       '@types/validator':
         specifier: ^13.12.1
         version: 13.12.1
+      stylelint:
+        specifier: ^15.11.0
+        version: 15.11.0(typescript@5.6.2)
       vite:
         specifier: ^5.4.3
         version: 5.4.3(@types/node@20.16.5)
