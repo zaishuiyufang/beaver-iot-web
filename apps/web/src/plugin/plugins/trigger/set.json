@@ -1,0 +1,156 @@
+{
+    "type": "trigger",
+    "name": "事件触发组件",
+    "configProps": [
+        {
+            "style": "width: 100%",
+            "theme": {
+                "default": {
+                    "class": "first-component-select",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "select",
+                    "title": "Entity",
+                    "key": "entity",
+                    "style": "width: 100%",
+                    "getDataUrl": "",
+                    "componentProps": {
+                        "size": "small"
+                    },
+                    "options": [
+                        {
+                            "label": "选项1",
+                            "value": "1"
+                        },
+                        {
+                            "label": "选项2",
+                            "value": "2"
+                        },
+                        {
+                            "label": "选项3",
+                            "options": [
+                                {
+                                    "label": "3的子选项",
+                                    "value": "3"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "theme": {
+                "default": {
+                    "class": "first-component-switch",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "switch",
+                    "title": "Display Title",
+                    "key": "showTitle"
+                }
+            ]
+        },
+        {
+            "theme": {
+                "default": {
+                    "class": "first-component-input",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "input",
+                    "title": "Title",
+                    "key": "title",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                }
+            ]
+        },
+        {
+            "theme": {
+                "default": {
+                    "class": "first-component-switch",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "title": "Display Icon",
+                    "type": "switch",
+                    "key": "showIcon"
+                }
+            ]
+        },
+        {
+            "theme": {
+                "default": {
+                    "class": "first-component-icon-select"
+                }
+            },
+            "components": [
+                {
+                    "type": "iconSelect",
+                    "title": "Icon",
+                    "key": "icon",
+                    "style": "min-width: 120px",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                },
+                {
+                    "type": "iconColorSelect",
+                    "title": "Color",
+                    "key": "iconColor",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                }
+            ]
+        }
+    ],
+    "view": [
+        {
+            "tag": "div",
+            "themes": {
+                "default": {
+                    "class": "trigger-view"
+                }
+            },
+            "children": [
+                {
+                    "tag": "icon",
+                    "showDependend": {
+                        "showIcon": true,
+                        "icon": true
+                    },
+                    "params": [
+                        "icon"
+                    ]
+                },
+                {
+                    "tag": "div",
+                    "showDependend": {
+                        "showTitle": true
+                    },
+                    "params": [
+                        "title"
+                    ],
+                    "themes": {
+                        "default": {
+                            "class": "trigger-view-title"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
