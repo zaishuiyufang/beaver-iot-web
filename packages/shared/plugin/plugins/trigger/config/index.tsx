@@ -1,4 +1,4 @@
-import RenderPlugin from '../../../render';
+import { RenderPlugin } from '../../../render';
 import config from '../config.json';
 
 const Plugin = () => {
