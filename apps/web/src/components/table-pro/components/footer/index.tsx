@@ -31,7 +31,17 @@ const CustomFooter: React.FC<CustomFooterProps> = ({
             >
                 <Refresh sx={{ width: 24, height: 24 }} />
             </IconButton>
-            <GridPagination className="ms-table-pro__pagination" />
+            <GridPagination
+                className="ms-table-pro__pagination"
+                slotProps={{
+                    select: {
+                        MenuProps: {
+                            anchorOrigin: { vertical: 'top', horizontal: 'left' },
+                            transformOrigin: { vertical: 'bottom', horizontal: 'left' },
+                        },
+                    },
+                }}
+            />
         </GridFooterContainer>
     );
 };

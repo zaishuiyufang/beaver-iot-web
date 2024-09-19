@@ -19,8 +19,10 @@
         overflow: auto;
 
         // 覆盖 Mui 样式：移除 focus 时的边框
+        .@{mui-prefix}DataGrid-cell:focus,
+        .@{mui-prefix}DataGrid-cell:focus-within,
         .@{mui-prefix}DataGrid-columnHeader:focus,
-        .@{mui-prefix}DataGrid-cell:focus {
+        .@{mui-prefix}DataGrid-columnHeader:focus-within {
             outline: none;
         }
 
