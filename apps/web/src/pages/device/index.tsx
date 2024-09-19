@@ -99,6 +99,7 @@ export default () => {
             <div className="ms-view ms-view-device">
                 <div className="ms-view__inner">
                     <TablePro
+                        checkboxSelection
                         columns={columns}
                         rows={rows}
                         rowCount={50}

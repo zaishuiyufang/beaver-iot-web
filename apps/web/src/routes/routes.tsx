@@ -94,10 +94,9 @@ const routes: RouteObjectType[] = [
                 handle: {
                     title: 'Login',
                     layout: 'blank',
-                    authFree: true,
                 },
                 async lazy() {
-                    const { default: Component } = await import('@/pages/auth/login');
+                    const { default: Component } = await import('@/pages/auth/views/login');
                     return { Component };
                 },
             },
@@ -105,9 +104,10 @@ const routes: RouteObjectType[] = [
                 path: 'register',
                 handle: {
                     title: 'Register',
+                    layout: 'blank',
                 },
                 async lazy() {
-                    const { default: Component } = await import('@/pages/auth/register');
+                    const { default: Component } = await import('@/pages/auth/views/register');
                     return { Component };
                 },
             },
