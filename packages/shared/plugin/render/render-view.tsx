@@ -11,10 +11,6 @@ interface Props {
 const View = (props: Props) => {
     const { config, configJson } = props;
 
-    const handleService = () => {
-        // 发送服务
-    };
-
     // 处理显示依赖
     const isShow = (depended?: Record<string, any>) => {
         if (depended) {

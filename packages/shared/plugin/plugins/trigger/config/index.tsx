@@ -1,8 +1,8 @@
-import { RenderPlugin } from '../../../render';
+import { RenderConfig } from '../../../render';
 import config from '../config.json';
 
 const Plugin = () => {
-    return <RenderPlugin config={config} />
+    return <RenderConfig config={config} />
 }
 
 export default Plugin;
