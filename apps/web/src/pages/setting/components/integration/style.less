@@ -1,0 +1,42 @@
+.@{prefix}-int-card {
+    width: 322px;
+    padding: @padding-sm;
+    background-color: var(--component-background);
+    border-radius: @border-radius-base;
+    cursor: pointer;
+
+    .logo {
+        width: 48px;
+        height: 48px;
+        margin: 0 0 @margin-xs 0;
+    }
+
+    .title {
+        .text-size(@font-size-lg);
+
+        font-weight: @font-weight-medium;
+    }
+
+    .desc {
+        .text-size(@font-size-base);
+
+        color: var(--text-color-tertiary);
+    }
+
+    .meta {
+        display: flex;
+        margin-top: @margin-md;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        margin-right: @margin-sm;
+        color: var(--text-color-secondary);
+
+        .@{mui-prefix}SvgIcon-root {
+            margin-right: @margin-xs;
+            font-size: @font-size-xl;
+        }
+    }
+}

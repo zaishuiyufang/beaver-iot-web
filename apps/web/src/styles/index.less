@@ -48,3 +48,50 @@ body {
 .@{prefix}-main-blank {
     flex: 1;
 }
+
+// ---------- Custom Tabs ----------
+.@{prefix}-tabs {
+    &.@{mui-prefix}Tabs-root {
+        height: 56px;
+        min-height: 44px;
+        padding-top: @padding-sm;
+        background-color: var(--component-background);
+    }
+
+    .@{mui-prefix}Tabs-flexContainer {
+        padding: 0 20px;
+        background-color: var(--component-background);
+        border-bottom: 1px solid var(--border-color-base);
+    }
+
+    .@{mui-prefix}Tab-root {
+        min-height: 43px;
+        color: var(--text-color-secondary);
+        text-transform: none;
+        border: 1px solid transparent;
+        border-bottom: none;
+
+        &.@{mui-prefix}-selected {
+            font-weight: @font-weight-medium;
+            color: var(--text-color-base);
+            background-color: var(--body-background);
+            border-color: var(--border-color-base);
+            border-radius: @border-radius-base @border-radius-base 0 0;
+        }
+
+        &::after {
+            display: block;
+            height: 1px;
+            margin-bottom: -1px;
+            overflow: hidden;
+            font-weight: @font-weight-medium;
+            visibility: hidden;
+            content: attr(title)
+        }
+    }
+
+    .@{mui-prefix}Tabs-indicator {
+        bottom: -1px;
+        background-color: var(--body-background);
+    }
+}

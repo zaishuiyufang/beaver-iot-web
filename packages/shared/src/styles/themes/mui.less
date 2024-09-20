@@ -1,5 +1,5 @@
-@import './light/index.less';
-@import './dark/index.less';
+@import url('./light/index.less');
+@import url('./dark/index.less');
 
 :root[data-theme='light'],
 :root[data-theme='dark'] {
@@ -32,4 +32,7 @@
     --mui-palette-success-main: var(--green-base);
     --mui-palette-success-light: var(--green-5);
     --mui-palette-success-dark: var(--green-7);
+
+    // Background
+    --mui-palette-background-default: var(--body-background);
 }

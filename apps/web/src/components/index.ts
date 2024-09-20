@@ -9,3 +9,4 @@ export {
     type FormRadioProps,
     type FormSelectProps,
 } from './form';
+export { default as TabPanel } from './tab-panel';
