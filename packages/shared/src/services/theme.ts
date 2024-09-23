@@ -54,26 +54,31 @@ export const getMuiSchemes = () => {
                     main: '#1261BE',
                     light: '#3380CC',
                     dark: '#064699',
+                    contrastText: '#FFFFFF',
                 },
                 error: {
                     main: '#F13535',
                     light: '#FF6661',
                     dark: '#CC2328',
+                    contrastText: '#FFFFFF',
                 },
                 warning: {
                     main: '#F7BA1E',
                     light: '#FFD147',
                     dark: '#D1940F',
+                    contrastText: '#FFFFFF',
                 },
                 info: {
                     main: '#3491FA',
                     light: '#5EAFFF',
                     dark: '#226FD4',
+                    contrastText: '#FFFFFF',
                 },
                 success: {
                     main: '#1EBA62',
                     light: '#40C776',
                     dark: '#10944E',
+                    contrastText: '#FFFFFF',
                 },
                 background: {
                     default: '#F7F8FA',
