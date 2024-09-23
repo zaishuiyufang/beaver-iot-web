@@ -18,8 +18,8 @@ function App() {
             <div className="ms-view ms-view-setting">
                 <Tabs className="ms-tabs" value={tab} onChange={handleChange}>
                     <Tab disableRipple title="Item One" label="Item One" value="1" />
-                    <Tab disableRipple title="Item One" label="Item Two" value="2" />
-                    <Tab disableRipple title="Item One" label="Item Three" value="3" />
+                    <Tab disableRipple title="Item Two" label="Item Two" value="2" />
+                    <Tab disableRipple title="Item Three" label="Item Three" value="3" />
                 </Tabs>
                 <div className="ms-tab-content">
                     <TabPanel value={tab} index="1">

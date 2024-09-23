@@ -58,7 +58,7 @@ const routes: RouteObjectType[] = [
             },
             {
                 index: true,
-                path: 'detail',
+                path: 'detail/:deviceId',
                 handle: {
                     title: 'Detail',
                     icon: <DevicesIcon />,
