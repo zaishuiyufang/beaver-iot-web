@@ -1,7 +1,12 @@
 import React from 'react';
 import { OutlinedInput, InputAdornment } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
-import { DataGrid, type DataGridProps, type GridValidRowModel } from '@mui/x-data-grid';
+import {
+    DataGrid,
+    type DataGridProps,
+    type GridValidRowModel,
+    type GridColDef,
+} from '@mui/x-data-grid';
 import { Footer, NoDataOverlay, NoResultsOverlay } from './components';
 import './style.less';
 
@@ -89,4 +94,5 @@ const TablePro = <DataType extends GridValidRowModel>({
     );
 };
 
+export type { GridColDef as ColumnType };
 export default TablePro;

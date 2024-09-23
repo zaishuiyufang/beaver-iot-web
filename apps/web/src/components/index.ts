@@ -1,6 +1,6 @@
 export { default as Sidebar } from './sidebar';
 export { default as Breadcrumbs } from './breadcrumbs';
-export { default as TablePro } from './table-pro';
+export { default as TablePro, type ColumnType } from './table-pro';
 export {
     FormInput,
     FormRadio,
@@ -10,3 +10,4 @@ export {
     type FormSelectProps,
 } from './form';
 export { default as TabPanel } from './tab-panel';
+export { default as Descriptions } from './descriptions';
