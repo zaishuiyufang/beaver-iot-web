@@ -11,7 +11,7 @@ function App() {
     const [json, setJson] = useState('');
 
     const handleClick = async (comName: string) => {
-        const jsonPath = `${PLUGINDIR}/plugins/${comName}/set.json`;
+        const jsonPath = `${PLUGINDIR}/plugins/${comName}/config.json`;
         const jsonData = await import(jsonPath);
         setConfig(jsonData.default);
     };

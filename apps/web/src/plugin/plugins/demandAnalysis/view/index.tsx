@@ -1,5 +1,5 @@
 import { RenderView } from '../../../render';
-import configJson from '../set.json';
+import configJson from '../config.json';
 // import { ViewConfigProps } from './typings';
 import { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js

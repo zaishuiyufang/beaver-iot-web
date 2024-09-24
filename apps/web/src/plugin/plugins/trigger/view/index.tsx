@@ -1,5 +1,5 @@
 import { RenderView } from '../../../render';
-import configJson from '../set.json';
+import configJson from '../config.json';
 import { ViewConfigProps } from './typings';
 import './style.less';
 

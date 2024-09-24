@@ -109,7 +109,7 @@ export interface ViewProps {
     /**
      * html标签id
      */
-    key?: string;
+    id?: string;
     /**
      * html标签内容
      * @description 固定的标签内容，params属性无值时生效
