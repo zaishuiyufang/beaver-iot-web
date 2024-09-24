@@ -37,29 +37,15 @@ export function isWeiXin() {
 }
 
 /**
- * @description 检查是否为企业微信 webview 环境
+ * @description 检查是否为 webkit 内核浏览器
  */
-export function isWeiXinWork() {
-    return /wxwork/i.test(UA);
+export function isWebkitBrowser(): boolean {
+    return /webkit/i.test(UA);
 }
 
 /**
- * @description 检查是否为微信小程序 web-view 环境
+ * 判断是否为 Windows 系统
  */
-export function isWXMP() {
-    return window.__wxjs_environment === 'miniprogram' || /miniProgram/i.test(UA);
-}
-
-/**
- * @description 检查是否为钉钉 webview 环境
- */
-export function isDingTalk() {
-    return /DingTalk/i.test(UA);
-}
-
-/**
- * @description 检查是否为 Teams
- */
-export function isTeams() {
-    return /Teams/i.test(UA);
+export function isWindows() {
+    return /windows|win32|win64/i.test(UA);
 }

@@ -1,0 +1,24 @@
+.@{prefix}-view-device {
+    position: relative;
+    padding: @padding-lg;
+
+    .@{prefix}-view__inner {
+        display: flex;
+        flex-direction: column;
+        padding: @padding-lg @padding-lg @padding-md;
+
+        .@{prefix}-operations {
+            margin-bottom: @margin-lg;
+        }
+
+        .@{prefix}-table-wrap {
+            flex: 1;
+            height: 0;
+            overflow: hidden;
+
+            .MuiDataGrid-columnHeader {
+                overflow: hidden;
+            }
+        }
+    }
+}

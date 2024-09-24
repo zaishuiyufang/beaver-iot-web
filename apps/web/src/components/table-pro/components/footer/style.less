@@ -1,0 +1,27 @@
+.@{prefix}-table-pro {
+    & &__refresh-btn {
+        width: 40px;
+        height: 40px;
+        color: var(--text-color-secondary);
+        border: 1px solid var(--border-color-base);
+        border-radius: @border-radius-base;
+    }
+
+    & &__pagination {
+        .@{mui-prefix}InputBase-root {
+            border: 1px solid var(--border-color-base);
+            border-radius: @border-radius-base;
+        }
+
+        .@{mui-prefix}ButtonBase-root {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border-color-base);
+            border-radius: @border-radius-base;
+
+            &:last-child {
+                margin-left: @margin-sm;
+            }
+        }
+    }
+}

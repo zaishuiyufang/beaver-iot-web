@@ -1,10 +1,18 @@
 import intl from 'react-intl-universal';
 import { Outlet, RouteObject } from 'react-router-dom';
+import {
+    GridView as GridViewIcon,
+    Devices as DevicesIcon,
+    SettingsOutlined as SettingsOutlinedIcon,
+} from '@mui/icons-material';
 
 type RouteObjectType = RouteObject & {
     /** 自定义路由元数据 */
     handle?: {
         title?: string;
+
+        /** 菜单图标 */
+        icon?: React.ReactNode;
 
         /**
          * 布局类型，默认为 `basic`
@@ -23,22 +31,10 @@ type RouteObjectType = RouteObject & {
 
 const routes: RouteObjectType[] = [
     {
-        path: '/home',
-        handle: {
-            title: 'Home',
-            // get title() {
-            //     return intl.get('menu.dashboard');
-            // },
-        },
-        async lazy() {
-            const { default: Component } = await import('@/pages/home');
-            return { Component };
-        },
-    },
-    {
         path: '/dashboard',
         handle: {
             title: 'Dashboard',
+            icon: <GridViewIcon />,
         },
         async lazy() {
             const { default: Component } = await import('@/pages/dashboard');
@@ -46,28 +42,50 @@ const routes: RouteObjectType[] = [
         },
     },
     {
-        path: '/about',
+        path: '/device',
+        element: <Outlet />,
         handle: {
-            title: 'About',
+            title: 'Device',
+            icon: <DevicesIcon />,
         },
-        async lazy() {
-            const { default: Component } = await import('@/pages/about');
-            return { Component };
-        },
+        children: [
+            {
+                index: true,
+                async lazy() {
+                    const { default: Component } = await import('@/pages/device');
+                    return { Component };
+                },
+            },
+            {
+                index: true,
+                path: 'detail/:deviceId',
+                handle: {
+                    title: 'Detail',
+                    icon: <DevicesIcon />,
+                },
+                async lazy() {
+                    const { default: Component } = await import('@/pages/device/views/detail');
+                    return { Component };
+                },
+            },
+        ],
     },
     {
-        path: '/demo',
-        // element: <Demo />,
+        path: '/setting',
         handle: {
-            title: 'Demo',
+            title: 'Setting',
+            icon: <SettingsOutlinedIcon />,
         },
         async lazy() {
-            const { default: Component } = await import('@/pages/demo');
+            const { default: Component } = await import('@/pages/setting');
             return { Component };
         },
     },
     {
         path: '/auth',
+        handle: {
+            layout: 'blank',
+        },
         element: <Outlet />,
         children: [
             {
@@ -75,9 +93,10 @@ const routes: RouteObjectType[] = [
                 path: 'login',
                 handle: {
                     title: 'Login',
+                    layout: 'blank',
                 },
                 async lazy() {
-                    const { default: Component } = await import('@/pages/auth/login');
+                    const { default: Component } = await import('@/pages/auth/views/login');
                     return { Component };
                 },
             },
@@ -85,9 +104,10 @@ const routes: RouteObjectType[] = [
                 path: 'register',
                 handle: {
                     title: 'Register',
+                    layout: 'blank',
                 },
                 async lazy() {
-                    const { default: Component } = await import('@/pages/auth/register');
+                    const { default: Component } = await import('@/pages/auth/views/register');
                     return { Component };
                 },
             },

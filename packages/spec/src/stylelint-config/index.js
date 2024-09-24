@@ -66,6 +66,8 @@ module.exports = {
                 ignorePseudoElements: ['v-deep', 'v-global'],
             },
         ],
+        // 类名校验
+        'selector-class-pattern': null,
         'order/order': [
             [
                 'dollar-variables',

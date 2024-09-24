@@ -1,19 +1,24 @@
-import type { Rule } from '@ysd-iot/es/Form';
-
+/* eslint-disable no-useless-escape */
+// import type { Rule } from 'ysd-iot/es/form';
 import { isMatches, isMinValue, isPort } from './asserts';
-import getErrorMessage, { EErrorMessages, intlInstanceGenerator } from './getErrorMessage';
+import getErrorMessage, { EErrorMessages } from './getErrorMessage';
 import {
     checkEmail,
-    checkLength,
     checkLettersAndNum,
     checkMinValue,
     checkMobilePhone,
     checkNumber,
+    checkValue,
+    checkLength,
     checkPostalCode,
     checkRangeLength,
     checkStartWithNormalChar,
     checkUrl,
+    checkMobileCNPhone,
+    checkIsInt,
+    checkRangeValue,
 } from './validator';
+import type { Rule } from './typings';
 
 // 导出所有的单条 validator
 export * from './validator';
@@ -24,7 +29,7 @@ export type TChecker = () => Rule[];
  * validator 初始化辅助函数
  * 当前仅用于挂载 intl 对象，后续可根据需要进行扩展
  */
-export const init = intlInstanceGenerator;
+// export const init = intlInstanceGenerator;
 
 // 以下是组合校验 -------
 /**
@@ -128,6 +133,18 @@ export const mobilePhoneChecker: TChecker = () => {
 };
 
 /**
+ * 允许+86 中国大陆手机号码
+ */
+export const mobileCNPhoneChecker: TChecker = () => {
+    return [
+        // ...commonValidators(),
+        {
+            validator: checkMobileCNPhone,
+        },
+    ];
+};
+
+/**
  * Zip/Postal Code- 邮政编码类
  *
  * 最小1位，最大31位
@@ -220,6 +237,19 @@ export const SNChecker: TChecker = () => [
 ];
 
 /**
+ * SN 长度值校验，12 / 16
+ */
+export const SNLengthChecker: TChecker = () => [
+    {
+        validator: checkLettersAndNum,
+    },
+    {
+        enum: [12, 16],
+        validator: checkValue,
+    },
+];
+
+/**
  * 金额输入
  *
  * 小数点前最大10位，小数点后2位
@@ -245,8 +275,8 @@ export const moneyChecker: TChecker = () => [
                 });
 
             try {
-                // @ts-ignore rule is possibly 'undefined'
-                if (value && isMinValue(value, Math.pow(10, rule.len - 1))) {
+                // eslint-disable-next-line
+                if (value && isMinValue(value, Math.pow(10, rule.len! - 1))) {
                     return Promise.reject(message);
                 }
             } catch (e) {
@@ -289,9 +319,12 @@ export const moneyChecker: TChecker = () => [
 export const hostChecker: TChecker = () => {
     return [
         {
-            min: 3,
+            min: 1,
             max: 255,
             validator: checkRangeLength,
+        },
+        {
+            validator: checkUrl,
         },
     ];
 };
@@ -328,7 +361,7 @@ export const portChecker: TChecker = () => {
  * 最小5位，最大255位
  * 至少包含大小写英文字母，支持除了空格外的任意字符，不支持除英文外的多语言
  */
- export const userNameChecker: TChecker = () => {
+export const userNameChecker: TChecker = () => {
     return [
         {
             min: 5,
@@ -339,10 +372,7 @@ export const portChecker: TChecker = () => {
                 try {
                     if (
                         value &&
-                        !isMatches(
-                            value,
-                            /^(?=.*[A-Z])(?=.*[a-z])[\u0020-\u007E]{5,255}$/,
-                        )
+                        !isMatches(value, /^(?=.*[A-Z])(?=.*[a-z])[\u0020-\u007E]{5,255}$/)
                     ) {
                         return Promise.reject(message);
                     }
@@ -392,17 +422,35 @@ export const passwordChecker: TChecker = () => {
 
 /**
  * url合法性
- *
+ * 最大 1024 位
  */
 export const urlChecker: TChecker = () => {
     return [
         {
             min: 1,
-            max: 127,
+            max: 1024,
             validator: checkRangeLength,
         },
         {
             validator: checkUrl,
+        },
+    ];
+};
+
+/**
+ * 秒数校验规则
+ * 1. 必须为整数
+ * 2. min <= 值 <= max，min 默认为 1，max 默认为 30 * 24 * 60 * 60
+ */
+export const secondsChecker: TChecker = (min = 1, max = 30 * 24 * 60 * 60) => {
+    return [
+        {
+            validator: checkIsInt,
+        },
+        {
+            min,
+            max,
+            validator: checkRangeValue,
         },
     ];
 };

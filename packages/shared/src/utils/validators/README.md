@@ -6,7 +6,7 @@
 
 ```ts
 import intl from 'react-intl-universal';
-import { validators } from '@smartoffice/shared/src/utils';
+import { validators } from '@milesight/shared/src/utils';
 
 // ...
 
@@ -19,7 +19,7 @@ validators.validatorIgniter(intl);
 
 ```tsx
 import { Form, Input } from '@yeastar/pc-web-ui';
-import { validators } from '@smartoffice/shared/src/utils';
+import { validators } from '@milesight/shared/src/utils';
 
 const { emailCheckers } = validators;
 

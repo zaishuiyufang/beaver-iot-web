@@ -1,13 +1,19 @@
-import { useLocation } from 'react-router';
+import { useMatches } from 'react-router';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
-
+import { ConfirmProvider } from '@/components';
 import BasicLayout from './BasicLayout';
 import BlankLayout from './BlankLayout';
 
+const DEFAULT_LAYOUT = 'basic';
+const layouts: Record<string, React.ReactNode> = {
+    basic: <BasicLayout />,
+    blank: <BlankLayout />,
+};
+
 function Layout() {
-    const location = useLocation();
+    const routeMatches = useMatches();
     const { muiLocale } = useI18n();
     const { muiPalettes, colorSchemeSelector } = useTheme();
     const muiTheme = createTheme(
@@ -19,23 +25,17 @@ function Layout() {
         },
         muiLocale!,
     );
+    const route = routeMatches[routeMatches.length - 1];
+    let { layout = '' } = (route?.handle || {}) as Record<string, any>;
 
-    // Todo: lang 为 undefined 时，说明文案还未加载完成，此时需全局 loading 等待
-    // console.log({ lang, muiLocale });
-
-    if (['/auth/login', '/auth/register', '/403', '/404', '/500'].includes(location.pathname)) {
-        return (
-            <ThemeProvider theme={muiTheme}>
-                <CssBaseline />
-                <BlankLayout />
-            </ThemeProvider>
-        );
+    if (!layout || !layouts[layout]) {
+        layout = DEFAULT_LAYOUT;
     }
 
     return (
         <ThemeProvider theme={muiTheme}>
             <CssBaseline />
-            <BasicLayout />
+            <ConfirmProvider>{layouts[layout]}</ConfirmProvider>
         </ThemeProvider>
     );
 }
