@@ -1,0 +1,74 @@
+.@{prefix}-view-int-detail {
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        padding: @padding-lg;
+        background-color: var(--component-background);
+        border-bottom: 1px solid var(--border-color-base);
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            margin: 0 @margin-lg 0 0;
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+
+            h2 {
+                margin: 0;
+                .text-size(@font-size-xxl);
+            }
+
+            .meta {
+                display: flex;
+                margin-left: @margin-md;
+            }
+
+            .meta-item {
+                display: flex;
+                align-items: center;
+                margin-right: @margin-sm;
+                color: var(--text-color-secondary);
+
+                .@{mui-prefix}SvgIcon-root {
+                    margin-right: @margin-xs;
+                    font-size: @font-size-xl;
+                }
+            }
+        }
+
+        .desc {
+            margin: @margin-xxs 0 0;
+            color: var(--text-color-secondary);
+        }
+    }
+
+    &__body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        margin: @margin-lg;
+        background-color: var(--component-background);
+        border-radius: @border-radius-base;
+
+        .topbar {
+            padding: 0 @padding-lg;
+            border-bottom: 1px solid var(--border-color-base);
+        }
+
+        .content {
+            flex: 1;
+            height: 0;
+            padding: @padding-lg;
+
+            .@{prefix}-tabpanel {
+                height: 100%;
+            }
+        }
+    }
+}

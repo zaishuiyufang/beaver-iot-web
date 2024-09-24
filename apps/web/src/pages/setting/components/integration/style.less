@@ -1,9 +1,16 @@
 .@{prefix}-int-card {
-    width: 322px;
+    // width: 322px;
     padding: @padding-sm;
     background-color: var(--component-background);
+    border: 1px solid var(--component-background);
     border-radius: @border-radius-base;
     cursor: pointer;
+    transition: .3s;
+
+    &:hover {
+        border: 1px solid var(--border-color-blue);
+        box-shadow: @shadow-2;
+    }
 
     .logo {
         width: 48px;
