@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
 import { Add as AddIcon, DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material';
-import { Breadcrumbs, TablePro } from '@/components';
+import { Breadcrumbs, TablePro, useConfirm } from '@/components';
 import { type DeviceDetail } from '@/services/http';
 import { useColumns, type UseColumnsProps } from './hooks';
 import './style.less';
@@ -22,6 +22,7 @@ const mockList = (() => {
 
 export default () => {
     const navigate = useNavigate();
+    const confirm = useConfirm();
     const toolbarRender = useMemo(() => {
         return (
             <Stack className="ms-operations-btns" direction="row" spacing="12px">
@@ -37,6 +38,19 @@ export default () => {
                     color="error"
                     sx={{ height: 36, textTransform: 'none' }}
                     startIcon={<DeleteOutlineIcon />}
+                    onClick={() => {
+                        confirm({
+                            title: 'Delete',
+                            description: 'Are you sure to delete?',
+                            confirmButtonText: 'Delete',
+                            confirmButtonProps: {
+                                color: 'error',
+                            },
+                            onConfirm: () => {
+                                console.log('confirm...');
+                            },
+                        });
+                    }}
                 >
                     Delete
                 </Button>

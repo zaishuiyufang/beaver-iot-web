@@ -79,6 +79,10 @@ body {
             border-radius: @border-radius-base @border-radius-base 0 0;
         }
 
+        &:not(.@{mui-prefix}-selected):hover {
+            color: var(--text-color-blue);
+        }
+
         &::after {
             display: block;
             height: 1px;

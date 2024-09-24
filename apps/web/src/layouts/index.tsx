@@ -2,6 +2,7 @@ import { useMatches } from 'react-router';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
+import { ConfirmProvider } from '@/components';
 import BasicLayout from './BasicLayout';
 import BlankLayout from './BlankLayout';
 
@@ -34,7 +35,7 @@ function Layout() {
     return (
         <ThemeProvider theme={muiTheme}>
             <CssBaseline />
-            {layouts[layout]}
+            <ConfirmProvider>{layouts[layout]}</ConfirmProvider>
         </ThemeProvider>
     );
 }
