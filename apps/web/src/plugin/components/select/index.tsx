@@ -7,7 +7,7 @@ import {
     FormControl,
     InputLabel
 } from '@mui/material';
-import { OptionsProps } from '../../render-plugin/typings';
+import { OptionsProps } from '../../render/typings';
 
 type Props = {
     /**

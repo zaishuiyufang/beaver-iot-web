@@ -1,51 +1,68 @@
-import { useState } from 'react';
-import { TextField, Button } from '@mui/material';
-import ConfigPlugin from '../../plugin/config-plugin';
-import components from '../../plugin/plugins/components';
+import { useState, useRef } from 'react';
+import { TextField, Button, Tabs, Tab } from '@mui/material';
+import { Fullscreen as FullscreenIcon, FullscreenExit as FullscreenIconExit } from '@mui/icons-material';
+import { TabPanel } from '@/components';
+import DashboardContent from './components/dashboard-content.tsx';
+import './style.less';
+
+const TSBS = [{
+    name: "my-dashboard",
+    id: "111"
+}]
 
 export default () => {
-    const [config, setConfig] = useState();
-    const [json, setJson] = useState('');
+    const [tabs, setTabs] = useState(TSBS);
+    const [tabKey, setTabKey] = useState<string>(TSBS[0].id);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const containerRef = useRef<any>(null);
 
-    const handleClick = async (comName: string) => {
-        const jsonPath = `${PLUGINDIR}/plugins/${comName}/config.json`;
-        const jsonData = await import(jsonPath);
-        setConfig(jsonData.default);
+    const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
+        setTabKey(newValue);
     };
 
-    const handleClose = () => {
-        setConfig(undefined);
-    };
-
-    const handleCreatPlugin = () => {
-        if (json) {
-            try {
-                const configJson = JSON.parse(json);
-                setConfig(configJson);
-            } catch (error) {
-                console.error('json不合法');
-            }
+    const enterFullscreen = () => {
+        if (containerRef.current?.requestFullscreen) {
+            containerRef.current.requestFullscreen();
         }
+        setIsFullscreen(true);
+    };
+
+    const exitFullscreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+        setIsFullscreen(false);
     };
 
     return (
-        <div className="ms-page-demo">
+        <div className="ms-main dashboard" ref={containerRef}>
             {
-                components?.map((comName: any) => {
-                    return <div onClick={() => handleClick(comName)}>{comName}</div>
-                })
+                !isFullscreen ? (
+                    <FullscreenIcon className="dashboard-fullscreen" onClick={enterFullscreen} />
+                ) : <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
             }
-            <TextField
-                id="outlined-multiline-static"
-                label="Multiline"
-                multiline
-                rows={10}
-                value={json}
-                onChange={(e) => setJson(e.target.value)}
-                fullWidth
-            />
-            <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>生成组件</Button>
-            {!!config && <ConfigPlugin onClose={handleClose} config={config} />}
+            <div className="ms-view ms-view-dashboard">
+                <Tabs className="ms-tabs" value={tabKey} onChange={handleChange}>
+                    {
+                        tabs?.map((tabItem) => {
+                            return (
+                                <Tab disableRipple title={tabItem.name} label={tabItem.name} value={tabItem.id} />
+                            )
+                        })
+                    }
+                </Tabs>
+                <div className="ms-tab-content">
+                    {
+                        tabs?.map((tabItem) => {
+                            return (
+                                <TabPanel value={tabKey} index={tabItem.id}>
+                                    <DashboardContent />
+                                </TabPanel>
+                            )
+                        })
+                    }
+                </div>
+            </div>
         </div>
     );
 };

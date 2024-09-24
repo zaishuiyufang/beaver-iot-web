@@ -1,0 +1,27 @@
+.@{prefix}-view.@{prefix}-view-dashboard {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    .@{prefix}-tab-content {
+        flex: 1;
+        padding: @padding-lg;
+        background: var(--body-background);
+    }
+}
+
+.dashboard {
+    position: relative;
+
+    &-fullscreen {
+        position: absolute;
+        top: 12px;
+        right: 28px;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    &-conteng {
+        background: var(--body-background);
+    }
+}
