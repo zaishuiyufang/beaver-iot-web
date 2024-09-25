@@ -9,7 +9,7 @@ interface OptInterface {
 const languages = Object.values(LANGUAGE);
 /** 各个端依赖的语言包 */
 const appLocalModules: Record<AppType, string[]> = {
-    web: ['global'],
+    web: ['global', 'dashboard'],
 };
 
 const componentMapLanguage = {

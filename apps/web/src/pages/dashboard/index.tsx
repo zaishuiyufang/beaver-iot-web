@@ -1,8 +1,13 @@
 import { useState, useRef } from 'react';
-import { TextField, Button, Tabs, Tab } from '@mui/material';
-import { Fullscreen as FullscreenIcon, FullscreenExit as FullscreenIconExit } from '@mui/icons-material';
+import { Tabs, Tab } from '@mui/material';
+import {
+    Fullscreen as FullscreenIcon,
+    FullscreenExit as FullscreenIconExit,
+    Add as AddIcon
+} from '@mui/icons-material';
 import { TabPanel } from '@/components';
-import DashboardContent from './components/dashboard-content.tsx';
+import DashboardContent from './components/dashboard-content';
+import AddDashboard from './components/add-dashboard';
 import './style.less';
 
 const TSBS = [{
@@ -14,12 +19,15 @@ export default () => {
     const [tabs, setTabs] = useState(TSBS);
     const [tabKey, setTabKey] = useState<string>(TSBS[0].id);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [showAdd, setShowAdd] = useState(false);
     const containerRef = useRef<any>(null);
 
+    // 切换dasboard页签
     const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
         setTabKey(newValue);
     };
 
+    // 进入全屏
     const enterFullscreen = () => {
         if (containerRef.current?.requestFullscreen) {
             containerRef.current.requestFullscreen();
@@ -27,12 +35,26 @@ export default () => {
         setIsFullscreen(true);
     };
 
+    // 退出全屏
     const exitFullscreen = () => {
         if (document.exitFullscreen) {
             document.exitFullscreen();
         }
         setIsFullscreen(false);
     };
+
+    // 显示新增dashboard弹框
+    const showAddDashboard = () => {
+        setShowAdd(true);
+    };
+
+    const handleCloseAdd = () => {
+        setShowAdd(false);
+    };
+
+    const handleAdd = () => {
+        setShowAdd(false);
+    }
 
     return (
         <div className="ms-main dashboard" ref={containerRef}>
@@ -50,6 +72,7 @@ export default () => {
                             )
                         })
                     }
+                    <AddIcon className="dashboard-add" onClick={showAddDashboard} />
                 </Tabs>
                 <div className="ms-tab-content">
                     {
@@ -63,6 +86,7 @@ export default () => {
                     }
                 </div>
             </div>
+            {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} />}
         </div>
     );
 };
