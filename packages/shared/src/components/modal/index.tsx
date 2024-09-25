@@ -1,6 +1,7 @@
 import { Fragment, useMemo } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { useI18n } from '../../hooks';
+import './style.less';
 
 interface ModalProps {
     onCancel: Function;
@@ -99,10 +100,10 @@ const AddDashboard: React.FC<ModalProps> = (props) => {
                     {children}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>
+                    <Button variant="outlined" onClick={handleClose}>
                         {onCancelText || getIntlText('common.button.cancel')}
                     </Button>
-                    <Button onClick={handleOk}>
+                    <Button variant="contained" onClick={handleOk} className="modal-button">
                         {onOkText || getIntlText('common.button.confirm')}
                     </Button>
                 </DialogActions>
