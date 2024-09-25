@@ -99,7 +99,7 @@ const AddDashboard: React.FC<ModalProps> = (props) => {
                 <DialogContent>
                     {children}
                 </DialogContent>
-                <DialogActions>
+                <DialogActions className="modal-footer">
                     <Button variant="outlined" onClick={handleClose}>
                         {onCancelText || getIntlText('common.button.cancel')}
                     </Button>
