@@ -15,13 +15,14 @@ const layouts: Record<string, React.ReactNode> = {
 function Layout() {
     const routeMatches = useMatches();
     const { muiLocale } = useI18n();
-    const { muiPalettes, colorSchemeSelector } = useTheme();
+    const { muiPalettes, components, colorSchemeSelector } = useTheme();
     const muiTheme = createTheme(
         {
             colorSchemes: { light: muiPalettes.light, dark: muiPalettes.dark },
             cssVariables: {
                 colorSchemeSelector,
             },
+            components,
         },
         muiLocale!,
     );

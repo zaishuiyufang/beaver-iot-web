@@ -33,9 +33,6 @@ const Config = () => {
             required: true,
             fullWidth: true,
             type: 'text',
-            size: 'small',
-            margin: 'dense',
-            sx: { my: 1.5 },
         };
         const items: ControllerProps<FormDataProps>[] = [
             {
@@ -117,7 +114,7 @@ const Config = () => {
             <div className="ms-int-config__body">
                 <div className="status">
                     <h3>API Status</h3>
-                    <Chip size="small" label="Waiting For Connection" />
+                    <Chip color="primary" label="Waiting For Connection" />
                 </div>
                 <div className="form">
                     {formItems.map(props => (
