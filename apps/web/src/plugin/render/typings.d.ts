@@ -29,15 +29,15 @@ export interface ComponentProps {
      * @description 映射到components文件中组件，也可以直接是组件库支持的组件
      */
     type: string;
-    /** 
-     * 组件绑定字段 
+    /**
+     * 组件绑定字段
      */
     key: string;
     /**
      * 表单组件标题
      */
     title?: string;
-    /** 
+    /**
      * 组件样式
      */
     style?: string;
@@ -46,7 +46,7 @@ export interface ComponentProps {
      * @description 可配置组件的内置属性，参考MUI官网文档
      */
     componentProps?: Record<string, any>;
-    /** 
+    /**
      * 从远程服务获取数据
      * @description 未配置时取options配置
      */
@@ -77,7 +77,7 @@ export interface ConfigProps {
      * @description 支持填写多种风格，默认取default
      */
     theme?: Record<ThemeType, ThemeProps>;
-    /** 
+    /**
      * 组件集合
      * @description 组件集合，用于配置表单组件，一个配置项集合，可由多个基础组件组合
      */
@@ -150,7 +150,7 @@ export interface CustomComponentProps {
      * 组件配置属性，可配置多个
      */
     configProps: ConfigProps[];
-    /** 
+    /**
      * 预览界面配置
      * @description 可以是json单独配置各个属性，也可以直接传入html字符串，其中${{}}包围的是参数变量，渲染的时候替换
      */

@@ -10,7 +10,7 @@ export default () => {
     const currentMode = theme.getCurrentTheme();
 
     /**
-     * 组件样式自定义
+     * 组件默认属性及样式自定义
      * https://mui.com/material-ui/customization/theme-components/
      */
     const components: CssVarsThemeOptions['components'] = {
@@ -31,6 +31,27 @@ export default () => {
                 size: 'small',
                 margin: 'dense',
                 sx: { my: 1.5 },
+            },
+        },
+        MuiTab: {
+            defaultProps: {
+                disableRipple: true,
+            },
+        },
+        MuiTooltip: {
+            defaultProps: {
+                arrow: true,
+                placement: 'top',
+            },
+        },
+        MuiSvgIcon: {
+            defaultProps: {
+                fontSize: 'small',
+            },
+        },
+        MuiIconButton: {
+            defaultProps: {
+                size: 'small',
             },
         },
     };

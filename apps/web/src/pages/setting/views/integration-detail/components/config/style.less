@@ -1,11 +1,21 @@
-.@{prefix}-int-config {
-    &__title {
+.@{prefix}-int-config,
+.@{prefix}-int-service {
+    padding: @padding-lg;
+    margin-bottom: @margin-lg;
+    background-color: var(--component-background);
+    border-radius: @border-radius-base;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__header {
         display: flex;
         align-items: center;
 
         > h2 {
             margin: 0;
-            .text-size(@font-size-lg);
+            .text-size(@font-size-xxl);
         }
 
         .@{mui-prefix}SvgIcon-root {
@@ -16,10 +26,12 @@
 
     &__body {
         .status {
-            margin-bottom: @margin-md;
+            display: flex;
+            align-items: center;
+            margin: @margin-lg 0 @margin-md;
 
-            > h3 {
-                margin: @margin-lg 0 @margin-xs;
+            &-label {
+                margin-right: @margin-xs;
                 color: var(--text-color-secondary);
             }
 
@@ -29,7 +41,51 @@
         }
 
         .form {
-            max-width: 50%;
+            width: 45%;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        .@{prefix}-service-card {
+            margin-top: @margin-lg;
+            border: 1px solid var(--border-color-base);
+            border-radius: @border-radius-sm;
+
+            &__header {
+                display: flex;
+                align-items: center;
+                padding: @padding-md @padding-lg;
+
+                .title {
+                    margin-left: @margin-sm;
+                    font-weight: @font-weight-medium;
+                }
+            }
+
+            &__body {
+                padding: @padding-md @padding-lg;
+                border-top: 1px solid var(--border-color-base);
+
+                &.hidden {
+                    display: none;
+                }
+
+                .service-prop {
+                    margin-bottom: @margin-md;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    &-label {
+                        color: var(--text-color-secondary);
+                    }
+
+                    &-value {
+                        margin-left: @margin-xxs;
+                    }
+                }
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ const Switch = (props: SwitchProps) => {
         <div>
             <FormControlLabel control={<MuiSwitch {...rest} />} label={title} />
         </div>
-    )
-}
+    );
+};
 
 export default Switch;

@@ -10,9 +10,7 @@ interface Props {
 const View = (props: Props) => {
     const { config } = props;
 
-    return (
-        <RenderView config={config} configJson={configJson} />
-    )
+    return <RenderView config={config} configJson={configJson} />;
 };
 
 export default View;

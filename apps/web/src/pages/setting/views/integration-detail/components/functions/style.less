@@ -1,0 +1,29 @@
+.@{prefix}-int-feat-card {
+    padding: @padding-lg;
+    background-color: var(--component-background);
+    border: 1px solid var(--border-color-base);
+    border-radius: @border-radius-sm;
+    cursor: pointer;
+    transition: .3s;
+
+    &:hover {
+        border: 1px solid var(--border-color-blue);
+        box-shadow: @shadow-2;
+    }
+
+    .header {
+        display: flex;
+
+        .title {
+            flex: 1;
+            margin: 0;
+        }
+    }
+
+    .desc {
+        margin-top: @margin-xs;
+        color: var(--text-color-tertiary);
+        .text-size(@font-size-base);
+        .multipleEllipsis(2);
+    }
+}

@@ -10,11 +10,11 @@ const Input = (props: InputType) => {
             label={title}
             sx={{
                 input: {
-                    ...(sx as any)
-                }
+                    ...(sx as any),
+                },
             }}
         />
-    )
-}
+    );
+};
 
 export default Input;

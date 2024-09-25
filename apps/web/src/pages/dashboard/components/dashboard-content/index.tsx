@@ -32,21 +32,21 @@ export default () => {
 
     return (
         <div className="dashboard-content">
-            {
-                components?.map((comName: any) => {
-                    return <div onClick={() => handleClick(comName)}>{comName}</div>
-                })
-            }
+            {components?.map((comName: any) => {
+                return <div onClick={() => handleClick(comName)}>{comName}</div>;
+            })}
             <TextField
                 id="outlined-multiline-static"
                 label="Multiline"
                 multiline
                 rows={10}
                 value={json}
-                onChange={(e) => setJson(e.target.value)}
+                onChange={e => setJson(e.target.value)}
                 fullWidth
             />
-            <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>生成组件</Button>
+            <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>
+                生成组件
+            </Button>
             {!!config && <ConfigPlugin onClose={handleClose} config={config} />}
         </div>
     );
