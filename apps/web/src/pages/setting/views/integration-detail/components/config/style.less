@@ -1,0 +1,35 @@
+.@{prefix}-int-config {
+    &__title {
+        display: flex;
+        align-items: center;
+
+        > h2 {
+            margin: 0;
+            .text-size(@font-size-lg);
+        }
+
+        .@{mui-prefix}SvgIcon-root {
+            color: var(--text-color-secondary);
+            cursor: pointer;
+        }
+    }
+
+    &__body {
+        .status {
+            margin-bottom: @margin-md;
+
+            > h3 {
+                margin: @margin-lg 0 @margin-xs;
+                color: var(--text-color-secondary);
+            }
+
+            .@{mui-prefix}Chip-root {
+                border-radius: @border-radius-base;
+            }
+        }
+
+        .form {
+            max-width: 50%;
+        }
+    }
+}
