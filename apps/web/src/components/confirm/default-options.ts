@@ -5,6 +5,12 @@ export const defaultGlobalOptions: GlobalOptions = {
     dialogContentProps: {
         sx: { width: 400 },
     },
+    dialogActionsProps: {
+        sx: {
+            padding: 3,
+            pt: 1,
+        },
+    },
     confirmButtonText: 'Confirm', // Todo: 国际化
     cancelButtonText: 'Cancel', // Todo: 国际化
     confirmButtonProps: {
@@ -20,6 +26,10 @@ export const defaultGlobalOptions: GlobalOptions = {
         variant: 'outlined',
         sx: {
             textTransform: 'none',
+            mr: 1,
+            '&:last-child': {
+                mr: 0,
+            },
         },
     },
 };
