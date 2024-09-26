@@ -6,6 +6,7 @@ import {
 } from '@mui/icons-material';
 import cls from 'classnames';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
+import { useCopy } from '@milesight/shared/src/hooks';
 import useFormItems from './useFormItems';
 import './style.less';
 
@@ -19,6 +20,7 @@ interface FormDataProps {
  * 集成配置组件
  */
 const Config = () => {
+    const { handleCopy } = useCopy();
     const [webhookEnabled, setWebhookEnabled] = useState(false);
     const [OpenApiEnabled, setOpenApiEnabled] = useState(false);
     const formItems = useFormItems();
@@ -85,8 +87,13 @@ const Config = () => {
                                 <span className="service-prop-label">Webhook URL:</span>
                                 <span className="service-prop-value">
                                     <span>https://us.openapius.openapi.milesight.com</span>
-                                    <IconButton sx={{ ml: 0.5 }}>
-                                        <ContentCopyIcon />
+                                    <IconButton
+                                        sx={{ ml: 0.5 }}
+                                        onClick={() =>
+                                            handleCopy('https://us.openapius.openapi.milesight.com')
+                                        }
+                                    >
+                                        <ContentCopyIcon sx={{ fontSize: 16 }} />
                                     </IconButton>
                                 </span>
                             </div>
