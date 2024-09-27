@@ -3,7 +3,7 @@ import { Alert, IconButton, Grid2 } from '@mui/material';
 import { ArrowForwardIos as ArrowForwardIosIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 import { Modal } from '@milesight/shared/src/components';
-import { useConfirm, Tooltip } from '@/components';
+import { useConfirm, Tooltip, DateRangePicker } from '@/components';
 import './style.less';
 
 interface FormDataProps {
@@ -82,7 +82,7 @@ const Functions = () => {
                 onCancel={() => setModalOpen(false)}
                 onOk={() => console.log('handle ok...')}
             >
-                <span>ABC</span>
+                <DateRangePicker label={{ start: 'Start date', end: 'End date' }} />
             </Modal>
         </div>
     );

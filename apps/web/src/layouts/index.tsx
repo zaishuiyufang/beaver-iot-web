@@ -1,6 +1,8 @@
 import { useMatches } from 'react-router';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import { ConfirmProvider } from '@/components';
 import BasicLayout from './BasicLayout';
@@ -36,7 +38,9 @@ function Layout() {
     return (
         <ThemeProvider theme={muiTheme}>
             <CssBaseline />
-            <ConfirmProvider>{layouts[layout]}</ConfirmProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <ConfirmProvider>{layouts[layout]}</ConfirmProvider>
+            </LocalizationProvider>
         </ThemeProvider>
     );
 }
