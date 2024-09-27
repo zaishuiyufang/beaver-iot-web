@@ -1,6 +1,7 @@
 {
     "type": "trigger",
     "name": "事件触发组件",
+    "icon": "./icon.png",
     "configProps": [
         {
             "style": "width: 100%",

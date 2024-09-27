@@ -891,5 +891,6 @@
     "valid.input.integer_positive_zero": "请输入正整数",
     "common.switch.sure": "yes",
     "common.switch.no": "no",
-    "common.message.error_user_business_details_not_exist": "用户没有商务参数"
+    "common.message.error_user_business_details_not_exist": "用户没有商务参数",
+    "common.plugin_add_title": "Add {1}"
 }

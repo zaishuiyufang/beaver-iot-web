@@ -1,6 +1,5 @@
 import * as MUI from '@mui/material';
 import * as Milesight from '../components';
-import { CustomComponentProps, ComponentProps } from './typings';
 import { parseStyleString } from './util';
 
 export interface IPlugin {

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab, Box } from '@mui/material';
 import {
     Fullscreen as FullscreenIcon,
     FullscreenExit as FullscreenIconExit,
@@ -52,8 +52,15 @@ export default () => {
         setShowAdd(false);
     };
 
-    const handleAdd = () => {
+    const handleAdd = (data: AddDashboardProps) => {
         setShowAdd(false);
+        setTabs([
+            ...tabs,
+            {
+                name: data.name,
+                id: new Date().getTime().toString()
+            }
+        ])
     }
 
     return (
@@ -75,18 +82,20 @@ export default () => {
                     <AddIcon className="dashboard-add" onClick={showAddDashboard} />
                 </Tabs>
                 <div className="ms-tab-content">
-                    {
-                        tabs?.map((tabItem) => {
-                            return (
-                                <TabPanel value={tabKey} index={tabItem.id}>
-                                    <DashboardContent />
-                                </TabPanel>
-                            )
-                        })
-                    }
+                    <Box className="ms-tab-box">
+                        {
+                            tabs?.map((tabItem) => {
+                                return (
+                                    <TabPanel value={tabKey} index={tabItem.id}>
+                                        <DashboardContent />
+                                    </TabPanel>
+                                )
+                            })
+                        }
+                    </Box>
                 </div>
             </div>
-            {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} />}
+            {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} data={{ name: '111' }} />}
         </div>
     );
 };

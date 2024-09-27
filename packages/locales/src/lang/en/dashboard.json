@@ -1,5 +1,6 @@
 {
     "dashboard.add_title": "Add Dashboard",
     "dashboard.edit_title": "Edit Dashboard",
-    "dashboard.dashboard_name": "Dashboard Name"
+    "dashboard.dashboard_name": "Dashboard Name",
+    "dashboard.add_widget": "Add widget"
 }

@@ -888,5 +888,6 @@
     "valid.resp.at_least_one": "请至少选择一个 {1}。",
     "common.label.banned": "禁用",
     "common.switch.sure": "是",
-    "common.switch.no": "否"
+    "common.switch.no": "否",
+    "common.plugin_add_title": "添加{1}"
 }

@@ -1,6 +1,5 @@
 
 import { isString } from "lodash-es";
-import { ViewProps, CustomComponentProps } from "./typings";
 import { parseStyleToReactStyle } from "./util";
 
 interface Props {
@@ -39,14 +38,15 @@ const View = (props: Props) => {
         if (isShow(tagProps?.showDependend) && tagProps?.tag) {
             const Tag: any = tagProps?.tag;
             const theme = tagProps?.themes?.['default'];
+            let style = `${tagProps?.style}${theme?.style}`;
             if (Tag === 'icon') {
                 const icon = renderParams(tagProps?.params);
                 return !!icon && <svg data-testid={icon}></svg>;
             }
             return (
                 <Tag
-                    className={theme?.class}
-                    style={theme?.style ? parseStyleToReactStyle(theme?.style) : undefined}
+                    className={`${tagProps.class || ''} ${theme?.class || ''}`}
+                    style={style ? parseStyleToReactStyle(style) : undefined}
                 >
                     {
                         !tagProps?.params ? (

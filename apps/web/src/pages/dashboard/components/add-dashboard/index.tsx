@@ -17,6 +17,7 @@ const AddDashboard = (props: ConfigPluginProps) => {
         label: getIntlText('dashboard.dashboard_name'),
         name: 'name',
         type: 'TextField',
+        defaultValue: data?.name,
         rules: {
             required: true,
             maxLength: {

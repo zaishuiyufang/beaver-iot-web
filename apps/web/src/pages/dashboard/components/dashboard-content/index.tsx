@@ -1,53 +1,36 @@
 import { useState } from 'react';
-import { TextField, Button } from '@mui/material';
-import ConfigPlugin from '@/plugin/config-plugin';
-import components from '@/plugin/plugins/components';
-
-const PLUGINDIR = '../../plugin';
+import { Button } from '@mui/material';
+import { useI18n } from '@milesight/shared/src/hooks';
+import AddWidget from '../add-widget';
+import PluginList from '../plugin-list';
 
 export default () => {
-    const [config, setConfig] = useState();
-    const [json, setJson] = useState('');
+    const { getIntlText } = useI18n();
+    const [isShowAddWidget, setIsShowAddWidget] = useState(false);
+    const [swigets, setSwigets] = useState<any[]>([]);
+    const [plugin, setPlugin] = useState<CustomComponentProps>();
 
-    const handleClick = async (comName: string) => {
-        const jsonPath = `${PLUGINDIR}/plugins/${comName}/config.json`;
-        const jsonData = await import(jsonPath);
-        setConfig(jsonData.default);
+    const handleShowAddWidget = () => {
+        setIsShowAddWidget(true);
     };
 
-    const handleClose = () => {
-        setConfig(undefined);
-    };
-
-    const handleCreatPlugin = () => {
-        if (json) {
-            try {
-                const configJson = JSON.parse(json);
-                setConfig(configJson);
-            } catch (error) {
-                console.error('json不合法');
-            }
-        }
-    };
+    const handleSelectPlugin = (type: CustomComponentProps) => {
+        setPlugin(type);
+    }
 
     return (
         <div className="dashboard-content">
+            <Button variant="contained" onClick={handleShowAddWidget}>
+                {getIntlText('dashboard.add_widget')}
+            </Button>
             {
-                components?.map((comName: any) => {
-                    return <div onClick={() => handleClick(comName)}>{comName}</div>
-                })
+                !!plugin && <AddWidget plugin={plugin} />
             }
-            <TextField
-                id="outlined-multiline-static"
-                label="Multiline"
-                multiline
-                rows={10}
-                value={json}
-                onChange={(e) => setJson(e.target.value)}
-                fullWidth
-            />
-            <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>生成组件</Button>
-            {!!config && <ConfigPlugin onClose={handleClose} config={config} />}
+            {
+                !swigets?.length && (
+                    <PluginList onSelect={handleSelectPlugin} />
+                )
+            }
         </div>
     );
 };
