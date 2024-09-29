@@ -1,11 +1,11 @@
 import { Fragment, useMemo } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { useI18n } from '../../hooks';
+import useI18n from '../../hooks/useI18n';
 import './style.less';
 
-interface ModalProps {
-    onCancel: Function;
-    onOk: Function;
+export interface ModalProps {
+    onCancel: () => void;
+    onOk: () => void;
     /**
      * 取消按钮文字
      */
@@ -38,19 +38,9 @@ interface ModalProps {
     children?: React.ReactNode;
 }
 
-const AddDashboard: React.FC<ModalProps> = (props) => {
+const Modal: React.FC<ModalProps> = props => {
     const { getIntlText } = useI18n();
-    const {
-        onOk,
-        onCancel,
-        onCancelText,
-        onOkText,
-        title,
-        width,
-        size,
-        visible,
-        children
-    } = props;
+    const { onOk, onCancel, onCancelText, onOkText, title, width, size, visible, children } = props;
 
     const ModalWidth = useMemo(() => {
         if (width) {
@@ -71,7 +61,7 @@ const AddDashboard: React.FC<ModalProps> = (props) => {
             }
         }
         return '450px';
-    }, [width, size])
+    }, [width, size]);
 
     const handleClose = () => {
         onCancel();
@@ -82,34 +72,28 @@ const AddDashboard: React.FC<ModalProps> = (props) => {
     };
 
     return (
-        <Fragment>
-            <Dialog
-                onClose={handleClose}
-                aria-labelledby="customized-dialog-title"
-                open={visible !== undefined ? visible : true}
-                sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}
-            >
-                {
-                    !!title && (
-                        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                            {title}
-                        </DialogTitle>
-                    )
-                }
-                <DialogContent>
-                    {children}
-                </DialogContent>
-                <DialogActions className="modal-footer">
-                    <Button variant="outlined" onClick={handleClose}>
-                        {onCancelText || getIntlText('common.button.cancel')}
-                    </Button>
-                    <Button variant="contained" onClick={handleOk} className="modal-button">
-                        {onOkText || getIntlText('common.button.confirm')}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Fragment>
+        <Dialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={visible !== undefined ? visible : true}
+            sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}
+        >
+            {!!title && (
+                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                    {title}
+                </DialogTitle>
+            )}
+            <DialogContent>{children}</DialogContent>
+            <DialogActions className="modal-footer">
+                <Button variant="outlined" onClick={handleClose}>
+                    {onCancelText || getIntlText('common.button.cancel')}
+                </Button>
+                <Button variant="contained" onClick={handleOk} className="modal-button">
+                    {onOkText || getIntlText('common.button.confirm')}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
-}
+};
 
-export default AddDashboard;
+export default Modal;

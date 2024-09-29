@@ -1,3 +1,3 @@
 export { default as Logo } from './logo';
 export { default as toast } from './toast';
-export { default as Modal } from './modal';
+export { default as Modal, type ModalProps } from './modal';
