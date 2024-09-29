@@ -9,6 +9,7 @@ import {
     type DialogProps,
 } from '@mui/material';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
+import { checkRequired } from '@milesight/shared/src/utils/validators';
 import { type DeviceDetail } from '@/services/http';
 
 interface Props extends DialogProps {
@@ -53,7 +54,7 @@ const EditDialog: React.FC<Props> = ({ data, open, onCancel, onError, onSuccess,
                     name="name"
                     control={control}
                     rules={{
-                        required: 'Name is required',
+                        validate: { checkRequired: checkRequired() },
                     }}
                     render={({ field: { onChange, value }, fieldState: { error } }) => {
                         return (

@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { Tabs, Tab, Button } from '@mui/material';
+import { Tabs, Tab } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { BasicTable, EntityTable, type BasicTableInstance } from './components';
@@ -39,20 +39,6 @@ export default () => {
                             <Tab disableRipple key={key} value={key} title={label} label={label} />
                         ))}
                     </Tabs>
-                    {tabKey === 'basic' && (
-                        <div className="btn-wrap">
-                            <Button
-                                variant="outlined"
-                                startIcon={<EditIcon />}
-                                sx={{ height: 32, textTransform: 'none' }}
-                                onClick={() => {
-                                    basicRef.current?.openEditDialog();
-                                }}
-                            >
-                                Edit
-                            </Button>
-                        </div>
-                    )}
                 </div>
                 <div className="ms-tab-content">
                     {tabs.map(({ key, component }) => (

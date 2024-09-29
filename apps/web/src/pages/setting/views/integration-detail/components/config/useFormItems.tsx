@@ -15,6 +15,7 @@ import {
     Visibility as VisibilityIcon,
     VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
+import { checkRequired } from '@milesight/shared/src/utils/validators';
 
 export interface FormDataProps {
     address?: string;
@@ -59,7 +60,7 @@ const useFormItems = () => {
             {
                 name: 'clientId',
                 rules: {
-                    required: 'clientId is required',
+                    validate: { checkRequired: checkRequired() },
                 },
                 render({ field: { onChange, value }, fieldState: { error } }) {
                     return (
@@ -77,7 +78,7 @@ const useFormItems = () => {
             {
                 name: 'clientSecret',
                 rules: {
-                    required: 'clientSecret is required',
+                    validate: { checkRequired: checkRequired() },
                 },
                 render({ field: { onChange, value }, fieldState: { error } }) {
                     return (

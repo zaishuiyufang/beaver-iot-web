@@ -1,5 +1,7 @@
-import { memo, useCallback, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
-import { Descriptions } from '@/components';
+import { useCallback, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
+import { Stack, IconButton } from '@mui/material';
+import { Edit as EditIcon } from '@mui/icons-material';
+import { Descriptions, Tooltip } from '@/components';
 import { deviceAPI, type DeviceDetail } from '@/services/http';
 import EditDialog from './edit-dialog';
 
@@ -27,7 +29,22 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
             {
                 key: 'name',
                 label: 'Name',
-                content: mockData.name,
+                content: (
+                    <Stack
+                        direction="row"
+                        sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+                    >
+                        <Tooltip autoEllipsis title={mockData.name} />
+                        <IconButton
+                            sx={{ width: 22, height: 22 }}
+                            onClick={() => {
+                                setDialogOpen(true);
+                            }}
+                        >
+                            <EditIcon sx={{ fontSize: 16 }} />
+                        </IconButton>
+                    </Stack>
+                ),
             },
             {
                 key: 'externalId',
@@ -37,12 +54,12 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
             {
                 key: 'source',
                 label: 'Source',
-                content: mockData.source,
+                content: <Tooltip autoEllipsis title={mockData.source} />,
             },
             {
                 key: 'createTime',
                 label: 'Create Time',
-                content: mockData.createTime,
+                content: mockData.createTime, // Todo: time format
             },
             {
                 key: 'founder',
