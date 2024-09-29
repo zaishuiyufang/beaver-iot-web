@@ -249,21 +249,15 @@ importers:
       css-vars-ponyfill:
         specifier: ^2.4.9
         version: 2.4.9
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       immer:
         specifier: ^10.1.1
         version: 10.1.1
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-      moment:
-        specifier: ^2.30.1
-        version: 2.30.1
-      moment-duration-format:
-        specifier: ^2.3.2
-        version: 2.3.2
-      moment-timezone:
-        specifier: ^0.5.45
-        version: 0.5.45
       qs:
         specifier: ^6.13.0
         version: 6.13.0
@@ -5652,20 +5646,6 @@ packages:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
-
-  /moment-duration-format@2.3.2:
-    resolution: {integrity: sha512-cBMXjSW+fjOb4tyaVHuaVE/A5TqkukDWiOfxxAjY+PEqmmBQlLwn+8OzwPiG3brouXKY5Un4pBjAeB6UToXHaQ==}
-    dev: false
-
-  /moment-timezone@0.5.45:
-    resolution: {integrity: sha512-HIWmqA86KcmCAhnMAN0wuDOARV/525R2+lOLotuGFzn4HO+FH+/645z2wx0Dt3iDv6/p61SIvKnDstISainhLQ==}
-    dependencies:
-      moment: 2.30.1
-    dev: false
-
-  /moment@2.30.1:
-    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
-    dev: false
 
   /mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}

@@ -12,7 +12,10 @@ const appLocalModules: Record<AppType, string[]> = {
     web: ['global', 'dashboard'],
 };
 
-const componentMapLanguage = {
+/**
+ * 系统语言与外部依赖语言包映射关系
+ */
+const componentMapLanguage: Record<LanguageComponentType, Record<LANGUAGE, string>> = {
     moment: {
         [LANGUAGE.EN]: 'en',
         [LANGUAGE.CN]: 'zh-cn',
@@ -29,6 +32,25 @@ const componentMapLanguage = {
         [LANGUAGE.TR]: 'tr',
         [LANGUAGE.HE]: 'he',
         [LANGUAGE.AR]: 'en',
+        [LANGUAGE.RU]: 'ru',
+        [LANGUAGE.PT_BR]: 'pt-br',
+    },
+    dayjs: {
+        [LANGUAGE.EN]: 'en',
+        [LANGUAGE.CN]: 'zh-cn',
+        [LANGUAGE.IT]: 'it',
+        [LANGUAGE.DE]: 'de',
+        [LANGUAGE.PT]: 'pt',
+        [LANGUAGE.FR]: 'fr',
+
+        [LANGUAGE.NL]: 'nl',
+        [LANGUAGE.TH]: 'th',
+
+        [LANGUAGE.ES]: 'es',
+
+        [LANGUAGE.TR]: 'tr',
+        [LANGUAGE.HE]: 'he',
+        [LANGUAGE.AR]: 'ar',
         [LANGUAGE.RU]: 'ru',
         [LANGUAGE.PT_BR]: 'pt-br',
     },

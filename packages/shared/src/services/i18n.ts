@@ -5,27 +5,15 @@
  */
 /* eslint-disable camelcase */
 import intl from 'react-intl-universal';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import { zhCN, enUS, type Localization } from '@mui/material/locale';
 import i18nHelper, { LANGUAGE } from '@milesight/locales';
 import iotStorage from '../utils/storage';
 import eventEmitter from '../utils/event-emitter';
 
-// Problem with moment locales: https://github.com/vitejs/vite/discussions/7492
-import 'moment/dist/locale/zh-cn';
-// import 'moment/locale/it';
-// import 'moment/locale/pt';
-// import 'moment/locale/de';
-// import 'moment/locale/fr';
-// import 'moment/locale/th';
-// import 'moment/locale/nl';
-// import 'moment/locale/es';
-// import 'moment/locale/tr';
-// import 'moment/locale/he';
-// import 'moment/locale/ar';
-// import 'moment/locale/ru';
-// import 'moment/locale/pt-br';
+// https://github.com/iamkun/dayjs/tree/dev/src/locale
+import 'dayjs/locale/zh-cn';
 
 // import type { WeekStartWithType } from '../utils/time/interface';
 /**
@@ -177,7 +165,7 @@ export const changeLang = async (
     platform: AppType = 'web',
     weekStartWith?: WeekStartWithType,
 ): Promise<boolean> => {
-    const momentLang = i18nHelper.getComponentLanguage(lang, 'moment');
+    const dayjsLang = i18nHelper.getComponentLanguage(lang, 'dayjs');
     let locale = langs[lang]?.locale;
     if (!locale || isEmpty(locale)) {
         let locales: Record<string, string>[] = [];
@@ -200,9 +188,7 @@ export const changeLang = async (
         escapeHtml: false,
     });
 
-    moment.locale(momentLang, {
-        ...getMomentWeekStartAndIntl(weekStartWith),
-    });
+    dayjs.locale(dayjsLang);
 
     if (langs[lang]) langs[lang]!.locale = locale;
 
