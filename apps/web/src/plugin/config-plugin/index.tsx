@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Modal } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { RenderConfig, RenderView } from '../render';
@@ -8,15 +8,19 @@ import './style.less';
 interface ConfigPluginProps {
     config: CustomComponentProps;
     onClose: () => void;
-    onOk: () => void;
+    onOk: (data: any) => void;
 }
 
 const ConfigPlugin = (props: ConfigPluginProps) => {
     const { getIntlText } = useI18n();
     const { config, onClose, onOk } = props;
     const [open, setOpen] = useState(true);
+    const [configJson, setConfigJson] = useState();
     const ComponentConfig = (plugins as any)[`${config.type}Config`];
     const ComponentView = (plugins as any)[`${config.type}View`];
+    const formRef = useRef<any>();
+
+    console.log(ComponentConfig);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -27,8 +31,13 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
     };
 
     const handleOk = () => {
-        onOk();
+        formRef.current?.handleSubmit();
     }
+
+    const handleSumbit = (data: any) => {
+        onOk(data);
+    }
+
     return (
         <Modal
             onCancel={handleClose}
@@ -51,7 +60,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                         ComponentConfig ? (
                             <ComponentConfig config={config} />
                         ) : (
-                            <RenderConfig config={config} />
+                            <RenderConfig config={config} onOk={handleSumbit} ref={formRef} />
                         )
                     }
                 </div>

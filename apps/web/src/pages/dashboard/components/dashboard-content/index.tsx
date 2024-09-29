@@ -16,6 +16,15 @@ export default () => {
 
     const handleSelectPlugin = (type: CustomComponentProps) => {
         setPlugin(type);
+    };
+
+    const closeAddWidget = () => {
+        setPlugin(undefined);
+    };
+
+    const handleOk = (data: any) => {
+        // TODO: add widget
+        console.log(data);
     }
 
     return (
@@ -24,7 +33,7 @@ export default () => {
                 {getIntlText('dashboard.add_widget')}
             </Button>
             {
-                !!plugin && <AddWidget plugin={plugin} />
+                !!plugin && <AddWidget plugin={plugin} onCancel={closeAddWidget} onOk={handleOk} />
             }
             {
                 !swigets?.length && (

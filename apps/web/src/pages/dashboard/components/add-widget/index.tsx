@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import ConfigPlugin from '@/plugin/config-plugin';
 
-const PLUGINDIR = '../../../../plugin';
-
 interface SwigetProps {
     plugin: CustomComponentProps;
+    onCancel: () => void;
+    onOk: (data: any) => void;
 }
 
 export default (props: SwigetProps) => {
-    const { plugin } = props;
+    const { plugin, onCancel, onOk } = props;
     const [config, setConfig] = useState<CustomComponentProps>();
     const [json, setJson] = useState('');
 
@@ -16,18 +16,14 @@ export default (props: SwigetProps) => {
         setConfig(plugin);
     }, [plugin]);
 
-    // const showPlugin = async () => {
-    //     const jsonPath = `${PLUGINDIR}/plugins/${type}/config.json`;
-    //     const jsonData = await import(jsonPath);
-    //     setConfig(jsonData.default);
-    // };
-
     const handleClose = () => {
         setConfig(undefined);
+        onCancel();
     };
 
-    const handleOk = () => {
+    const handleOk = (data: any) => {
         // TODO: 插件配置保存
+        onOk(data);
     }
 
     const handleCreatPlugin = () => {
