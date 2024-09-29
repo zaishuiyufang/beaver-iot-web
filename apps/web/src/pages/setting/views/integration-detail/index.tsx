@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Stack, Tabs, Tab } from '@mui/material';
 import { DevicesOther as DevicesOtherIcon, Share as ShareIcon } from '@mui/icons-material';
 import { Logo } from '@milesight/shared/src/components';
+import { thousandSeparate } from '@milesight/shared/src/utils/tools';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { Config, Functions } from './components';
 import './style.less';
@@ -38,11 +39,11 @@ const InformationDetail = () => {
                                 <div className="meta">
                                     <span className="meta-item">
                                         <DevicesOtherIcon />
-                                        <span>3</span>
+                                        <span>{thousandSeparate(2214)}</span>
                                     </span>
                                     <span className="meta-item">
                                         <ShareIcon />
-                                        <span>2</span>
+                                        <span>{thousandSeparate(5432)}</span>
                                     </span>
                                 </div>
                             </div>
