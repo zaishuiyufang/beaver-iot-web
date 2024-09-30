@@ -1,21 +1,21 @@
 import { useState } from 'react';
 import { TextField, Button } from '@mui/material';
+import { Modal } from '@milesight/shared/src/components';
 import ConfigPlugin from '@/plugin/config-plugin';
-import components from '@/plugin/plugins/components';
 
-const PLUGINDIR = '../../plugin';
+interface CustomWidgetProps {
+    onCancel: () => void;
+}
 
-export default () => {
+export default ({ onCancel }: CustomWidgetProps) => {
     const [config, setConfig] = useState();
     const [json, setJson] = useState('');
 
-    const handleClick = async (comName: string) => {
-        const jsonPath = `${PLUGINDIR}/plugins/${comName}/config.json`;
-        const jsonData = await import(jsonPath);
-        setConfig(jsonData.default);
+    const handleClose = () => {
+        onCancel();
     };
 
-    const handleClose = () => {
+    const handleCloseConfig = () => {
         setConfig(undefined);
     };
 
@@ -31,26 +31,26 @@ export default () => {
     };
 
     return (
-        <div className="dashboard-content">
-            <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>生成组件</Button>
-            {
-                components?.map((comName: any) => {
-                    return <div onClick={() => handleClick(comName)}>{comName}</div>
-                })
-            }
-            <TextField
-                id="outlined-multiline-static"
-                label="Multiline"
-                multiline
-                rows={10}
-                value={json}
-                onChange={(e) => setJson(e.target.value)}
-                fullWidth
-            />
-            <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>生成组件</Button>
+        <Modal
+            onCancel={handleClose}
+            onOk={() => { }}
+            title="添加自定义组件"
+        >
+            <div className="dashboard-content">
+                <TextField
+                    id="outlined-multiline-static"
+                    label="Multiline"
+                    multiline
+                    rows={10}
+                    value={json}
+                    onChange={(e) => setJson(e.target.value)}
+                    fullWidth
+                />
+                <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>生成组件</Button>
 
-            {!!config && <ConfigPlugin onClose={handleClose} config={config} onOk={() => { }} />}
-        </div>
+                {!!config && <ConfigPlugin onClose={handleCloseConfig} config={config} onOk={() => { }} />}
+            </div>
+        </Modal>
     );
 };
 

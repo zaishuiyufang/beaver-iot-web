@@ -10,7 +10,6 @@ interface SwigetProps {
 export default (props: SwigetProps) => {
     const { plugin, onCancel, onOk } = props;
     const [config, setConfig] = useState<CustomComponentProps>();
-    const [json, setJson] = useState('');
 
     useEffect(() => {
         setConfig(plugin);
@@ -26,18 +25,13 @@ export default (props: SwigetProps) => {
         onOk(data);
     }
 
-    const handleCreatPlugin = () => {
-        if (json) {
-            try {
-                const configJson = JSON.parse(json);
-                setConfig(configJson);
-            } catch (error) {
-                console.error('json不合法');
-            }
-        }
-    };
-
-    return !!config && <ConfigPlugin onClose={handleClose} onOk={handleOk} config={config} />
+    return !!config ? (
+        <ConfigPlugin
+            onClose={handleClose}
+            onOk={handleOk}
+            config={config}
+        />
+    ) : null
 };
 
 

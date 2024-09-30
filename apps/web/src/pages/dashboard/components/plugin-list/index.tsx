@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Grid } from '@mui/material';
 import { useGetPluginConfigs } from '../../hooks';
+import pluginImg from '@/assets/plugin.png';
 import './style.less';
 
 const PLUGINDIR = '../../../../plugin';
@@ -27,7 +28,7 @@ export default (props: PluginListProps) => {
                                 <div
                                     className="dashboard-plugin-item-content"
                                     onClick={() => handleClick(pluginConfig)}>
-                                    {!!pluginConfig?.iconSrc?.default && <img className="dashboard-plugin-item-content-icon" src={pluginConfig.iconSrc?.default} />}
+                                    <img className="dashboard-plugin-item-content-icon" src={pluginConfig.iconSrc?.default || pluginImg} />
                                     {pluginConfig.name}
                                 </div>
                             </Grid>

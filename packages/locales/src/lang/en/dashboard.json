@@ -2,5 +2,7 @@
     "dashboard.add_title": "Add Dashboard",
     "dashboard.edit_title": "Edit Dashboard",
     "dashboard.dashboard_name": "Dashboard Name",
-    "dashboard.add_widget": "Add widget"
+    "dashboard.add_widget": "Add widget",
+    "dashbaord.empty_text": "Select a component and start building your data dashboard",
+    "dashbaord.empty_description": "Quickly insert bar charts, line charts, pie charts and other component types to intuitively display data and make business dynamics clear at a glance"
 }

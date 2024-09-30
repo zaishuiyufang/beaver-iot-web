@@ -82,17 +82,15 @@ export default () => {
                     <AddIcon className="dashboard-add" onClick={showAddDashboard} />
                 </Tabs>
                 <div className="ms-tab-content">
-                    <Box className="ms-tab-box">
-                        {
-                            tabs?.map((tabItem) => {
-                                return (
-                                    <TabPanel value={tabKey} index={tabItem.id}>
-                                        <DashboardContent />
-                                    </TabPanel>
-                                )
-                            })
-                        }
-                    </Box>
+                    {
+                        tabs?.map((tabItem) => {
+                            return (
+                                <TabPanel value={tabKey} index={tabItem.id}>
+                                    <DashboardContent />
+                                </TabPanel>
+                            )
+                        })
+                    }
                 </div>
             </div>
             {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} data={{ name: '111' }} />}
