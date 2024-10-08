@@ -13,10 +13,14 @@ export interface IPlugin {
      * 表单数据提交
      */
     onOk: (data: any) => void;
+    /**
+     * 表单数据变更回调
+     */
+    onChange?: (data: any) => void;
 }
 
 const CreatPlugin = forwardRef((props: IPlugin, ref: any) => {
-    const { config, onOk } = props;
+    const { config, onOk, onChange } = props;
     const currentTheme = 'default';
 
     const getFormItems = useMemo(() => {
@@ -69,7 +73,7 @@ const CreatPlugin = forwardRef((props: IPlugin, ref: any) => {
 
     return (
         <>
-            <Form ref={ref} formItems={getFormItems} onOk={handleSubmit} />
+            <Form ref={ref} formItems={getFormItems} onOk={handleSubmit} onChange={onChange} />
         </>
     )
 })

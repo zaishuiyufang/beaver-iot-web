@@ -4,8 +4,6 @@ import { useGetPluginConfigs } from '../../hooks';
 import pluginImg from '@/assets/plugin.png';
 import './style.less';
 
-const PLUGINDIR = '../../../../plugin';
-
 interface PluginListProps {
     onSelect: (plugin: CustomComponentProps) => void;
 }

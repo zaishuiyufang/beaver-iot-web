@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Modal } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { RenderConfig, RenderView } from '../render';
@@ -17,18 +17,23 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
     const ComponentConfig = (plugins as any)[`${config.type}Config`];
     const ComponentView = (plugins as any)[`${config.type}View`];
     const formRef = useRef<any>();
+    const [formValues, setFormValues] = useState<any>({});
 
     const handleClose = () => {
         onClose();
     };
 
+    const handleChange = (values: any) => {
+        setFormValues(values);
+    };
+
     const handleOk = () => {
         formRef.current?.handleSubmit();
-    }
+    };
 
     const handleSumbit = (data: any) => {
         onOk(data);
-    }
+    };
 
     return (
         <Modal
@@ -41,18 +46,18 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                 <div className="config-plugin-container-left">
                     {
                         ComponentView ? (
-                            <ComponentView config={{ showTitle: true, title: 'trigger' }} />
+                            <ComponentView config={formValues} />
                         ) : (
-                            <RenderView configJson={config} config={{ showTitle: true, title: 'trigger' }} />
+                            <RenderView configJson={config} config={formValues} />
                         )
                     }
                 </div>
                 <div className="config-plugin-container-right">
                     {
                         ComponentConfig ? (
-                            <ComponentConfig config={config} />
+                            <ComponentConfig config={config} onChange={handleChange} />
                         ) : (
-                            <RenderConfig config={config} onOk={handleSumbit} ref={formRef} />
+                            <RenderConfig config={config} onOk={handleSumbit} ref={formRef} onChange={handleChange} />
                         )
                     }
                 </div>

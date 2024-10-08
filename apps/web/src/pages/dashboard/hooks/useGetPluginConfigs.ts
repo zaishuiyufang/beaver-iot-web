@@ -10,8 +10,11 @@ export default () => {
     const loopComponents = async (comName: string) => {
         const jsonPath = `${PLUGINDIR}/plugins/${comName}/config.json`;
         const jsonData = await import(jsonPath);
-        const iconSrc = `${PLUGINDIR}/plugins/${comName}/icon.png`;
-        const icon = await import(iconSrc);
+        let icon = undefined;
+        if (jsonData?.icon) {
+            const iconSrc = `${PLUGINDIR}/plugins/${comName}/icon.png`;
+            icon = await import(iconSrc);
+        }
         const isExit = pluginRef.current.some((item: any) => item.name === jsonData.name);
         if (isExit) {
             return;
