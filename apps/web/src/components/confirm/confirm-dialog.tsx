@@ -9,7 +9,7 @@ import {
     TextField,
     LinearProgress,
 } from '@mui/material';
-import { LoadingButton } from './loading-button';
+import LoadingButton from '../loading-button';
 import { DialogProps } from './types';
 import { defaultGlobalOptions } from './default-options';
 
@@ -46,6 +46,7 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
 
     const handleCancelOnClose = React.useCallback((handler: () => void) => {
         handler();
+        setLoading(false);
         setConfirmInput(initialConfirmInputState);
     }, []);
 
@@ -62,7 +63,10 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
         <Dialog
             {...finalOptions.dialogProps}
             open={show}
-            onClose={() => handleCancelOnClose(onClose)}
+            onClose={(_, reason) => {
+                if (finalOptions.disabledBackdropClose && reason === 'backdropClick') return;
+                handleCancelOnClose(onClose);
+            }}
         >
             {progress > 0 && (
                 <LinearProgress
@@ -90,6 +94,7 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
             </DialogContent>
             <DialogActions {...finalOptions.dialogActionsProps}>
                 <Button
+                    disabled={loading}
                     {...finalOptions.cancelButtonProps}
                     onClick={() => handleCancelOnClose(onCancel)}
                 >
@@ -97,9 +102,9 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
                 </Button>
                 <LoadingButton
                     {...finalOptions.confirmButtonProps}
-                    onClick={handleConfirm}
+                    loading={loading}
                     disabled={isConfirmDisabled}
-                    isLoading={loading}
+                    onClick={handleConfirm}
                 >
                     {finalOptions?.confirmButtonText || defaultGlobalOptions.confirmButtonText}
                 </LoadingButton>

@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Modal } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { RenderConfig, RenderView } from '../render';
-import * as plugins from '../plugins'
+import * as plugins from '../plugins';
 import './style.less';
 
 interface ConfigPluginProps {
@@ -64,6 +64,6 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
             </div>
         </Modal>
     );
-}
+};
 
 export default ConfigPlugin;

@@ -1,6 +1,5 @@
-
-import { isString } from "lodash-es";
-import { parseStyleToReactStyle } from "./util";
+import { isString } from 'lodash-es';
+import { parseStyleToReactStyle } from './util';
 
 interface Props {
     config: any;
@@ -27,41 +26,33 @@ const View = (props: Props) => {
         if (params?.length) {
             const result = params.map((key: string) => {
                 return (config as any)?.[key];
-            })
+            });
             return result?.join('');
         }
         return null;
-    }
+    };
 
     // 渲染标签
     const renderTag = (tagProps: ViewProps) => {
         if (isShow(tagProps?.showDependend) && tagProps?.tag) {
             const Tag: any = tagProps?.tag;
             const theme = tagProps?.themes?.['default'];
-            let style = `${tagProps?.style}${theme?.style}`;
+            const style = `${tagProps?.style}${theme?.style}`;
             if (Tag === 'icon') {
                 const icon = renderParams(tagProps?.params);
-                return !!icon && <svg data-testid={icon}></svg>;
+                return !!icon && <svg data-testid={icon} />;
             }
             return (
                 <Tag
                     className={`${tagProps.class || ''} ${theme?.class || ''}`}
                     style={style ? parseStyleToReactStyle(style) : undefined}
                 >
-                    {
-                        !tagProps?.params ? (
-                            tagProps?.content
-                        ) : (
-                            renderParams(tagProps?.params)
-                        )
-                    }
-                    {
-                        tagProps?.children?.map((subItem) => {
-                            return renderTag(subItem);
-                        })
-                    }
+                    {!tagProps?.params ? tagProps?.content : renderParams(tagProps?.params)}
+                    {tagProps?.children?.map(subItem => {
+                        return renderTag(subItem);
+                    })}
                 </Tag>
-            )
+            );
         }
     };
 
@@ -72,29 +63,25 @@ const View = (props: Props) => {
             // 如果值不存在，返回原始的匹配字符串
             return value !== undefined ? value : match;
         });
-    }
+    };
 
     const renderHtml = () => {
         if (configJson?.view) {
             const html = replaceTemplate(configJson?.view as string);
-            return <div dangerouslySetInnerHTML={{ __html: html }}></div>;
+            return <div dangerouslySetInnerHTML={{ __html: html }} />;
         }
         return null;
     };
 
     return (
         <>
-            {
-                isString(configJson?.view) ? (
-                    renderHtml()
-                ) : (
-                    configJson?.view?.map((viewItem: ViewProps) => {
-                        return renderTag(viewItem);
-                    })
-                )
-            }
+            {isString(configJson?.view)
+                ? renderHtml()
+                : configJson?.view?.map((viewItem: ViewProps) => {
+                    return renderTag(viewItem);
+                })}
         </>
-    )
+    );
 };
 
 export default View;

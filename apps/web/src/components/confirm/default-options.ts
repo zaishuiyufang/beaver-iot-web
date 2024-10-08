@@ -2,11 +2,21 @@ import { merge } from 'lodash-es';
 import { GlobalOptions, ConfirmOptions, FinalOptions } from './types';
 
 export const defaultGlobalOptions: GlobalOptions = {
+    disabledBackdropClose: true,
+    confirmButtonText: 'Confirm', // Todo: 国际化
+    cancelButtonText: 'Cancel', // Todo: 国际化
+    dialogProps: {
+        disableEscapeKeyDown: true,
+    },
     dialogContentProps: {
         sx: { width: 400 },
     },
-    confirmButtonText: 'Confirm', // Todo: 国际化
-    cancelButtonText: 'Cancel', // Todo: 国际化
+    dialogActionsProps: {
+        sx: {
+            padding: 3,
+            pt: 1,
+        },
+    },
     confirmButtonProps: {
         color: 'primary',
         variant: 'contained',
@@ -20,6 +30,10 @@ export const defaultGlobalOptions: GlobalOptions = {
         variant: 'outlined',
         sx: {
             textTransform: 'none',
+            mr: 1,
+            '&:last-child': {
+                mr: 0,
+            },
         },
     },
 };

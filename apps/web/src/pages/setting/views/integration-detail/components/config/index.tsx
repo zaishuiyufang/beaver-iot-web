@@ -1,18 +1,13 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
+import { Button, Tooltip, Chip, Switch, IconButton } from '@mui/material';
 import {
-    Button,
-    Tooltip,
-    Chip,
-    TextField,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    FormHelperText,
-    type TextFieldProps,
-} from '@mui/material';
-import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
-import { useForm, Controller, type SubmitHandler, type ControllerProps } from 'react-hook-form';
+    InfoOutlined as InfoOutlinedIcon,
+    ContentCopy as ContentCopyIcon,
+} from '@mui/icons-material';
+import cls from 'classnames';
+import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
+import { useCopy } from '@milesight/shared/src/hooks';
+import useFormItems from './useFormItems';
 import './style.less';
 
 interface FormDataProps {
@@ -25,107 +20,106 @@ interface FormDataProps {
  * 集成配置组件
  */
 const Config = () => {
+    const { handleCopy } = useCopy();
+    const [webhookEnabled, setWebhookEnabled] = useState(false);
+    const [OpenApiEnabled, setOpenApiEnabled] = useState(false);
+    const formItems = useFormItems();
     const { control, handleSubmit } = useForm<FormDataProps>();
     const onSubmit: SubmitHandler<FormDataProps> = data => console.log(data);
 
-    const formItems = useMemo(() => {
-        const commTextProps: Partial<TextFieldProps> = {
-            required: true,
-            fullWidth: true,
-            type: 'text',
-        };
-        const items: ControllerProps<FormDataProps>[] = [
-            {
-                name: 'address',
-                render({ field: { onChange, value }, fieldState: { error } }) {
-                    return (
-                        <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
-                            <InputLabel id="select-label-address">Server Address</InputLabel>
-                            <Select
-                                label="Server Address"
-                                labelId="select-label-address"
-                                value={value}
-                                error={!!error}
-                                onChange={onChange}
-                            >
-                                <MenuItem value="1">1</MenuItem>
-                                <MenuItem value="2">2</MenuItem>
-                                <MenuItem value="3">3</MenuItem>
-                            </Select>
-                            {!!error && <FormHelperText error>{error.message}</FormHelperText>}
-                        </FormControl>
-                    );
-                },
-            },
-            {
-                name: 'clientId',
-                rules: {
-                    required: 'clientId is required',
-                },
-                render({ field: { onChange, value }, fieldState: { error } }) {
-                    return (
-                        <TextField
-                            {...commTextProps}
-                            label="Client ID"
-                            error={!!error}
-                            helperText={error ? error.message : null}
-                            value={value}
-                            onChange={onChange}
-                        />
-                    );
-                },
-            },
-            {
-                name: 'clientSecret',
-                rules: {
-                    required: 'clientSecret is required',
-                },
-                render({ field: { onChange, value }, fieldState: { error } }) {
-                    return (
-                        <TextField
-                            {...commTextProps}
-                            label="Client Secret"
-                            error={!!error}
-                            helperText={error ? error.message : null}
-                            value={value}
-                            onChange={onChange}
-                        />
-                    );
-                },
-            },
-        ];
-
-        return items;
-    }, []);
-
     return (
-        <div className="ms-int-config">
-            <div className="ms-int-config__title">
-                <h2>OpenAPI Configuration</h2>
-                <Tooltip
-                    arrow
-                    placement="top"
-                    title="API Key is used to authenticate with the server."
-                    sx={{ ml: 0.5 }}
-                >
-                    <InfoOutlinedIcon />
-                </Tooltip>
-            </div>
-            <div className="ms-int-config__body">
-                <div className="status">
-                    <h3>API Status</h3>
-                    <Chip color="primary" label="Waiting For Connection" />
+        <>
+            <div className="ms-int-config">
+                <div className="ms-int-config__header">
+                    <h2>OpenAPI Configuration</h2>
+                    <Tooltip
+                        title="API Key is used to authenticate with the server."
+                        sx={{ ml: 0.5 }}
+                    >
+                        <InfoOutlinedIcon />
+                    </Tooltip>
                 </div>
-                <div className="form">
-                    {formItems.map(props => (
-                        <Controller<FormDataProps> key={props.name} {...props} control={control} />
-                    ))}
+                <div className="ms-int-config__body">
+                    <div className="status">
+                        <span className="status-label">API Status:</span>
+                        <span className="status-value">
+                            <Chip color="primary" label="Waiting For Connection" />
+                        </span>
+                    </div>
+                    <div className="form">
+                        {formItems.map(props => (
+                            <Controller<FormDataProps>
+                                {...props}
+                                key={props.name}
+                                control={control}
+                            />
+                        ))}
+                    </div>
+                    <Button variant="contained" sx={{ mt: 1 }} onClick={handleSubmit(onSubmit)}>
+                        Connect
+                    </Button>
                 </div>
             </div>
-            <Button variant="contained" sx={{ mt: 1 }}>
-                Connect
-            </Button>
-        </div>
+            <div className="ms-int-service">
+                <div className="ms-int-service__header">
+                    <h2>Data Access Service</h2>
+                </div>
+                <div className="ms-int-service__body">
+                    <div className="ms-service-card">
+                        <div className="ms-service-card__header">
+                            <Switch onChange={(_, checked) => setWebhookEnabled(checked)} />
+                            <span className="title">Webhook</span>
+                            <Tooltip
+                                title="Receive the data pushed by Milesight Development Platform in real time via the Webhook service, and paste the URL address generated below, into the application from Milesight Development Platform."
+                                sx={{ ml: 0.5 }}
+                            >
+                                <InfoOutlinedIcon />
+                            </Tooltip>
+                        </div>
+                        <div className={cls('ms-service-card__body', { hidden: !webhookEnabled })}>
+                            <div className="service-prop">
+                                <span className="service-prop-label">Webhook Status:</span>
+                                <span className="service-prop-value">
+                                    <Chip color="success" label="Webhook ready" />
+                                </span>
+                            </div>
+                            <div className="service-prop">
+                                <span className="service-prop-label">Webhook URL:</span>
+                                <span className="service-prop-value">
+                                    <span>https://us.openapius.openapi.milesight.com</span>
+                                    <IconButton
+                                        sx={{ ml: 0.5 }}
+                                        onClick={() =>
+                                            handleCopy('https://us.openapius.openapi.milesight.com')
+                                        }
+                                    >
+                                        <ContentCopyIcon sx={{ fontSize: 16 }} />
+                                    </IconButton>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="ms-service-card">
+                        <div className="ms-service-card__header">
+                            <Switch onChange={(_, checked) => setOpenApiEnabled(checked)} />
+                            <span className="title">OpenAPI</span>
+                            <Tooltip
+                                title="Proactively pull device information and device telemetry data at regular intervals via OpenAPI."
+                                sx={{ ml: 0.5 }}
+                            >
+                                <InfoOutlinedIcon />
+                            </Tooltip>
+                        </div>
+                        <div className={cls('ms-service-card__body', { hidden: !OpenApiEnabled })}>
+                            <div className="service-prop">
+                                <span className="service-prop-label">Frequency of requests：</span>
+                                <span className="service-prop-value">3600s</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 

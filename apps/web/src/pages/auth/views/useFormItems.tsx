@@ -8,6 +8,13 @@ import {
     Https as HttpsIcon,
     AccountCircle as AccountCircleIcon,
 } from '@mui/icons-material';
+import { useI18n } from '@milesight/shared/src/hooks';
+import {
+    checkRequired,
+    checkEmail,
+    userNameChecker,
+    passwordChecker,
+} from '@milesight/shared/src/utils/validators';
 
 interface UseFormItemsProps {
     mode?: 'login' | 'register';
@@ -21,6 +28,7 @@ export interface FormDataProps {
 }
 
 const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
+    const { getIntlText } = useI18n();
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = useCallback(() => setShowPassword(show => !show), []);
 
@@ -38,10 +46,9 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
             {
                 name: 'email',
                 rules: {
-                    required: 'Email is required',
-                    pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'Invalid email address',
+                    validate: {
+                        checkRequired: checkRequired(),
+                        checkEmail: checkEmail(),
                     },
                 },
                 render({ field: { onChange, value }, fieldState: { error } }) {
@@ -70,10 +77,9 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                 // mode: 'register',
                 name: 'username',
                 rules: {
-                    required: 'Username is required',
-                    minLength: {
-                        value: 3,
-                        message: 'Username must be at least 3 characters',
+                    validate: {
+                        checkRequired: checkRequired(),
+                        ...userNameChecker(),
                     },
                 },
                 render({ field: { onChange, value }, fieldState: { error } }) {
@@ -101,10 +107,9 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
             {
                 name: 'password',
                 rules: {
-                    required: 'Password is required',
-                    minLength: {
-                        value: 6,
-                        message: 'Password must be at least 6 characters',
+                    validate: {
+                        checkRequired: checkRequired(),
+                        ...passwordChecker(),
                     },
                 },
                 render({ field: { onChange, value }, fieldState: { error } }) {
@@ -151,16 +156,14 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                 // mode: 'register',
                 name: 'confirmPassword',
                 rules: {
-                    required: 'Password is required',
-                    minLength: {
-                        value: 6,
-                        message: 'Password must be at least 6 characters',
-                    },
-                    validate(value, formValues) {
-                        if (value !== formValues.password) {
-                            return 'Password do not match';
-                        }
-                        return true;
+                    validate: {
+                        checkRequired: checkRequired(),
+                        checkSamePassword(value, formValues) {
+                            if (value !== formValues.password) {
+                                return getIntlText('valid.input.password.diff');
+                            }
+                            return true;
+                        },
                     },
                 },
                 render({ field: { onChange, value }, fieldState: { error } }) {
@@ -211,7 +214,7 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
             }
             return true;
         });
-    }, [mode, showPassword, handleClickShowPassword]);
+    }, [mode, showPassword, getIntlText, handleClickShowPassword]);
 
     return formItems;
 };

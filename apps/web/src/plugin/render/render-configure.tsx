@@ -5,8 +5,8 @@ import * as Milesight from '../components';
 import { parseStyleString } from './util';
 
 export interface IPlugin {
-    /** 
-     * 自定义组件配置 
+    /**
+     * 自定义组件配置
      */
     config: CustomComponentProps;
     /**
@@ -19,7 +19,7 @@ export interface IPlugin {
     onChange?: (data: any) => void;
 }
 
-const CreatPlugin = forwardRef((props: IPlugin, ref: any) => {
+const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
     const { config, onOk, onChange } = props;
     const currentTheme = 'default';
 
@@ -78,4 +78,4 @@ const CreatPlugin = forwardRef((props: IPlugin, ref: any) => {
     )
 })
 
-export default CreatPlugin;
+export default CreatePlugin;

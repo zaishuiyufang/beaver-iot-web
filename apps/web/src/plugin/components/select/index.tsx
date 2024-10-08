@@ -5,7 +5,7 @@ import {
     ListSubheader,
     MenuItem,
     FormControl,
-    InputLabel
+    InputLabel,
 } from '@mui/material';
 import { OptionsProps } from '../../render/typings';
 
@@ -14,7 +14,7 @@ type Props = {
      * 下拉选项
      */
     options: OptionsProps[];
-}
+};
 
 type SelectProps = Props & MuiSelectProps;
 
@@ -29,35 +29,35 @@ const Select = (props: SelectProps) => {
                 list.push({ label: item.label });
                 item.options.map((subItem: OptionsProps) => {
                     loopItem(subItem);
-                })
+                });
             } else {
                 list.push({ label: item.label, value: item.value });
             }
         };
         options?.forEach((item: OptionsProps) => {
             loopItem(item);
-        })
+        });
         return list;
     }, [options]);
 
     return (
         <FormControl sx={{ m: 1, ...style }}>
-            {!!title && <InputLabel size={rest?.size as any} id="select-lable">{title}</InputLabel>}
-            <MuiSelect
-                {...rest}
-                label={title}
-                labelId="select-lable"
-            >
-                {
-                    getMenuItems?.map((item: OptionsProps) => {
-                        return item?.value ? (
-                            <MenuItem value={item.value}>{item.label}</MenuItem>
-                        ) : <ListSubheader>{item.label}</ListSubheader>
-                    })
-                }
+            {!!title && (
+                <InputLabel size={rest?.size as any} id="select-lable">
+                    {title}
+                </InputLabel>
+            )}
+            <MuiSelect {...rest} label={title} labelId="select-lable">
+                {getMenuItems?.map((item: OptionsProps) => {
+                    return item?.value ? (
+                        <MenuItem value={item.value}>{item.label}</MenuItem>
+                    ) : (
+                        <ListSubheader>{item.label}</ListSubheader>
+                    );
+                })}
             </MuiSelect>
         </FormControl>
-    )
-}
+    );
+};
 
 export default Select;

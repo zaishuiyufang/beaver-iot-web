@@ -1,5 +1,6 @@
-import { Fragment, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { Fragment, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import { useForm, Controller, FieldValues, type SubmitHandler } from 'react-hook-form';
+import { isEqual } from 'lodash-es';
 import useFormItems from './useForm';
 
 interface formProps<T extends FieldValues> {
@@ -12,16 +13,20 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
     const { formItems, onOk, onChange } = props;
     const { handleSubmit, control, watch } = useForm<T>({ mode: 'onChange' });
     const forms: FormItemsProps[] = useFormItems({ formItems });
+    const formValuesRef = useRef<T>();
 
     // 监听所有表单字段的变化
     const formValues = watch();
 
     useEffect(() => {
-        // 表单值变更回调
-        !!onChange && onChange(formValues);
+        if (!formValuesRef?.current || !isEqual(formValuesRef?.current, formValues)) {
+            formValuesRef.current = { ...formValues };
+            // 表单值变更回调
+            !!onChange && onChange(formValues);
+        }
     }, [formValues]);
 
-    const onSubmit: SubmitHandler<T> = data => {
+    const onSubmit: SubmitHandler<T> = (data: T) => {
         onOk(data);
     };
 

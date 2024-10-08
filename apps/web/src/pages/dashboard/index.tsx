@@ -3,17 +3,19 @@ import { Tabs, Tab, Box } from '@mui/material';
 import {
     Fullscreen as FullscreenIcon,
     FullscreenExit as FullscreenIconExit,
-    Add as AddIcon
+    Add as AddIcon,
 } from '@mui/icons-material';
 import { TabPanel } from '@/components';
 import DashboardContent from './components/dashboard-content';
 import AddDashboard from './components/add-dashboard';
 import './style.less';
 
-const TSBS = [{
-    name: "my-dashboard",
-    id: "111"
-}]
+const TSBS = [
+    {
+        name: 'my-dashboard',
+        id: '111',
+    },
+];
 
 export default () => {
     const [tabs, setTabs] = useState(TSBS);
@@ -61,36 +63,37 @@ export default () => {
                 id: new Date().getTime().toString()
             }
         ])
-    }
-
+    };
+    
     return (
         <div className="ms-main dashboard" ref={containerRef}>
-            {
-                !isFullscreen ? (
-                    <FullscreenIcon className="dashboard-fullscreen" onClick={enterFullscreen} />
-                ) : <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
-            }
+            {!isFullscreen ? (
+                <FullscreenIcon className="dashboard-fullscreen" onClick={enterFullscreen} />
+            ) : (
+                <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
+            )}
             <div className="ms-view ms-view-dashboard">
                 <Tabs className="ms-tabs" value={tabKey} onChange={handleChange}>
-                    {
-                        tabs?.map((tabItem) => {
-                            return (
-                                <Tab disableRipple title={tabItem.name} label={tabItem.name} value={tabItem.id} />
-                            )
-                        })
-                    }
+                    {tabs?.map(tabItem => {
+                        return (
+                            <Tab
+                                disableRipple
+                                title={tabItem.name}
+                                label={tabItem.name}
+                                value={tabItem.id}
+                            />
+                        );
+                    })}
                     <AddIcon className="dashboard-add" onClick={showAddDashboard} />
                 </Tabs>
                 <div className="ms-tab-content">
-                    {
-                        tabs?.map((tabItem) => {
-                            return (
-                                <TabPanel value={tabKey} index={tabItem.id}>
-                                    <DashboardContent />
-                                </TabPanel>
-                            )
-                        })
-                    }
+                    {tabs?.map(tabItem => {
+                        return (
+                            <TabPanel value={tabKey} index={tabItem.id}>
+                                <DashboardContent />
+                            </TabPanel>
+                        );
+                    })}
                 </div>
             </div>
             {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} data={{ name: '111' }} />}

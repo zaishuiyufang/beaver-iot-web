@@ -52,6 +52,6 @@ const AddDashboard = (props: ConfigPluginProps) => {
             />
         </Modal>
     );
-}
+};
 
 export default AddDashboard;

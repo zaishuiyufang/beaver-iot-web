@@ -12,3 +12,6 @@ export {
 export { default as TabPanel } from './tab-panel';
 export { default as Descriptions } from './descriptions';
 export { useConfirm, ConfirmProvider } from './confirm';
+export { default as Tooltip } from './tooltip';
+export { default as LoadingButton } from './loading-button';
+export { default as DateRangePicker } from './date-range-picker';

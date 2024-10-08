@@ -6,7 +6,7 @@ type Props = {
      * 下拉选项
      */
     options: OptionsProps[];
-}
+};
 
 const iconSelect = (props: any) => {
     const { title, ...rest } = props;
@@ -15,7 +15,7 @@ const iconSelect = (props: any) => {
         <div>
             <Select {...rest} />
         </div>
-    )
-}
+    );
+};
 
 export default iconSelect;

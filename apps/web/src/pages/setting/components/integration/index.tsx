@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Grid2 } from '@mui/material';
 import { DevicesOther as DevicesOtherIcon, Share as ShareIcon } from '@mui/icons-material';
 import { Logo } from '@milesight/shared/src/components';
+import { thousandSeparate } from '@milesight/shared/src/utils/tools';
 import './style.less';
 
 const Integration = () => {
@@ -18,11 +19,11 @@ const Integration = () => {
                     <div className="meta">
                         <span className="meta-item">
                             <DevicesOtherIcon />
-                            <span>3</span>
+                            <span>{thousandSeparate(5316)}</span>
                         </span>
                         <span className="meta-item">
                             <ShareIcon />
-                            <span>2</span>
+                            <span>{thousandSeparate(2)}</span>
                         </span>
                     </div>
                 </div>
@@ -35,11 +36,11 @@ const Integration = () => {
                     <div className="meta">
                         <span className="meta-item">
                             <DevicesOtherIcon />
-                            <span>3</span>
+                            <span>{thousandSeparate(5316)}</span>
                         </span>
                         <span className="meta-item">
                             <ShareIcon />
-                            <span>2</span>
+                            <span>{thousandSeparate(2)}</span>
                         </span>
                     </div>
                 </div>
