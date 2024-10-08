@@ -44,22 +44,23 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         >
             <div className="config-plugin-container">
                 <div className="config-plugin-container-left">
-                    {
-                        ComponentView ? (
-                            <ComponentView config={formValues} />
-                        ) : (
-                            <RenderView configJson={config} config={formValues} />
-                        )
-                    }
+                    {ComponentView ? (
+                        <ComponentView config={formValues} />
+                    ) : (
+                        <RenderView configJson={config} config={formValues} />
+                    )}
                 </div>
                 <div className="config-plugin-container-right">
-                    {
-                        ComponentConfig ? (
-                            <ComponentConfig config={config} onChange={handleChange} />
-                        ) : (
-                            <RenderConfig config={config} onOk={handleSubmit} ref={formRef} onChange={handleChange} />
-                        )
-                    }
+                    {ComponentConfig ? (
+                        <ComponentConfig config={config} onChange={handleChange} />
+                    ) : (
+                        <RenderConfig
+                            config={config}
+                            onOk={handleSubmit}
+                            ref={formRef}
+                            onChange={handleChange}
+                        />
+                    )}
                 </div>
             </div>
         </Modal>
