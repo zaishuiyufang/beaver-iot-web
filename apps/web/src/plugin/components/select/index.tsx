@@ -13,12 +13,17 @@ type Props = {
      * 下拉选项
      */
     options: OptionsProps[];
+    /**
+     * 自定义下拉选项
+     * @returns 返回自定义下拉选项内容
+     */
+    renderOptions?: () => any[];
 };
 
 type SelectProps = Props & MuiSelectProps;
 
 const Select = (props: SelectProps) => {
-    const { options, style, title, ...rest } = props;
+    const { options, renderOptions, style, title, ...rest } = props;
 
     // 转换下拉选项数据
     const getMenuItems = useMemo(() => {
@@ -47,13 +52,15 @@ const Select = (props: SelectProps) => {
                 </InputLabel>
             )}
             <MuiSelect {...rest} label={title} labelId="select-lable">
-                {getMenuItems?.map((item: OptionsProps) => {
-                    return item?.value ? (
-                        <MenuItem value={item.value}>{item.label}</MenuItem>
-                    ) : (
-                        <ListSubheader>{item.label}</ListSubheader>
-                    );
-                })}
+                {renderOptions
+                    ? renderOptions()
+                    : getMenuItems?.map((item: OptionsProps) => {
+                          return item?.value ? (
+                              <MenuItem value={item.value}>{item.label}</MenuItem>
+                          ) : (
+                              <ListSubheader>{item.label}</ListSubheader>
+                          );
+                      })}
             </MuiSelect>
         </FormControl>
     );
