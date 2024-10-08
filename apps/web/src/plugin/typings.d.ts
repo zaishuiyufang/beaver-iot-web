@@ -163,4 +163,9 @@ declare interface CustomComponentProps {
      * @description 可以是json单独配置各个属性，也可以直接传入html字符串，其中${{}}包围的是参数变量，渲染的时候替换
      */
     view: ViewProps[] | string;
+    /**
+     * 组件分类
+     * @description 用来区分组件的类别，比如图表、数据显示等，目前有data_chart/operate/data_card三种
+     */
+    class?: string;
 }

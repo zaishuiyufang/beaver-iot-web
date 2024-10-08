@@ -18,7 +18,7 @@ export default (props: PluginListProps) => {
 
     return (
         <div className="dashboard-plugin-list">
-            <Grid container spacing={2}>
+            <Grid container>
                 {
                     pluginsConfigs?.map((pluginConfig: any) => {
                         return (

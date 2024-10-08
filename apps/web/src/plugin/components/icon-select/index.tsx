@@ -1,5 +1,5 @@
 import Select from '../select';
-import { OptionsProps } from '../../render/typings';
+import { OptionsProps } from '../../typings';
 
 type Props = {
     /**

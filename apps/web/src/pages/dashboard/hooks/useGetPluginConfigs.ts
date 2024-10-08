@@ -21,9 +21,9 @@ export default () => {
         }
         setPluginsConfigs([
             ...pluginRef.current,
-            { ...jsonData, iconSrc: icon }
+            { ...jsonData?.default, iconSrc: icon }
         ]);
-        pluginRef.current.push(jsonData);
+        pluginRef.current.push(jsonData.default);
     }
 
     const getPluginConfig = () => {

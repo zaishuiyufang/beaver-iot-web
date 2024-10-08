@@ -1,6 +1,7 @@
 {
     "type": "trigger",
     "name": "事件触发组件",
+    "class": "operate",
     "icon": "./icon.png",
     "configProps": [
         {
