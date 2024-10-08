@@ -20,6 +20,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 field: 'name',
                 headerName: 'Device Name',
                 width: 150,
+                ellipsis: true,
                 sortable: false,
                 filterable: false,
                 disableColumnMenu: true,
@@ -28,6 +29,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 field: 'createTime',
                 headerName: 'Time',
                 width: 150,
+                ellipsis: true,
                 sortable: false,
                 filterable: false,
                 disableColumnMenu: true,
@@ -37,6 +39,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 headerName: 'Equipment Source',
                 align: 'left',
                 headerAlign: 'left',
+                ellipsis: true,
                 sortable: false,
                 filterable: false,
                 disableColumnMenu: true,
@@ -55,7 +58,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 resizable: false,
                 flex: 1,
                 renderCell({ row }) {
-                    // console.log(cell);
+                    // console.log(row);
                     return (
                         <Stack
                             direction="row"
