@@ -23,8 +23,8 @@ export default (props: PluginListProps) => {
             const plugins: Record<string, any> = {};
             Object.keys(pluginClass).forEach((plu: any) => {
                 plugins[plu] = {
-                    ...pluginClass[plu]
-                }
+                    ...pluginClass[plu],
+                };
             });
             pluginsConfigs.forEach((plugin: CustomComponentProps) => {
                 if (plugin.class && plugins[plugin.class]) {
@@ -39,7 +39,7 @@ export default (props: PluginListProps) => {
                     }
                     plugins[className].list.push(plugin);
                 }
-            })
+            });
             setPluginList(plugins);
         }
     }, [pluginsConfigs]);
@@ -52,33 +52,41 @@ export default (props: PluginListProps) => {
         <div className="dashboard-plugin-class">
             <div className="dashboard-plugin-class-list">
                 <Grid container>
-                    {
-                        pluginList ? Object.keys(pluginList).map((pluginClass: string) => {
-                            return (
-                                <div className="dashboard-plugin-class-grid">
-                                    <div className="dashboard-plugin-class-grid-title">{getIntlText(pluginList[pluginClass].name)}</div>
-                                    {
-                                        pluginList[pluginClass]?.list?.map((pluginConfig: any) => {
-                                            return (
-                                                <Grid xs={3} className="dashboard-plugin-class-item">
-                                                    <div
-                                                        className="dashboard-plugin-class-item-content"
-                                                        onClick={() => handleClick(pluginConfig)}>
-                                                        <img className="dashboard-plugin-class-item-content-icon" src={pluginConfig.iconSrc?.default || pluginImg} />
-                                                        <Typography noWrap>{pluginConfig.name}</Typography >
-                                                    </div>
-                                                </Grid>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            )
-                        }) : null
-                    }
+                    {pluginList
+                        ? Object.keys(pluginList).map((pluginClass: string) => {
+                              return (
+                                  <div className="dashboard-plugin-class-grid">
+                                      <div className="dashboard-plugin-class-grid-title">
+                                          {getIntlText(pluginList[pluginClass].name)}
+                                      </div>
+                                      {pluginList[pluginClass]?.list?.map((pluginConfig: any) => {
+                                          return (
+                                              <Grid xs={3} className="dashboard-plugin-class-item">
+                                                  <div
+                                                      className="dashboard-plugin-class-item-content"
+                                                      onClick={() => handleClick(pluginConfig)}
+                                                  >
+                                                      <img
+                                                          className="dashboard-plugin-class-item-content-icon"
+                                                          src={
+                                                              pluginConfig.iconSrc?.default ||
+                                                              pluginImg
+                                                          }
+                                                          alt="plugin"
+                                                      />
+                                                      <Typography noWrap>
+                                                          {pluginConfig.name}
+                                                      </Typography>
+                                                  </div>
+                                              </Grid>
+                                          );
+                                      })}
+                                  </div>
+                              );
+                          })
+                        : null}
                 </Grid>
             </div>
         </div>
     );
 };
-
-

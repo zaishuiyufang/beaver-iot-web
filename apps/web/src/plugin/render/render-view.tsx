@@ -36,7 +36,7 @@ const View = (props: Props) => {
     const renderTag = (tagProps: ViewProps) => {
         if (isShow(tagProps?.showDependend) && tagProps?.tag) {
             const Tag: any = tagProps?.tag;
-            const theme = tagProps?.themes?.['default'];
+            const theme = tagProps?.themes?.default;
             const style = `${tagProps?.style}${theme?.style}`;
             if (Tag === 'icon') {
                 const icon = renderParams(tagProps?.params);
@@ -74,12 +74,13 @@ const View = (props: Props) => {
     };
 
     return (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
             {isString(configJson?.view)
                 ? renderHtml()
                 : configJson?.view?.map((viewItem: ViewProps) => {
-                    return renderTag(viewItem);
-                })}
+                      return renderTag(viewItem);
+                  })}
         </>
     );
 };

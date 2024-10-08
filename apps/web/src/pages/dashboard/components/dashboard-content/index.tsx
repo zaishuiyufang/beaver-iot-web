@@ -9,7 +9,7 @@ import AddCustomerWidget from '../custom-widget';
 export default () => {
     const { getIntlText } = useI18n();
     const [isShowAddWidget, setIsShowAddWidget] = useState(false);
-    const [swigets, setSwigets] = useState<any[]>([]);
+    const [widgets, setWidgets] = useState<any[]>([]);
     const [plugin, setPlugin] = useState<CustomComponentProps>();
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -51,25 +51,27 @@ export default () => {
                 <Button variant="contained" onClick={handleShowAddWidget}>
                     {getIntlText('dashboard.add_widget')}
                 </Button>
-                <Button variant="contained" onClick={handleShowAddCustomWidget} sx={{ marginLeft: '20px' }}>
+                <Button
+                    variant="contained"
+                    onClick={handleShowAddCustomWidget}
+                    sx={{ marginLeft: '20px' }}
+                >
                     添加自定义组件
                 </Button>
             </div>
-            {
-                !!plugin && <AddWidget plugin={plugin} onCancel={closeAddWidget} onOk={handleOk} />
-            }
-            {
-                !swigets?.length && (
-                    <div className="dashboard-content-empty">
-                        <div className="dashboard-content-empty-title">{getIntlText('dashboard.empty_title')}</div>
-                        <div className="dashboard-content-empty-description">{getIntlText('dashboard.empty_description')}</div>
-                        <PluginList onSelect={handleSelectPlugin} />
+            {!!plugin && <AddWidget plugin={plugin} onCancel={closeAddWidget} onOk={handleOk} />}
+            {!widgets?.length && (
+                <div className="dashboard-content-empty">
+                    <div className="dashboard-content-empty-title">
+                        {getIntlText('dashboard.empty_text')}
                     </div>
-                )
-            }
-            {
-                !!showCustom && <AddCustomerWidget onCancel={closeAddCustomWidget} />
-            }
+                    <div className="dashboard-content-empty-description">
+                        {getIntlText('dashboard.empty_description')}
+                    </div>
+                    <PluginList onSelect={handleSelectPlugin} />
+                </div>
+            )}
+            {!!showCustom && <AddCustomerWidget onCancel={closeAddCustomWidget} />}
             <Popover
                 open={isShowAddWidget}
                 anchorEl={anchorEl}

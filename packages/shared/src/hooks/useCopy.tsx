@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { toast } from '../components';
+import toast from '../components/toast';
 import useI18n from './useI18n';
 import { copyText } from '../utils/clipboard';
 

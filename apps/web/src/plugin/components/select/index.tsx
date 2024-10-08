@@ -26,7 +26,7 @@ const Select = (props: SelectProps) => {
         const loopItem = (item: OptionsProps): any => {
             if (item.options?.length) {
                 list.push({ label: item.label });
-                item.options.map((subItem: OptionsProps) => {
+                item.options.forEach((subItem: OptionsProps) => {
                     loopItem(subItem);
                 });
             } else {

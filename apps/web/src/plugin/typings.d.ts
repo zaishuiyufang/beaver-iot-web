@@ -129,7 +129,7 @@ declare interface ViewProps {
      */
     children?: ViewProps[];
     /**
-     *  通用类名 
+     *  通用类名
      */
     class?: string;
     /**

@@ -1,1 +1,1 @@
-export default ['trigger', 'demandAnalysis'];
+export default ['trigger', 'demand-analysis'];

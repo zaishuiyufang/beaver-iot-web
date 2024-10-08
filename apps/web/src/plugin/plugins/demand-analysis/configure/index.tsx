@@ -11,9 +11,9 @@ const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {
 
     const handleSubmit = (data: any) => {
         onOk(data);
-    }
+    };
 
-    return <RenderConfig config={config} onOk={handleSubmit} ref={ref} />
-})
+    return <RenderConfig config={config} onOk={handleSubmit} ref={ref} />;
+});
 
 export default Plugin;

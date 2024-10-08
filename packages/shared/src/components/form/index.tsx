@@ -1,4 +1,4 @@
-import { Fragment, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
+import { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import { useForm, Controller, FieldValues, type SubmitHandler } from 'react-hook-form';
 import { isEqual } from 'lodash-es';
 import useFormItems from './useForm';
@@ -32,24 +32,20 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
 
     /** 暴露给父组件的方法 */
     useImperativeHandle(ref, () => ({
-        handleSubmit: handleSubmit(onSubmit)
+        handleSubmit: handleSubmit(onSubmit),
     }));
 
-
     return (
-        <Fragment>
-            {
-                forms?.map(item => {
-                    return < Controller<T> key={item.name} {...item} control={control} />
-                })
-            }
-        </Fragment>
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        <>
+            {forms?.map(item => {
+                return <Controller<T> key={item.name} {...item} control={control} />;
+            })}
+        </>
     );
 };
 
-export const ForwardForms = forwardRef(Forms) as unknown as <
-    T extends FieldValues,
->(
+export const ForwardForms = forwardRef(Forms) as unknown as <T extends FieldValues>(
     props: React.PropsWithChildren<formProps<T>> & {
         ref?: React.ForwardedRef<formProps<T>>;
     },

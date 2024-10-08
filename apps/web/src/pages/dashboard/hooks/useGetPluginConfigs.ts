@@ -10,7 +10,7 @@ export default () => {
     const loopComponents = async (comName: string) => {
         const jsonPath = `${PLUGINDIR}/plugins/${comName}/config.json`;
         const jsonData = await import(jsonPath);
-        let icon = undefined;
+        let icon = null;
         if (jsonData?.icon) {
             const iconSrc = `${PLUGINDIR}/plugins/${comName}/icon.png`;
             icon = await import(iconSrc);
@@ -19,19 +19,16 @@ export default () => {
         if (isExit) {
             return;
         }
-        setPluginsConfigs([
-            ...pluginRef.current,
-            { ...jsonData?.default, iconSrc: icon }
-        ]);
+        setPluginsConfigs([...pluginRef.current, { ...jsonData?.default, iconSrc: icon }]);
         pluginRef.current.push(jsonData.default);
-    }
+    };
 
     const getPluginConfig = () => {
         components?.forEach(async (comName: any, index: number) => {
             if (index <= components.length - 1) {
                 await loopComponents(comName);
             }
-        })
+        });
     };
 
     useEffect(() => {
@@ -39,8 +36,6 @@ export default () => {
     }, []);
 
     return {
-        pluginsConfigs
-    }
-}
-
-
+        pluginsConfigs,
+    };
+};
