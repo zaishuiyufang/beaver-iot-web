@@ -37,5 +37,12 @@
         .@{mui-prefix}DataGrid-virtualScroller--hasScrollX .@{mui-prefix}DataGrid-columnHeader--last .@{mui-prefix}DataGrid-columnSeparator {
             opacity: 1;
         }
+
+        .@{prefix}-tooltip {
+            > span {
+                display: block;
+                .ellipsis();
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@ const Tooltip: React.FC<Props> = ({ autoEllipsis, className, title, children, ..
 
     return (
         <div className={cls('ms-tooltip', className)} ref={wrapRef}>
-            <MTooltip title={innerTitle} {...props}>
+            <MTooltip placement="top" title={innerTitle} {...props}>
                 {children}
             </MTooltip>
             {autoEllipsis && !contWidth && (
