@@ -9,11 +9,11 @@ interface ConfigPluginProps {
 const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {
     const { onOk } = props;
 
-    const handleSumbit = (data: any) => {
+    const handleSubmit = (data: any) => {
         onOk(data);
     }
 
-    return <RenderConfig config={config} onOk={handleSumbit} ref={ref} />
+    return <RenderConfig config={config} onOk={handleSubmit} ref={ref} />
 })
 
 export default Plugin;

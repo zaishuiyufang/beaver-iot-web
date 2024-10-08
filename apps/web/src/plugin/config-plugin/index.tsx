@@ -31,7 +31,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         formRef.current?.handleSubmit();
     };
 
-    const handleSumbit = (data: any) => {
+    const handleSubmit = (data: any) => {
         onOk(data);
     };
 
@@ -57,7 +57,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                         ComponentConfig ? (
                             <ComponentConfig config={config} onChange={handleChange} />
                         ) : (
-                            <RenderConfig config={config} onOk={handleSumbit} ref={formRef} onChange={handleChange} />
+                            <RenderConfig config={config} onOk={handleSubmit} ref={formRef} onChange={handleChange} />
                         )
                     }
                 </div>
