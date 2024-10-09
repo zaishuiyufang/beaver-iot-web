@@ -13,6 +13,16 @@
 
     &-right {
         flex: 1;
-        padding: @padding-xl;
+        padding: 0 @padding-xl @padding-xl;
+    }
+
+    .@{prefix}-tabs  {
+        .@{mui-prefix}Tabs-flexContainer {
+            padding: 0;
+        }
+    }
+
+    .@{prefix}-view-mode-text-textarea {
+        min-height: 300px;
     }
 }

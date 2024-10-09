@@ -39,7 +39,8 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
     const renderMulForm = (index: number) => {
         const list =
             forms.filter(
-                (item, i) => item.multiple && i >= index && i < index + item.multipleIndex + 1,
+                (item, i) =>
+                    item.multiple && i >= index && i < index + (item?.multipleIndex || 0) + 1,
             ) || [];
         if (!list?.length) {
             return null;

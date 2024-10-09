@@ -60,11 +60,11 @@ export default () => {
             ...tabs,
             {
                 name: data.name,
-                id: new Date().getTime().toString()
-            }
-        ])
+                id: new Date().getTime().toString(),
+            },
+        ]);
     };
-    
+
     return (
         <div className="ms-main dashboard" ref={containerRef}>
             {!isFullscreen ? (
@@ -96,7 +96,9 @@ export default () => {
                     })}
                 </div>
             </div>
-            {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} data={{ name: '111' }} />}
+            {showAdd && (
+                <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} data={{ name: '111' }} />
+            )}
         </div>
     );
 };

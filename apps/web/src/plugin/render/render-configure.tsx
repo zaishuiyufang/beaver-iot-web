@@ -17,10 +17,14 @@ export interface IPlugin {
      * 表单数据变更回调
      */
     onChange?: (data: any) => void;
+    /**
+     * 传入的表单值
+     */
+    value?: any;
 }
 
 const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
-    const { config, onOk, onChange } = props;
+    const { config, onOk, onChange, value: defaultValue } = props;
     const currentTheme = 'default';
 
     const getFormItems = useMemo(() => {
@@ -52,9 +56,12 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                         title: item?.title,
                         style: configStyle ? parseStyleString(configStyle) : {},
                         render: (data: any) => {
-                            const value = data?.field?.value;
+                            let value = data?.field?.value;
                             const onChange = data?.field?.onChange;
                             const error = data?.fieldState?.error;
+                            if (value === undefined && defaultValue) {
+                                value = defaultValue[component.key] || value;
+                            }
                             return (
                                 <Component
                                     {...restItem}

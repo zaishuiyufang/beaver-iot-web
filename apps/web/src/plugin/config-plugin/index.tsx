@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
-import { Modal } from '@milesight/shared/src/components';
+import { Tabs, Tab } from '@mui/material';
+import { Modal, JsonView } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
+import { TabPanel } from '@/components';
 import { RenderConfig, RenderView } from '../render';
 import plugins from '../plugins';
 import './style.less';
@@ -18,13 +20,20 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
     const ComponentView = (plugins as any)[`${config.type}View`];
     const formRef = useRef<any>();
     const [formValues, setFormValues] = useState<any>({});
+    const [tabKey, setTabKey] = useState<string>('basic');
 
     const handleClose = () => {
         onClose();
     };
 
     const handleChange = (values: any) => {
-        setFormValues(values);
+        const curFormValues = { ...formValues };
+        Object.keys(values).forEach((key: string) => {
+            if (values[key] !== undefined) {
+                curFormValues[key] = values[key];
+            }
+        });
+        setFormValues(curFormValues);
     };
 
     const handleOk = () => {
@@ -35,6 +44,10 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         onOk(data);
     };
 
+    // 切换tab页签
+    const handleChangeTabs = (_event: React.SyntheticEvent, newValue: string) => {
+        setTabKey(newValue);
+    };
     return (
         <Modal
             onCancel={handleClose}
@@ -51,16 +64,44 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                     )}
                 </div>
                 <div className="config-plugin-container-right">
-                    {ComponentConfig ? (
-                        <ComponentConfig config={config} onChange={handleChange} />
-                    ) : (
-                        <RenderConfig
-                            config={config}
-                            onOk={handleSubmit}
-                            ref={formRef}
-                            onChange={handleChange}
+                    <Tabs className="ms-tabs" value={tabKey} onChange={handleChangeTabs}>
+                        <Tab
+                            disableRipple
+                            title={getIntlText('common.plugin_config.basic_setting')}
+                            label={getIntlText('common.plugin_config.basic_setting')}
+                            value="basic"
                         />
-                    )}
+                        <Tab
+                            disableRipple
+                            title={getIntlText('common.plugin_config.advanced_setting')}
+                            label={getIntlText('common.plugin_config.advanced_setting')}
+                            value="advanced"
+                        />
+                    </Tabs>
+                    <div className="ms-tab-content">
+                        <TabPanel value={tabKey} index="basic">
+                            {ComponentConfig ? (
+                                <ComponentConfig
+                                    config={config}
+                                    onChange={handleChange}
+                                    value={formValues}
+                                    ref={formRef}
+                                    onOk={handleSubmit}
+                                />
+                            ) : (
+                                <RenderConfig
+                                    config={config}
+                                    onOk={handleSubmit}
+                                    ref={formRef}
+                                    onChange={handleChange}
+                                    value={formValues}
+                                />
+                            )}
+                        </TabPanel>
+                        <TabPanel value={tabKey} index="advanced">
+                            <JsonView value={formValues} maintainEditStatus />
+                        </TabPanel>
+                    </div>
                 </div>
             </div>
         </Modal>
