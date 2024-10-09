@@ -25,7 +25,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
 
     const getFormItems = useMemo(() => {
         const formItems: FormItemsType[] = [];
-        config.configProps?.map((item: any) => {
+        config.configProps?.forEach((item: any) => {
             const { style: configStyle, components } = item;
             const themeStyle = item?.theme?.[currentTheme].style
                 ? parseStyleString(item?.theme?.[currentTheme].style)
@@ -33,7 +33,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
             const className = item?.theme?.[currentTheme]?.class
                 ? item?.theme?.[currentTheme]?.class
                 : undefined;
-            return components?.forEach((component: ComponentProps) => {
+            components?.forEach((component: ComponentProps, index: number) => {
                 const AllComponent: any = { ...Milesight, ...MUI };
                 if (AllComponent[component.type]) {
                     const Component = AllComponent[component.type];
@@ -47,6 +47,9 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                         rules: {
                             required: false,
                         },
+                        multiple: components?.length > 1 ? components?.length : 0,
+                        multipleIndex: index,
+                        style: configStyle ? parseStyleString(configStyle) : {},
                         render: (data: any) => {
                             const value = data?.field?.value;
                             const onChange = data?.field?.onChange;
@@ -60,8 +63,11 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                                     value={value || ''}
                                     onChange={onChange}
                                     key={component.type}
-                                    sx={{ ...commonStyle, ...themeStyle }}
-                                    style={configStyle ? parseStyleString(configStyle) : {}}
+                                    sx={{
+                                        ...commonStyle,
+                                        ...themeStyle,
+                                    }}
+                                    style={style ? parseStyleString(style) : {}}
                                     className={className}
                                 />
                             );

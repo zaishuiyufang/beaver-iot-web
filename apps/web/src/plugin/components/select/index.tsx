@@ -47,11 +47,11 @@ const Select = (props: SelectProps) => {
     return (
         <FormControl sx={{ m: 1, ...style }}>
             {!!title && (
-                <InputLabel size={rest?.size as any} id="select-lable">
+                <InputLabel size={rest?.size as any} id="select-label">
                     {title}
                 </InputLabel>
             )}
-            <MuiSelect {...rest} label={title} labelId="select-lable">
+            <MuiSelect {...rest} label={title} labelId="select-label">
                 {renderOptions
                     ? renderOptions()
                     : getMenuItems?.map((item: OptionsProps) => {

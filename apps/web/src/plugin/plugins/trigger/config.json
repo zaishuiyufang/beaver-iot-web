@@ -93,6 +93,7 @@
             ]
         },
         {
+            "style": "display: flex;",
             "theme": {
                 "default": {
                     "class": "first-component-icon-select"
@@ -103,7 +104,7 @@
                     "type": "iconSelect",
                     "title": "Icon",
                     "key": "icon",
-                    "style": "min-width: 120px",
+                    "style": "flex: 1;",
                     "componentProps": {
                         "size": "small"
                     }
@@ -112,6 +113,7 @@
                     "type": "iconColorSelect",
                     "title": "Color",
                     "key": "iconColor",
+                    "style": "flex: 1;",
                     "componentProps": {
                         "size": "small"
                     }
@@ -130,7 +132,7 @@
             "children": [
                 {
                     "tag": "icon",
-                    "showDependend": {
+                    "showDepended": {
                         "showIcon": true,
                         "icon": true
                     },
@@ -140,7 +142,7 @@
                 },
                 {
                     "tag": "div",
-                    "showDependend": {
+                    "showDepended": {
                         "showTitle": true
                     },
                     "params": [

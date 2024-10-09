@@ -35,10 +35,30 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
         handleSubmit: handleSubmit(onSubmit),
     }));
 
+    const renderMulForm = (index: number) => {
+        const list =
+            forms.filter(
+                (item, i) => item.multiple && i >= index && i < index + item.multipleIndex + 1,
+            ) || [];
+        if (!list?.length) {
+            return null;
+        }
+        return (
+            <div style={list[0].style as any}>
+                {list.map((item: FormItemsProps) => {
+                    return <Controller<T> key={item.name} {...item} control={control} />;
+                })}
+            </div>
+        );
+    };
+
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
-            {forms?.map(item => {
+            {forms?.map((item: FormItemsProps, index: number) => {
+                if (item.multiple) {
+                    return item.multipleIndex === 0 ? renderMulForm(index) : null;
+                }
                 return <Controller<T> key={item.name} {...item} control={control} />;
             })}
         </>

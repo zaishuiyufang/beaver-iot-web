@@ -123,7 +123,7 @@ declare interface ViewProps {
     /**
      * html标签显示依赖
      */
-    showDependend?: Record<string, any>;
+    showDepended?: Record<string, any>;
     /**
      * html子节点
      */

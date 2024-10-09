@@ -31,11 +31,7 @@ export default ({ onCancel }: CustomWidgetProps) => {
     };
 
     return (
-        <Modal
-            onCancel={handleClose}
-            onOk={() => { }}
-            title="添加自定义组件"
-        >
+        <Modal onCancel={handleClose} onOk={() => {}} title="添加自定义组件">
             <div className="dashboard-content">
                 <TextField
                     id="outlined-multiline-static"
@@ -43,15 +39,17 @@ export default ({ onCancel }: CustomWidgetProps) => {
                     multiline
                     rows={10}
                     value={json}
-                    onChange={(e) => setJson(e.target.value)}
+                    onChange={e => setJson(e.target.value)}
                     fullWidth
                 />
-                <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>生成组件</Button>
+                <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>
+                    生成组件
+                </Button>
 
-                {!!config && <ConfigPlugin onClose={handleCloseConfig} config={config} onOk={() => { }} />}
+                {!!config && (
+                    <ConfigPlugin onClose={handleCloseConfig} config={config} onOk={() => {}} />
+                )}
             </div>
         </Modal>
     );
 };
-
-

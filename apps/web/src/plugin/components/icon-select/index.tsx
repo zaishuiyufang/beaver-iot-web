@@ -1,4 +1,5 @@
 import Select from '../select';
+import iconColorSelect from '../icon-color-select';
 
 type Props = {
     /**
@@ -10,11 +11,7 @@ type Props = {
 const iconSelect = (props: any) => {
     const { title, ...rest } = props;
 
-    return (
-        <div>
-            <Select {...rest} />
-        </div>
-    );
+    return <Select {...rest} />;
 };
 
 export default iconSelect;

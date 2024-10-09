@@ -34,7 +34,7 @@ const View = (props: Props) => {
 
     // 渲染标签
     const renderTag = (tagProps: ViewProps) => {
-        if (isShow(tagProps?.showDependend) && tagProps?.tag) {
+        if (isShow(tagProps?.showDepended) && tagProps?.tag) {
             const Tag: any = tagProps?.tag;
             const theme = tagProps?.themes?.default;
             const style = `${tagProps?.style}${theme?.style}`;
