@@ -183,7 +183,11 @@ export const getMuiSchemes = () => {
                 primary: grey[800],
                 secondary: grey[600],
                 tertiary: grey[500],
-                disabled: grey[300],
+                quaternary: grey[300],
+                disabled: grey[200],
+            },
+            action: {
+                disabled: grey[200],
             },
             Tooltip: {
                 bg: grey[800],
@@ -229,7 +233,9 @@ export const getMuiSchemes = () => {
             text: {
                 primary: grey[800],
                 secondary: grey[600],
-                disabled: grey[300],
+                tertiary: grey[500],
+                quaternary: grey[300],
+                disabled: grey[200],
             },
             Tooltip: {
                 bg: grey[800],
@@ -268,6 +274,12 @@ export const getMuiComponents = (mode: PaletteMode = 'light') => {
                 sx: { my: 1.5 },
             },
         },
+        MuiInput: {
+            defaultProps: {
+                size: 'small',
+                margin: 'dense',
+            },
+        },
         MuiTab: {
             defaultProps: {
                 disableRipple: true,
@@ -297,11 +309,6 @@ export const getMuiComponents = (mode: PaletteMode = 'light') => {
         MuiCheckbox: {
             defaultProps: {
                 size: 'small',
-            },
-            styleOverrides: {
-                root: {
-                    color: grey[300],
-                },
             },
         },
     };

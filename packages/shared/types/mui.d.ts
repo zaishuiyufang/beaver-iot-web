@@ -6,9 +6,9 @@ declare module '@mui/material/styles' {
     }
 }
 
-// declare module '@mui/material/Checkbox' {
-//     interface CheckboxPropsColorOverrides {
-//         tertiary: true;
-//         quaternary: true;
-//     }
-// }
+declare module '@mui/material/Checkbox' {
+    interface CheckboxPropsColorOverrides {
+        tertiary: true;
+        quaternary: true;
+    }
+}

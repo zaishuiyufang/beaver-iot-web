@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { isUndefined } from 'lodash-es';
 import { OutlinedInput, InputAdornment } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import {
@@ -53,27 +54,36 @@ const TablePro = <DataType extends GridValidRowModel>({
     ...props
 }: Props<DataType>) => {
     const memoColumns = useMemo(() => {
-        const result = columns.map(column => {
-            if (column.ellipsis && !column.renderCell) {
-                return {
-                    ...column,
-                    // @ts-ignore
-                    renderCell: ({ value }) => (
-                        <Tooltip
-                            autoEllipsis
-                            title={value}
-                            slotProps={{
-                                popper: {
-                                    modifiers: [{ name: 'offset', options: { offset: [0, -15] } }],
-                                },
-                            }}
-                        >
-                            <span>{value}</span>
-                        </Tooltip>
-                    ),
-                };
+        const result = columns.map((column, index) => {
+            const col = { ...column };
+
+            col.sortable = isUndefined(col.sortable) ? false : col.sortable;
+            col.disableColumnMenu = isUndefined(col.disableColumnMenu)
+                ? true
+                : column.disableColumnMenu;
+
+            if (columns.length === index + 1) {
+                col.align = isUndefined(col.align) ? 'left' : col.align;
+                col.headerAlign = isUndefined(col.headerAlign) ? 'right' : col.headerAlign;
+                col.resizable = isUndefined(col.resizable) ? false : col.resizable;
             }
-            return column;
+
+            if (col.ellipsis && !col.renderCell) {
+                col.renderCell = ({ value }) => (
+                    <Tooltip
+                        autoEllipsis
+                        title={value}
+                        slotProps={{
+                            popper: {
+                                modifiers: [{ name: 'offset', options: { offset: [0, -20] } }],
+                            },
+                        }}
+                    >
+                        <span>{value}</span>
+                    </Tooltip>
+                );
+            }
+            return col;
         });
 
         return result as readonly GridColDef<DataType>[];
@@ -123,6 +133,12 @@ const TablePro = <DataType extends GridValidRowModel>({
                         footer: {
                             // @ts-ignore
                             onRefreshButtonClick,
+                        },
+                        baseCheckbox: {
+                            // disabled: true,
+                            onDoubleClick(e) {
+                                e.stopPropagation();
+                            },
                         },
                         ...slotProps,
                     }}

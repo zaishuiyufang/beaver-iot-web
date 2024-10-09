@@ -12,3 +12,17 @@
         text-transform: none;
     }
 }
+
+// ---------- DataGrid ----------
+.@{mui-prefix}DataGrid-columnHeader .@{mui-prefix}Checkbox-root,
+.@{mui-prefix}DataGrid-cellCheckbox .@{mui-prefix}Checkbox-root {
+    &:not(.@{mui-prefix}-checked):not(.@{mui-prefix}-disabled) {
+        color: var(--text-color-tertiary);
+    }
+}
+
+.@{mui-prefix}DataGrid-filterForm {
+    .@{mui-prefix}FormControl-root > .@{mui-prefix}FormControl-root {
+        margin: 0;
+    }
+}
