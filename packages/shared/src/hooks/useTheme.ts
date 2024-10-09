@@ -12,7 +12,7 @@ export default () => {
     const currentMode = theme.getCurrentTheme();
 
     const components = useMemo(() => {
-        const themeType = mode === 'system' ? theme.DEFAULT_THEME_MODE : mode;
+        const themeType = mode === 'system' ? theme.SYSTEM_THEME_MODE : mode;
         const result = theme.getMuiComponents(themeType);
 
         return result;
@@ -38,5 +38,29 @@ export default () => {
 
         /** 切换主题 */
         setTheme: setMode,
+
+        /** 主题色 - 白 */
+        white: theme.white,
+
+        /** 主题色 - 黑 */
+        black: theme.black,
+
+        /** 主题色 - 蓝 */
+        blue: theme.blue,
+
+        /** 主题色 - 绿 */
+        green: theme.green,
+
+        /** 主题色 - 黄 */
+        yellow: theme.yellow,
+
+        /** 主题色 - 橙 */
+        deepOrange: theme.deepOrange,
+
+        /** 主题色 - 红 */
+        red: theme.red,
+
+        /** 主题色 - 灰 */
+        grey: theme.grey,
     };
 };
