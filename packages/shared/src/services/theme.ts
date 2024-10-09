@@ -31,7 +31,7 @@ export const blue = {
     700: '#3491FA',
     800: '#226FD4',
     900: '#1351AD',
-};
+} as const;
 
 /** 主题色 - 绿 */
 export const green = {
@@ -44,7 +44,7 @@ export const green = {
     700: '#1EBA62',
     800: '#10944E',
     900: '#076E3A',
-};
+} as const;
 
 /** 主题色 - 黄 */
 export const yellow = {
@@ -57,7 +57,7 @@ export const yellow = {
     700: '#F7BA1E',
     800: '#D1940F',
     900: '#AB7003',
-};
+} as const;
 
 /** 主题色 - 红 */
 export const red = {
@@ -70,7 +70,7 @@ export const red = {
     700: '#F13535',
     800: '#CC2328',
     900: '#A6141E',
-};
+} as const;
 
 /** 主题色 - 深橙 */
 export const deepOrange = {
@@ -83,7 +83,7 @@ export const deepOrange = {
     700: '#F77234',
     800: '#D15321',
     900: '#AB3813',
-};
+} as const;
 
 /** 主题色 - 灰 */
 export const grey = {
@@ -98,7 +98,7 @@ export const grey = {
     700: '#4E5969',
     800: '#272E3B',
     900: '#1D2129',
-};
+} as const;
 
 /**
  * 判断浏览器当前是否为黑暗模式
@@ -179,6 +179,12 @@ export const getMuiSchemes = () => {
             background: {
                 default: grey[50],
             },
+            text: {
+                primary: grey[800],
+                secondary: grey[600],
+                tertiary: grey[500],
+                disabled: grey[300],
+            },
             Tooltip: {
                 bg: grey[800],
             },
@@ -221,6 +227,8 @@ export const getMuiSchemes = () => {
                 default: black,
             },
             text: {
+                primary: grey[800],
+                secondary: grey[600],
                 disabled: grey[300],
             },
             Tooltip: {
@@ -270,6 +278,11 @@ export const getMuiComponents = (mode: PaletteMode = 'light') => {
                 arrow: true,
                 placement: 'top',
             },
+            styleOverrides: {
+                tooltip: {
+                    fontSize: '12px',
+                },
+            },
         },
         MuiSvgIcon: {
             defaultProps: {
@@ -279,6 +292,16 @@ export const getMuiComponents = (mode: PaletteMode = 'light') => {
         MuiIconButton: {
             defaultProps: {
                 size: 'small',
+            },
+        },
+        MuiCheckbox: {
+            defaultProps: {
+                size: 'small',
+            },
+            styleOverrides: {
+                root: {
+                    color: grey[300],
+                },
             },
         },
     };
