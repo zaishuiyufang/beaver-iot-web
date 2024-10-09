@@ -7,12 +7,15 @@ import {
 type SwitchProps = MuiSwitchProps;
 
 const Switch = (props: SwitchProps) => {
-    const { title, ...rest } = props;
+    const { title, className, ...rest } = props;
 
     return (
-        <div>
-            <FormControlLabel control={<MuiSwitch {...rest} />} label={title} />
-        </div>
+        <FormControlLabel
+            className={className}
+            sx={{ width: '100%' }}
+            control={<MuiSwitch {...rest} />}
+            label={title}
+        />
     );
 };
 

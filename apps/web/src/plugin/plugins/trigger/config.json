@@ -93,6 +93,7 @@
             ]
         },
         {
+            "title": "Appearance of status",
             "style": "display: flex;",
             "theme": {
                 "default": {
@@ -102,7 +103,6 @@
             "components": [
                 {
                     "type": "iconSelect",
-                    "title": "Icon",
                     "key": "icon",
                     "style": "flex: 1;",
                     "componentProps": {
@@ -111,7 +111,6 @@
                 },
                 {
                     "type": "iconColorSelect",
-                    "title": "Color",
                     "key": "iconColor",
                     "style": "flex: 1;",
                     "componentProps": {

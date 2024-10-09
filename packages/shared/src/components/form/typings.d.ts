@@ -32,6 +32,7 @@ declare interface FormItemsProps {
     multiple?: number;
     multipleIndex?: number;
     style?: string;
+    title?: string;
 }
 
 declare type UseFormItemsType = Omit<FormItemsProps, 'render'>;

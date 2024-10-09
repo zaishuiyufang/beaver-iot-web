@@ -2,6 +2,7 @@ import { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import { useForm, Controller, FieldValues, type SubmitHandler } from 'react-hook-form';
 import { isEqual } from 'lodash-es';
 import useFormItems from './useForm';
+import './style.less';
 
 interface formProps<T extends FieldValues> {
     formItems: UseFormItemsProps[];
@@ -44,7 +45,8 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
             return null;
         }
         return (
-            <div style={list[0].style as any}>
+            <div style={list[0].style as any} className="form-box">
+                {list[0]?.title ? <div className="form-box-label">{list[0]?.title}</div> : null}
                 {list.map((item: FormItemsProps) => {
                     return <Controller<T> key={item.name} {...item} control={control} />;
                 })}

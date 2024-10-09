@@ -49,6 +49,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                         },
                         multiple: components?.length > 1 ? components?.length : 0,
                         multipleIndex: index,
+                        title: item?.title,
                         style: configStyle ? parseStyleString(configStyle) : {},
                         render: (data: any) => {
                             const value = data?.field?.value;
@@ -68,7 +69,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                                         ...themeStyle,
                                     }}
                                     style={style ? parseStyleString(style) : {}}
-                                    className={className}
+                                    className={`${className} ${components?.length === 1 ? 'form-item' : ''}`}
                                 />
                             );
                         },
