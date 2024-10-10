@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { OutlinedInput, InputAdornment } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import {
@@ -7,10 +7,20 @@ import {
     type GridValidRowModel,
     type GridColDef,
 } from '@mui/x-data-grid';
+import Tooltip from '../tooltip';
 import { Footer, NoDataOverlay, NoResultsOverlay } from './components';
 import './style.less';
 
+export type ColumnType<R extends GridValidRowModel = any, V = any, F = V> = GridColDef<R, V, F> & {
+    /**
+     * 文案是否自动省略（仅当列配置中无自定义 `renderCell` 时生效）
+     */
+    ellipsis?: boolean;
+};
+
 interface Props<T extends GridValidRowModel> extends DataGridProps<T> {
+    columns: ColumnType<T>[];
+
     /**
      * 工具栏插槽（左侧自定义渲染 Node）
      */
@@ -33,6 +43,7 @@ const DEFAULT_PAGINATION_MODEL = { page: 0, pageSize: DEFAULT_PAGE_SIZE_OPTIONS[
  * 数据表格组件
  */
 const TablePro = <DataType extends GridValidRowModel>({
+    columns,
     initialState,
     slots,
     slotProps,
@@ -41,6 +52,33 @@ const TablePro = <DataType extends GridValidRowModel>({
     onRefreshButtonClick,
     ...props
 }: Props<DataType>) => {
+    const memoColumns = useMemo(() => {
+        const result = columns.map(column => {
+            if (column.ellipsis && !column.renderCell) {
+                return {
+                    ...column,
+                    // @ts-ignore
+                    renderCell: ({ value }) => (
+                        <Tooltip
+                            autoEllipsis
+                            title={value}
+                            slotProps={{
+                                popper: {
+                                    modifiers: [{ name: 'offset', options: { offset: [0, -15] } }],
+                                },
+                            }}
+                        >
+                            <span>{value}</span>
+                        </Tooltip>
+                    ),
+                };
+            }
+            return column;
+        });
+
+        return result as readonly GridColDef<DataType>[];
+    }, [columns]);
+
     return (
         <div className="ms-table-pro">
             {!!(toolbarRender || onSearch) && (
@@ -70,6 +108,7 @@ const TablePro = <DataType extends GridValidRowModel>({
                     columnHeaderHeight={44}
                     paginationMode="server"
                     pageSizeOptions={DEFAULT_PAGE_SIZE_OPTIONS}
+                    columns={memoColumns}
                     initialState={{
                         pagination: { paginationModel: DEFAULT_PAGINATION_MODEL },
                         ...initialState,
@@ -94,5 +133,5 @@ const TablePro = <DataType extends GridValidRowModel>({
     );
 };
 
-export type { GridColDef as ColumnType };
+// export type { GridColDef as ColumnType };
 export default TablePro;
