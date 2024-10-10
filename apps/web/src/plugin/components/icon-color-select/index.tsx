@@ -4,7 +4,7 @@ import { SketchPicker } from 'react-color';
 import Select from '../select';
 import './style.less';
 
-const iconColorSelect = (props: any) => {
+const IconColorSelect = (props: any) => {
     const { value, onChange, ...rest } = props;
     const [open, setOpen] = useState(false);
 
@@ -45,4 +45,4 @@ const iconColorSelect = (props: any) => {
     );
 };
 
-export default iconColorSelect;
+export default IconColorSelect;
