@@ -4,9 +4,9 @@
     "license": "MIT",
     "description": "Milesight IoT Assistant",
     "scripts": {
-        "dev": "pnpm --filter=@app/* -r run dev",
+        "dev:apps": "pnpm --filter=@app/* -r run dev",
         "dev:pkgs": "pnpm --filter=@milesight/* -r run watch",
-        "start": "pnpm run /^dev.*/",
+        "start": "pnpm run /^dev:.*/",
         "build:web": "pnpm --filter=@app/web -r run build",
         "build:pkgs": "pnpm --filter=@milesight/* -r run build",
         "i18n:import": "pnpm --filter=@milesight/locales run import",
