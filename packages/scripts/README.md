@@ -1,3 +1,3 @@
-# @yeastar/builder (WIP)
+# @milesight/scripts
 
-这是 IOT Apps 构建工具库，内置了常用的函数，可以快速获取并自定义 Vite 基础配置。
+公共脚本库，用于开发时的辅助。
