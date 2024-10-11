@@ -3,7 +3,6 @@ import { useDrop } from 'react-dnd';
 import { DraggableResizable } from '@milesight/shared/src/components';
 import plugins from '@/plugin/plugins';
 import { RenderView } from '@/plugin/render';
-import 'react-resizable/css/styles.css';
 
 interface WidgetProps {
     parentRef: any;
