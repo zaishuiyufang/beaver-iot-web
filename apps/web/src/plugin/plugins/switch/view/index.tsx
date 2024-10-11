@@ -1,6 +1,7 @@
 import { useMemo, useState, useCallback } from 'react';
 import { WifiRounded as WifiRoundedIcon } from '@mui/icons-material';
 
+import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
 
 import styles from './style.module.less';
@@ -20,8 +21,7 @@ const View = (props: ViewProps) => {
     const { config } = props;
     const { entity, switchText, onIconColor, offIconColor } = config;
 
-    console.log('ViewProps ? ', props);
-
+    const { getIntlText } = useI18n();
     const [isSwitchOn, setIsSwitchOn] = useState(false);
 
     const handleSwitchChange = useCallback(
@@ -42,8 +42,10 @@ const View = (props: ViewProps) => {
      * switch title
      */
     const switchTitle = useMemo(() => {
-        return isSwitchOn ? 'On' : 'Off';
-    }, [isSwitchOn]);
+        return isSwitchOn
+            ? getIntlText('dashboard.switch_title_on')
+            : getIntlText('dashboard.switch_title_off');
+    }, [isSwitchOn, getIntlText]);
 
     return (
         <div className={styles['switch-wrapper']}>
@@ -51,7 +53,7 @@ const View = (props: ViewProps) => {
                 <div className={styles.body}>
                     <Switch value={isSwitchOn} title={switchTitle} onChange={handleSwitchChange} />
                 </div>
-                <div className={styles.text}>{switchText || `Switch-${entity || '1'}`}</div>
+                <div className={styles.text}>{switchText || `UG65 WIFI ${entity || ''}`}</div>
             </div>
             <div className={styles.icon}>
                 <WifiRoundedIcon sx={{ color: iconColor || '#9B9B9B', fontSize: 56 }} />

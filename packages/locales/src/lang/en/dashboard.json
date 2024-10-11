@@ -8,5 +8,7 @@
     "dashboard.plugin_class_data_chart": "Data Charts",
     "dashboard.plugin_class_operate": "Operable Widgets",
     "dashboard.plugin_class_data_card": "Data Card",
-    "dashboard.plugin_class_other": "Other"
+    "dashboard.plugin_class_other": "Other",
+    "dashboard.switch_title_on": "On",
+    "dashboard.switch_title_off": "Off"
 }
