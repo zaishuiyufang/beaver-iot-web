@@ -1,8 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback } from 'react';
 import { useDrop } from 'react-dnd';
-import { DraggableResizable } from '@milesight/shared/src/components';
-import plugins from '@/plugin/plugins';
-import { RenderView } from '@/plugin/render';
+import Widget from './widget';
 
 interface WidgetProps {
     parentRef: any;
@@ -10,16 +8,8 @@ interface WidgetProps {
     widgets: any[];
 }
 
-type posType = {
-    width: number;
-    height: number;
-    left?: number;
-    top?: number;
-};
-
 const Widgets = (props: WidgetProps) => {
-    const { widgets, onChangeWidgets } = props;
-    const posRef = useRef<posType>({ width: 200, height: 200 });
+    const { widgets, onChangeWidgets, parentRef } = props;
 
     const moveBox = useCallback((id: string, left: number, top: number) => {
         const index = widgets.findIndex((item: any) => item.id === id);
@@ -57,21 +47,7 @@ const Widgets = (props: WidgetProps) => {
     return (
         <div ref={drop}>
             {widgets.map((data: any) => {
-                const ComponentView = (plugins as any)[`${data.type}View`];
-                return (
-                    <DraggableResizable
-                        {...data.pos}
-                        onResize={resizeBox}
-                        id={data.id}
-                        key={data.id}
-                    >
-                        {ComponentView ? (
-                            <ComponentView config={data.config} />
-                        ) : (
-                            <RenderView configJson={data} config={data.config} />
-                        )}
-                    </DraggableResizable>
-                );
+                return <Widget data={data} onResizeBox={resizeBox} />;
             })}
         </div>
     );

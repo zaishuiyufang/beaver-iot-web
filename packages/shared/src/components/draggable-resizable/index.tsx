@@ -9,8 +9,9 @@ interface DraggableResizableBoxProps {
     left?: number;
     top?: number;
     id?: string;
-    width: number;
-    height: number;
+    className?: string;
+    width?: number;
+    height?: number;
     children: React.ReactNode;
     onResize: (data: any) => void;
 }
@@ -22,6 +23,7 @@ const DraggableResizableBox = ({
     left,
     top,
     id,
+    className,
     width,
     height,
     children,
@@ -50,8 +52,8 @@ const DraggableResizableBox = ({
 
     return (
         <ResizableBox
-            width={width || 200}
-            height={height || 200}
+            width={width || 10}
+            height={height || 10}
             minConstraints={[50, 50]}
             maxConstraints={[300, 300]}
             onResizeStop={(e: any, data: any) => {
@@ -65,6 +67,7 @@ const DraggableResizableBox = ({
         >
             <div
                 ref={drag}
+                className={className}
                 style={{
                     width: '100%',
                     height: '100%',
