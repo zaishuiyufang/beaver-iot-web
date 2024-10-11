@@ -4,3 +4,4 @@
 /// <reference path="./config.d.ts" />
 /// <reference path="./common.d.ts" />
 /// <reference path="./product.d.ts" />
+/// <reference path="./mui.d.ts" />

@@ -1,60 +1,22 @@
 /**
  * 系统主题相关 Hook
  */
-import { useLayoutEffect } from 'react';
-import { useColorScheme, type CssVarsThemeOptions } from '@mui/material/styles';
+import { useLayoutEffect, useMemo } from 'react';
+import { useColorScheme } from '@mui/material/styles';
 import { theme } from '../services';
+
+const palettes = theme.getMuiSchemes();
 
 export default () => {
     const { mode, setMode } = useColorScheme();
     const currentMode = theme.getCurrentTheme();
 
-    /**
-     * 组件默认属性及样式自定义
-     * https://mui.com/material-ui/customization/theme-components/
-     */
-    const components: CssVarsThemeOptions['components'] = {
-        MuiButtonBase: {
-            defaultProps: {
-                // No more ripple, on the whole application 💣!
-                // disableRipple: true,
-            },
-            // styleOverrides: {},
-        },
-        MuiChip: {
-            defaultProps: {
-                size: 'small',
-            },
-        },
-        MuiTextField: {
-            defaultProps: {
-                size: 'small',
-                margin: 'dense',
-                sx: { my: 1.5 },
-            },
-        },
-        MuiTab: {
-            defaultProps: {
-                disableRipple: true,
-            },
-        },
-        MuiTooltip: {
-            defaultProps: {
-                arrow: true,
-                placement: 'top',
-            },
-        },
-        MuiSvgIcon: {
-            defaultProps: {
-                fontSize: 'small',
-            },
-        },
-        MuiIconButton: {
-            defaultProps: {
-                size: 'small',
-            },
-        },
-    };
+    const components = useMemo(() => {
+        const themeType = mode === 'system' ? theme.SYSTEM_THEME_MODE : mode;
+        const result = theme.getMuiComponents(themeType);
+
+        return result;
+    }, [mode]);
 
     useLayoutEffect(() => {
         if (mode === currentMode) return;
@@ -68,13 +30,37 @@ export default () => {
         /** 主题 CSS 变量选择器 */
         colorSchemeSelector: theme.THEME_COLOR_SCHEMA_SELECTOR,
 
-        /** 组件样式 */
+        /** 各组件主题配置 */
         components,
 
         /** MUI 主题配置 */
-        muiPalettes: theme.getMuiSchemes(),
+        muiPalettes: palettes,
 
         /** 切换主题 */
         setTheme: setMode,
+
+        /** 主题色 - 白 */
+        white: theme.white,
+
+        /** 主题色 - 黑 */
+        black: theme.black,
+
+        /** 主题色 - 蓝 */
+        blue: theme.blue,
+
+        /** 主题色 - 绿 */
+        green: theme.green,
+
+        /** 主题色 - 黄 */
+        yellow: theme.yellow,
+
+        /** 主题色 - 橙 */
+        deepOrange: theme.deepOrange,
+
+        /** 主题色 - 红 */
+        red: theme.red,
+
+        /** 主题色 - 灰 */
+        grey: theme.grey,
     };
 };

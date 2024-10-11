@@ -20,26 +20,19 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 field: 'name',
                 headerName: 'Device Name',
                 width: 150,
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
+                ellipsis: true,
+                disableColumnMenu: false,
             },
             {
                 field: 'createTime',
                 headerName: 'Time',
                 width: 150,
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
+                ellipsis: true,
             },
             {
                 field: 'source',
                 headerName: 'Equipment Source',
-                align: 'left',
-                headerAlign: 'left',
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
+                ellipsis: true,
                 width: 200,
             },
             {
@@ -47,15 +40,9 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 headerName: 'Operation',
                 // flex: 1,
                 minWidth: 100,
-                align: 'right',
-                headerAlign: 'right',
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
-                resizable: false,
                 flex: 1,
                 renderCell({ row }) {
-                    // console.log(cell);
+                    // console.log(row);
                     return (
                         <Stack
                             direction="row"

@@ -3,6 +3,7 @@ import { Grid2 } from '@mui/material';
 import { DevicesOther as DevicesOtherIcon, Share as ShareIcon } from '@mui/icons-material';
 import { Logo } from '@milesight/shared/src/components';
 import { thousandSeparate } from '@milesight/shared/src/utils/tools';
+import { Tooltip } from '@/components';
 import './style.less';
 
 const Integration = () => {
@@ -14,8 +15,16 @@ const Integration = () => {
             <Grid2 size={{ sm: 6, md: 4, xl: 3 }}>
                 <div className="ms-int-card" onClick={() => handleCardClick(1)}>
                     <Logo mini className="logo" />
-                    <div className="title">Milesight Development Platform</div>
-                    <div className="desc">This is an integrated description information.</div>
+                    <Tooltip
+                        autoEllipsis
+                        className="title"
+                        title="Milesight Development Platform"
+                    />
+                    <Tooltip
+                        autoEllipsis
+                        className="desc"
+                        title="This is an integrated description information."
+                    />
                     <div className="meta">
                         <span className="meta-item">
                             <DevicesOtherIcon />
@@ -31,8 +40,16 @@ const Integration = () => {
             <Grid2 size={{ sm: 6, md: 4, xl: 3 }}>
                 <div className="ms-int-card" onClick={() => handleCardClick(2)}>
                     <Logo mini className="logo" />
-                    <div className="title">Milesight Development Platform</div>
-                    <div className="desc">This is an integrated description information.</div>
+                    <Tooltip
+                        autoEllipsis
+                        className="title"
+                        title="Milesight Development Platform"
+                    />
+                    <Tooltip
+                        autoEllipsis
+                        className="desc"
+                        title="This is an integrated description information."
+                    />
                     <div className="meta">
                         <span className="meta-item">
                             <DevicesOtherIcon />
