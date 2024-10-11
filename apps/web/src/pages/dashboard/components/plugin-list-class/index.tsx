@@ -17,7 +17,6 @@ export default (props: PluginListProps) => {
     const [pluginList, setPluginList] = useState<Record<string, any>>();
 
     useEffect(() => {
-        console.log(pluginsConfigs);
         if (pluginsConfigs) {
             const pluginClass: Record<string, any> = COMPONENTCLASS;
             const plugins: Record<string, any> = {};

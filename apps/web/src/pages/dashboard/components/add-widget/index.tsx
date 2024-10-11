@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import ConfigPlugin from '@/plugin/config-plugin';
 
-interface SwigetProps {
+interface WidgetProps {
     plugin: CustomComponentProps;
     onCancel: () => void;
     onOk: (data: any) => void;
 }
 
-export default (props: SwigetProps) => {
+export default (props: WidgetProps) => {
     const { plugin, onCancel, onOk } = props;
     const [config, setConfig] = useState<CustomComponentProps>();
 
@@ -22,7 +22,12 @@ export default (props: SwigetProps) => {
 
     const handleOk = (data: any) => {
         // TODO: 插件配置保存
-        onOk(data);
+        onOk({
+            ...config,
+            id: new Date().getTime(),
+            config: data,
+        });
+        handleClose();
     };
 
     return config ? <ConfigPlugin onClose={handleClose} onOk={handleOk} config={config} /> : null;

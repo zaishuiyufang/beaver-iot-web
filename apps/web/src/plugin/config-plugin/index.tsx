@@ -64,7 +64,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                     )}
                 </div>
                 <div className="config-plugin-container-right">
-                    <Tabs className="ms-tabs" value={tabKey} onChange={handleChangeTabs}>
+                    {/* <Tabs className="ms-tabs" value={tabKey} onChange={handleChangeTabs}>
                         <Tab
                             disableRipple
                             title={getIntlText('common.plugin_config.basic_setting')}
@@ -77,9 +77,9 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                             label={getIntlText('common.plugin_config.advanced_setting')}
                             value="advanced"
                         />
-                    </Tabs>
+                    </Tabs> */}
                     <div className="ms-tab-content">
-                        <TabPanel value={tabKey} index="basic">
+                        {/* <TabPanel value={tabKey} index="basic">
                             {ComponentConfig ? (
                                 <ComponentConfig
                                     config={config}
@@ -100,7 +100,24 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                         </TabPanel>
                         <TabPanel value={tabKey} index="advanced">
                             <JsonView value={formValues} maintainEditStatus />
-                        </TabPanel>
+                        </TabPanel> */}
+                        {ComponentConfig ? (
+                            <ComponentConfig
+                                config={config}
+                                onChange={handleChange}
+                                value={formValues}
+                                ref={formRef}
+                                onOk={handleSubmit}
+                            />
+                        ) : (
+                            <RenderConfig
+                                config={config}
+                                onOk={handleSubmit}
+                                ref={formRef}
+                                onChange={handleChange}
+                                value={formValues}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

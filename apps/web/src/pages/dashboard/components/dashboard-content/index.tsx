@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button, Popover } from '@mui/material';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useI18n } from '@milesight/shared/src/hooks';
 import AddWidget from '../add-widget';
 import PluginList from '../plugin-list';
 import PluginListClass from '../plugin-list-class';
 import AddCustomerWidget from '../custom-widget';
+import Widgets from '../widgets';
 
 export default () => {
     const { getIntlText } = useI18n();
@@ -13,6 +16,7 @@ export default () => {
     const [plugin, setPlugin] = useState<CustomComponentProps>();
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const mainRef = useRef<HTMLDivElement>(null);
 
     const handleShowAddWidget = (event: React.MouseEvent<HTMLButtonElement>) => {
         setIsShowAddWidget(true);
@@ -35,6 +39,7 @@ export default () => {
     const handleOk = (data: any) => {
         // TODO: add widget
         console.log(data);
+        setWidgets([...widgets, data]);
     };
 
     const handleShowAddCustomWidget = () => {
@@ -60,7 +65,7 @@ export default () => {
                 </Button>
             </div>
             {!!plugin && <AddWidget plugin={plugin} onCancel={closeAddWidget} onOk={handleOk} />}
-            {!widgets?.length && (
+            {!widgets?.length ? (
                 <div className="dashboard-content-empty">
                     <div className="dashboard-content-empty-title">
                         {getIntlText('dashboard.empty_text')}
@@ -69,6 +74,16 @@ export default () => {
                         {getIntlText('dashboard.empty_description')}
                     </div>
                     <PluginList onSelect={handleSelectPlugin} />
+                </div>
+            ) : (
+                <div className="dashboard-content-main" ref={mainRef}>
+                    <DndProvider backend={HTML5Backend}>
+                        <Widgets
+                            parentRef={mainRef}
+                            widgets={widgets}
+                            onChangeWidgets={setWidgets}
+                        />
+                    </DndProvider>
                 </div>
             )}
             {!!showCustom && <AddCustomerWidget onCancel={closeAddCustomWidget} />}
