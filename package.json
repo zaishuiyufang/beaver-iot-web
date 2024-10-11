@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "pnpm --filter=@app/* -r run dev",
         "dev:pkgs": "pnpm --filter=@milesight/* -r run watch",
-        "start": "pnpm run dev & pnpm run dev:pkgs",
+        "start": "pnpm run /^dev.*/",
         "build:web": "pnpm --filter=@app/web -r run build",
         "build:pkgs": "pnpm --filter=@milesight/* -r run build",
         "i18n:import": "pnpm --filter=@milesight/locales run import",
