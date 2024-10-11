@@ -126,7 +126,8 @@
             "tag": "div",
             "themes": {
                 "default": {
-                    "class": "trigger-view"
+                    "class": "trigger-view",
+                    "style": "background: #fff"
                 }
             },
             "children": [

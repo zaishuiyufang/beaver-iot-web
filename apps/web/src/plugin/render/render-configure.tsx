@@ -29,6 +29,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
 
     const getFormItems = useMemo(() => {
         const formItems: FormItemsType[] = [];
+        const defaultValues: Record<string, any> = {};
         config.configProps?.forEach((item: any) => {
             const { style: configStyle, components } = item;
             const themeStyle = item?.theme?.[currentTheme].style
@@ -63,7 +64,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                                 value = defaultValue[component.key] || value;
                             }
                             if (value === undefined && component.defaultValue !== undefined) {
-                                value = component.defaultValue;
+                                defaultValues[component.key] = component.defaultValue;
                             }
                             return (
                                 <Component
@@ -87,14 +88,22 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                 }
             });
         });
-        return formItems;
+        return { formItems, defaultValues };
     }, [config]);
 
     const handleSubmit = (values: AddDashboardProps) => {
         onOk(values);
     };
 
-    return <Form ref={ref} formItems={getFormItems} onOk={handleSubmit} onChange={onChange} />;
+    return (
+        <Form
+            ref={ref}
+            formItems={getFormItems.formItems}
+            defaultValues={getFormItems.defaultValues}
+            onOk={handleSubmit}
+            onChange={onChange}
+        />
+    );
 });
 
 export default CreatePlugin;

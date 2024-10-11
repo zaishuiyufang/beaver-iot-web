@@ -8,16 +8,26 @@ interface formProps<T extends FieldValues> {
     formItems: UseFormItemsProps[];
     onOk: (data: T) => void;
     onChange?: (data: T) => void;
+    defaultValues?: any;
 }
 
 const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
-    const { formItems, onOk, onChange } = props;
-    const { handleSubmit, control, watch } = useForm<T>({ mode: 'onChange' });
+    const { formItems, onOk, onChange, defaultValues } = props;
+    const { handleSubmit, control, watch, reset } = useForm<T>({
+        mode: 'onChange',
+        defaultValues: {
+            ...defaultValues,
+        },
+    });
     const forms: FormItemsProps[] = useFormItems({ formItems });
     const formValuesRef = useRef<T>();
 
     // 监听所有表单字段的变化
     const formValues = watch();
+
+    useEffect(() => {
+        reset(defaultValues);
+    }, [defaultValues, reset]);
 
     useEffect(() => {
         if (!formValuesRef?.current || !isEqual(formValuesRef?.current, formValues)) {
