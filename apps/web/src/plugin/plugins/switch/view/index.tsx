@@ -53,7 +53,7 @@ const View = (props: ViewProps) => {
                 <div className={styles.body}>
                     <Switch value={isSwitchOn} title={switchTitle} onChange={handleSwitchChange} />
                 </div>
-                <div className={styles.text}>{switchText || `UG65 WIFI ${entity || ''}`}</div>
+                <div className={styles.text}>{switchText}</div>
             </div>
             <div className={styles.icon}>
                 <WifiRoundedIcon sx={{ color: iconColor || '#9B9B9B', fontSize: 56 }} />

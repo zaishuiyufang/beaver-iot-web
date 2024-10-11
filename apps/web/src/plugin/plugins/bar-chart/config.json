@@ -1,7 +1,7 @@
 {
-    "type": "switch",
-    "name": "Switch",
-    "class": "operate",
+    "type": "barChart",
+    "name": "Bar Chart",
+    "class": "data_chart",
     "configProps": [
         {
             "style": "width: 100%",
@@ -43,9 +43,9 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Switch Text",
-                    "key": "switchText",
-                    "defaultValue": "Switch",
+                    "title": "Widget name",
+                    "key": "widgetName",
+                    "defaultValue": "Occupancy detection",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {
@@ -56,58 +56,41 @@
             ]
         },
         {
-            "title": "Appearance of off status",
-            "style": "display: flex;margin-top:28px;",
+            "style": "width: 100%;",
             "theme": {
                 "default": {
-                    "class": "first-component-icon-select"
+                    "style": "font-size: 18px;"
                 }
             },
             "components": [
                 {
-                    "type": "iconSelect",
-                    "key": "offIcon",
-                    "style": "flex: 1;",
+                    "type": "select",
+                    "title": "Time",
+                    "key": "time",
+                    "style": "width: 100%;",
+                    "getDataUrl": "",
                     "componentProps": {
                         "size": "small"
-                    }
-                },
-                {
-                    "type": "iconColorSelect",
-                    "key": "offIconColor",
-                    "style": "flex: 1;",
-                    "defaultValue": "#9B9B9B",
-                    "componentProps": {
-                        "size": "small"
-                    }
-                }
-            ]
-        },
-        {
-            "title": "Appearance of on status",
-            "style": "display: flex;margin-top:28px;",
-            "theme": {
-                "default": {
-                    "class": "first-component-icon-select"
-                }
-            },
-            "components": [
-                {
-                    "type": "iconSelect",
-                    "key": "onIcon",
-                    "style": "flex: 1;",
-                    "componentProps": {
-                        "size": "small"
-                    }
-                },
-                {
-                    "type": "iconColorSelect",
-                    "key": "onIconColor",
-                    "style": "flex: 1;",
-                    "defaultValue": "#4A90E2",
-                    "componentProps": {
-                        "size": "small"
-                    }
+                    },
+                    "defaultValue": 1440,
+                    "options": [
+                        {
+                            "label": "Nearly 3 hours",
+                            "value": 180
+                        },
+                        {
+                            "label": "Nearly 6 hours",
+                            "value": 360
+                        },
+                        {
+                            "label": "Nearly 12 hours",
+                            "value": 720
+                        },
+                        {
+                            "label": "Nearly one days",
+                            "value": 1440
+                        }
+                    ]
                 }
             ]
         }
