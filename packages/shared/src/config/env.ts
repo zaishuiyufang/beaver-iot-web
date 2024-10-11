@@ -12,6 +12,9 @@ window.$metaEnv = {
 /** 应用运行的模式 */
 export const mode = metaEnv.MODE;
 
+/** 应用接口 Origin */
+export const apiOrigin = metaEnv.APP_API_ORIGIN;
+
 /**
  * 应用版本号
  */

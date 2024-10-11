@@ -5,8 +5,22 @@ import vitePluginImport from 'vite-plugin-imp';
 import stylelint from 'vite-plugin-stylelint';
 import progress from 'vite-plugin-progress';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { parseEnvVariables, getViteEnvVarsConfig } from '@milesight/scripts';
+import { version } from './package.json';
 
 const isProd = process.env.NODE_ENV === 'production';
+const projectRoot = path.join(__dirname, '../../');
+const { WEB_DEV_PORT, WEB_API_ORIGIN } = parseEnvVariables([
+    path.join(projectRoot, '.env'),
+    path.join(projectRoot, '.env.local'),
+    path.join(__dirname, '.env'),
+    path.join(__dirname, '.env.local'),
+]);
+const runtimeVariables = getViteEnvVarsConfig({
+    APP_TYPE: 'web',
+    APP_VERSION: version,
+    APP_API_ORIGIN: WEB_API_ORIGIN,
+});
 const DEFAULT_LESS_INJECT_MODULES = [
     '@import "@milesight/shared/src/styles/variables.less";',
     '@import "@milesight/shared/src/styles/mixins.less";',
@@ -53,9 +67,7 @@ export default defineConfig({
         },
     },
 
-    define: {
-        global: 'window',
-    },
+    define: runtimeVariables,
 
     css: {
         preprocessorOptions: {
@@ -105,7 +117,7 @@ export default defineConfig({
 
     server: {
         host: '0.0.0.0',
-        port: 9000,
+        port: WEB_DEV_PORT,
         open: true,
     },
 });
