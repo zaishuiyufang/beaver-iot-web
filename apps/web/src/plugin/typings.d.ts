@@ -38,6 +38,10 @@ declare interface ComponentProps {
      */
     title?: string;
     /**
+     * 默认值
+     */
+    defaultValue?: string;
+    /**
      * 组件样式
      */
     style?: string;

@@ -71,6 +71,7 @@
                     "type": "input",
                     "title": "Title",
                     "key": "title",
+                    "defaultValue": "事件组件",
                     "componentProps": {
                         "size": "small"
                     }

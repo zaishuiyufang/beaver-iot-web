@@ -62,6 +62,9 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             if (value === undefined && defaultValue) {
                                 value = defaultValue[component.key] || value;
                             }
+                            if (value === undefined && component.defaultValue !== undefined) {
+                                value = component.defaultValue;
+                            }
                             return (
                                 <Component
                                     {...restItem}
