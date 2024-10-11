@@ -1,13 +1,15 @@
 import { isString } from 'lodash-es';
 import { parseStyleToReactStyle } from './util';
+import './style.less';
 
 interface Props {
     config: any;
     configJson: CustomComponentProps;
+    onClick?: () => void;
 }
 
 const View = (props: Props) => {
-    const { config, configJson } = props;
+    const { config, configJson, onClick } = props;
 
     // 处理显示依赖
     const isShow = (depended?: Record<string, any>) => {
@@ -74,14 +76,13 @@ const View = (props: Props) => {
     };
 
     return (
-        // eslint-disable-next-line react/jsx-no-useless-fragment
-        <>
+        <div onClick={onClick} className="plugin-view">
             {isString(configJson?.view)
                 ? renderHtml()
                 : configJson?.view?.map((viewItem: ViewProps) => {
                       return renderTag(viewItem);
                   })}
-        </>
+        </div>
     );
 };
 

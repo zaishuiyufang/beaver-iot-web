@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import * as Mui from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import useI18n from '../../hooks/useI18n';
 
 interface useFormProps {
@@ -13,7 +14,7 @@ const useForm = (props: useFormProps) => {
     const forms: FormItemsProps[] = useMemo(() => {
         return formItems?.map((items: UseFormItemsProps) => {
             const { type, render, label, props, ...formItem } = items;
-            const Component = (Mui as any)[type];
+            const Component = { ...(Mui as any), DatePicker }[type];
             const { rules } = items;
             if (rules?.required && rules.required === true) {
                 rules.required = getIntlText('valid.input.required');

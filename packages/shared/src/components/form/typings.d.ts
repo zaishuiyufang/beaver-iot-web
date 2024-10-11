@@ -8,6 +8,8 @@ declare type rulesType = {
     pattern?: rulesPatternType;
     minLength?: rulesPatternType;
     maxLength?: rulesPatternType;
+    min?: rulesPatternType;
+    max?: rulesPatternType;
 };
 
 declare type fieldType = {
@@ -28,9 +30,9 @@ declare interface renderType {
 declare interface FormItemsProps {
     name: Path<T>;
     render: any;
-    rules: rulesType;
     multiple?: number;
     multipleIndex?: number;
+    rules?: rulesType;
     style?: string;
     title?: string;
 }
@@ -40,6 +42,6 @@ declare type UseFormItemsType = Omit<FormItemsProps, 'render'>;
 declare interface UseFormItemsProps extends UseFormItemsType {
     label: string;
     type: string;
-    props: any;
+    props?: any;
     render?: (data: renderType) => void;
 }
