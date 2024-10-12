@@ -22,6 +22,11 @@
         .text-size(@font-size-lg);
 
         font-weight: @font-weight-medium;
+
+        > span {
+            display: block;
+            .ellipsis();
+        }
     }
 
     .desc {
