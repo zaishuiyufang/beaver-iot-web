@@ -12,6 +12,7 @@ interface DraggableResizableBoxProps {
     className?: string;
     width?: number;
     height?: number;
+    isEdit: boolean;
     children: React.ReactNode;
     onResize: (data: any) => void;
 }
@@ -26,6 +27,7 @@ const DraggableResizableBox = ({
     className,
     width,
     height,
+    isEdit,
     children,
     onResize,
 }: DraggableResizableBoxProps) => {
@@ -60,6 +62,7 @@ const DraggableResizableBox = ({
                 // 处理调整大小后的逻辑
                 onResize({ ...data, id });
             }}
+            resizeHandles={isEdit ? ['se'] : []} // 动态设置是否可调整大小
             handle={<span className="drag-resizable-handle" />}
             style={{
                 ...style,

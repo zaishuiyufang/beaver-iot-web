@@ -16,6 +16,7 @@ export default () => {
     const [plugin, setPlugin] = useState<CustomComponentProps>();
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const [isEdit, setIsEdit] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
 
     const handleShowAddWidget = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,19 +51,61 @@ export default () => {
         setShowCustom(false);
     };
 
+    // 进入dashboard编辑状态
+    const changeEditStatus = () => {
+        setIsEdit(true);
+    };
+
+    // 退出dashboard编辑状态
+    const cancelEditStatus = () => {
+        setIsEdit(false);
+    };
+
     return (
         <div className="dashboard-content">
             <div className="dashboard-content-operate">
-                <Button variant="contained" onClick={handleShowAddWidget}>
-                    {getIntlText('dashboard.add_widget')}
-                </Button>
-                <Button
-                    variant="contained"
-                    onClick={handleShowAddCustomWidget}
-                    sx={{ marginLeft: '20px' }}
-                >
-                    添加自定义组件
-                </Button>
+                <div className="dashboard-content-operate-left">
+                    <Button variant="contained" onClick={handleShowAddWidget}>
+                        {getIntlText('dashboard.add_widget')}
+                    </Button>
+                    {!!widgets.length && (
+                        <Button
+                            variant="contained"
+                            sx={{ marginLeft: '20px' }}
+                            onClick={changeEditStatus}
+                        >
+                            {getIntlText('common.button.edit')}
+                        </Button>
+                    )}
+                    <Button
+                        variant="contained"
+                        onClick={handleShowAddCustomWidget}
+                        sx={{ marginLeft: '20px' }}
+                    >
+                        添加自定义组件
+                    </Button>
+                </div>
+                {isEdit && (
+                    <div className="dashboard-content-operate-right">
+                        <Button variant="outlined" onClick={handleShowAddWidget}>
+                            {getIntlText('common.label.delete')}
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            sx={{ marginLeft: '20px' }}
+                            onClick={cancelEditStatus}
+                        >
+                            {getIntlText('common.button.cancel')}
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={handleShowAddCustomWidget}
+                            sx={{ marginLeft: '20px' }}
+                        >
+                            {getIntlText('common.button.save')}
+                        </Button>
+                    </div>
+                )}
             </div>
             {!!plugin && <AddWidget plugin={plugin} onCancel={closeAddWidget} onOk={handleOk} />}
             {!widgets?.length ? (
@@ -82,6 +125,7 @@ export default () => {
                             parentRef={mainRef}
                             widgets={widgets}
                             onChangeWidgets={setWidgets}
+                            isEdit={isEdit}
                         />
                     </DndProvider>
                 </div>
