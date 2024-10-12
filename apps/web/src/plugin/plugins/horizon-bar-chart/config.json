@@ -1,6 +1,6 @@
 {
-    "type": "barChart",
-    "name": "Bar Chart",
+    "type": "horizonBarChart",
+    "name": "Horizon Bar Chart",
     "class": "data_chart",
     "configProps": [
         {
