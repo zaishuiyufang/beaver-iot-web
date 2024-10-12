@@ -1,7 +1,7 @@
 {
-    "type": "areaChart",
-    "name": "Area chart",
-    "class": "area_chart",
+    "type": "gaugeChart",
+    "name": "Gauge chart",
+    "class": "gauge_chart",
     "configProps": [
         {
             "style": "width: 100%",
