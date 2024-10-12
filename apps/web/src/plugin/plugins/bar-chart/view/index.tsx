@@ -50,7 +50,8 @@ const View = (props: ViewProps) => {
             <div className={styles.name}>
                 {widgetName} {time}
             </div>
-            <canvas width={600} height={350} id="barChart" />
+
+            <canvas id="barChart" />
         </div>
     );
 };
