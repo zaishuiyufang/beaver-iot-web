@@ -1,17 +1,33 @@
 import React from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { Snackbar, Alert, AlertColor, type AlertProps } from '@mui/material';
+import { Snackbar } from '@mui/material';
+import {
+    Info as InfoIcon,
+    CheckCircle as CheckCircleIcon,
+    Cancel as CancelIcon,
+    Error as ErrorIcon,
+} from '@mui/icons-material';
 import { uniqBy } from 'lodash-es';
+import './style.less';
+
+type SeverityType = 'info' | 'success' | 'warning' | 'error';
 
 interface Toast {
     key: ApiKey;
     duration: number | null;
-    severity: AlertColor;
+    severity: SeverityType;
     content: React.ReactNode;
-    onClose?: AlertProps['onClose'];
+    // onClose?: (event: React.SyntheticEvent) => void;
 }
 
 type Params = string | PartialOptional<Omit<Toast, 'severity'>, 'key' | 'duration'>;
+
+const iconMap: Record<SeverityType, React.ReactNode> = {
+    info: <InfoIcon />,
+    success: <CheckCircleIcon />,
+    warning: <ErrorIcon />,
+    error: <CancelIcon />,
+};
 
 /**
  * 全局消息提示框
@@ -33,6 +49,7 @@ class ToastManager {
                 {this.toasts.map(toast => (
                     <Snackbar
                         open
+                        className="ms-toast-container"
                         key={toast.key}
                         autoHideDuration={toast.duration}
                         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -41,20 +58,10 @@ class ToastManager {
                         }}
                         onClose={() => this.removeToast(toast.key)}
                     >
-                        <Alert
-                            onClose={
-                                !toast.onClose
-                                    ? undefined
-                                    : e => {
-                                          toast.onClose?.(e);
-                                          this.removeToast(toast.key);
-                                      }
-                            }
-                            severity={toast.severity}
-                            sx={{ width: '100%' }}
-                        >
-                            {toast.content}
-                        </Alert>
+                        <div className={`ms-toast ${toast.severity}`}>
+                            <div className="ms-toast-icon">{iconMap[toast.severity]}</div>
+                            <div className="ms-toast-content">{toast.content}</div>
+                        </div>
                     </Snackbar>
                 ))}
             </>,
