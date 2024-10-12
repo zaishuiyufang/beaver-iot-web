@@ -16,7 +16,7 @@ const View = (props: ViewProps) => {
     const { entity, widgetName, time } = config;
 
     useEffect(() => {
-        const chart = new Chart(document.getElementById('barChart') as HTMLCanvasElement, {
+        const chart = new Chart(document.getElementById('horizonBarChart') as HTMLCanvasElement, {
             type: 'bar',
             data: {
                 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -29,6 +29,7 @@ const View = (props: ViewProps) => {
                 ],
             },
             options: {
+                indexAxis: 'y',
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -46,12 +47,12 @@ const View = (props: ViewProps) => {
     }, [entity]);
 
     return (
-        <div className={styles['bar-chart-wrapper']}>
+        <div className={styles['horizon-bar-chart-wrapper']}>
             <div className={styles.name}>
                 {widgetName} {time}
             </div>
 
-            <canvas id="barChart" />
+            <canvas id="horizonBarChart" />
         </div>
     );
 };
