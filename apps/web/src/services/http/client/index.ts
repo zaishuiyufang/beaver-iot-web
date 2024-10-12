@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { apiOrigin } from '@milesight/shared/src/config';
 import { createRequestClient, attachAPI } from '@milesight/shared/src/utils/request';
-import { getCurrentMomentLang } from '@milesight/shared/src/services/i18n';
+import { getCurrentComponentLang } from '@milesight/shared/src/services/i18n';
 // import oauthHandler from './oauth-handler';
 import errorHandler from './error-handler';
 
@@ -10,7 +10,7 @@ import errorHandler from './error-handler';
  */
 const headersHandler = async (config: AxiosRequestConfig) => {
     config.headers = config.headers || {};
-    config.headers['Accept-Language'] = getCurrentMomentLang();
+    config.headers['Accept-Language'] = getCurrentComponentLang();
 
     return config;
 };

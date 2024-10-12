@@ -79,7 +79,18 @@ declare type ProductAccessModeType = 'R' | 'W' | 'RW';
 /**
  * 物模型属性数据类型
  */
-declare type ProductPropertyDataType = 'BYTE' | 'INT' | 'LONG' | 'FLOAT' | 'DOUBLE' | 'DATE' | 'BOOL' | 'ENUM' | 'STRING' | 'STRUCT' | 'ARRAY';;
+declare type ProductPropertyDataType =
+    | 'BYTE'
+    | 'INT'
+    | 'LONG'
+    | 'FLOAT'
+    | 'DOUBLE'
+    | 'DATE'
+    | 'BOOL'
+    | 'ENUM'
+    | 'STRING'
+    | 'STRUCT'
+    | 'ARRAY';
 
 /**
  * 表单定义
@@ -195,10 +206,12 @@ declare type ProductEventType = {
     type: 'INFO' | 'WARN' | 'ERROR';
 
     /** 上报参数，结构同 properties */
-    outputs: Partial<Omit<ProductPropertyType, 'accessMode'> & {
-        /** 引用已有的 property id, 表示该参数定义与目标属性相同 */
-        ref: string;
-    }>[];
+    outputs: Partial<
+        Omit<ProductPropertyType, 'accessMode'> & {
+            /** 引用已有的 property id, 表示该参数定义与目标属性相同 */
+            ref: string;
+        }
+    >[];
 };
 
 /**
