@@ -6,10 +6,11 @@ interface WidgetProps {
     parentRef: any;
     onChangeWidgets: (widgets: any[]) => void;
     widgets: any[];
+    isEdit: boolean;
 }
 
 const Widgets = (props: WidgetProps) => {
-    const { widgets, onChangeWidgets, parentRef } = props;
+    const { widgets, onChangeWidgets, parentRef, isEdit } = props;
 
     const moveBox = useCallback((id: string, left: number, top: number) => {
         const index = widgets.findIndex((item: any) => item.id === id);
@@ -47,7 +48,7 @@ const Widgets = (props: WidgetProps) => {
     return (
         <div ref={drop}>
             {widgets.map((data: any) => {
-                return <Widget data={data} onResizeBox={resizeBox} />;
+                return <Widget data={data} onResizeBox={resizeBox} isEdit={isEdit} />;
             })}
         </div>
     );

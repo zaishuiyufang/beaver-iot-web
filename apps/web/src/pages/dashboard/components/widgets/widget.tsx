@@ -6,10 +6,11 @@ import { RenderView } from '@/plugin/render';
 interface WidgetProps {
     data: any;
     onResizeBox: ({ id, width, height }: any) => void;
+    isEdit: boolean;
 }
 
 const Widget = (props: WidgetProps) => {
-    const { data, onResizeBox } = props;
+    const { data, onResizeBox, isEdit } = props;
     const ComponentView = (plugins as any)[`${data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
     const [pos, setPos] = useState();
@@ -30,6 +31,7 @@ const Widget = (props: WidgetProps) => {
             onResize={onResizeBox}
             id={data.id}
             key={data.id}
+            isEdit={isEdit}
             className="dashboard-content-widget"
         >
             {ComponentView ? (
