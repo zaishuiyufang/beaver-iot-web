@@ -16,24 +16,14 @@ const View = (props: ViewProps) => {
     const { entity, widgetName, time } = config;
 
     useEffect(() => {
-        const chart = new Chart(document.getElementById('barChart') as HTMLCanvasElement, {
-            type: 'bar',
+        const chart = new Chart(document.getElementById('lineChart') as HTMLCanvasElement, {
+            type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'july'],
                 datasets: [
                     {
-                        label: entity || 'Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        borderWidth: 1,
-                    },
-                    {
-                        label: 'hello',
-                        data: [6, 18, 1, 26, 12, 7],
-                        borderWidth: 1,
-                    },
-                    {
-                        label: 'world',
-                        data: [7, 2, 13, 15, 21, 8],
+                        label: entity || 'Monthly',
+                        data: [12, 19, 3, 5, 2, 3, 16],
                         borderWidth: 1,
                     },
                 ],
@@ -56,12 +46,12 @@ const View = (props: ViewProps) => {
     }, [entity]);
 
     return (
-        <div className={styles['bar-chart-wrapper']}>
+        <div className={styles['line-chart-wrapper']}>
             <div className={styles.name}>
                 {widgetName} {time}
             </div>
 
-            <canvas id="barChart" />
+            <canvas id="lineChart" />
         </div>
     );
 };
