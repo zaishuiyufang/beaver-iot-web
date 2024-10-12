@@ -5,21 +5,18 @@
     "import": {
         "sourcePath": "./import",
         "outputPath": "./src/lang",
-        "platformKeyPrefixs": ["mg", "op"],
         "langRules": {
             "cn": ["zh", "zh_cn"]
         },
         "splitRules": {
-            "global": ["valid", "common", "menu", "header", "notification"],
-            "device": ["pd.", "device", "profile", "tsl."]
+            "global": ["valid", "common", "menu", "header", "notification"]
         }
     },
     "export": {
         "sourcePath": "./src/lang/en",
         "basicSourcePath": "./import/en.json",
         "outputPath": "./.export",
-        "errorKeyRule": ".error_",
-        "errorMapOutputPath": "./src/error_keys_map.json",
-        "ignoreRules": ["tool."]
+        "errorKeyRule": "error.http.",
+        "errorMapOutputPath": "./src/error_keys_map.json"
     }
 }

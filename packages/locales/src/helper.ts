@@ -1,5 +1,4 @@
 import { LANGUAGE } from './types';
-import errorKeysMap from './error_keys_map.json';
 import type { LanguageComponentType, AppType } from './types';
 
 interface OptInterface {
@@ -7,9 +6,9 @@ interface OptInterface {
 }
 
 const languages = Object.values(LANGUAGE);
-/** 各个端依赖的语言包 */
+/** 各应用依赖语言包模块配置 */
 const appLocalModules: Record<AppType, string[]> = {
-    web: ['global', 'dashboard'],
+    web: ['global', 'dashboard', 'device', 'error', 'setting'],
 };
 
 /**
@@ -88,6 +87,9 @@ const componentMapLanguage: Record<LanguageComponentType, Record<LANGUAGE, strin
     },
 };
 
+/** 接口错误码文案 key 前缀 */
+export const HTTP_ERROR_CODE_PREFIX = 'error.http.';
+
 export class LocaleHelper {
     opt: OptInterface;
     constructor(opt: OptInterface) {
@@ -111,16 +113,6 @@ export class LocaleHelper {
         }
 
         return localMapping[LANGUAGE.EN];
-    }
-
-    /** 设置当前界面语言 */
-    setLanguage(lang: LANGUAGE, onOk?: () => void, fieldLanguageName = 'lang') {
-        localStorage.setItem(fieldLanguageName, lang);
-        if (typeof onOk === 'function') {
-            onOk();
-            return;
-        }
-        window.location.reload();
     }
 
     getLanguages(): LANGUAGE[] {
@@ -163,9 +155,11 @@ export class LocaleHelper {
     }
 
     /**
-     * 获取接口错误信息与文案 key 的映射表
+     * 获取接口错误码文案 Key
+     * @param errCode 接口错误码
      */
-    getErrorMapKeys(): typeof errorKeysMap {
-        return errorKeysMap;
+    getHttpErrorKey(errCode?: string) {
+        if (!errCode) return '';
+        return `${HTTP_ERROR_CODE_PREFIX}${errCode}`;
     }
 }

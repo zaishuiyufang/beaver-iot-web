@@ -1,16 +1,16 @@
 /**
  * 国际化相关 Hook
  */
-import React, { Fragment, ReactElement, useCallback } from 'react';
+import React, { Fragment, ReactElement, useCallback, useMemo } from 'react';
 import intl from 'react-intl-universal';
 import {
     langs,
     changeLang,
-    errorKeyMaps,
     DEFAULT_LANGUAGE,
     LangType,
-    getMomentWeekStartAndIntl,
-    getCurrentMomentLang,
+    getHttpErrorKey,
+    getCurrentComponentLang,
+    HTTP_ERROR_CODE_PREFIX,
 } from '../services/i18n';
 import { useSharedGlobalStore } from '../stores';
 import { genRandomString } from '../utils/tools';
@@ -29,6 +29,21 @@ export const apiLangs: Partial<Record<LangType, string>> = {
 
 export default () => {
     const lang = useSharedGlobalStore(state => state.lang);
+    const httpErrorKeys = useMemo(() => {
+        const result: Record<string, string> = {};
+
+        if (!lang) return result;
+        const locales = langs[lang]?.locale || {};
+
+        Object.keys(locales).forEach(key => {
+            if (key.startsWith(HTTP_ERROR_CODE_PREFIX)) {
+                result[key.replace(HTTP_ERROR_CODE_PREFIX, '')] = key;
+            }
+        });
+
+        return result;
+    }, [lang]);
+
     const getIntlText = useCallback(
         (key: string, options?: Record<number | string, any>) => {
             return intl.get(key, options).d(key);
@@ -36,6 +51,7 @@ export default () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [lang],
     );
+
     const getIntlHtml = useCallback(
         (key: string, options?: Record<number | string, any>) => {
             return intl.getHTML(key, options);
@@ -43,6 +59,7 @@ export default () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [lang],
     );
+
     const getIntlNode = useCallback(
         (key: string, options?: Record<number | string, any>, onlyText?: boolean) => {
             if (!options) return intl.get(key).d(key);
@@ -154,7 +171,7 @@ export default () => {
         muiLocale: langs[lang || DEFAULT_LANGUAGE]?.muiLocale,
 
         /** 接口错误码与文案 key 映射表 */
-        errorKeyMaps,
+        httpErrorKeys,
 
         /** 变更语言 */
         changeLang,
@@ -168,10 +185,10 @@ export default () => {
         /** 根据 key 获取带 HTML 的文案 */
         getIntlHtml,
 
-        /** 获取当前语言的 moment 配置 */
-        getMomentWeekStartAndIntl,
+        /** 获取接口错误码文案 Key */
+        getHttpErrorKey,
 
         /** 获取当前语言的 moment */
-        getCurrentMomentLang,
+        getCurrentComponentLang,
     };
 };
