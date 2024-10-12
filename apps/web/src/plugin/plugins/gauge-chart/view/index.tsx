@@ -20,7 +20,7 @@ const View = (props: Props) => {
         currentValue: number;
     }) => {
         const { data, minValue, currentValue } = datasets || {};
-        const ctx = document.getElementById('areaChart') as HTMLCanvasElement;
+        const ctx = document.getElementById('gaugeChart') as HTMLCanvasElement;
 
         const bgColors = extendArray(colors, data.length);
         const chart = new Chart(ctx, {
@@ -69,7 +69,7 @@ const View = (props: Props) => {
     return (
         <div>
             <h2>{config.title}</h2>
-            <canvas id="areaChart" />
+            <canvas id="gaugeChart" />
         </div>
     );
 };
