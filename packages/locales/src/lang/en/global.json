@@ -22,9 +22,7 @@
     "common.label.min": "Min.",
     "common.label.more": "More",
     "common.label.name": "Name",
-
     "common.label.operation": "Operation",
-
     "common.label.search": "Search",
 
     "common.label.url": "URL",
@@ -75,6 +73,7 @@
     "valid.input.hex_number": "Input numbers only.",
     "valid.input.image": "Please choose an image with .jpg, .png or .jpeg file format.",
     "valid.input.integer_positive_negative_zero": "Please enter a positive/negative interger, or zero.",
+    "valid.input.integer_positive_zero": "Please enter a positive integer （Includes Zero）",
     "valid.input.ip_address": "Please enter your IP address in the following format: XXX.XXX.XXX.XXX. XXX should be 1-255.",
     "valid.input.ip_or_domain": "Please enter a valid IP address or domain name.",
     "valid.input.ipv6_address": "Please enter your IP address in this format: XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX (XXXX is 0000-FFFF).",
@@ -117,6 +116,5 @@
     "valid.input.url": "Please enter a valid URL.",
     "valid.input.username": "The username must be 5 to 255 characters long and include both upper and lower case letters.",
     "valid.input.value": "Input value: {0} only.",
-    "valid.input.version": "The version number does not comply with the specification\n",
-    "valid.input.integer_positive_zero": "请输入正整数"
+    "valid.input.version": "The version number does not comply with the specification\n"
 }

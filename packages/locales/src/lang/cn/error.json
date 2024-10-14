@@ -1,0 +1,8 @@
+{
+    "error.http.token_invalid": "令牌无效，请重试。",
+    "error.http.token_not_found": "账户未登录。",
+    "error.http.forbidden_permission": "无访问权限，禁止访问。",
+    "error.http.account_session_logout": "您的账户已退出登录。",
+    "error.http.network_timeout": "网络超时。",
+    "error.http.server_error": "请求错误，请检查后重试。"
+}
