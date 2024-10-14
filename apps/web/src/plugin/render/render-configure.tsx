@@ -45,7 +45,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                     const commonStyle = component?.style
                         ? parseStyleString(component?.style)
                         : undefined;
-                    const { type, style, ...restItem } = component;
+                    const { type, style, componentProps, ...restItem } = component;
                     formItems.push({
                         label: component.title,
                         name: component.key,
@@ -75,7 +75,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             return (
                                 <Component
                                     {...restItem}
-                                    {...component.componentProps}
+                                    {...componentProps}
                                     error={!!error}
                                     helperText={error ? error.message : null}
                                     value={value || ''}

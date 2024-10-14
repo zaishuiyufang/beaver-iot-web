@@ -32,6 +32,7 @@ export default () => {
     };
 
     const handleSelectPlugin = (type: CustomComponentProps) => {
+        handleCloseAddWidgetPopover();
         setPlugin(type);
     };
 
