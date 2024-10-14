@@ -1,34 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
 import components from '@/plugin/plugins/components';
 
-const PLUGINDIR = '../../../plugin';
+const PLUGIN_DIR = '../../../plugin';
 
 export default () => {
     const [pluginsConfigs, setPluginsConfigs] = useState<CustomComponentProps[]>([]);
     const pluginRef = useRef<CustomComponentProps[]>([]);
 
-    const loopComponents = async (comName: string) => {
-        const jsonPath = `${PLUGINDIR}/plugins/${comName}/config.json`;
+    const loopComponents = async (comName: string, index: number) => {
+        const jsonPath = `${PLUGIN_DIR}/plugins/${comName}/config.json`;
         const jsonData = await import(jsonPath);
+
         let icon = null;
         if (jsonData?.icon) {
-            const iconSrc = `${PLUGINDIR}/plugins/${comName}/icon.png`;
+            const iconSrc = `${PLUGIN_DIR}/plugins/${comName}/icon.png`;
             icon = await import(iconSrc);
         }
-        const isExit = pluginRef.current.some((item: any) => item.name === jsonData.name);
-        if (isExit) {
-            return;
-        }
-        setPluginsConfigs([...pluginRef.current, { ...jsonData?.default, iconSrc: icon }]);
-        pluginRef.current.push({ ...jsonData?.default, iconSrc: icon });
+
+        const isExit = pluginRef.current.some(item => item.name === jsonData.name);
+        if (isExit) return;
+
+        // 保证组件顺序稳定
+        const plugins = pluginRef.current;
+        pluginRef.current[index] = { ...jsonData?.default, iconSrc: icon };
+        setPluginsConfigs(plugins.filter(Boolean));
     };
 
     const getPluginConfig = () => {
-        components?.forEach(async (comName: any, index: number) => {
-            if (index <= components.length - 1) {
-                await loopComponents(comName);
-            }
-        });
+        components?.forEach(loopComponents);
     };
 
     useEffect(() => {
