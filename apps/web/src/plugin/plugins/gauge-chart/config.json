@@ -73,23 +73,23 @@
                     "componentProps": {
                         "size": "small"
                     },
-                    "defaultValue": 1440,
+                    "defaultValue": "1440",
                     "options": [
                         {
                             "label": "Nearly 3 hours",
-                            "value": 180
+                            "value": "180"
                         },
                         {
                             "label": "Nearly 6 hours",
-                            "value": 360
+                            "value": "360"
                         },
                         {
                             "label": "Nearly 12 hours",
-                            "value": 720
+                            "value": "720"
                         },
                         {
                             "label": "Nearly one days",
-                            "value": 1440
+                            "value": "1440"
                         }
                     ]
                 }
