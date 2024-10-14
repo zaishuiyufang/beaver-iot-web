@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useI18n } from '@milesight/shared/src/hooks';
 import routes from '@/routes/routes';
-import { Sidebar } from '@/components';
+import { Sidebar, RouteLoadingIndicator } from '@/components';
 
 function BasicLayout() {
     const { lang } = useI18n();
@@ -19,6 +19,7 @@ function BasicLayout() {
 
     return (
         <section className="ms-layout">
+            <RouteLoadingIndicator />
             <Sidebar menus={menus} />
             <main className="ms-layout-right">
                 <Outlet />
