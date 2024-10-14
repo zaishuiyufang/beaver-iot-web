@@ -10,7 +10,7 @@ import { version } from './package.json';
 
 const isProd = process.env.NODE_ENV === 'production';
 const projectRoot = path.join(__dirname, '../../');
-const { WEB_DEV_PORT, WEB_API_ORIGIN } = parseEnvVariables([
+const { WEB_DEV_PORT, WEB_API_ORIGIN, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } = parseEnvVariables([
     path.join(projectRoot, '.env'),
     path.join(projectRoot, '.env.local'),
     path.join(__dirname, '.env'),
@@ -20,6 +20,8 @@ const runtimeVariables = getViteEnvVarsConfig({
     APP_TYPE: 'web',
     APP_VERSION: version,
     APP_API_ORIGIN: WEB_API_ORIGIN,
+    APP_OAUTH_CLIENT_ID: OAUTH_CLIENT_ID,
+    APP_OAUTH_CLIENT_SECRET: OAUTH_CLIENT_SECRET,
 });
 const DEFAULT_LESS_INJECT_MODULES = [
     '@import "@milesight/shared/src/styles/variables.less";',

@@ -12,7 +12,11 @@ const useCopy = () => {
         async (text: string) => {
             if (!text) return;
             const res = await copyText(text);
-            res && toast.success({ content: getIntlText('common.message.copy_successful') });
+            res &&
+                toast.success({
+                    key: 'copy',
+                    content: getIntlText('common.message.copy_successful'),
+                });
         },
         [getIntlText],
     );

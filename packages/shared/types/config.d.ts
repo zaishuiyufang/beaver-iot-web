@@ -14,6 +14,10 @@ interface ImportMetaEnv {
     readonly APP_VERSION: string;
     /** 应用接口 Origin */
     readonly APP_API_ORIGIN: string;
+    /** 应用 OAuth Client ID */
+    readonly APP_OAUTH_CLIENT_ID: string;
+    /** 应用 OAuth Client Secret */
+    readonly APP_OAUTH_CLIENT_SECRET: string;
     /** 应用打包时间戳 */
     readonly BUILD_TIMESTAMP: number;
     /** 应用打包分支 */
