@@ -1,15 +1,15 @@
 import { forwardRef } from 'react';
 import { RenderConfig } from '../../../render';
-import config from '../config.json';
 
 interface ConfigPluginProps {
     onOk: (data: any) => void;
     onChange: (data: any) => void;
+    config: CustomComponentProps;
     value: any;
 }
 
 const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {
-    const { onOk, onChange, value } = props;
+    const { onOk, onChange, value, config } = props;
 
     const handleSubmit = (data: any) => {
         onOk(data);

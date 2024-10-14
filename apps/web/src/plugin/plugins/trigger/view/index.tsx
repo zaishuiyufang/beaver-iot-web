@@ -1,12 +1,12 @@
 import { useState, useRef } from 'react';
 import { Modal, EntityForm } from '@milesight/shared/src/components';
 import { RenderView } from '../../../render';
-import configJson from '../config.json';
 import { ViewConfigProps } from './typings';
 import './style.less';
 
 interface Props {
     config: ViewConfigProps;
+    configJson: CustomComponentProps;
 }
 
 const entities = [
@@ -33,7 +33,7 @@ const entities = [
 ];
 
 const View = (props: Props) => {
-    const { config } = props;
+    const { config, configJson } = props;
     const [visible, setVisible] = useState(false);
     const ref = useRef<any>();
 

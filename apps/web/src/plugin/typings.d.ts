@@ -172,4 +172,8 @@ declare interface CustomComponentProps {
      * @description 用来区分组件的类别，比如图表、数据显示等，目前有data_chart/operate/data_card三种
      */
     class?: string;
+    /**
+     * 当前组件已配置值
+     */
+    config?: Record<string, any>;
 }

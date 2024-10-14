@@ -77,6 +77,28 @@
 
         &-widget {
             background: var(--main-background);
+
+            &-icon {
+                position: absolute;
+                top: @margin-xs;
+                right: @margin-sm;
+                z-index: 2;
+
+                &-img {
+                    display: inline-block;
+                    padding: @padding-xxs;
+                    margin-left: @margin-xs;
+                    line-height: 0;
+                    color: rgba(0,0,0,.54);
+                    border: @border-base;
+                    border-radius: 50%;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: var(--gray-color-3);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { Modal, JsonView } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
@@ -33,7 +33,9 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                 curFormValues[key] = values[key];
             }
         });
-        setFormValues(curFormValues);
+        if (curFormValues && Object.keys(curFormValues)?.length) {
+            setFormValues(curFormValues);
+        }
     };
 
     const handleOk = () => {
@@ -48,6 +50,13 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
     const handleChangeTabs = (_event: React.SyntheticEvent, newValue: string) => {
         setTabKey(newValue);
     };
+
+    useEffect(() => {
+        if (config?.config && Object.keys(config.config)?.length) {
+            setFormValues({ ...config?.config });
+        }
+    }, [config]);
+
     return (
         <Modal
             onCancel={handleClose}
@@ -58,7 +67,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
             <div className="config-plugin-container">
                 <div className="config-plugin-container-left">
                     {ComponentView ? (
-                        <ComponentView config={formValues} />
+                        <ComponentView config={formValues} configJson={config} />
                     ) : (
                         <RenderView configJson={config} config={formValues} />
                     )}

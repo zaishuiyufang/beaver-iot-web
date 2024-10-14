@@ -60,12 +60,18 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             let value = data?.field?.value;
                             const onChange = data?.field?.onChange;
                             const error = data?.fieldState?.error;
-                            if (value === undefined && defaultValue) {
-                                value = defaultValue[component.key] || value;
+                            if (value === undefined) {
+                                value =
+                                    config?.config?.[component.key] || defaultValue[component.key];
                             }
-                            if (value === undefined && component.defaultValue !== undefined) {
+                            if (
+                                value === undefined &&
+                                component.defaultValue !== undefined &&
+                                config.config === undefined
+                            ) {
                                 defaultValues[component.key] = component.defaultValue;
                             }
+
                             return (
                                 <Component
                                     {...restItem}

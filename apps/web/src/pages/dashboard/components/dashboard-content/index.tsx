@@ -38,9 +38,14 @@ export default () => {
     };
 
     const handleOk = (data: any) => {
-        // TODO: add widget
-        console.log(data);
-        setWidgets([...widgets, data]);
+        const newWidgets = [...widgets];
+        const index = newWidgets.findIndex((item: any) => item.id === data.id);
+        if (index > -1 && data?.id) {
+            newWidgets[index] = data;
+        } else {
+            newWidgets.push(data);
+        }
+        setWidgets(newWidgets);
     };
 
     const handleShowAddCustomWidget = () => {
@@ -126,6 +131,7 @@ export default () => {
                             widgets={widgets}
                             onChangeWidgets={setWidgets}
                             isEdit={isEdit}
+                            onEdit={handleSelectPlugin}
                         />
                     </DndProvider>
                 </div>

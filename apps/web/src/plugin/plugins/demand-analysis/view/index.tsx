@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 import { RenderView } from '../../../render';
-import configJson from '../config.json';
 // import { ViewConfigProps } from './typings';
 
 interface Props {
     config: any;
+    configJson: CustomComponentProps;
 }
 
 const View = (props: Props) => {
-    const { config } = props;
+    const { config, configJson } = props;
 
     useEffect(() => {
         // 初始化需求曲线图
