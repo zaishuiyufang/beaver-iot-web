@@ -57,7 +57,7 @@ const DraggableResizableBox = ({
             width={width || 10}
             height={height || 10}
             minConstraints={[50, 50]}
-            maxConstraints={[300, 300]}
+            maxConstraints={[600, 300]}
             onResizeStop={(e: any, data: any) => {
                 // 处理调整大小后的逻辑
                 onResize({ ...data, id });
