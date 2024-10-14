@@ -7,13 +7,15 @@ import { RenderView } from '@/plugin/render';
 interface WidgetProps {
     data: any;
     onResizeBox: ({ id, width, height }: any) => void;
+    onMove: ({ id, left, top }: { id?: string; left: number; top: number }) => void;
     isEdit: boolean;
     onEdit: (data: any) => void;
     onDelete: (data: any) => void;
+    parentRef: any;
 }
 
 const Widget = (props: WidgetProps) => {
-    const { data, onResizeBox, isEdit, onEdit, onDelete } = props;
+    const { data, onResizeBox, isEdit, onEdit, onDelete, onMove, parentRef } = props;
     const ComponentView = (plugins as any)[`${data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
     const [pos, setPos] = useState();
@@ -25,8 +27,12 @@ const Widget = (props: WidgetProps) => {
                 width: widgetRef?.current?.clientWidth,
                 height: widgetRef?.current?.clientHeight,
             });
+        } else {
+            setPos({
+                ...(data.pos || {}),
+            });
         }
-    }, [data.pos]);
+    }, [data]);
 
     const handleEdit = useCallback(() => {
         onEdit(data);
@@ -40,9 +46,11 @@ const Widget = (props: WidgetProps) => {
         <DraggableResizable
             {...(pos || {})}
             onResize={onResizeBox}
+            onMove={onMove}
             id={data.id}
             key={data.id}
             isEdit={isEdit}
+            parentRef={parentRef}
             className="dashboard-content-widget"
         >
             {isEdit && (

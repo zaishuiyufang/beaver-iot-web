@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { Button, Popover } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { cloneDeep } from 'lodash-es';
 import { useI18n } from '@milesight/shared/src/hooks';
 import AddWidget from '../add-widget';
 import PluginList from '../plugin-list';
@@ -18,6 +19,7 @@ export default () => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [isEdit, setIsEdit] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
+    const widgetsRef = useRef<any[]>([]);
 
     const handleShowAddWidget = (event: React.MouseEvent<HTMLButtonElement>) => {
         setIsShowAddWidget(true);
@@ -37,6 +39,11 @@ export default () => {
         setPlugin(undefined);
     };
 
+    const handleChangeWidgets = (data: any) => {
+        console.log(data);
+        setWidgets(data);
+    };
+
     const handleOk = (data: any) => {
         const newWidgets = [...widgets];
         const index = newWidgets.findIndex((item: any) => item.id === data.id);
@@ -45,7 +52,8 @@ export default () => {
         } else {
             newWidgets.push(data);
         }
-        setWidgets(newWidgets);
+        widgetsRef.current = cloneDeep(newWidgets);
+        handleChangeWidgets(newWidgets);
     };
 
     const handleShowAddCustomWidget = () => {
@@ -64,31 +72,38 @@ export default () => {
     // 退出dashboard编辑状态
     const cancelEditStatus = () => {
         setIsEdit(false);
+        const newWidgets = cloneDeep(widgetsRef.current);
+        setWidgets(newWidgets);
+    };
+
+    // 编辑dashboard保存
+    const saveEditDashboard = () => {
+        widgetsRef.current = cloneDeep(widgets);
+        setIsEdit(false);
     };
 
     return (
         <div className="dashboard-content">
             <div className="dashboard-content-operate">
                 <div className="dashboard-content-operate-left">
-                    <Button variant="contained" onClick={handleShowAddWidget}>
-                        {getIntlText('dashboard.add_widget')}
-                    </Button>
-                    {!!widgets.length && (
-                        <Button
-                            variant="contained"
-                            sx={{ marginLeft: '20px' }}
-                            onClick={changeEditStatus}
-                        >
+                    {isEdit || !widgets.length ? (
+                        <>
+                            <Button variant="contained" onClick={handleShowAddWidget}>
+                                {getIntlText('dashboard.add_widget')}
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleShowAddCustomWidget}
+                                sx={{ marginLeft: '20px' }}
+                            >
+                                添加自定义组件
+                            </Button>
+                        </>
+                    ) : (
+                        <Button variant="contained" onClick={changeEditStatus}>
                             {getIntlText('common.button.edit')}
                         </Button>
                     )}
-                    <Button
-                        variant="contained"
-                        onClick={handleShowAddCustomWidget}
-                        sx={{ marginLeft: '20px' }}
-                    >
-                        添加自定义组件
-                    </Button>
                 </div>
                 {isEdit && (
                     <div className="dashboard-content-operate-right">
@@ -104,7 +119,7 @@ export default () => {
                         </Button>
                         <Button
                             variant="contained"
-                            onClick={handleShowAddCustomWidget}
+                            onClick={saveEditDashboard}
                             sx={{ marginLeft: '20px' }}
                         >
                             {getIntlText('common.button.save')}
@@ -129,7 +144,7 @@ export default () => {
                         <Widgets
                             parentRef={mainRef}
                             widgets={widgets}
-                            onChangeWidgets={setWidgets}
+                            onChangeWidgets={handleChangeWidgets}
                             isEdit={isEdit}
                             onEdit={handleSelectPlugin}
                         />

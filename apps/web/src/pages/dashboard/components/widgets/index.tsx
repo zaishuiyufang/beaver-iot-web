@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useDrop } from 'react-dnd';
 import Widget from './widget';
 
 interface WidgetProps {
@@ -13,38 +12,39 @@ interface WidgetProps {
 const Widgets = (props: WidgetProps) => {
     const { widgets, onChangeWidgets, parentRef, isEdit, onEdit } = props;
 
-    const moveBox = useCallback((id: string, left: number, top: number) => {
-        const index = widgets.findIndex((item: any) => item.id === id);
-        const newWidgets = [...widgets];
-        newWidgets[index] = {
-            ...newWidgets[index],
-            left,
-            top,
-        };
-        onChangeWidgets(newWidgets);
-    }, []);
-
-    const resizeBox = useCallback(({ id, width, height }: any) => {
-        const index = widgets.findIndex((item: any) => item.id === id);
-        const newWidgets = [...widgets];
-        newWidgets[index] = {
-            ...newWidgets[index],
-            width,
-            height,
-        };
-        onChangeWidgets(newWidgets);
-    }, []);
-
-    const [, drop] = useDrop({
-        accept: 'BOX',
-        drop(item: any, monitor: any) {
-            const delta = monitor.getDifferenceFromInitialOffset();
-            const left = Math.round(item.left + delta.x);
-            const top = Math.round(item.top + delta.y);
-            moveBox(item.id, left, top);
-            return undefined;
+    const moveBox = useCallback(
+        ({ id, left, top }: any) => {
+            const index = widgets.findIndex((item: any) => item.id === id);
+            const newWidgets = [...widgets];
+            newWidgets[index] = {
+                ...newWidgets[index],
+                pos: {
+                    ...newWidgets[index].pos,
+                    left,
+                    top,
+                },
+            };
+            onChangeWidgets(newWidgets);
         },
-    });
+        [widgets],
+    );
+
+    const resizeBox = useCallback(
+        ({ id, width, height }: any) => {
+            const index = widgets.findIndex((item: any) => item.id === id);
+            const newWidgets = [...widgets];
+            newWidgets[index] = {
+                ...newWidgets[index],
+                pos: {
+                    ...newWidgets[index].pos,
+                    width,
+                    height,
+                },
+            };
+            onChangeWidgets(newWidgets);
+        },
+        [widgets],
+    );
 
     // 编辑组件
     const handleEdit = useCallback((data: any) => {
@@ -60,7 +60,7 @@ const Widgets = (props: WidgetProps) => {
     }, []);
 
     return (
-        <div ref={drop}>
+        <div>
             {widgets.map((data: any) => {
                 return (
                     <Widget
@@ -69,6 +69,8 @@ const Widgets = (props: WidgetProps) => {
                         data={data}
                         onResizeBox={resizeBox}
                         isEdit={isEdit}
+                        onMove={moveBox}
+                        parentRef={parentRef}
                     />
                 );
             })}
