@@ -58,28 +58,40 @@ export default (props: PluginListProps) => {
                                       <div className="dashboard-plugin-class-grid-title">
                                           {getIntlText(pluginList[pluginClass].name)}
                                       </div>
-                                      {pluginList[pluginClass]?.list?.map((pluginConfig: any) => {
-                                          return (
-                                              <Grid xs={3} className="dashboard-plugin-class-item">
-                                                  <div
-                                                      className="dashboard-plugin-class-item-content"
-                                                      onClick={() => handleClick(pluginConfig)}
-                                                  >
-                                                      <img
-                                                          className="dashboard-plugin-class-item-content-icon"
-                                                          src={
-                                                              pluginConfig.iconSrc?.default ||
-                                                              pluginImg
-                                                          }
-                                                          alt="plugin"
-                                                      />
-                                                      <Typography noWrap>
-                                                          {pluginConfig.name}
-                                                      </Typography>
-                                                  </div>
-                                              </Grid>
-                                          );
-                                      })}
+                                      <Grid container>
+                                          {pluginList[pluginClass]?.list?.map(
+                                              (pluginConfig: any) => {
+                                                  return (
+                                                      <Grid
+                                                          xs={3}
+                                                          className="dashboard-plugin-class-item"
+                                                      >
+                                                          <div
+                                                              className="dashboard-plugin-class-item-content"
+                                                              onClick={() =>
+                                                                  handleClick(pluginConfig)
+                                                              }
+                                                          >
+                                                              <img
+                                                                  className="dashboard-plugin-class-item-content-icon"
+                                                                  src={
+                                                                      pluginConfig.iconSrc
+                                                                          ?.default || pluginImg
+                                                                  }
+                                                                  alt="plugin"
+                                                              />
+                                                              <Typography
+                                                                  noWrap
+                                                                  className="dashboard-plugin-class-item-content-name"
+                                                              >
+                                                                  {pluginConfig.name}
+                                                              </Typography>
+                                                          </div>
+                                                      </Grid>
+                                                  );
+                                              },
+                                          )}
+                                      </Grid>
                                   </div>
                               );
                           })
