@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { Button, Tooltip, Chip, Switch, IconButton } from '@mui/material';
-import {
-    InfoOutlined as InfoOutlinedIcon,
-    ContentCopy as ContentCopyIcon,
-} from '@mui/icons-material';
 import cls from 'classnames';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { useCopy } from '@milesight/shared/src/hooks';
+import { InfoOutlinedIcon, ContentCopyIcon } from '@milesight/shared/src/components';
 import useFormItems from './useFormItems';
 import './style.less';
 

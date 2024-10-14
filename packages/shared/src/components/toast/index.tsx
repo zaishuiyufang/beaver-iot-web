@@ -1,13 +1,8 @@
 import React from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { Snackbar } from '@mui/material';
-import {
-    Info as InfoIcon,
-    CheckCircle as CheckCircleIcon,
-    Cancel as CancelIcon,
-    Error as ErrorIcon,
-} from '@mui/icons-material';
 import { uniqBy } from 'lodash-es';
+import { InfoIcon, CheckCircleIcon, CancelIcon, ErrorIcon } from '../icons';
 import './style.less';
 
 type SeverityType = 'info' | 'success' | 'warning' | 'error';

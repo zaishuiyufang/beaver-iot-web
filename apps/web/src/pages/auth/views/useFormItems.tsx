@@ -1,13 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { type ControllerProps } from 'react-hook-form';
 import { TextField, IconButton, InputAdornment, type TextFieldProps } from '@mui/material';
-import {
-    Email as EmailIcon,
-    Visibility as VisibilityIcon,
-    VisibilityOff as VisibilityOffIcon,
-    Https as HttpsIcon,
-    AccountCircle as AccountCircleIcon,
-} from '@mui/icons-material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import {
     checkRequired,
@@ -15,6 +8,13 @@ import {
     userNameChecker,
     passwordChecker,
 } from '@milesight/shared/src/utils/validators';
+import {
+    EmailIcon,
+    VisibilityIcon,
+    VisibilityOffIcon,
+    AccountCircleIcon,
+    HttpsIcon,
+} from '@milesight/shared/src/components';
 
 interface UseFormItemsProps {
     mode?: 'login' | 'register';

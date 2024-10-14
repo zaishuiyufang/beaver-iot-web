@@ -3,7 +3,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
-// import CloseIcon from '@mui/icons-material/Close';
 import { RenderConfig, RenderView } from '../render';
 import * as plugins from '../plugins';
 import { CustomComponentProps } from '../render/typings';

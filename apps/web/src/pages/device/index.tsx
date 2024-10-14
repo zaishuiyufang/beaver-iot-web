@@ -1,10 +1,11 @@
-import { useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
-import { Add as AddIcon, DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material';
+import { AddIcon, DeleteOutlineIcon } from '@milesight/shared/src/components';
 import { Breadcrumbs, TablePro, useConfirm } from '@/components';
 import { type DeviceDetail } from '@/services/http';
 import { useColumns, type UseColumnsProps } from './hooks';
+import { AddModal } from './components';
 import './style.less';
 
 const mockList = (() => {
@@ -23,6 +24,7 @@ const mockList = (() => {
 export default () => {
     const navigate = useNavigate();
     const confirm = useConfirm();
+    const [modalOpen, setModalOpen] = useState(false);
     const toolbarRender = useMemo(() => {
         return (
             <Stack className="ms-operations-btns" direction="row" spacing="12px">
@@ -30,6 +32,7 @@ export default () => {
                     variant="contained"
                     sx={{ height: 36, textTransform: 'none' }}
                     startIcon={<AddIcon />}
+                    onClick={() => setModalOpen(true)}
                 >
                     Add
                 </Button>
@@ -57,6 +60,7 @@ export default () => {
             </Stack>
         );
     }, []);
+
     const handleTableBtnClick: UseColumnsProps<DeviceDetail>['onButtonClick'] = useCallback(
         (type, record) => {
             console.log(type, record);
@@ -89,12 +93,16 @@ export default () => {
                         columns={columns}
                         rows={mockList}
                         rowCount={50}
+                        onRowDoubleClick={({ row }) => {
+                            navigate(`/device/detail/${row.id}`);
+                        }}
                         toolbarRender={toolbarRender}
                         onSearch={() => console.log('search')}
                         onRefreshButtonClick={() => console.log('refresh')}
                     />
                 </div>
             </div>
+            <AddModal visible={modalOpen} onCancel={() => setModalOpen(false)} />
         </div>
     );
 };

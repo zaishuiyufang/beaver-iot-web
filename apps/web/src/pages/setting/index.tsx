@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Button, Tabs, Tab } from '@mui/material';
-import { toast } from '@milesight/shared/src/components';
+import { Tabs, Tab } from '@mui/material';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { Integration } from './components';
 import './style.less';

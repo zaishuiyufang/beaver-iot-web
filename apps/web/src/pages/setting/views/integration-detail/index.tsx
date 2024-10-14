@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Stack, Tabs, Tab } from '@mui/material';
-import { DevicesOther as DevicesOtherIcon, Share as ShareIcon } from '@mui/icons-material';
-import { Logo } from '@milesight/shared/src/components';
+import { Logo, DevicesOtherIcon, ShareIcon } from '@milesight/shared/src/components';
 import { thousandSeparate } from '@milesight/shared/src/utils/tools';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { Config, Functions } from './components';

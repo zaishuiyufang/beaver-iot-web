@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Alert, IconButton, Grid2 } from '@mui/material';
-import { ArrowForwardIos as ArrowForwardIosIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
-import { Modal } from '@milesight/shared/src/components';
+import { Modal, ChevronRightIcon } from '@milesight/shared/src/components';
 import { useConfirm, Tooltip, DateRangePicker } from '@/components';
 import './style.less';
 
@@ -47,7 +46,7 @@ const Functions = () => {
                                 title="Pull added device information"
                             />
                             <IconButton>
-                                <ArrowForwardIosIcon sx={{ fontSize: 16 }} />
+                                <ChevronRightIcon sx={{ fontSize: 16 }} />
                             </IconButton>
                         </div>
                         <div className="desc">
@@ -66,7 +65,7 @@ const Functions = () => {
                                 title="Query the historical data"
                             />
                             <IconButton>
-                                <ArrowForwardIosIcon sx={{ fontSize: 16 }} />
+                                <ChevronRightIcon sx={{ fontSize: 16 }} />
                             </IconButton>
                         </div>
                         <div className="desc">

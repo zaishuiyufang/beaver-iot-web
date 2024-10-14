@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { isUndefined } from 'lodash-es';
 import { OutlinedInput, InputAdornment } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
 import {
     DataGrid,
     type DataGridProps,
     type GridValidRowModel,
     type GridColDef,
 } from '@mui/x-data-grid';
+import { SearchIcon } from '@milesight/shared/src/components';
 import Tooltip from '../tooltip';
 import { Footer, NoDataOverlay, NoResultsOverlay } from './components';
 import './style.less';

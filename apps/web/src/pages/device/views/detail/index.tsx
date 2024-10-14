@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef } from 'react';
 import { Tabs, Tab } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import { EditIcon } from '@milesight/shared/src/components';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { BasicTable, EntityTable, type BasicTableInstance } from './components';
 import './style.less';

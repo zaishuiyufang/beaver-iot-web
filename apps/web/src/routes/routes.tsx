@@ -1,10 +1,10 @@
 import intl from 'react-intl-universal';
 import { Outlet, RouteObject } from 'react-router-dom';
 import {
-    GridView as GridViewIcon,
-    Devices as DevicesIcon,
-    SettingsOutlined as SettingsOutlinedIcon,
-} from '@mui/icons-material';
+    DashboardCustomizeIcon,
+    DevicesOtherIcon,
+    SettingsIcon,
+} from '@milesight/shared/src/components';
 
 type RouteObjectType = RouteObject & {
     /** 自定义路由元数据 */
@@ -34,7 +34,7 @@ const routes: RouteObjectType[] = [
         path: '/dashboard',
         handle: {
             title: 'Dashboard',
-            icon: <GridViewIcon />,
+            icon: <DashboardCustomizeIcon />,
         },
         async lazy() {
             const { default: Component } = await import('@/pages/dashboard');
@@ -46,7 +46,7 @@ const routes: RouteObjectType[] = [
         element: <Outlet />,
         handle: {
             title: 'Device',
-            icon: <DevicesIcon />,
+            icon: <DevicesOtherIcon />,
         },
         children: [
             {
@@ -74,7 +74,7 @@ const routes: RouteObjectType[] = [
         element: <Outlet />,
         handle: {
             title: 'Setting',
-            icon: <SettingsOutlinedIcon />,
+            icon: <SettingsIcon />,
         },
         children: [
             {

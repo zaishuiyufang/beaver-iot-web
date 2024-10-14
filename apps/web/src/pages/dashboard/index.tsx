@@ -1,10 +1,6 @@
 import { useState, useRef } from 'react';
 import { Tabs, Tab } from '@mui/material';
-import {
-    Fullscreen as FullscreenIcon,
-    FullscreenExit as FullscreenIconExit,
-    Add as AddIcon,
-} from '@mui/icons-material';
+import { FullscreenIcon, FullscreenExitIcon, AddIcon } from '@milesight/shared/src/components';
 import { TabPanel } from '@/components';
 import DashboardContent from './components/dashboard-content';
 import AddDashboard from './components/add-dashboard';
@@ -63,7 +59,7 @@ export default () => {
             {!isFullscreen ? (
                 <FullscreenIcon className="dashboard-fullscreen" onClick={enterFullscreen} />
             ) : (
-                <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
+                <FullscreenExitIcon className="dashboard-fullscreen" onClick={exitFullscreen} />
             )}
             <div className="ms-view ms-view-dashboard">
                 <Tabs className="ms-tabs" value={tabKey} onChange={handleChange}>

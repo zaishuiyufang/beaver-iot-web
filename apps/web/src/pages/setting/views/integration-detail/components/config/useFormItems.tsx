@@ -11,11 +11,8 @@ import {
     FormHelperText,
     type TextFieldProps,
 } from '@mui/material';
-import {
-    Visibility as VisibilityIcon,
-    VisibilityOff as VisibilityOffIcon,
-} from '@mui/icons-material';
 import { checkRequired } from '@milesight/shared/src/utils/validators';
+import { VisibilityIcon, VisibilityOffIcon } from '@milesight/shared/src/components';
 
 export interface FormDataProps {
     address?: string;

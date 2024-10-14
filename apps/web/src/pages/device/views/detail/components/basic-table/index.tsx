@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
 import { Stack, IconButton } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import { EditIcon } from '@milesight/shared/src/components';
 import { Descriptions, Tooltip } from '@/components';
 import { deviceAPI, type DeviceDetail } from '@/services/http';
 import EditDialog from './edit-dialog';

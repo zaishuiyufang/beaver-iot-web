@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Stack, IconButton } from '@mui/material';
-import { ListAlt as ListAltIcon, DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material';
+import { ListAltIcon, DeleteOutlineIcon } from '@milesight/shared/src/components';
 import { type ColumnType } from '@/components';
 import { type DeviceDetail } from '@/services/http';
 

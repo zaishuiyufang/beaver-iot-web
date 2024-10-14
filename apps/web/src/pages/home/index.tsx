@@ -12,13 +12,14 @@ import {
 } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import {
-    Menu as MenuIcon,
-    Search as SearchIcon,
-    AccountCircle,
-    Mail as MailIcon,
-    Notifications as NotificationsIcon,
-    MoreVert as MoreIcon,
-} from '@mui/icons-material';
+    MenuIcon,
+    SearchIcon,
+    AccountCircleIcon,
+    HomeIcon,
+    NotificationsIcon,
+    PinDropIcon,
+    EmailIcon,
+} from '@milesight/shared/src/components';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -122,7 +123,7 @@ export default function PrimarySearchAppBar() {
             <MenuItem>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={4} color="error">
-                        <MailIcon />
+                        <EmailIcon />
                     </Badge>
                 </IconButton>
                 <p>Messages</p>
@@ -143,7 +144,7 @@ export default function PrimarySearchAppBar() {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <AccountCircle />
+                    <AccountCircleIcon />
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
@@ -184,7 +185,7 @@ export default function PrimarySearchAppBar() {
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
-                                <MailIcon />
+                                <HomeIcon />
                             </Badge>
                         </IconButton>
                         <IconButton
@@ -205,7 +206,7 @@ export default function PrimarySearchAppBar() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <HomeIcon />
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -217,7 +218,7 @@ export default function PrimarySearchAppBar() {
                             onClick={handleMobileMenuOpen}
                             color="inherit"
                         >
-                            <MoreIcon />
+                            <PinDropIcon />
                         </IconButton>
                     </Box>
                 </Toolbar>
