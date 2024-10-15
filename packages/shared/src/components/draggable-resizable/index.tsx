@@ -12,9 +12,11 @@ interface DraggableResizableBoxProps {
     className?: string;
     width?: number;
     height?: number;
+    limitWidth?: number;
+    limitHeight?: number;
     isEdit: boolean;
     children: React.ReactNode;
-    onResize: (data: any) => void;
+    onResize: (data: draggerType) => void;
     onMove: ({ id, left, top }: { id?: string; left: number; top: number }) => void;
     /**
      * 拖拽相对的元素
@@ -29,6 +31,8 @@ const DraggableResizableBox = ({
     className,
     width,
     height,
+    limitWidth,
+    limitHeight,
     isEdit,
     children,
     onResize,
@@ -68,7 +72,7 @@ const DraggableResizableBox = ({
         <ResizableBox
             width={width || 10}
             height={height || 10}
-            minConstraints={[50, 50]}
+            minConstraints={[limitWidth || 50, limitHeight || 50]}
             maxConstraints={[600, 300]}
             onResizeStop={(e: any, data: any) => {
                 // 处理调整大小后的逻辑

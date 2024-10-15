@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { Button, Popover } from '@mui/material';
+import { Add, DeleteOutline, Close, Check } from '@mui/icons-material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep } from 'lodash-es';
@@ -89,13 +90,18 @@ export default () => {
                 <div className="dashboard-content-operate-left">
                     {isEdit || !widgets.length ? (
                         <>
-                            <Button variant="contained" onClick={handleShowAddWidget}>
+                            <Button
+                                variant="contained"
+                                onClick={handleShowAddWidget}
+                                startIcon={<Add />}
+                            >
                                 {getIntlText('dashboard.add_widget')}
                             </Button>
                             <Button
                                 variant="contained"
                                 onClick={handleShowAddCustomWidget}
                                 sx={{ marginLeft: '20px' }}
+                                startIcon={<Add />}
                             >
                                 添加自定义组件
                             </Button>
@@ -108,13 +114,18 @@ export default () => {
                 </div>
                 {isEdit && (
                     <div className="dashboard-content-operate-right">
-                        <Button variant="outlined" onClick={handleShowAddWidget}>
+                        <Button
+                            variant="outlined"
+                            onClick={handleShowAddWidget}
+                            startIcon={<DeleteOutline />}
+                        >
                             {getIntlText('common.label.delete')}
                         </Button>
                         <Button
                             variant="outlined"
                             sx={{ marginLeft: '20px' }}
                             onClick={cancelEditStatus}
+                            startIcon={<Close />}
                         >
                             {getIntlText('common.button.cancel')}
                         </Button>
@@ -122,6 +133,7 @@ export default () => {
                             variant="contained"
                             onClick={saveEditDashboard}
                             sx={{ marginLeft: '20px' }}
+                            startIcon={<Check />}
                         >
                             {getIntlText('common.button.save')}
                         </Button>

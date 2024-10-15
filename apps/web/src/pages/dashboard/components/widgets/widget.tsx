@@ -6,7 +6,7 @@ import { RenderView } from '@/plugin/render';
 
 interface WidgetProps {
     data: any;
-    onResizeBox: ({ id, width, height }: any) => void;
+    onResizeBox: ({ id, width, height, initWidth, initHeight }: draggerType) => void;
     onMove: ({ id, left, top }: { id?: string; left: number; top: number }) => void;
     isEdit: boolean;
     onEdit: (data: any) => void;
@@ -18,14 +18,23 @@ const Widget = (props: WidgetProps) => {
     const { data, onResizeBox, isEdit, onEdit, onDelete, onMove, parentRef } = props;
     const ComponentView = (plugins as any)[`${data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
-    const [pos, setPos] = useState();
+    const [pos, setPos] = useState<draggerType>();
 
     useEffect(() => {
         if (!data?.pos?.width && !data?.pos?.height && widgetRef?.current) {
             setPos({
                 ...(data.pos || {}),
+                initWidth: widgetRef?.current?.clientWidth,
+                initHeight: widgetRef?.current?.clientHeight,
                 width: widgetRef?.current?.clientWidth,
                 height: widgetRef?.current?.clientHeight,
+            });
+            onResizeBox({
+                id: data.id,
+                width: widgetRef?.current?.clientWidth,
+                height: widgetRef?.current?.clientHeight,
+                initWidth: widgetRef?.current?.clientWidth,
+                initHeight: widgetRef?.current?.clientHeight,
             });
         } else {
             setPos({
@@ -45,6 +54,8 @@ const Widget = (props: WidgetProps) => {
     return (
         <DraggableResizable
             {...(pos || {})}
+            limitWidth={pos?.initWidth}
+            limitHeight={pos?.initHeight}
             onResize={onResizeBox}
             onMove={onMove}
             id={data.id}

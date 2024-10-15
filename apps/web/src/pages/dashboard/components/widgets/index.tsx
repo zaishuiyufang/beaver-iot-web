@@ -13,15 +13,14 @@ const Widgets = (props: WidgetProps) => {
     const { widgets, onChangeWidgets, parentRef, isEdit, onEdit } = props;
 
     const moveBox = useCallback(
-        ({ id, left, top }: any) => {
+        ({ id, ...rest }: any) => {
             const index = widgets.findIndex((item: any) => item.id === id);
             const newWidgets = [...widgets];
             newWidgets[index] = {
                 ...newWidgets[index],
                 pos: {
                     ...newWidgets[index].pos,
-                    left,
-                    top,
+                    ...rest,
                 },
             };
             onChangeWidgets(newWidgets);
@@ -30,15 +29,14 @@ const Widgets = (props: WidgetProps) => {
     );
 
     const resizeBox = useCallback(
-        ({ id, width, height }: any) => {
+        ({ id, ...rest }: any) => {
             const index = widgets.findIndex((item: any) => item.id === id);
             const newWidgets = [...widgets];
             newWidgets[index] = {
                 ...newWidgets[index],
                 pos: {
                     ...newWidgets[index].pos,
-                    width,
-                    height,
+                    ...rest,
                 },
             };
             onChangeWidgets(newWidgets);
