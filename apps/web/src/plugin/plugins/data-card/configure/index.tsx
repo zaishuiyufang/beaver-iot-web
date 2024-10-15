@@ -1,15 +1,17 @@
 import { forwardRef } from 'react';
 import { RenderConfig } from '../../../render';
-import config from '../config.json';
+import { useGetData } from './hooks/useGetData';
 
 interface ConfigPluginProps {
     value: any;
+    config: any;
     onOk: (data: any) => void;
     onChange: (data: any) => void;
 }
 
 const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {
-    const { value, onOk, onChange } = props;
+    const { value, config, onOk, onChange } = props;
+    const { customConfig } = useGetData({ config, value });
 
     const handleSubmit = (data: any) => {
         onOk(data);
@@ -17,7 +19,7 @@ const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {
 
     return (
         <RenderConfig
-            config={config}
+            config={customConfig}
             onOk={handleSubmit}
             ref={ref}
             value={value}
