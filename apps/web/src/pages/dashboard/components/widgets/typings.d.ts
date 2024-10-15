@@ -4,4 +4,6 @@ declare type draggerType = {
     height?: number;
     initWidth?: number;
     initHeight?: number;
+    parentWidth?: number;
+    parentHeight?: number;
 };
