@@ -63,7 +63,7 @@ const TablePro = <DataType extends GridValidRowModel>({
                 : column.disableColumnMenu;
 
             if (columns.length === index + 1) {
-                col.align = isUndefined(col.align) ? 'left' : col.align;
+                col.align = isUndefined(col.align) ? 'right' : col.align;
                 col.headerAlign = isUndefined(col.headerAlign) ? 'right' : col.headerAlign;
                 col.resizable = isUndefined(col.resizable) ? false : col.resizable;
             }
