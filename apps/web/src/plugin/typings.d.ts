@@ -19,7 +19,7 @@ declare interface ThemeProps {
 
 declare interface OptionsProps {
     label: string;
-    value?: string;
+    value?: string | number | boolean;
     options?: OptionsProps[];
 }
 
@@ -40,7 +40,7 @@ declare interface ComponentProps {
     /**
      * 默认值
      */
-    defaultValue?: string;
+    defaultValue?: string | number | boolean | Array<string | number>;
     /**
      * 组件样式
      */
