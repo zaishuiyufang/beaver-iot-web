@@ -70,7 +70,7 @@ export default () => {
             {!isFullscreen ? (
                 <FullscreenIcon className="dashboard-fullscreen" onClick={enterFullscreen} />
             ) : (
-                <FullscreenExitIcon className="dashboard-fullscreen" onClick={exitFullscreen} />
+                <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
             )}
             <div className="ms-view ms-view-dashboard">
                 <Tabs className="ms-tabs" value={tabKey} onChange={handleChange}>

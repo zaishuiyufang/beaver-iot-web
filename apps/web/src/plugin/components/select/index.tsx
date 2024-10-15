@@ -20,7 +20,7 @@ type Props = {
     renderOptions?: () => any[];
 };
 
-type SelectProps = Props & MuiSelectProps;
+export type SelectProps = Props & MuiSelectProps;
 
 const Select = (props: SelectProps) => {
     const { options, renderOptions, style, title, ...rest } = props;

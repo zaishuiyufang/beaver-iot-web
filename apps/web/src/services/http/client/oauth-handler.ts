@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios';
-import { OAuthClientID, OAuthClientSecret } from '@milesight/shared/src/config';
+import { oauthClientID, oauthClientSecret } from '@milesight/shared/src/config';
 import { getResponseData } from '@milesight/shared/src/utils/request';
 import iotStorage, { getUserCacheKey, TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
 
@@ -48,8 +48,8 @@ const oauthHandler = async (config: AxiosRequestConfig) => {
     if (!token || isExpired) {
         const requestData = !token
             ? {
-                  client_id: OAuthClientID,
-                  client_secret: OAuthClientSecret,
+                  client_id: oauthClientID,
+                  client_secret: oauthClientSecret,
                   grant_type: 'get_refresh_token',
               }
             : {

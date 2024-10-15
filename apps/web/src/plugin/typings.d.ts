@@ -19,7 +19,7 @@ declare interface ThemeProps {
 
 declare interface OptionsProps {
     label: string;
-    value?: string | number | boolean;
+    value?: string | number;
     options?: OptionsProps[];
 }
 
