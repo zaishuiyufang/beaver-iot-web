@@ -55,7 +55,7 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                     return (
                         <TextField
                             {...props}
-                            label="Email"
+                            label={getIntlText('common.label.email')}
                             error={!!error}
                             helperText={error ? error.message : null}
                             value={value}
@@ -86,7 +86,7 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                     return (
                         <TextField
                             {...props}
-                            label="Username"
+                            label={getIntlText('common.label.username')}
                             error={!!error}
                             helperText={error ? error.message : null}
                             value={value}
@@ -116,7 +116,7 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                     return (
                         <TextField
                             {...props}
-                            label="Password"
+                            label={getIntlText('common.label.password')}
                             type={showPassword ? 'text' : 'password'}
                             error={!!error}
                             helperText={error ? error.message : null}
@@ -170,7 +170,7 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                     return (
                         <TextField
                             {...props}
-                            label="Confirm Password"
+                            label={getIntlText('common.label.confirm_password')}
                             type={showPassword ? 'text' : 'password'}
                             error={!!error}
                             helperText={error ? error.message : null}

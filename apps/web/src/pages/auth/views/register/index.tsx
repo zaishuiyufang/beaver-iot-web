@@ -1,10 +1,12 @@
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { Paper, Typography, Button } from '@mui/material';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { Logo } from '@milesight/shared/src/components';
 import useFormItems, { type FormDataProps } from '../useFormItems';
 import './style.less';
 
 export default () => {
+    const { getIntlText } = useI18n();
     const { handleSubmit, control } = useForm<FormDataProps>();
     const formItems = useFormItems({ mode: 'register' });
 
@@ -28,7 +30,7 @@ export default () => {
                     onClick={handleSubmit(onSubmit)}
                     variant="contained"
                 >
-                    Confirm
+                    {getIntlText('common.button.confirm')}
                 </Button>
             </Paper>
         </div>
