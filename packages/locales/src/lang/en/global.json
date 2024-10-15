@@ -132,5 +132,10 @@
     "common.label.time": "Time",
     "common.label.create_time": "Create Time",
     "common.label.type": "Type",
-    "common.label.data_type": "Data Type"
+    "common.label.data_type": "Data Type",
+    "common.document.title": "IOT Solution Tools",
+    "common.label.email": "Email",
+    "common.label.password": "Password",
+    "common.label.username": "Username",
+    "common.label.confirm_password": "Confirm Password"
 }
