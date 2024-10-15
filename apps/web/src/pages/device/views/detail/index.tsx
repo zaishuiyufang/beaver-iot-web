@@ -1,28 +1,27 @@
 import { useState, useMemo, useRef } from 'react';
 import { Tabs, Tab } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { BasicTable, EntityTable, type BasicTableInstance } from './components';
 import './style.less';
 
 export default () => {
+    const { getIntlText } = useI18n();
     const basicRef = useRef<BasicTableInstance>(null);
     const tabs = useMemo(() => {
         return [
             {
                 key: 'basic',
-                label: 'Basic Information',
-                // intlKey: '',
+                label: getIntlText('device.detail.basic_info'),
                 component: <BasicTable ref={basicRef} />,
             },
             {
                 key: 'entity',
-                label: 'Entity Data',
-                // intlKey: '',
+                label: getIntlText('device.detail.entity_data'),
                 component: <EntityTable />,
             },
         ];
-    }, []);
+    }, [getIntlText]);
     const [tabKey, setTabKey] = useState<ApiKey>(tabs[0].key);
 
     return (

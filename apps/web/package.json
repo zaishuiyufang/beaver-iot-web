@@ -17,7 +17,6 @@
         "@emotion/styled": "^11.13.0",
         "@milesight/locales": "workspace:*",
         "@milesight/shared": "workspace:*",
-        "@mui/icons-material": "^6.0.2",
         "@mui/material": "^6.1.0",
         "@mui/x-data-grid": "^7.16.0",
         "@mui/x-date-pickers": "^7.18.0",
@@ -40,6 +39,7 @@
         "react-dnd-html5-backend": "^16.0.1"
     },
     "devDependencies": {
+        "@milesight/scripts": "workspace:*",
         "@milesight/spec": "workspace:*",
         "@types/lodash-es": "^4.17.12",
         "@types/node": "^22.5.4",

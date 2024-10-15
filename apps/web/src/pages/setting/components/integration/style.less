@@ -22,12 +22,22 @@
         .text-size(@font-size-lg);
 
         font-weight: @font-weight-medium;
+
+        > .@{prefix}-tooltip-cont {
+            display: block;
+            .ellipsis();
+        }
     }
 
     .desc {
         .text-size(@font-size-base);
 
         color: var(--text-color-tertiary);
+
+        > .@{prefix}-tooltip-cont {
+            display: block;
+            .ellipsis();
+        }
     }
 
     .meta {

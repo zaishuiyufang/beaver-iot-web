@@ -8,7 +8,7 @@ import intl from 'react-intl-universal';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import { zhCN, enUS, type Localization } from '@mui/material/locale';
-import i18nHelper, { LANGUAGE } from '@milesight/locales';
+import i18nHelper, { LANGUAGE, HTTP_ERROR_CODE_PREFIX } from '@milesight/locales';
 import iotStorage from '../utils/storage';
 import eventEmitter from '../utils/event-emitter';
 
@@ -34,19 +34,16 @@ type LangListType = Partial<
             value: string;
 
             /** 语言说明 */
-            label: string;
+            label?: string;
 
             /** 文案包 */
             locale?: Record<string, string> | Record<string, string>[];
-
-            /** antd 对应语言包资源（非 false 表示已加载） */
-            antdLocale?: any;
 
             /** MUI 对应语言包资源 */
             muiLocale?: Localization;
 
             /** moment 对应语言包资源（非 false 表示已加载） */
-            momentLocale?: any;
+            // momentLocale?: any;
         }
     >
 >;
@@ -63,17 +60,13 @@ export const DEFAULT_LANGUAGE = LANGUAGE.EN;
 export const langs: LangListType = {
     EN: {
         key: LANGUAGE.EN,
-        value: i18nHelper.getComponentLanguage(LANGUAGE.EN, 'moment'),
-        label: '',
+        value: i18nHelper.getComponentLanguage(LANGUAGE.EN, 'dayjs'),
         muiLocale: enUS,
-        // antdLocale: en_US,
     },
     CN: {
         key: LANGUAGE.CN,
-        value: i18nHelper.getComponentLanguage(LANGUAGE.CN, 'moment'),
-        label: '',
+        value: i18nHelper.getComponentLanguage(LANGUAGE.CN, 'dayjs'),
         muiLocale: zhCN,
-        // antdLocale: zh_CN,
     },
 };
 
@@ -196,7 +189,7 @@ export const changeLang = async (
     iotStorage.setItem(CACHE_KEY, lang);
 
     const html = document.querySelector('html');
-    html?.setAttribute('lang', getCurrentMomentLang());
+    html?.setAttribute('lang', getCurrentComponentLang());
 
     return true;
 };
@@ -210,17 +203,19 @@ export const getCurrentLang = (): LangType => {
 };
 
 /**
- * 获取当前语言映射的 Moment 语言
+ * 获取当前语言映射的 Dayjs 语言
  */
-export const getCurrentMomentLang = () => {
+export const getCurrentComponentLang = () => {
     const lang = getCurrentLang();
-    return i18nHelper.getComponentLanguage(lang, 'moment');
+    return i18nHelper.getComponentLanguage(lang, 'dayjs');
 };
 
 /**
- * 返回 moment 周开始时间、12 小时制国际化处理
+ * 返回周开始时间、12 小时制国际化处理
+ *
+ * TODO: 验证 Dayjs 中是否有对应的配置
  */
-export const getMomentWeekStartAndIntl = (weekStartWith?: WeekStartWithType) => {
+export const getWeekStartAndIntl = (weekStartWith?: WeekStartWithType) => {
     /**
      * 周开始时间处理
      */
@@ -235,7 +230,7 @@ export const getMomentWeekStartAndIntl = (weekStartWith?: WeekStartWithType) => 
         dowVal = dowMap[weekStartWith];
     }
 
-    // 返回 moment 配置
+    // 返回 dayjs 配置
     return {
         week: {
             dow: dowVal,
@@ -249,10 +244,9 @@ export const getMomentWeekStartAndIntl = (weekStartWith?: WeekStartWithType) => 
     };
 };
 
-/**
- * 接口错误码与文案 key 映射表
- */
-export const errorKeyMaps = i18nHelper.getErrorMapKeys() as Record<string, string>;
+export { HTTP_ERROR_CODE_PREFIX };
+
+export const { getHttpErrorKey } = i18nHelper;
 
 /**
  * 监听系统语言变更

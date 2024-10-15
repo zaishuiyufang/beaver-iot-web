@@ -1,0 +1,21 @@
+{
+    "setting.integration.configuration": "Integration Configuration",
+    "setting.integration.available_function": "Available Function",
+    "setting.integration.openapi_config": "OpenAPI Configuration",
+    "setting.integration.openapi_config_helper_text": "API Key is used to authenticate with the server.",
+    "setting.integration.api_status": "API Status",
+    "setting.integration.api_status_waiting": "Waiting For Connection",
+    "setting.integration.api_status_ready": "API Ready",
+    "setting.integration.param_server_address": "Server Address",
+    "setting.integration.param_client_id": "Client ID",
+    "setting.integration.param_client_secret": "Client Secret",
+    "setting.integration.data_access_service": "Data Access Service",
+    "setting.integration.webhook_helper_text": "Receive the data pushed by Milesight Development Platform in real time via the Webhook service, and paste the URL address generated below, into the application from Milesight Development Platform.",
+    "setting.integration.webhook_status": "Webhook Status",
+    "setting.integration.webhook_status_waiting": "Waiting For Config",
+    "setting.integration.webhook_status_ready": "Webhook Ready",
+    "setting.integration.webhook_url": "Webhook URL",
+    "setting.integration.openapi_helper_text": "Proactively pull device information and device telemetry data at regular intervals via OpenAPI.",
+    "setting.integration.openapi_frequency_of_request": "Frequency of requests",
+    "setting.integration.available_function_warning_text": "The following functions are not available and need to be configured with Open API under integrated configuration before they can be used."
+}

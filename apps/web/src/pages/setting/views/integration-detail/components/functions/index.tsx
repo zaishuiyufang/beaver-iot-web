@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Alert, IconButton, Grid2 } from '@mui/material';
-import { ArrowForwardIos as ArrowForwardIosIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
-import { Modal } from '@milesight/shared/src/components';
+import { useI18n } from '@milesight/shared/src/hooks';
+import { Modal, ChevronRightIcon } from '@milesight/shared/src/components';
 import { useConfirm, Tooltip, DateRangePicker } from '@/components';
 import './style.less';
 
@@ -12,6 +12,7 @@ interface FormDataProps {
 }
 
 const Functions = () => {
+    const { getIntlText } = useI18n();
     const confirm = useConfirm();
     const [modalOpen, setModalOpen] = useState(false);
     const handleConfirm = () => {
@@ -34,8 +35,7 @@ const Functions = () => {
     return (
         <div className="ms-int-functions">
             <Alert severity="warning" sx={{ mb: 2.5 }}>
-                The following functions are not available and need to be configured with Open API
-                under integrated configuration before they can be used
+                {getIntlText('setting.integration.available_function_warning_text')}
             </Alert>
             <Grid2 container spacing={2}>
                 <Grid2 size={{ sm: 6, md: 4, xl: 3 }}>
@@ -47,7 +47,7 @@ const Functions = () => {
                                 title="Pull added device information"
                             />
                             <IconButton>
-                                <ArrowForwardIosIcon sx={{ fontSize: 16 }} />
+                                <ChevronRightIcon sx={{ fontSize: 16 }} />
                             </IconButton>
                         </div>
                         <div className="desc">
@@ -66,7 +66,7 @@ const Functions = () => {
                                 title="Query the historical data"
                             />
                             <IconButton>
-                                <ArrowForwardIosIcon sx={{ fontSize: 16 }} />
+                                <ChevronRightIcon sx={{ fontSize: 16 }} />
                             </IconButton>
                         </div>
                         <div className="desc">

@@ -12,8 +12,7 @@ import {
     IconButton,
     type MenuItemProps,
 } from '@mui/material';
-import { MenuOpen as MenuOpenIcon, KeyboardArrowDown } from '@mui/icons-material';
-import { Logo } from '@milesight/shared/src/components';
+import { Logo, FormatIndentDecreaseIcon, ExpandMoreIcon } from '@milesight/shared/src/components';
 import './style.less';
 
 interface Props {
@@ -76,7 +75,7 @@ const Sidebar: React.FC<Props> = memo(({ menus, logoLinkTo = '/' }) => {
                             sx={{ width: 32, height: 32 }}
                         />
                         <span className="ms-name">Admin</span>
-                        <KeyboardArrowDown className="ms-icon" />
+                        <ExpandMoreIcon className="ms-icon" />
                     </Stack>
                     <Popover
                         open={!!userMenuAnchorEl}
@@ -95,7 +94,7 @@ const Sidebar: React.FC<Props> = memo(({ menus, logoLinkTo = '/' }) => {
                     </Popover>
                 </div>
                 <IconButton className="ms-oprt-shrink" onClick={() => setShrink(!shrink)}>
-                    <MenuOpenIcon />
+                    <FormatIndentDecreaseIcon />
                 </IconButton>
             </div>
         </div>

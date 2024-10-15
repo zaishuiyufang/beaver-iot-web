@@ -1,12 +1,12 @@
 import React from 'react';
 import { IconButton } from '@mui/material';
-import { Refresh } from '@mui/icons-material';
 import {
     GridFooterContainer,
     GridPagination,
     type GridFooterContainerProps,
 } from '@mui/x-data-grid';
 import cls from 'classnames';
+import { RefreshIcon } from '@milesight/shared/src/components';
 import './style.less';
 
 interface CustomFooterProps extends GridFooterContainerProps {
@@ -29,7 +29,7 @@ const CustomFooter: React.FC<CustomFooterProps> = ({
                 className="ms-table-pro__refresh-btn"
                 onClick={onRefreshButtonClick}
             >
-                <Refresh sx={{ width: 24, height: 24 }} />
+                <RefreshIcon sx={{ width: 24, height: 24 }} />
             </IconButton>
             <GridPagination
                 className="ms-table-pro__pagination"

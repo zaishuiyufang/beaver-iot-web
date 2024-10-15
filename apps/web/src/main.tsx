@@ -9,7 +9,7 @@ const router = createBrowserRouter(routes, { basename: '/' });
 const root = createRoot(document.getElementById('root')!);
 
 // 国际化初始化
-i18n.initI18n('web');
+i18n.initI18n('web', 'EN');
 
 // 系统主题初始化
 theme.initTheme();

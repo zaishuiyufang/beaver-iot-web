@@ -30,6 +30,12 @@ const Tooltip: React.FC<Props> = ({ autoEllipsis, className, title, children, ..
         setContWidth(contSize.width);
     }, [autoEllipsis, contSize]);
 
+    // title 变更时，触发重新计算内容宽度
+    useEffect(() => {
+        setContWidth(null);
+    }, [title]);
+
+    // 判断内容宽度是否超出容器宽度，超出则显示 Tooltip
     useDebounceEffect(
         () => {
             if (!autoEllipsis || !contWidth || !wrapSize?.width) {

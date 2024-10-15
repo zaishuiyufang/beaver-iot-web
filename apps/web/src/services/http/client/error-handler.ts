@@ -8,7 +8,7 @@ import { noop } from 'lodash-es';
 import intl from 'react-intl-universal';
 import { toast } from '@milesight/shared/src/components';
 import { isRequestSuccess } from '@milesight/shared/src/utils/request';
-import { errorKeyMaps } from '@milesight/shared/src/services/i18n';
+import { getHttpErrorKey } from '@milesight/shared/src/services/i18n';
 import type { RequestFunctionOptions } from '@milesight/shared/src/utils/request/types';
 
 type ErrorHandlerConfig = {
@@ -19,23 +19,20 @@ type ErrorHandlerConfig = {
     handler: (errCode?: string, resp?: AxiosResponse<ApiResponse>) => void;
 };
 
+/** 服务端错误文案 key */
+const serverErrorKey = getHttpErrorKey('server_error');
+/** 网络超时错误文案 key */
+const networkErrorKey = getHttpErrorKey('network_timeout');
+
 const handlerConfigs: ErrorHandlerConfig[] = [
     // 统一 Message 弹窗提示
     {
-        errCodes: [
-            // 用户未登录/不存在
-            'USER_NO_EXIST',
-            'USER_IS_INCONSISTENCY',
-
-            // 应用加载错误
-            'ENTERPRISE_NO_INSTALL_APPLICATION',
-        ],
+        errCodes: ['token_not_found', 'token_invalid', 'account_session_logout'],
         handler(errCode, resp) {
-            console.log(resp);
-            const intlKey = errCode && errorKeyMaps[errCode.toLocaleLowerCase()];
+            const intlKey = getHttpErrorKey(errCode);
+            const message = intl.get(intlKey) || intl.get(serverErrorKey);
 
-            if (!intlKey) return;
-            toast.error({ key: errCode, content: intl.get(intlKey) });
+            toast.error({ key: errCode, content: message });
         },
     },
 ];
@@ -71,13 +68,12 @@ const handler: ErrorHandlerConfig['handler'] = (errCode, resp) => {
     const { status } = resp || {};
     // 网络超时
     if (status && [408, 504].includes(status)) {
-        const networkTimeoutText = intl.get('common.message.error_network_timeout');
-        // message.error(networkTimeoutText);
-        toast.error({ key: errCode || status, content: networkTimeoutText });
+        const message = intl.get(networkErrorKey);
+        toast.error({ key: errCode || status, content: message });
         return;
     }
 
-    const serverErrorText = intl.get('common.message.error_server_error');
+    const serverErrorText = intl.get(serverErrorKey);
 
     if (!errCode || !resp) {
         // eslint-disable-next-line
@@ -93,7 +89,6 @@ const handler: ErrorHandlerConfig['handler'] = (errCode, resp) => {
     if (!config) {
         // eslint-disable-next-line
         console.warn('未配置全局接口错误码处理逻辑，请确认是否已自行处理', resp);
-        // message.error(serverErrorText);
         toast.error({ key: 'commonError', content: serverErrorText });
         return;
     }

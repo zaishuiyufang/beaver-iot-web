@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
 import { Stack, IconButton } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import { useI18n } from '@milesight/shared/src/hooks';
+import { EditIcon } from '@milesight/shared/src/components';
 import { Descriptions, Tooltip } from '@/components';
 import { deviceAPI, type DeviceDetail } from '@/services/http';
 import EditDialog from './edit-dialog';
@@ -23,12 +24,13 @@ export interface BasicTableInstance {
  * 设备基本信息表格
  */
 const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
+    const { getIntlText } = useI18n();
     const [dialogOpen, setDialogOpen] = useState(false);
     const descList = useMemo(() => {
         return [
             {
                 key: 'name',
-                label: 'Name',
+                label: getIntlText('common.label.name'),
                 content: (
                     <Stack
                         direction="row"
@@ -48,31 +50,31 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
             },
             {
                 key: 'externalId',
-                label: 'External ID',
+                label: getIntlText('device.label.param_entity_id'),
                 content: mockData.externalId,
             },
             {
                 key: 'source',
-                label: 'Source',
+                label: getIntlText('device.label.param_source'),
                 content: <Tooltip autoEllipsis title={mockData.source} />,
             },
             {
                 key: 'createTime',
-                label: 'Create Time',
+                label: getIntlText('common.label.create_time'),
                 content: mockData.createTime, // Todo: time format
             },
             {
                 key: 'founder',
-                label: 'Founder',
+                label: getIntlText('device.label.param_founder'),
                 content: mockData.founder,
             },
             {
                 key: 'id',
-                label: 'Device ID',
+                label: getIntlText('device.label.param_device_id'),
                 content: mockData.id,
             },
         ];
-    }, []);
+    }, [getIntlText]);
     const handleDialogClose = useCallback(() => {
         setDialogOpen(false);
     }, []);

@@ -11,7 +11,7 @@ declare type ConfigType = {
         /** The imported locale file directory path in your current app, such as "./src/locales" */
         outputPath: string;
         /** The prefix of platform */
-        platformKeyPrefixs: string[];
+        platformKeyPrefixs?: string[];
         langRules: Record<string, string[]>;
         splitRules: Record<string, string[]>;
     };
@@ -31,6 +31,6 @@ declare type ConfigType = {
         /** The output path of API error mapping table */
         errorMapOutputPath?: string;
         /** Ignore the new key that matching rules (Not affect the error key mapping)  */
-        ignoreRules: string[];
+        ignoreRules?: string[];
     };
 };

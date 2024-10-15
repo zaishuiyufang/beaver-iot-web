@@ -16,7 +16,7 @@ const layouts: Record<string, React.ReactNode> = {
 
 function Layout() {
     const routeMatches = useMatches();
-    const { muiLocale } = useI18n();
+    const { muiLocale, getIntlText } = useI18n();
     const { muiPalettes, components, colorSchemeSelector } = useTheme();
     const muiTheme = createTheme(
         {
@@ -39,7 +39,12 @@ function Layout() {
         <ThemeProvider theme={muiTheme}>
             <CssBaseline />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <ConfirmProvider>{layouts[layout]}</ConfirmProvider>
+                <ConfirmProvider
+                    cancelButtonText={getIntlText('common.button.cancel')}
+                    confirmButtonText={getIntlText('common.button.confirm')}
+                >
+                    {layouts[layout]}
+                </ConfirmProvider>
             </LocalizationProvider>
         </ThemeProvider>
     );

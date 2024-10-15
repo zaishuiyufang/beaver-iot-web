@@ -25,7 +25,7 @@ function writeFile({
      * 规范：https://www.tapd.cn/51309724/prong/stories/view/1151309724001050183
      */
     function getFileName(key: string) {
-        const platformPrefix = platformKeyPrefixs.find(item => key.startsWith(item));
+        const platformPrefix = platformKeyPrefixs?.find(item => key.startsWith(item));
         // 移除平台前缀
         const realKey = !platformPrefix ? key : key.replace(new RegExp(`^${platformPrefix}.`), '');
         let filename = realKey.split('.')[0];
