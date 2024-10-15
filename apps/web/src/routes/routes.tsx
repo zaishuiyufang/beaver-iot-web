@@ -2,7 +2,7 @@ import intl from 'react-intl-universal';
 import { Outlet, RouteObject } from 'react-router-dom';
 import {
     DashboardCustomizeIcon,
-    DevicesOtherIcon,
+    DevicesIcon,
     SettingsIcon,
 } from '@milesight/shared/src/components';
 
@@ -33,7 +33,9 @@ const routes: RouteObjectType[] = [
     {
         path: '/dashboard',
         handle: {
-            title: 'Dashboard',
+            get title() {
+                return intl.get('common.label.dashboard');
+            },
             icon: <DashboardCustomizeIcon />,
         },
         async lazy() {
@@ -45,8 +47,10 @@ const routes: RouteObjectType[] = [
         path: '/device',
         element: <Outlet />,
         handle: {
-            title: 'Device',
-            icon: <DevicesOtherIcon />,
+            get title() {
+                return intl.get('common.label.device');
+            },
+            icon: <DevicesIcon />,
         },
         children: [
             {
@@ -60,7 +64,9 @@ const routes: RouteObjectType[] = [
                 index: true,
                 path: 'detail/:deviceId',
                 handle: {
-                    title: 'Detail',
+                    get title() {
+                        return intl.get('common.label.detail');
+                    },
                 },
                 async lazy() {
                     const { default: Component } = await import('@/pages/device/views/detail');
@@ -73,7 +79,9 @@ const routes: RouteObjectType[] = [
         path: '/setting',
         element: <Outlet />,
         handle: {
-            title: 'Setting',
+            get title() {
+                return intl.get('common.label.setting');
+            },
             icon: <SettingsIcon />,
         },
         children: [
@@ -87,7 +95,9 @@ const routes: RouteObjectType[] = [
             {
                 path: 'integration/:integrationId',
                 handle: {
-                    title: 'Integration',
+                    get title() {
+                        return intl.get('common.label.integration');
+                    },
                 },
                 async lazy() {
                     const { default: Component } = await import(
@@ -109,7 +119,9 @@ const routes: RouteObjectType[] = [
                 index: true,
                 path: 'login',
                 handle: {
-                    title: 'Login',
+                    get title() {
+                        return intl.get('common.label.login');
+                    },
                     layout: 'blank',
                 },
                 async lazy() {
@@ -120,7 +132,9 @@ const routes: RouteObjectType[] = [
             {
                 path: 'register',
                 handle: {
-                    title: 'Register',
+                    get title() {
+                        return intl.get('common.label.register');
+                    },
                     layout: 'blank',
                 },
                 async lazy() {

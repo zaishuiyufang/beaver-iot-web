@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Stack, IconButton } from '@mui/material';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { ListAltIcon, DeleteOutlineIcon } from '@milesight/shared/src/components';
 import { type ColumnType } from '@/components';
 import { type DeviceDetail } from '@/services/http';
@@ -14,30 +15,31 @@ export interface UseColumnsProps<T> {
 }
 
 const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T>) => {
+    const { getIntlText } = useI18n();
     const columns: ColumnType<T>[] = useMemo(() => {
         return [
             {
                 field: 'name',
-                headerName: 'Device Name',
+                headerName: getIntlText('device.label.param_device_name'),
                 width: 150,
                 ellipsis: true,
                 disableColumnMenu: false,
             },
             {
                 field: 'createTime',
-                headerName: 'Time',
+                headerName: getIntlText('common.label.create_time'),
                 width: 150,
                 ellipsis: true,
             },
             {
                 field: 'source',
-                headerName: 'Equipment Source',
+                headerName: getIntlText('device.label.param_source'),
                 ellipsis: true,
                 width: 200,
             },
             {
                 field: '$operation',
-                headerName: 'Operation',
+                headerName: getIntlText('common.label.operation'),
                 // flex: 1,
                 minWidth: 100,
                 flex: 1,
@@ -72,7 +74,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 },
             },
         ];
-    }, [onButtonClick]);
+    }, [getIntlText, onButtonClick]);
 
     return columns;
 };

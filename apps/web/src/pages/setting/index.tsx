@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { Integration } from './components';
 import './style.less';
 
 function App() {
+    const { getIntlText } = useI18n();
     const [tab, setTab] = useState<ApiKey>('1');
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -16,7 +18,12 @@ function App() {
             <Breadcrumbs />
             <div className="ms-view ms-view-setting">
                 <Tabs className="ms-tabs" value={tab} onChange={handleChange}>
-                    <Tab disableRipple title="Integration" label="Integration" value="1" />
+                    <Tab
+                        disableRipple
+                        title={getIntlText('common.label.integration')}
+                        label={getIntlText('common.label.integration')}
+                        value="1"
+                    />
                 </Tabs>
                 <div className="ms-tab-content">
                     <TabPanel value={tab} index="1">

@@ -23,7 +23,7 @@
 
         font-weight: @font-weight-medium;
 
-        > span {
+        > .@{prefix}-tooltip-cont {
             display: block;
             .ellipsis();
         }
@@ -33,6 +33,11 @@
         .text-size(@font-size-base);
 
         color: var(--text-color-tertiary);
+
+        > .@{prefix}-tooltip-cont {
+            display: block;
+            .ellipsis();
+        }
     }
 
     .meta {

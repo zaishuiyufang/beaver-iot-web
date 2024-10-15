@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { AddIcon, DeleteOutlineIcon } from '@milesight/shared/src/components';
 import { Breadcrumbs, TablePro, useConfirm } from '@/components';
 import { type DeviceDetail } from '@/services/http';
@@ -23,6 +24,7 @@ const mockList = (() => {
 
 export default () => {
     const navigate = useNavigate();
+    const { getIntlText } = useI18n();
     const confirm = useConfirm();
     const [modalOpen, setModalOpen] = useState(false);
     const toolbarRender = useMemo(() => {
@@ -34,7 +36,7 @@ export default () => {
                     startIcon={<AddIcon />}
                     onClick={() => setModalOpen(true)}
                 >
-                    Add
+                    {getIntlText('common.label.add')}
                 </Button>
                 <Button
                     variant="outlined"
@@ -55,11 +57,11 @@ export default () => {
                         });
                     }}
                 >
-                    Delete
+                    {getIntlText('common.label.delete')}
                 </Button>
             </Stack>
         );
-    }, []);
+    }, [getIntlText]);
 
     const handleTableBtnClick: UseColumnsProps<DeviceDetail>['onButtonClick'] = useCallback(
         (type, record) => {

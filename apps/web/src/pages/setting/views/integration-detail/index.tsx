@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Stack, Tabs, Tab } from '@mui/material';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { Logo, DevicesOtherIcon, ShareIcon } from '@milesight/shared/src/components';
 import { thousandSeparate } from '@milesight/shared/src/utils/tools';
 import { Breadcrumbs, TabPanel } from '@/components';
@@ -7,22 +8,21 @@ import { Config, Functions } from './components';
 import './style.less';
 
 const InformationDetail = () => {
+    const { getIntlText } = useI18n();
     const tabs = useMemo(() => {
         return [
             {
                 key: 'config',
-                label: 'Integration Configuration',
-                // intlKey: '',
+                label: getIntlText('setting.integration.configuration'),
                 component: <Config />,
             },
             {
                 key: 'function',
-                label: 'Available Functions',
-                // intlKey: '',
+                label: getIntlText('setting.integration.available_function'),
                 component: <Functions />,
             },
         ];
-    }, []);
+    }, [getIntlText]);
     const [tabKey, setTabKey] = useState<ApiKey>(tabs[0].key);
 
     return (

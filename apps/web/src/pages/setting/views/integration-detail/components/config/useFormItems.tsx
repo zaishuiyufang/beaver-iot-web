@@ -12,6 +12,7 @@ import {
     type TextFieldProps,
 } from '@mui/material';
 import { checkRequired } from '@milesight/shared/src/utils/validators';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { VisibilityIcon, VisibilityOffIcon } from '@milesight/shared/src/components';
 
 export interface FormDataProps {
@@ -21,6 +22,7 @@ export interface FormDataProps {
 }
 
 const useFormItems = () => {
+    const { getIntlText } = useI18n();
     const [showSecret, setShowSecret] = useState(false);
     const handleClickShowSecret = useCallback(() => setShowSecret(show => !show), []);
 
@@ -37,9 +39,11 @@ const useFormItems = () => {
                 render({ field: { onChange, value }, fieldState: { error } }) {
                     return (
                         <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
-                            <InputLabel id="select-label-address">Server Address</InputLabel>
+                            <InputLabel id="select-label-address">
+                                {getIntlText('setting.integration.param_server_address')}
+                            </InputLabel>
                             <Select
-                                label="Server Address"
+                                label={getIntlText('setting.integration.param_server_address')}
                                 labelId="select-label-address"
                                 error={!!error}
                                 value={value}
@@ -63,7 +67,7 @@ const useFormItems = () => {
                     return (
                         <TextField
                             {...commTextProps}
-                            label="Client ID"
+                            label={getIntlText('setting.integration.param_client_id')}
                             error={!!error}
                             helperText={error ? error.message : null}
                             value={value}
@@ -81,7 +85,7 @@ const useFormItems = () => {
                     return (
                         <TextField
                             {...commTextProps}
-                            label="Client Secret"
+                            label={getIntlText('setting.integration.param_client_secret')}
                             type={showSecret ? 'text' : 'password'}
                             error={!!error}
                             helperText={error ? error.message : null}
@@ -115,7 +119,7 @@ const useFormItems = () => {
         ];
 
         return items;
-    }, [showSecret, handleClickShowSecret]);
+    }, [showSecret, getIntlText, handleClickShowSecret]);
 
     return formItems;
 };

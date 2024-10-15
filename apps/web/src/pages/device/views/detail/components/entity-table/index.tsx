@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Stack, Chip, type ChipProps } from '@mui/material';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { TablePro, type ColumnType } from '@/components';
 import { type DeviceEntity } from '@/services/http';
 
@@ -35,34 +36,26 @@ const entityTypeColorMap: Record<string, ChipProps['color']> = {
  * 设备实体数据表格
  */
 const EntityTable = () => {
+    const { getIntlText } = useI18n();
     const columns = useMemo(() => {
         const result: ColumnType<DeviceEntity>[] = [
             {
                 field: 'name',
-                headerName: 'Device Name',
+                headerName: getIntlText('device.label.param_device_name'),
                 flex: 1,
                 minWidth: 150,
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
             },
             {
                 field: 'id',
-                headerName: 'Entity ID',
+                headerName: getIntlText('device.label.param_external_id'),
                 flex: 1,
                 minWidth: 150,
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
             },
             {
                 field: 'type',
-                headerName: 'Type',
+                headerName: getIntlText('common.label.type'),
                 flex: 1,
                 minWidth: 150,
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
                 renderCell({ value }) {
                     return (
                         <Chip
@@ -76,18 +69,16 @@ const EntityTable = () => {
             },
             {
                 field: 'dataType',
-                headerName: 'Data Type',
+                headerName: getIntlText('common.label.data_type'),
+                align: 'left',
+                headerAlign: 'left',
                 flex: 1,
                 minWidth: 150,
-                sortable: false,
-                filterable: false,
-                disableColumnMenu: true,
-                resizable: false,
             },
         ];
 
         return result;
-    }, []);
+    }, [getIntlText]);
 
     return (
         <Stack className="ms-com-device-entity" sx={{ height: '100%' }}>

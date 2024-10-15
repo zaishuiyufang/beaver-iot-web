@@ -116,5 +116,21 @@
     "valid.input.url": "Please enter a valid URL.",
     "valid.input.username": "The username must be 5 to 255 characters long and include both upper and lower case letters.",
     "valid.input.value": "Input value: {0} only.",
-    "valid.input.version": "The version number does not comply with the specification\n"
+    "valid.input.version": "The version number does not comply with the specification\n",
+    "common.label.dashboard": "Dashboard",
+    "common.label.device": "Device",
+    "common.label.setting": "Setting",
+    "common.label.detail": "Detail",
+    "common.label.integration": "Integration",
+    "common.label.login": "Login",
+    "common.label.register": "Register",
+    "common.label.connect": "Connect",
+    "common.label.webhook": "Webhook",
+    "common.label.openapi": "OpenAPI",
+    "common.label.add": "Add",
+    "common.label.delete": "Delete",
+    "common.label.time": "Time",
+    "common.label.create_time": "Create Time",
+    "common.label.type": "Type",
+    "common.label.data_type": "Data Type"
 }

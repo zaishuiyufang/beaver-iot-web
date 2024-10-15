@@ -3,8 +3,8 @@ import { GlobalOptions, ConfirmOptions, FinalOptions } from './types';
 
 export const defaultGlobalOptions: GlobalOptions = {
     disabledBackdropClose: true,
-    confirmButtonText: 'Confirm', // Todo: 国际化
-    cancelButtonText: 'Cancel', // Todo: 国际化
+    confirmButtonText: 'Confirm',
+    cancelButtonText: 'Cancel',
     dialogProps: {
         disableEscapeKeyDown: true,
     },

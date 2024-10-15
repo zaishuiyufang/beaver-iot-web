@@ -1,1 +1,11 @@
-{}
+{
+    "device.label.param_device_name": "Device Name",
+    "device.label.param_external_id": "External ID",
+    "device.label.param_source": "Source",
+    "device.label.param_founder": "Founder",
+    "device.label.param_device_id": "Device ID",
+    "device.detail.basic_info": "Basic Information",
+    "device.detail.entity_data": "Entity Data",
+    "device.label.param_entity_id": "Entity ID",
+    "device.detail.edit_title": "Edit {1}"
+}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Tooltip, Chip, Switch, IconButton } from '@mui/material';
 import cls from 'classnames';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
-import { useCopy } from '@milesight/shared/src/hooks';
+import { useI18n, useCopy } from '@milesight/shared/src/hooks';
 import { InfoOutlinedIcon, ContentCopyIcon } from '@milesight/shared/src/components';
 import useFormItems from './useFormItems';
 import './style.less';
@@ -17,6 +17,7 @@ interface FormDataProps {
  * 集成配置组件
  */
 const Config = () => {
+    const { getIntlText } = useI18n();
     const { handleCopy } = useCopy();
     const [webhookEnabled, setWebhookEnabled] = useState(false);
     const [OpenApiEnabled, setOpenApiEnabled] = useState(false);
@@ -28,9 +29,9 @@ const Config = () => {
         <>
             <div className="ms-int-config">
                 <div className="ms-int-config__header">
-                    <h2>OpenAPI Configuration</h2>
+                    <h2>{getIntlText('setting.integration.openapi_config')}</h2>
                     <Tooltip
-                        title="API Key is used to authenticate with the server."
+                        title={getIntlText('setting.integration.openapi_config_helper_text')}
                         sx={{ ml: 0.5 }}
                     >
                         <InfoOutlinedIcon />
@@ -38,9 +39,19 @@ const Config = () => {
                 </div>
                 <div className="ms-int-config__body">
                     <div className="status">
-                        <span className="status-label">API Status:</span>
+                        <span className="status-label">
+                            {getIntlText('setting.integration.api_status')}
+                            {getIntlText('common.symbol.colon')}
+                        </span>
                         <span className="status-value">
-                            <Chip color="primary" label="Waiting For Connection" />
+                            <Chip
+                                color="primary"
+                                label={getIntlText('setting.integration.api_status_waiting')}
+                            />
+                            {/* <Chip
+                                color="success"
+                                label={getIntlText('setting.integration.api_status_ready')}
+                            /> */}
                         </span>
                     </div>
                     <div className="form">
@@ -53,21 +64,21 @@ const Config = () => {
                         ))}
                     </div>
                     <Button variant="contained" sx={{ mt: 1 }} onClick={handleSubmit(onSubmit)}>
-                        Connect
+                        {getIntlText('common.label.connect')}
                     </Button>
                 </div>
             </div>
             <div className="ms-int-service">
                 <div className="ms-int-service__header">
-                    <h2>Data Access Service</h2>
+                    <h2>{getIntlText('setting.integration.data_access_service')}</h2>
                 </div>
                 <div className="ms-int-service__body">
                     <div className="ms-service-card">
                         <div className="ms-service-card__header">
                             <Switch onChange={(_, checked) => setWebhookEnabled(checked)} />
-                            <span className="title">Webhook</span>
+                            <span className="title">{getIntlText('common.label.webhook')}</span>
                             <Tooltip
-                                title="Receive the data pushed by Milesight Development Platform in real time via the Webhook service, and paste the URL address generated below, into the application from Milesight Development Platform."
+                                title={getIntlText('setting.integration.webhook_helper_text')}
                                 sx={{ ml: 0.5 }}
                             >
                                 <InfoOutlinedIcon />
@@ -75,13 +86,30 @@ const Config = () => {
                         </div>
                         <div className={cls('ms-service-card__body', { hidden: !webhookEnabled })}>
                             <div className="service-prop">
-                                <span className="service-prop-label">Webhook Status:</span>
+                                <span className="service-prop-label">
+                                    {getIntlText('setting.integration.webhook_status')}
+                                    {getIntlText('common.symbol.colon')}
+                                </span>
                                 <span className="service-prop-value">
-                                    <Chip color="success" label="Webhook ready" />
+                                    <Chip
+                                        color="success"
+                                        label={getIntlText(
+                                            'setting.integration.webhook_status_ready',
+                                        )}
+                                    />
+                                    {/* <Chip
+                                        color="primary"
+                                        label={getIntlText(
+                                            'setting.integration.webhook_status_waiting',
+                                        )}
+                                    /> */}
                                 </span>
                             </div>
                             <div className="service-prop">
-                                <span className="service-prop-label">Webhook URL:</span>
+                                <span className="service-prop-label">
+                                    {getIntlText('setting.integration.webhook_url')}
+                                    {getIntlText('common.symbol.colon')}
+                                </span>
                                 <span className="service-prop-value">
                                     <span>https://us.openapius.openapi.milesight.com</span>
                                     <IconButton
@@ -99,9 +127,9 @@ const Config = () => {
                     <div className="ms-service-card">
                         <div className="ms-service-card__header">
                             <Switch onChange={(_, checked) => setOpenApiEnabled(checked)} />
-                            <span className="title">OpenAPI</span>
+                            <span className="title">{getIntlText('common.label.openapi')}</span>
                             <Tooltip
-                                title="Proactively pull device information and device telemetry data at regular intervals via OpenAPI."
+                                title={getIntlText('setting.integration.openapi_helper_text')}
                                 sx={{ ml: 0.5 }}
                             >
                                 <InfoOutlinedIcon />
@@ -109,7 +137,12 @@ const Config = () => {
                         </div>
                         <div className={cls('ms-service-card__body', { hidden: !OpenApiEnabled })}>
                             <div className="service-prop">
-                                <span className="service-prop-label">Frequency of requests：</span>
+                                <span className="service-prop-label">
+                                    {getIntlText(
+                                        'setting.integration.openapi_frequency_of_request',
+                                    )}
+                                    {getIntlText('common.symbol.colon')}
+                                </span>
                                 <span className="service-prop-value">3600s</span>
                             </div>
                         </div>
