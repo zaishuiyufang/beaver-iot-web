@@ -24,7 +24,7 @@ export default (props: WidgetProps) => {
         // TODO: 插件配置保存
         onOk({
             ...config,
-            id: new Date().getTime(),
+            id: config?.id || new Date().getTime(),
             config: data,
         });
         handleClose();

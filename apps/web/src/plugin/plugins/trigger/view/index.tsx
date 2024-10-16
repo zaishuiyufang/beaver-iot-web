@@ -51,7 +51,7 @@ const View = (props: Props) => {
 
     return (
         <>
-            <RenderView config={config} configJson={configJson} onClick={handleClick} />
+            <RenderView config={config} configJson={configJson} />
             {visible && (
                 <Modal title={configJson.name} onOk={handleOk} onCancel={() => setVisible(false)}>
                     <EntityForm ref={ref} entities={entities} onOk={handleSubmit} />

@@ -176,4 +176,9 @@ declare interface CustomComponentProps {
      * 当前组件已配置值
      */
     config?: Record<string, any>;
+    /**
+     * 组件唯一标识
+     * @description 存储到服务端后数据库自动生成，无需维护
+     */
+    id?: string;
 }

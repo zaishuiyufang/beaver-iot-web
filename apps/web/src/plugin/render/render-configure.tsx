@@ -70,6 +70,8 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                                 config.config === undefined
                             ) {
                                 defaultValues[component.key] = component.defaultValue;
+                            } else {
+                                defaultValues[component.key] = value;
                             }
 
                             return (
