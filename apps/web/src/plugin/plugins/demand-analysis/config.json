@@ -1,6 +1,7 @@
 {
     "type": "demandAnalysis",
     "name": "用户需求分析组件",
+    "class": "data_chart",
     "configProps": [
         {
             "style": "width: 100%",

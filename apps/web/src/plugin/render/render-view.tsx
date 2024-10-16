@@ -1,14 +1,16 @@
 import { isString } from 'lodash-es';
-import { ViewProps, CustomComponentProps } from './typings';
-import { parseStyleToReactStyle } from './util';
+import * as Icons from '@milesight/shared/src/components/icons';
+import { parseStyleToReactStyle, parseStyleString, convertCssToReactStyle } from './util';
+import './style.less';
 
 interface Props {
     config: any;
     configJson: CustomComponentProps;
+    onClick?: () => void;
 }
 
 const View = (props: Props) => {
-    const { config, configJson } = props;
+    const { config, configJson, onClick } = props;
 
     // 处理显示依赖
     const isShow = (depended?: Record<string, any>) => {
@@ -35,17 +37,30 @@ const View = (props: Props) => {
 
     // 渲染标签
     const renderTag = (tagProps: ViewProps) => {
-        if (isShow(tagProps?.showDependend) && tagProps?.tag) {
+        if (isShow(tagProps?.showDepended) && tagProps?.tag) {
             const Tag: any = tagProps?.tag;
             const theme = tagProps?.themes?.default;
+            const style = `${tagProps?.style}${theme?.style}`;
+            const dependStyle: Record<string, string> = {};
+            if (tagProps?.styleDepended) {
+                for (const key in tagProps?.styleDepended) {
+                    if ((config as any)?.[tagProps?.styleDepended[key]]) {
+                        dependStyle[convertCssToReactStyle(key)] = (config as any)?.[
+                            tagProps?.styleDepended[key]
+                        ];
+                    }
+                }
+            }
             if (Tag === 'icon') {
                 const icon = renderParams(tagProps?.params);
-                return !!icon && <svg data-testid={icon} />;
+                const IconTag = (Icons as any)[icon];
+                const iconStyle = style ? parseStyleString(style) : {};
+                return !!icon && <IconTag sx={{ ...iconStyle, ...dependStyle }} />;
             }
             return (
                 <Tag
-                    className={theme?.class}
-                    style={theme?.style ? parseStyleToReactStyle(theme?.style) : undefined}
+                    className={`${tagProps.class || ''} ${theme?.class || ''}`}
+                    style={style ? parseStyleToReactStyle(style) : undefined}
                 >
                     {!tagProps?.params ? tagProps?.content : renderParams(tagProps?.params)}
                     {tagProps?.children?.map(subItem => {
@@ -74,13 +89,13 @@ const View = (props: Props) => {
     };
 
     return (
-        <>
+        <div onClick={onClick} className="plugin-view">
             {isString(configJson?.view)
                 ? renderHtml()
                 : configJson?.view?.map((viewItem: ViewProps) => {
                       return renderTag(viewItem);
                   })}
-        </>
+        </div>
     );
 };
 

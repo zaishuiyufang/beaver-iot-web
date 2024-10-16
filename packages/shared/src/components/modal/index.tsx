@@ -31,7 +31,7 @@ export interface ModalProps {
      * 弹框尺寸
      * @description 选值：small(200px)、medium(450px)、large(600px)、full(100%)
      */
-    size?: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     /**
      * 弹框内容
      */
@@ -48,12 +48,14 @@ const Modal: React.FC<ModalProps> = props => {
         }
         if (size) {
             switch (size) {
-                case 'small':
+                case 'sm':
                     return '200px';
-                case 'medium':
+                case 'md':
                     return '450px';
-                case 'large':
+                case 'lg':
                     return '600px';
+                case 'xl':
+                    return '800px';
                 case 'full':
                     return '100%';
                 default:

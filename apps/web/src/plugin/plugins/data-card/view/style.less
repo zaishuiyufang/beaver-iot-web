@@ -1,0 +1,34 @@
+.data-view {
+    min-width: 120px;
+    max-width: 80%;
+    padding: @padding-md;
+    overflow: hidden;
+    background: var(--component-background);
+    border-radius: @border-radius-xs;
+
+    &__icon {
+        margin-bottom: @margin-sm;
+
+        svg {
+            display: block;
+            height: 100%;
+        }
+    }
+
+    &__title {
+        line-height: 1;
+
+        .ms-tooltip-cont {
+            display: inline-block;
+            color: var(--text-color-secondary);
+            .text-size(@font-size-sm);
+        }
+    }
+
+    &__content {
+        display: inline-block;
+        font-weight: @font-weight-bold;
+        color: var(--text-color-base);
+        .text-size(@font-size-xxl);
+    }
+}

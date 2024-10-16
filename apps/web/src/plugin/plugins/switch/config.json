@@ -1,0 +1,116 @@
+{
+    "type": "switch",
+    "name": "Switch",
+    "class": "operate",
+    "configProps": [
+        {
+            "style": "width: 100%",
+            "theme": {
+                "default": {
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "select",
+                    "title": "Entity",
+                    "key": "entity",
+                    "style": "width: 100%",
+                    "getDataUrl": "",
+                    "componentProps": {
+                        "size": "small"
+                    },
+                    "options": [
+                        {
+                            "label": "实体一",
+                            "value": "1"
+                        },
+                        {
+                            "label": "实体二",
+                            "value": "2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "theme": {
+                "default": {
+                    "class": "first-component-input",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "input",
+                    "title": "Switch Text",
+                    "key": "switchText",
+                    "defaultValue": "Switch",
+                    "componentProps": {
+                        "size": "small",
+                        "inputProps": {
+                            "maxLength": 15
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Appearance of off status",
+            "style": "display: flex;margin-top:28px;",
+            "theme": {
+                "default": {
+                    "class": "first-component-icon-select"
+                }
+            },
+            "components": [
+                {
+                    "type": "iconSelect",
+                    "key": "offIcon",
+                    "style": "flex: 1;",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                },
+                {
+                    "type": "iconColorSelect",
+                    "key": "offIconColor",
+                    "style": "flex: 1;",
+                    "defaultValue": "#9B9B9B",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Appearance of on status",
+            "style": "display: flex;margin-top:28px;",
+            "theme": {
+                "default": {
+                    "class": "first-component-icon-select"
+                }
+            },
+            "components": [
+                {
+                    "type": "iconSelect",
+                    "key": "onIcon",
+                    "style": "flex: 1;",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                },
+                {
+                    "type": "iconColorSelect",
+                    "key": "onIconColor",
+                    "style": "flex: 1;",
+                    "defaultValue": "#4A90E2",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                }
+            ]
+        }
+    ],
+    "view": []
+}

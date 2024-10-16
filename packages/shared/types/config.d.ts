@@ -25,8 +25,13 @@ interface ImportMetaEnv {
     /** 应用打包时的 commit hash */
     readonly LATEST_COMMIT_HASH?: string;
 }
+// 定义一个模块类型
+type ModuleType = {
+    [key: string]: () => Promise<any>;
+};
 interface ImportMeta {
     readonly env: ImportMetaEnv;
+    readonly glob: (pattern: string, options?: Record<string, any>) => ModuleType;
 }
 
 interface Window {

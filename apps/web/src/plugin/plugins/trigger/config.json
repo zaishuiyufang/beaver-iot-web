@@ -1,6 +1,8 @@
 {
     "type": "trigger",
-    "name": "事件触发组件",
+    "name": "事件触发",
+    "class": "operate",
+    "icon": "./icon.png",
     "configProps": [
         {
             "style": "width: 100%",
@@ -53,7 +55,8 @@
                 {
                     "type": "switch",
                     "title": "Display Title",
-                    "key": "showTitle"
+                    "key": "showTitle",
+                    "defaultValue": true
                 }
             ]
         },
@@ -69,6 +72,7 @@
                     "type": "input",
                     "title": "Title",
                     "key": "title",
+                    "defaultValue": "事件组件",
                     "componentProps": {
                         "size": "small"
                     }
@@ -91,6 +95,8 @@
             ]
         },
         {
+            "title": "Appearance of status",
+            "style": "display: flex;",
             "theme": {
                 "default": {
                     "class": "first-component-icon-select"
@@ -99,17 +105,16 @@
             "components": [
                 {
                     "type": "iconSelect",
-                    "title": "Icon",
                     "key": "icon",
-                    "style": "min-width: 120px",
+                    "style": "flex: 1;padding-right: 12px;",
                     "componentProps": {
                         "size": "small"
                     }
                 },
                 {
                     "type": "iconColorSelect",
-                    "title": "Color",
                     "key": "iconColor",
+                    "style": "flex: 1;",
                     "componentProps": {
                         "size": "small"
                     }
@@ -122,15 +127,18 @@
             "tag": "div",
             "themes": {
                 "default": {
-                    "class": "trigger-view"
+                    "class": "trigger-view",
+                    "style": "background: #fff"
                 }
             },
             "children": [
                 {
                     "tag": "icon",
-                    "showDependend": {
-                        "showIcon": true,
-                        "icon": true
+                    "showDepended": {
+                        "showIcon": true
+                    },
+                    "styleDepended": {
+                        "color": "iconColor"
                     },
                     "params": [
                         "icon"
@@ -138,7 +146,7 @@
                 },
                 {
                     "tag": "div",
-                    "showDependend": {
+                    "showDepended": {
                         "showTitle": true
                     },
                     "params": [

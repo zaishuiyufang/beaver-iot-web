@@ -1,6 +1,10 @@
 import { useState, useRef } from 'react';
-import { Tabs, Tab } from '@mui/material';
-import { FullscreenIcon, FullscreenExitIcon, AddIcon } from '@milesight/shared/src/components';
+import { Tabs, Tab, Box } from '@mui/material';
+import {
+    Fullscreen as FullscreenIcon,
+    FullscreenExit as FullscreenIconExit,
+    Add as AddIcon,
+} from '@mui/icons-material';
 import { TabPanel } from '@/components';
 import DashboardContent from './components/dashboard-content';
 import AddDashboard from './components/add-dashboard';
@@ -50,8 +54,15 @@ export default () => {
         setShowAdd(false);
     };
 
-    const handleAdd = () => {
+    const handleAdd = (data: AddDashboardProps) => {
         setShowAdd(false);
+        setTabs([
+            ...tabs,
+            {
+                name: data.name,
+                id: new Date().getTime().toString(),
+            },
+        ]);
     };
 
     return (
@@ -59,7 +70,7 @@ export default () => {
             {!isFullscreen ? (
                 <FullscreenIcon className="dashboard-fullscreen" onClick={enterFullscreen} />
             ) : (
-                <FullscreenExitIcon className="dashboard-fullscreen" onClick={exitFullscreen} />
+                <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
             )}
             <div className="ms-view ms-view-dashboard">
                 <Tabs className="ms-tabs" value={tabKey} onChange={handleChange}>
@@ -85,7 +96,9 @@ export default () => {
                     })}
                 </div>
             </div>
-            {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} />}
+            {showAdd && (
+                <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} data={{ name: '111' }} />
+            )}
         </div>
     );
 };

@@ -1,0 +1,67 @@
+{
+    "type": "dataCard",
+    "name": "Card",
+    "configProps": [
+        {
+            "style": "width: 100%",
+            "theme": {
+                "default": {
+                    "class": "first-component-select",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "select",
+                    "title": "Entity",
+                    "key": "entity",
+                    "style": "width: 100%",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                }
+            ]
+        },
+        {
+            "style": "width: 100%",
+            "theme": {
+                "default": {
+                    "class": "first-component-input",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "input",
+                    "title": "Title",
+                    "key": "title",
+                    "style": "width: 100%",
+                    "componentProps": {
+                        "size": "small"
+                    }
+                }
+            ]
+        }
+    ],
+    "view": [
+        {
+            "tag": "div",
+            "themes": {
+                "default": {
+                    "class": "data-view__container"
+                }
+            },
+            "children": [
+                {
+                    "tag": "span",
+                    "themes": {
+                        "default": {
+                            "class": "data-view__content"
+                        }
+                    },
+                    "params": ["entity"]
+                }
+            ]
+        }
+    ]
+}

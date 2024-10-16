@@ -7,19 +7,23 @@ import {
     FormControl,
     InputLabel,
 } from '@mui/material';
-import { OptionsProps } from '../../render/typings';
 
 type Props = {
     /**
      * 下拉选项
      */
     options: OptionsProps[];
+    /**
+     * 自定义下拉选项
+     * @returns 返回自定义下拉选项内容
+     */
+    renderOptions?: () => any[];
 };
 
-type SelectProps = Props & MuiSelectProps;
+export type SelectProps = Props & MuiSelectProps;
 
 const Select = (props: SelectProps) => {
-    const { options, style, title, ...rest } = props;
+    const { options, renderOptions, style, title, ...rest } = props;
 
     // 转换下拉选项数据
     const getMenuItems = useMemo(() => {
@@ -27,7 +31,7 @@ const Select = (props: SelectProps) => {
         const loopItem = (item: OptionsProps): any => {
             if (item.options?.length) {
                 list.push({ label: item.label });
-                item.options.map((subItem: OptionsProps) => {
+                item.options.forEach((subItem: OptionsProps) => {
                     loopItem(subItem);
                 });
             } else {
@@ -41,20 +45,22 @@ const Select = (props: SelectProps) => {
     }, [options]);
 
     return (
-        <FormControl sx={{ m: 1, ...style }}>
+        <FormControl sx={{ ...style }}>
             {!!title && (
-                <InputLabel size={rest?.size as any} id="select-lable">
+                <InputLabel size={rest?.size as any} id="select-label">
                     {title}
                 </InputLabel>
             )}
-            <MuiSelect {...rest} label={title} labelId="select-lable">
-                {getMenuItems?.map((item: OptionsProps) => {
-                    return item?.value ? (
-                        <MenuItem value={item.value}>{item.label}</MenuItem>
-                    ) : (
-                        <ListSubheader>{item.label}</ListSubheader>
-                    );
-                })}
+            <MuiSelect {...rest} label={title} labelId="select-label">
+                {renderOptions
+                    ? renderOptions()
+                    : getMenuItems?.map((item: OptionsProps) => {
+                          return item?.value ? (
+                              <MenuItem value={item.value}>{item.label}</MenuItem>
+                          ) : (
+                              <ListSubheader>{item.label}</ListSubheader>
+                          );
+                      })}
             </MuiSelect>
         </FormControl>
     );

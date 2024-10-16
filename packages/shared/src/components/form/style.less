@@ -1,0 +1,19 @@
+.form {
+    &-box {
+        position: relative;
+        border: @border-base;
+        padding: @padding-sm;
+        margin-bottom: @margin-md;
+        &-label {
+            position: absolute;
+            background: var(--main-background);
+            top: -(@padding-sm + @padding-xs);
+            left: @padding-md;
+            padding: @padding-xs;
+        }
+    }
+    &-item {
+        margin: 0 !important;
+        margin-bottom: @margin-lg !important;
+    }
+}

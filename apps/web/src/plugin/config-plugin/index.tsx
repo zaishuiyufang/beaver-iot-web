@@ -1,76 +1,136 @@
-import { useState, Fragment } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import IconButton from '@mui/material/IconButton';
+import { useRef, useState, useEffect } from 'react';
+import { Tabs, Tab } from '@mui/material';
+import { Modal, JsonView } from '@milesight/shared/src/components';
+import { useI18n } from '@milesight/shared/src/hooks';
+import { TabPanel } from '@/components';
 import { RenderConfig, RenderView } from '../render';
-import * as plugins from '../plugins';
-import { CustomComponentProps } from '../render/typings';
+import plugins from '../plugins';
 import './style.less';
 
 interface ConfigPluginProps {
     config: CustomComponentProps;
     onClose: () => void;
+    onOk: (data: any) => void;
 }
 
 const ConfigPlugin = (props: ConfigPluginProps) => {
-    const { config, onClose } = props;
-    const [open, setOpen] = useState(true);
+    const { getIntlText } = useI18n();
+    const { config, onClose, onOk } = props;
     const ComponentConfig = (plugins as any)[`${config.type}Config`];
     const ComponentView = (plugins as any)[`${config.type}View`];
+    const formRef = useRef<any>();
+    const [formValues, setFormValues] = useState<any>({});
+    const [tabKey, setTabKey] = useState<string>('basic');
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
     const handleClose = () => {
-        setOpen(false);
         onClose();
     };
 
+    const handleChange = (values: any) => {
+        const curFormValues = { ...formValues };
+        Object.keys(values).forEach((key: string) => {
+            if (values[key] !== undefined) {
+                curFormValues[key] = values[key];
+            }
+        });
+        if (curFormValues && Object.keys(curFormValues)?.length) {
+            setFormValues(curFormValues);
+        }
+    };
+
+    const handleOk = () => {
+        formRef.current?.handleSubmit();
+    };
+
+    const handleSubmit = (data: any) => {
+        onOk(data);
+    };
+
+    // 切换tab页签
+    const handleChangeTabs = (_event: React.SyntheticEvent, newValue: string) => {
+        setTabKey(newValue);
+    };
+
+    useEffect(() => {
+        if (config?.config && Object.keys(config.config)?.length) {
+            setFormValues({ ...config?.config });
+        }
+    }, [config]);
+
     return (
-        <Dialog
-            onClose={handleClose}
-            aria-labelledby="customized-dialog-title"
-            open={open}
-            sx={{ '& .MuiDialog-paper': { width: '80%', maxWidth: 'none' } }}
+        <Modal
+            onCancel={handleClose}
+            onOk={handleOk}
+            title={getIntlText('common.plugin_add_title', { 1: config.type })}
+            width="80%"
         >
-            <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                Add {config.type}
-            </DialogTitle>
-            <IconButton
-                aria-label="close"
-                onClick={handleClose}
-                sx={theme => ({
-                    position: 'absolute',
-                    right: 8,
-                    top: 8,
-                    color: theme.palette.grey[500],
-                })}
-            >
-                关闭
-            </IconButton>
-            <DialogContent>
-                <div className="config-plugin-container">
-                    <div className="config-plugin-container-left">
-                        {ComponentView ? (
-                            <ComponentView config={{ showTitle: true, title: 'trigger' }} />
+            <div className="config-plugin-container">
+                <div className="config-plugin-container-left">
+                    {ComponentView ? (
+                        <ComponentView config={formValues} configJson={config} />
+                    ) : (
+                        <RenderView configJson={config} config={formValues} />
+                    )}
+                </div>
+                <div className="config-plugin-container-right">
+                    {/* <Tabs className="ms-tabs" value={tabKey} onChange={handleChangeTabs}>
+                        <Tab
+                            disableRipple
+                            title={getIntlText('common.plugin_config.basic_setting')}
+                            label={getIntlText('common.plugin_config.basic_setting')}
+                            value="basic"
+                        />
+                        <Tab
+                            disableRipple
+                            title={getIntlText('common.plugin_config.advanced_setting')}
+                            label={getIntlText('common.plugin_config.advanced_setting')}
+                            value="advanced"
+                        />
+                    </Tabs> */}
+                    <div className="ms-tab-content">
+                        {/* <TabPanel value={tabKey} index="basic">
+                            {ComponentConfig ? (
+                                <ComponentConfig
+                                    config={config}
+                                    onChange={handleChange}
+                                    value={formValues}
+                                    ref={formRef}
+                                    onOk={handleSubmit}
+                                />
+                            ) : (
+                                <RenderConfig
+                                    config={config}
+                                    onOk={handleSubmit}
+                                    ref={formRef}
+                                    onChange={handleChange}
+                                    value={formValues}
+                                />
+                            )}
+                        </TabPanel>
+                        <TabPanel value={tabKey} index="advanced">
+                            <JsonView value={formValues} maintainEditStatus />
+                        </TabPanel> */}
+                        {ComponentConfig ? (
+                            <ComponentConfig
+                                config={config}
+                                onChange={handleChange}
+                                value={formValues}
+                                ref={formRef}
+                                onOk={handleSubmit}
+                            />
                         ) : (
-                            <RenderView
-                                configJson={config}
-                                config={{ showTitle: true, title: 'trigger' }}
+                            <RenderConfig
+                                config={config}
+                                onOk={handleSubmit}
+                                ref={formRef}
+                                onChange={handleChange}
+                                value={formValues}
                             />
                         )}
                     </div>
-                    <div className="config-plugin-container-right">
-                        {ComponentConfig ? (
-                            <ComponentConfig config={config} />
-                        ) : (
-                            <RenderConfig config={config} />
-                        )}
-                    </div>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </Modal>
     );
 };
 

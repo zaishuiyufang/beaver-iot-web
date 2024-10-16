@@ -1,0 +1,80 @@
+{
+    "type": "areaChart",
+    "name": "Area Chart",
+    "class": "data_chart",
+    "configProps": [
+        {
+            "style": "width: 100%",
+            "theme": {
+                "default": {
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "select",
+                    "title": "Entity",
+                    "key": "entity",
+                    "style": "width: 100%",
+                    "getDataUrl": "",
+                    "componentProps": {
+                        "size": "small"
+                    },
+                    "options": [
+                        {
+                            "label": "实体一",
+                            "value": "1"
+                        },
+                        {
+                            "label": "实体二",
+                            "value": "2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "theme": {
+                "default": {
+                    "class": "first-component-input",
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "input",
+                    "title": "Widget name",
+                    "key": "widgetName",
+                    "defaultValue": "Occupancy detection",
+                    "componentProps": {
+                        "size": "small",
+                        "inputProps": {
+                            "maxLength": 20
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "style": "width: 100%;",
+            "theme": {
+                "default": {
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "ChartTimeSelect",
+                    "title": "Time",
+                    "key": "time",
+                    "style": "width: 100%;",
+                    "componentProps": {
+                        "size": "small"
+                    },
+                    "defaultValue": 86400000
+                }
+            ]
+        }
+    ],
+    "view": []
+}

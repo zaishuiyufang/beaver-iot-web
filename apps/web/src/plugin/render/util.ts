@@ -30,3 +30,11 @@ export const parseStyleToReactStyle = (styleString: string) => {
 
     return styleObject;
 };
+
+// 将css转化为React的style命名
+export const convertCssToReactStyle = (property: string) => {
+    const camelCaseProperty = property.replace(/-([a-z])/g, (match, letter) =>
+        letter.toUpperCase(),
+    );
+    return camelCaseProperty;
+};

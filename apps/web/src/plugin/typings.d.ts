@@ -1,12 +1,12 @@
 /**
  * 主题
  */
-export type ThemeType = 'default';
+declare type ThemeType = 'default';
 
 /**
  * 主题样式设置
  */
-export interface ThemeProps {
+declare interface ThemeProps {
     /**
      * 样式类名设置
      */
@@ -17,13 +17,13 @@ export interface ThemeProps {
     style?: string;
 }
 
-export interface OptionsProps {
+declare interface OptionsProps {
     label: string;
-    value?: string;
+    value?: string | number;
     options?: OptionsProps[];
 }
 
-export interface ComponentProps {
+declare interface ComponentProps {
     /**
      * 表单组件类型
      * @description 映射到components文件中组件，也可以直接是组件库支持的组件
@@ -38,9 +38,18 @@ export interface ComponentProps {
      */
     title?: string;
     /**
+     * 默认值
+     */
+    defaultValue?: string | number | boolean | Array<string | number>;
+    /**
      * 组件样式
      */
     style?: string;
+    /**
+     * 依赖其他组件值的样式
+     * @description 键值为style普通的值，值为依赖组件的key
+     */
+    styleDepended?: record<string, string>;
     /**
      * 组件内置属性
      * @description 可配置组件的内置属性，参考MUI官网文档
@@ -58,7 +67,7 @@ export interface ComponentProps {
     options?: OptionsProps[];
 }
 
-export interface ConfigProps {
+declare interface ConfigProps {
     /**
      * 表单组件标题
      * @description 一个配置项显示的标题
@@ -84,7 +93,7 @@ export interface ConfigProps {
     components?: ComponentProps[];
 }
 
-export interface ViewThemeProps {
+declare interface ViewThemeProps {
     /**
      * 样式类名
      */
@@ -95,7 +104,7 @@ export interface ViewThemeProps {
     style?: string;
 }
 
-export interface ViewProps {
+declare interface ViewProps {
     /**
      * html标签名称
      * @description 具体标签参考html支持的标签
@@ -123,11 +132,24 @@ export interface ViewProps {
     /**
      * html标签显示依赖
      */
-    showDependend?: Record<string, any>;
+    showDepended?: Record<string, any>;
     /**
      * html子节点
      */
     children?: ViewProps[];
+    /**
+     *  通用类名
+     */
+    class?: string;
+    /**
+     *  通用样式
+     */
+    style?: string;
+    /**
+     * 依赖其他组件值的样式
+     * @description 键值为style普通的值，值为依赖组件的key
+     */
+    styleDepended?: record<string, string>;
     /**
      * html标签风格
      * @description 支持配置多个风格
@@ -135,7 +157,7 @@ export interface ViewProps {
     themes?: Record<ThemeType, ViewThemeProps>;
 }
 
-export interface CustomComponentProps {
+declare interface CustomComponentProps {
     /**
      * 组件名称
      * @description name是组件显示的名称，比如在选择使用哪个组件的时候作为显示使用
@@ -155,4 +177,18 @@ export interface CustomComponentProps {
      * @description 可以是json单独配置各个属性，也可以直接传入html字符串，其中${{}}包围的是参数变量，渲染的时候替换
      */
     view: ViewProps[] | string;
+    /**
+     * 组件分类
+     * @description 用来区分组件的类别，比如图表、数据显示等，目前有data_chart/operate/data_card三种
+     */
+    class?: string;
+    /**
+     * 当前组件已配置值
+     */
+    config?: Record<string, any>;
+    /**
+     * 组件唯一标识
+     * @description 存储到服务端后数据库自动生成，无需维护
+     */
+    id?: string;
 }

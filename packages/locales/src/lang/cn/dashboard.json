@@ -1,4 +1,18 @@
 {
     "dashboard.add_title": "Add Dashboard",
-    "dashboard.edit_title": "Edit Dashboard"
+    "dashboard.edit_title": "Edit Dashboard",
+    "dashboard.dashboard_name": "Dashboard Name",
+    "dashboard.add_widget": "Add widget",
+    "dashboard.empty_text": "Select a component and start building your data dashboard",
+    "dashboard.empty_description": "Quickly insert bar charts, line charts, pie charts and other component types to intuitively display data and make business dynamics clear at a glance",
+    "dashboard.plugin_class_data_chart": "Data Charts",
+    "dashboard.plugin_class_operate": "Operable Widgets",
+    "dashboard.plugin_class_data_card": "Data Card",
+    "dashboard.plugin_class_other": "Other",
+    "dashboard.switch_title_on": "On",
+    "dashboard.switch_title_off": "Off",
+    "dashboard.label_nearly_three_hours": "Nearly 3 hours",
+    "dashboard.label_nearly_six_hours": "Nearly 6 hours",
+    "dashboard.label_nearly_twelve_hours": "Nearly 12 hours",
+    "dashboard.label_nearly_one_days": "Nearly one days"
 }

@@ -6,7 +6,13 @@
     .@{prefix}-tab-content {
         flex: 1;
         padding: @padding-lg;
-        background: var(--body-background);
+        overflow: hidden;
+        background: var(--gray-color-2);
+    }
+
+    .@{prefix}-tabpanel {
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -25,5 +31,76 @@
         margin: @margin-sm 0 0 @margin-sm;
         font-size: @font-size-xxl !important;
         cursor: pointer;
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        &-main {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+
+            .drag {
+                position: relative;
+            }
+        }
+
+        &-operate {
+            display: flex;
+            margin-bottom: @margin-md;
+
+            &-left {
+                flex: 1;
+            }
+        }
+
+        &-empty {
+            // display: flex;
+            // flex: 1;
+            // flex-direction: column;
+            // justify-content: center;
+            overflow-y: auto;
+            text-align: center;
+
+            &-title {
+                font-size: @font-size-6;
+            }
+
+            &-description {
+                margin: @margin-md 0 @margin-md;
+                color: var(--gray-color-5);
+            }
+        }
+
+        &-widget {
+            background: var(--main-background);
+
+            &-icon {
+                position: absolute;
+                top: @margin-xs;
+                right: @margin-sm;
+                z-index: 2;
+
+                &-img {
+                    display: inline-block;
+                    padding: @padding-xxs;
+                    margin-left: @margin-xs;
+                    line-height: 0;
+                    color: rgba(0,0,0,.54);
+                    border: @border-base;
+                    border-radius: 50%;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: var(--gray-color-3);
+                    }
+                }
+            }
+        }
     }
 }

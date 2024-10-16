@@ -511,3 +511,9 @@ export const getObjectType = (obj: any) => {
 
     return type;
 };
+
+/** 是否是文件名 */
+export const isFileName = (name: string) => {
+    const fileNameRegex = /^[^\\/:*?"<>|]+\.[a-zA-Z0-9]+$/;
+    return fileNameRegex.test(name);
+};
