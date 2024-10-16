@@ -137,12 +137,12 @@
                     "showDepended": {
                         "showIcon": true
                     },
+                    "styleDepended": {
+                        "color": "iconColor"
+                    },
                     "params": [
                         "icon"
-                    ],
-                    "dependStyle": {
-                        "color": "iconColor"
-                    }
+                    ]
                 },
                 {
                     "tag": "div",

@@ -49,7 +49,7 @@ declare interface ComponentProps {
      * 依赖其他组件值的样式
      * @description 键值为style普通的值，值为依赖组件的key
      */
-    dependStyle?: record<string, string>;
+    styleDepended?: record<string, string>;
     /**
      * 组件内置属性
      * @description 可配置组件的内置属性，参考MUI官网文档
@@ -149,7 +149,7 @@ declare interface ViewProps {
      * 依赖其他组件值的样式
      * @description 键值为style普通的值，值为依赖组件的key
      */
-    dependStyle?: record<string, string>;
+    styleDepended?: record<string, string>;
     /**
      * html标签风格
      * @description 支持配置多个风格

@@ -42,11 +42,11 @@ const View = (props: Props) => {
             const theme = tagProps?.themes?.default;
             const style = `${tagProps?.style}${theme?.style}`;
             const dependStyle: Record<string, string> = {};
-            if (tagProps?.dependStyle) {
-                for (const key in tagProps?.dependStyle) {
-                    if ((config as any)?.[tagProps?.dependStyle[key]]) {
+            if (tagProps?.styleDepended) {
+                for (const key in tagProps?.styleDepended) {
+                    if ((config as any)?.[tagProps?.styleDepended[key]]) {
                         dependStyle[convertCssToReactStyle(key)] = (config as any)?.[
-                            tagProps?.dependStyle[key]
+                            tagProps?.styleDepended[key]
                         ];
                     }
                 }
