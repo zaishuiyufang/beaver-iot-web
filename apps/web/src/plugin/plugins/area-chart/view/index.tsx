@@ -19,7 +19,7 @@ const View = (props: ViewProps) => {
         const chart = new Chart(document.getElementById('areaChart') as HTMLCanvasElement, {
             type: 'line',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'july'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                     {
                         label: entity || 'Monthly',
