@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Stack, IconButton } from '@mui/material';
-import { useI18n } from '@milesight/shared/src/hooks';
+import { useI18n, useTime } from '@milesight/shared/src/hooks';
 import { ListAltIcon, DeleteOutlineIcon } from '@milesight/shared/src/components';
 import { type ColumnType } from '@/components';
 import { type DeviceDetail } from '@/services/http';
@@ -16,6 +16,8 @@ export interface UseColumnsProps<T> {
 
 const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T>) => {
     const { getIntlText } = useI18n();
+    const { getTimeFormat } = useTime();
+
     const columns: ColumnType<T>[] = useMemo(() => {
         return [
             {
@@ -30,6 +32,9 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 headerName: getIntlText('common.label.create_time'),
                 width: 150,
                 ellipsis: true,
+                renderCell({ value }) {
+                    return getTimeFormat(value);
+                },
             },
             {
                 field: 'source',
@@ -74,7 +79,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 },
             },
         ];
-    }, [getIntlText, onButtonClick]);
+    }, [getIntlText, getTimeFormat, onButtonClick]);
 
     return columns;
 };
