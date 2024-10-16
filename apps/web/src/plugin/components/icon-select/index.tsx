@@ -5,7 +5,7 @@ import Select from '../select';
 import IconList from './icon-list';
 import './style.less';
 
-const iconSelect = (props: any) => {
+const IconSelect = (props: any) => {
     const { value, onChange, ...rest } = props;
     const [open, setOpen] = useState(false);
 
@@ -53,4 +53,4 @@ const iconSelect = (props: any) => {
     );
 };
 
-export default iconSelect;
+export default IconSelect;
