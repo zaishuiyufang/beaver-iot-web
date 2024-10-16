@@ -1,6 +1,6 @@
 import { isString } from 'lodash-es';
 import * as Icons from '@milesight/shared/src/components/icons';
-import { parseStyleToReactStyle, parseStyleString } from './util';
+import { parseStyleToReactStyle, parseStyleString, convertCssToReactStyle } from './util';
 import './style.less';
 
 interface Props {
@@ -41,10 +41,21 @@ const View = (props: Props) => {
             const Tag: any = tagProps?.tag;
             const theme = tagProps?.themes?.default;
             const style = `${tagProps?.style}${theme?.style}`;
+            const dependStyle: Record<string, string> = {};
+            if (tagProps?.dependStyle) {
+                for (const key in tagProps?.dependStyle) {
+                    if ((config as any)?.[tagProps?.dependStyle[key]]) {
+                        dependStyle[convertCssToReactStyle(key)] = (config as any)?.[
+                            tagProps?.dependStyle[key]
+                        ];
+                    }
+                }
+            }
             if (Tag === 'icon') {
                 const icon = renderParams(tagProps?.params);
                 const IconTag = (Icons as any)[icon];
-                return !!icon && <IconTag sx={style ? parseStyleString(style) : undefined} />;
+                const iconStyle = style ? parseStyleString(style) : {};
+                return !!icon && <IconTag sx={{ ...iconStyle, ...dependStyle }} />;
             }
             return (
                 <Tag

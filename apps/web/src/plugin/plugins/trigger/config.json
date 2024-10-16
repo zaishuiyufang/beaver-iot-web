@@ -139,7 +139,10 @@
                     },
                     "params": [
                         "icon"
-                    ]
+                    ],
+                    "dependStyle": {
+                        "color": "iconColor"
+                    }
                 },
                 {
                     "tag": "div",

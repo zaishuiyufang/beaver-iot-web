@@ -1,5 +1,6 @@
 .icon-select {
     &-list {
+        max-height: 400px;
         background: var(--main-background);
 
         &-main {
@@ -27,6 +28,10 @@
         &-active {
             background: rgba(52, 145, 250, 0.08);
             border-radius: 50%;
+        }
+
+        &-active &-img {
+            color: var(--blue-base);
         }
 
         &:hover {
