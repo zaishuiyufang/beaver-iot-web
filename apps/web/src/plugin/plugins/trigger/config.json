@@ -135,8 +135,7 @@
                 {
                     "tag": "icon",
                     "showDepended": {
-                        "showIcon": true,
-                        "icon": true
+                        "showIcon": true
                     },
                     "params": [
                         "icon"

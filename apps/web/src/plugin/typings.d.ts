@@ -18,7 +18,7 @@ declare interface ThemeProps {
 }
 
 declare interface OptionsProps {
-    label: string;
+    label: string | React.ReactNode;
     value?: string | number;
     options?: OptionsProps[];
 }

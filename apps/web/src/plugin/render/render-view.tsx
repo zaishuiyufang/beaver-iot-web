@@ -1,5 +1,6 @@
 import { isString } from 'lodash-es';
-import { parseStyleToReactStyle } from './util';
+import * as Icons from '@milesight/shared/src/components/icons';
+import { parseStyleToReactStyle, parseStyleString } from './util';
 import './style.less';
 
 interface Props {
@@ -42,7 +43,8 @@ const View = (props: Props) => {
             const style = `${tagProps?.style}${theme?.style}`;
             if (Tag === 'icon') {
                 const icon = renderParams(tagProps?.params);
-                return !!icon && <svg data-testid={icon} />;
+                const IconTag = (Icons as any)[icon];
+                return !!icon && <IconTag sx={style ? parseStyleString(style) : undefined} />;
             }
             return (
                 <Tag

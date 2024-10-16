@@ -36,8 +36,14 @@ const Widgets = (props: WidgetProps) => {
             const unitWidth = (parentRef?.current?.clientWidth || 0) / 24;
             const width = Math.ceil(rest.width / unitWidth);
             const height = Math.ceil(rest.height / unitHeight);
-            const initWidth = Math.ceil(rest.initWidth / unitWidth);
-            const initHeight = Math.ceil(rest.initHeight / unitHeight);
+            // const initWidth = newWidgets[index].pos?.initWidth
+            //     ? newWidgets[index].pos?.initWidth
+            //     : Math.ceil(rest.initWidth / unitWidth);
+            // const initHeight = newWidgets[index].pos?.initHeight
+            //     ? newWidgets[index].pos?.initHeight
+            //     : Math.ceil(rest.initHeight / unitHeight);
+            const initWidth = newWidgets[index].pos?.initWidth || rest.initWidth;
+            const initHeight = newWidgets[index].pos?.initHeight || rest.initHeight;
 
             newWidgets[index] = {
                 ...newWidgets[index],

@@ -1,9 +1,51 @@
+import { useState } from 'react';
+import { Box, MenuItem } from '@mui/material';
+import * as Icons from '@milesight/shared/src/components/icons';
 import Select from '../select';
+import IconList from './icon-list';
+import './style.less';
 
 const iconSelect = (props: any) => {
-    const { title, ...rest } = props;
+    const { value, onChange, ...rest } = props;
+    const [open, setOpen] = useState(false);
 
-    return <Select {...rest} />;
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const IconTag = value ? (Icons as any)[value] : null;
+
+    const handleColorChange = (value?: string | number) => {
+        onChange(value);
+        handleClose();
+    };
+
+    const options: OptionsProps[] = Object.keys(Icons).map(key => {
+        return {
+            label: key,
+            value: key,
+        };
+    });
+
+    return (
+        <Select
+            {...rest}
+            onOpen={handleOpen}
+            onClose={handleClose}
+            open={open}
+            value={value}
+            className="icon-select"
+            renderValue={() => (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>{IconTag && <IconTag />}</Box>
+            )}
+            renderOptions={() => {
+                return (
+                    <MenuItem onClick={handleOpen} className="icon-select-menu">
+                        <IconList onChange={handleColorChange} options={options} />
+                    </MenuItem>
+                );
+            }}
+        />
+    );
 };
 
 export default iconSelect;

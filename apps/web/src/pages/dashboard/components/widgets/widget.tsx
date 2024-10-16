@@ -24,12 +24,7 @@ const Widget = (props: WidgetProps) => {
         // 计算出24等分一格大小
         const unitHeight = (parentRef?.current?.clientHeight || 0) / 24;
         const unitWidth = (parentRef?.current?.clientWidth || 0) / 24;
-        // 计算当前宽度跟高度各占几格并向上取整
-        const widthCol = Math.ceil((widgetRef?.current?.clientWidth || 0) / unitWidth);
-        const heightRow = Math.ceil((widgetRef?.current?.clientHeight || 0) / unitHeight);
         return {
-            widthCol,
-            heightRow,
             unitHeight,
             unitWidth,
         };
@@ -53,10 +48,20 @@ const Widget = (props: WidgetProps) => {
             });
         } else {
             const { unitHeight, unitWidth } = getSize();
+            let width = (data?.pos?.width || 0) * unitWidth;
+            let height = (data?.pos?.height || 0) * unitHeight;
+            if (width < data?.pos?.initWidth) {
+                const diff = Math.ceil(((data?.pos?.initWidth || 0) - width) / unitWidth);
+                width = ((data?.pos?.width || 0) + diff) * unitWidth;
+            }
+            if (height < data?.pos?.initHeight) {
+                const diff = Math.ceil(((data?.pos?.initHeight || 0) - height) / unitHeight);
+                height = ((data?.pos?.height || 0) + diff) * unitHeight;
+            }
             setPos({
                 ...(data.pos || {}),
-                width: (data?.pos?.width || 0) * unitWidth,
-                height: (data?.pos?.height || 0) * unitHeight,
+                width,
+                height,
             });
         }
     }, [data]);
