@@ -40,7 +40,12 @@ const iconSelect = (props: any) => {
             renderOptions={() => {
                 return (
                     <MenuItem onClick={handleOpen} className="icon-select-menu">
-                        <IconList onChange={handleColorChange} options={options} />
+                        <IconList
+                            onChange={handleColorChange}
+                            options={options}
+                            value={value}
+                            isShow={open}
+                        />
                     </MenuItem>
                 );
             }}

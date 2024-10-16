@@ -32,13 +32,6 @@ const Widget = (props: WidgetProps) => {
 
     useEffect(() => {
         if (!data?.pos?.width && !data?.pos?.height && widgetRef?.current) {
-            // setPos({
-            //     ...(data.pos || {}),
-            //     width,
-            //     height,
-            //     initWidth: widgetRef?.current?.clientWidth,
-            //     initHeight: widgetRef?.current?.clientHeight,
-            // });
             onResizeBox({
                 id: data.id,
                 width: widgetRef?.current?.clientWidth,

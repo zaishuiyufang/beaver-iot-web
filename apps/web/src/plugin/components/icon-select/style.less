@@ -3,7 +3,13 @@
         background: var(--main-background);
 
         &-main {
-            width: 400px;
+            width: 420px;
+
+            &::after {
+                display: block;
+                clear: both;
+                content: '';
+            }
         }
     }
 
@@ -14,8 +20,18 @@
     &-icon {
         display: block;
         float: left;
-        padding: @padding-xxs;
-        margin: 10px 0;
+        padding: @padding-sm;
+        margin: @margin-xs;
         line-height: 0;
+
+        &-active {
+            background: rgba(52, 145, 250, 0.08);
+            border-radius: 50%;
+        }
+
+        &:hover {
+            background: rgba(0,0,0,.04);
+            border-radius: 50%;
+        }
     }
 }
