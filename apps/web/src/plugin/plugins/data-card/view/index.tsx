@@ -1,7 +1,6 @@
-import { isNil } from 'lodash-es';
-import { LightbulbIcon } from '@milesight/shared/src/components';
+import * as Icons from '@milesight/shared/src/components/icons';
 import { Tooltip } from '@/components';
-import type { ViewConfigProps } from './typings';
+import type { ViewConfigProps } from '../typings';
 import './style.less';
 
 interface Props {
@@ -13,12 +12,16 @@ const View = (props: Props) => {
     const { title, entity } = config || {};
 
     const renderTitle = title || 'Title';
-    const renderIconColor = config?.busyIconColor;
+
+    const key = '0';
+    const iconType = config?.[`${key}Icon`];
+    const Icon = iconType && Icons[iconType as keyof typeof Icons];
+    const renderIconColor = config?.[`${key}IconColor`];
     return (
         <div className="data-view">
-            {!isNil(entity) && (
+            {Icon && (
                 <div className="data-view__icon">
-                    <LightbulbIcon sx={{ color: renderIconColor || '#9B9B9B', fontSize: 24 }} />
+                    <Icon sx={{ color: renderIconColor || '#9B9B9B', fontSize: 24 }} />
                 </div>
             )}
             <Tooltip className="data-view__title" autoEllipsis title={renderTitle} />

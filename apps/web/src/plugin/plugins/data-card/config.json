@@ -12,7 +12,7 @@
             },
             "components": [
                 {
-                    "type": "select",
+                    "type": "entitySelect",
                     "title": "Entity",
                     "key": "entity",
                     "style": "width: 100%",
