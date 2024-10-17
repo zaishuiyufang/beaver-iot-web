@@ -37,7 +37,10 @@
                     "key": "title",
                     "style": "width: 100%",
                     "componentProps": {
-                        "size": "small"
+                        "size": "small",
+                        "inputProps": {
+                            "maxLength": 15
+                        }
                     }
                 }
             ]

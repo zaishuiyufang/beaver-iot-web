@@ -15,7 +15,7 @@ export const useDynamic = ({ value, config, setConfig, entityMapRef }: IProps) =
         return {
             $$type: 'dynamic',
             title: `Appearance of ${type}`,
-            style: 'display: flex;margin-top:28px;',
+            style: 'display: flex;',
             theme: {
                 default: {
                     class: 'first-component-icon-select',
@@ -25,7 +25,7 @@ export const useDynamic = ({ value, config, setConfig, entityMapRef }: IProps) =
                 {
                     type: 'iconSelect',
                     key: `${index}Icon`,
-                    style: 'flex: 1;',
+                    style: 'flex: 1;padding-right: 12px;',
                     componentProps: {
                         size: 'small',
                     },
