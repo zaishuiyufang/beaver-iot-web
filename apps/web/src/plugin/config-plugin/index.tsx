@@ -10,7 +10,7 @@ import './style.less';
 interface ConfigPluginProps {
     config: CustomComponentProps;
     onClose: () => void;
-    onOk: (data: any) => void;
+    onOk?: (data: any) => void;
 }
 
 const ConfigPlugin = (props: ConfigPluginProps) => {
@@ -43,7 +43,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
     };
 
     const handleSubmit = (data: any) => {
-        onOk(data);
+        onOk?.(data);
     };
 
     // 切换tab页签
