@@ -1,12 +1,13 @@
 import { useMemo, forwardRef } from 'react';
 import Form from '../form';
-import { entityType } from './contanst';
+import { entityType } from './constant';
+import type { EntityFormProps } from './typings';
 
 const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
     const { entities, onOk } = props;
 
     // 获取组件类型
-    const getComponentType = (entity: EntityType) => {
+    const getComponentType = (entity: EntitySchema) => {
         const type = entity?.value_attribute?.displayType;
         switch (type) {
             case entityType.string:
@@ -25,7 +26,7 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
     };
 
     // 获取组件配置
-    const getComponentProps = (entity: EntityType) => {
+    const getComponentProps = (entity: EntitySchema) => {
         const type = entity?.value_attribute?.displayType;
         const componentProps: any = {};
         switch (type) {
@@ -42,7 +43,7 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
     };
 
     // 获取组件校验规则
-    const getComponentRules = (entity: EntityType) => {
+    const getComponentRules = (entity: EntitySchema) => {
         const type = entity?.value_attribute?.displayType;
         const attr: any = entity?.value_attribute || {};
         const rules: rulesType = {};
@@ -78,7 +79,7 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
     const formItems: UseFormItemsProps[] = useMemo(() => {
         if (entities?.length) {
             const forms: UseFormItemsProps[] = [];
-            entities.forEach((entity: EntityType) => {
+            entities.forEach((entity: EntitySchema) => {
                 const item: UseFormItemsProps = {
                     label: entity.name,
                     name: entity.key,

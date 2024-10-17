@@ -36,29 +36,29 @@ declare interface EntitySchema {
     type: EntityType;
 
     /** 访问模式 */
-    accessMode: EntityAccessMode;
+    access_mod: EntityAccessMode;
 
     /** 是否同步调用服务 */
-    syncCall: boolean;
+    sync_call: boolean;
 
     /** 父节点 ID */
-    parent: ApiKey;
+    parent_id: ApiKey;
 
     /** 隶属对象 */
-    attachTarget: string;
+    attach_target: string;
 
     /** 隶属对象 ID */
-    attachTargetId: ApiKey;
+    attach_target_dd: ApiKey;
 
     /** 实体值属性 */
-    valueAttribute: any;
+    value_attribute: any;
 
     /** 实体值类型 */
-    valueType: string;
+    value_type: string;
 
     /** 创建时间 */
-    createAt: number;
+    create_at: number;
 
     /** 更新时间 */
-    updateAt: number;
+    update_at: number;
 }

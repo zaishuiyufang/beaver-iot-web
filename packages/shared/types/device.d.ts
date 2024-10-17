@@ -15,14 +15,14 @@ declare interface DeviceSchema {
     integration: string;
 
     /** 集成外部 ID */
-    externalId: ApiKey;
+    external_id: ApiKey;
 
     /** 额外数据 */
-    additionalData?: any;
+    additional_data?: any;
 
     /** 创建时间 */
-    createAt: number;
+    create_at: number;
 
     /** 更新时间 */
-    updateAt: number;
+    update_at: number;
 }
