@@ -35,6 +35,7 @@ export {
     Person as PersonIcon,
     People as PeopleIcon,
     Edit as EditIcon,
+    EditOutlined as EditOutlinedIcon,
     PlayArrow as PlayArrowIcon,
     Visibility as VisibilityIcon,
     Home as HomeIcon,

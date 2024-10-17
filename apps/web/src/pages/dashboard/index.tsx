@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import {
-    Fullscreen as FullscreenIcon,
-    FullscreenExit as FullscreenIconExit,
-    Add as AddIcon,
-} from '@mui/icons-material';
+    FullscreenIcon,
+    FullscreenExitIcon as FullscreenIconExit,
+    AddIcon,
+} from '@milesight/shared/src/components';
 import { TabPanel } from '@/components';
 import DashboardContent from './components/dashboard-content';
 import AddDashboard from './components/add-dashboard';

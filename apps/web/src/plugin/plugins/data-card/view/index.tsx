@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { Lightbulb as LightbulbIcon } from '@mui/icons-material';
+import { LightbulbIcon } from '@milesight/shared/src/components';
 import { Tooltip } from '@/components';
 import type { ViewConfigProps } from './typings';
 import './style.less';

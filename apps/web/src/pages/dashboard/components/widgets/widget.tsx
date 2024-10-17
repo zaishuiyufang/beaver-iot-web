@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { DeleteOutline, EditOutlined } from '@mui/icons-material';
+import {
+    DeleteOutlineIcon as DeleteOutline,
+    EditOutlinedIcon as EditOutlined,
+} from '@milesight/shared/src/components';
 import { DraggableResizable } from '@milesight/shared/src/components';
 import plugins from '@/plugin/plugins';
 import { RenderView } from '@/plugin/render';
