@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Grid } from '@mui/material';
-import { useGetPluginConfigs } from '../../hooks';
 import pluginImg from '@/assets/plugin.png';
+import { useGetPluginConfigs } from '../../hooks';
 import './style.less';
 
 interface PluginListProps {
