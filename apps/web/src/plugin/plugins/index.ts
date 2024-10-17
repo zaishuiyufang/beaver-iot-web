@@ -6,7 +6,7 @@ const modules = (() => {
     const getModuleFiles = (modules: ModuleType, suffix?: string) => {
         let bucket = {};
         for (const path of Object.keys(modules)) {
-            const component = React.lazy(() => import(path));
+            const component = React.lazy(modules[path]);
 
             const [, folder] = path?.split('/') || [];
             if (!folder || folder in bucket || isFileName(folder)) continue;
