@@ -1,5 +1,6 @@
 import { useMemo, forwardRef } from 'react';
 import Form from '../form';
+import { rulesType, UseFormItemsProps } from '../form/typings';
 import { entityType } from './constant';
 import type { EntityFormProps } from './typings';
 

@@ -1,7 +1,8 @@
-import { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import { useForm, Controller, FieldValues, type SubmitHandler } from 'react-hook-form';
 import { isEqual } from 'lodash-es';
 import useFormItems from './useForm';
+import { UseFormItemsProps, FormItemsProps } from './typings';
 import './style.less';
 
 interface formProps<T extends FieldValues> {

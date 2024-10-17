@@ -1,9 +1,9 @@
-declare type rulesPatternType = {
+export type rulesPatternType = {
     value: any;
     message: string;
 };
 
-declare type rulesType = {
+export type rulesType = {
     required?: boolean | string;
     pattern?: rulesPatternType;
     minLength?: rulesPatternType;
@@ -12,22 +12,22 @@ declare type rulesType = {
     max?: rulesPatternType;
 };
 
-declare type fieldType = {
+export type fieldType = {
     onChange: any;
     value: fieldStateProps;
 };
 
-declare type fieldStateType = {
+export type fieldStateType = {
     error: any;
 };
 
-declare interface renderType {
+export interface renderType {
     field: fieldType;
     fieldState: fieldStateType;
     formState: any;
 }
 
-declare interface FormItemsProps {
+export interface FormItemsProps {
     name: Path<T>;
     render: any;
     multiple?: number;
@@ -37,11 +37,11 @@ declare interface FormItemsProps {
     title?: string;
 }
 
-declare type UseFormItemsType = Omit<FormItemsProps, 'render'>;
+export type UseFormItemsType = Omit<FormItemsProps, 'render'>;
 
-declare interface UseFormItemsProps extends UseFormItemsType {
-    label: string;
-    type: string;
+export interface UseFormItemsProps extends UseFormItemsType {
+    type?: string;
     props?: any;
+    label?: string;
     render?: (data: renderType) => void;
 }
