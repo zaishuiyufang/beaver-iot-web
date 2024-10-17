@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import * as Mui from '@mui/material';
+import * as Mui from '../mui-form';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import useI18n from '../../hooks/useI18n';
 

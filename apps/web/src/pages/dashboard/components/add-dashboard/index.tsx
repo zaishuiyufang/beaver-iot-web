@@ -13,19 +13,21 @@ const AddDashboard = (props: ConfigPluginProps) => {
     const { onOk, onCancel, data } = props;
     const formRef = useRef<any>();
 
-    const formItems = [{
-        label: getIntlText('dashboard.dashboard_name'),
-        name: 'name',
-        type: 'TextField',
-        defaultValue: data?.name,
-        rules: {
-            required: true,
-            maxLength: {
-                value: 2,
-                message: 'name is too long'
-            }
+    const formItems = [
+        {
+            label: getIntlText('dashboard.dashboard_name'),
+            name: 'name',
+            type: 'TextField',
+            defaultValue: data?.name,
+            rules: {
+                required: true,
+                maxLength: {
+                    value: 2,
+                    message: 'name is too long',
+                },
+            },
         },
-    }]
+    ];
 
     const handleClose = () => {
         onCancel();
@@ -37,7 +39,7 @@ const AddDashboard = (props: ConfigPluginProps) => {
 
     const handleSubmit = (values: AddDashboardProps) => {
         onOk(values);
-    }
+    };
 
     return (
         <Modal
@@ -45,11 +47,7 @@ const AddDashboard = (props: ConfigPluginProps) => {
             onOk={handleOk}
             title={`${getIntlText(data?.id ? 'dashboard.add_title' : 'dashboard.edit_title')}`}
         >
-            <Form<AddDashboardProps>
-                ref={formRef}
-                formItems={formItems}
-                onOk={handleSubmit}
-            />
+            <Form<AddDashboardProps> ref={formRef} formItems={formItems} onOk={handleSubmit} />
         </Modal>
     );
 };

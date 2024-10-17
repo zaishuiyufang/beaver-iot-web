@@ -96,9 +96,7 @@ export default () => {
                     })}
                 </div>
             </div>
-            {showAdd && (
-                <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} data={{ name: '111' }} />
-            )}
+            {showAdd && <AddDashboard onCancel={handleCloseAdd} onOk={handleAdd} />}
         </div>
     );
 };
