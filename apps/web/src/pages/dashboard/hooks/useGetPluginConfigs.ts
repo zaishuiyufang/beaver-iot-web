@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import components from '@/plugin/plugins/components';
 // 定义可导入的模块集合
 const modules = import.meta.glob('../../../plugin/plugins/*/config.json');
-
+const iconModules = import.meta.glob('../../../plugin/plugins/*/icon.png');
 const PLUGIN_DIR = '../../../plugin';
 
 export default () => {
@@ -15,9 +15,8 @@ export default () => {
         let icon = null;
         if (jsonData?.icon) {
             const iconSrc = `${PLUGIN_DIR}/plugins/${comName}/icon.png`;
-            icon = await import(iconSrc);
+            icon = await iconModules[iconSrc]();
         }
-
         const isExit = pluginRef.current.some(item => item.name === jsonData.name);
         if (isExit) return;
 
