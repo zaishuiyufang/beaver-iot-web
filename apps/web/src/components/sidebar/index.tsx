@@ -34,11 +34,11 @@ const Sidebar: React.FC<Props> = memo(({ menus, logoLinkTo = '/' }) => {
     const routes = useMatches().slice(1);
     const selectedKeys = routes.map(route => route.pathname);
     const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<HTMLDivElement | null>(null);
-    const [shrink, setShrink] = useState(false);
+    const [shrink, setShrink] = useState(true);
 
     return (
         <div className={cls('ms-layout-left ms-sidebar', { 'ms-sidebar-shrink': shrink })}>
-            <Logo className="ms-sidebar-logo" to="/" mini={shrink} />
+            <Logo className="ms-sidebar-logo" to={logoLinkTo} mini={shrink} />
             <MenuList className="ms-sidebar-menus">
                 {menus?.map(menu => (
                     <MenuItem

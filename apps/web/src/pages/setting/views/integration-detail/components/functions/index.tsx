@@ -46,8 +46,8 @@ const Functions = () => {
                                 className="title"
                                 title="Pull added device information"
                             />
-                            <IconButton>
-                                <ChevronRightIcon sx={{ fontSize: 16 }} />
+                            <IconButton sx={{ width: 24, height: 24 }}>
+                                <ChevronRightIcon />
                             </IconButton>
                         </div>
                         <div className="desc">
@@ -65,8 +65,8 @@ const Functions = () => {
                                 className="title"
                                 title="Query the historical data"
                             />
-                            <IconButton>
-                                <ChevronRightIcon sx={{ fontSize: 16 }} />
+                            <IconButton sx={{ width: 24, height: 24 }}>
+                                <ChevronRightIcon />
                             </IconButton>
                         </div>
                         <div className="desc">
