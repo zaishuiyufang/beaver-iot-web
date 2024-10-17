@@ -25,6 +25,7 @@ export {
     Monitor as MonitorIcon,
     PhoneIphone as PhoneIphoneIcon,
     Wifi as WifiIcon,
+    WifiOff as WifiOffIcon,
     Search as SearchIcon,
     Bluetooth as BluetoothIcon,
     WifiTethering as WifiTetheringIcon,
