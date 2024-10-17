@@ -34,8 +34,8 @@
             }
         }
 
-        &.Mui-selected,
-        &.Mui-selected:hover {
+        &.@{mui-prefix}-selected,
+        &.@{mui-prefix}-selected:hover {
             background-color: var(--primary-color-1);
 
             .@{prefix}-sidebar-menu-item-link {
@@ -77,6 +77,7 @@
 
         .@{prefix}-sidebar-menu-item {
             &-link {
+                justify-content: center;
                 padding: @padding-sm;
 
                 .ms-name {
