@@ -1,0 +1,43 @@
+.ms-icon-remaining {
+    &__header {
+        display: flex;
+        margin-bottom: @margin-sm;
+    }
+
+    &__icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        margin-right: @margin-sm;
+        border-radius: 50%;
+
+        &-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+    }
+
+    &__title {
+        display: flex;
+        flex-direction: column;
+
+        &-label {
+            flex: 1;
+            font-weight: @font-weight-bold;
+            .text-size(@font-size-2);
+        }
+
+        &-percent {
+            flex: 1;
+            .text-size(@font-size-2);
+        }
+    }
+}
