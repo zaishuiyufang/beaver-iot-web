@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { OutlinedInput, InputAdornment, Tooltip } from '@mui/material';
 import * as Icons from '@milesight/shared/src/components/icons';
-import { Search } from '@mui/icons-material';
 
 interface IconListProps {
     options: OptionsProps[];
@@ -35,7 +34,7 @@ const IconList = (props: IconListProps) => {
                 sx={{ width: '100%' }}
                 startAdornment={
                     <InputAdornment position="start">
-                        <Search />
+                        <Icons.SearchIcon />
                     </InputAdornment>
                 }
                 value={searchValue}

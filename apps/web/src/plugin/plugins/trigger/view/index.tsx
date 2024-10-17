@@ -54,6 +54,7 @@ const View = (props: Props) => {
             <RenderView config={config} configJson={configJson} onClick={handleClick} />
             {visible && (
                 <Modal title={configJson.name} onOk={handleOk} onCancel={() => setVisible(false)}>
+                    {/* @ts-ignore: Mock 数据字段缺失，暂忽略 ts 校验报错 */}
                     <EntityForm ref={ref} entities={entities} onOk={handleSubmit} />
                 </Modal>
             )}

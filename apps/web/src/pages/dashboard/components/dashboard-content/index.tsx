@@ -1,6 +1,11 @@
 import { useState, useRef } from 'react';
 import { Button, Popover } from '@mui/material';
-import { Add, DeleteOutline, Close, Check } from '@mui/icons-material';
+import {
+    AddIcon as Add,
+    DeleteOutlineIcon as DeleteOutline,
+    CloseIcon as Close,
+    CheckIcon as Check,
+} from '@milesight/shared/src/components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep } from 'lodash-es';

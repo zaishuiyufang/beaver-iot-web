@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
 import { Stack, IconButton } from '@mui/material';
-import { useI18n } from '@milesight/shared/src/hooks';
+import { useI18n, useTime } from '@milesight/shared/src/hooks';
 import { EditIcon } from '@milesight/shared/src/components';
 import { Descriptions, Tooltip } from '@/components';
 import { deviceAPI, type DeviceDetail } from '@/services/http';
@@ -25,6 +25,7 @@ export interface BasicTableInstance {
  */
 const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
     const { getIntlText } = useI18n();
+    const { getTimeFormat } = useTime();
     const [dialogOpen, setDialogOpen] = useState(false);
     const descList = useMemo(() => {
         return [
@@ -61,7 +62,7 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
             {
                 key: 'createTime',
                 label: getIntlText('common.label.create_time'),
-                content: mockData.createTime, // Todo: time format
+                content: getTimeFormat(mockData.createTime),
             },
             {
                 key: 'founder',
@@ -74,7 +75,7 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
                 content: mockData.id,
             },
         ];
-    }, [getIntlText]);
+    }, [getIntlText, getTimeFormat]);
     const handleDialogClose = useCallback(() => {
         setDialogOpen(false);
     }, []);

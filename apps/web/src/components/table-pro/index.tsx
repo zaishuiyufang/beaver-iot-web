@@ -14,7 +14,7 @@ import './style.less';
 
 export type ColumnType<R extends GridValidRowModel = any, V = any, F = V> = GridColDef<R, V, F> & {
     /**
-     * 文案是否自动省略（仅当列配置中无自定义 `renderCell` 时生效）
+     * 文案是否自动省略
      */
     ellipsis?: boolean;
 };
@@ -68,21 +68,27 @@ const TablePro = <DataType extends GridValidRowModel>({
                 col.resizable = isUndefined(col.resizable) ? false : col.resizable;
             }
 
-            if (col.ellipsis && !col.renderCell) {
-                col.renderCell = ({ value }) => (
-                    <Tooltip
-                        autoEllipsis
-                        title={value}
-                        slotProps={{
-                            popper: {
-                                modifiers: [{ name: 'offset', options: { offset: [0, -20] } }],
-                            },
-                        }}
-                    >
-                        <span>{value}</span>
-                    </Tooltip>
-                );
+            if (col.ellipsis) {
+                const originalRenderCell = col.renderCell;
+
+                col.renderCell = (...args) => {
+                    const { value } = args[0];
+                    const title = originalRenderCell?.(...args) || value;
+
+                    return (
+                        <Tooltip
+                            autoEllipsis
+                            title={title}
+                            slotProps={{
+                                popper: {
+                                    modifiers: [{ name: 'offset', options: { offset: [0, -20] } }],
+                                },
+                            }}
+                        />
+                    );
+                };
             }
+
             return col;
         });
 

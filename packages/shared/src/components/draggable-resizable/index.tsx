@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';

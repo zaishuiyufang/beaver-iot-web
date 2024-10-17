@@ -1,7 +1,7 @@
 /**
  * 系统主题相关 Hook
  */
-import { useLayoutEffect, useMemo } from 'react';
+import { useLayoutEffect, useMemo, useCallback } from 'react';
 import { useColorScheme } from '@mui/material/styles';
 import { theme } from '../services';
 
@@ -38,6 +38,15 @@ export default () => {
 
         /** 切换主题 */
         setTheme: setMode,
+
+        /** 根据传入的 CSS 变量名获取对应值 */
+        getCSSVariableValue: useCallback<typeof theme.getCSSVariableValue>(
+            vars => {
+                return theme.getCSSVariableValue(vars);
+            },
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            [mode],
+        ),
 
         /** 主题色 - 白 */
         white: theme.white,

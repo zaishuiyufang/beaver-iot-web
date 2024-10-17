@@ -41,7 +41,7 @@ export default () => {
                 multiline
                 rows={10}
                 value={json}
-                onChange={e => setJson(e.target.value)}
+                onChange={(e: any) => setJson(e.target.value)}
                 fullWidth
             />
             <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>

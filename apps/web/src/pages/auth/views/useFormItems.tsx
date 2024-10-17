@@ -134,8 +134,8 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                                             <IconButton
                                                 aria-label="toggle password visibility"
                                                 onClick={handleClickShowPassword}
-                                                onMouseDown={e => e.preventDefault()}
-                                                onMouseUp={e => e.preventDefault()}
+                                                onMouseDown={(e: any) => e.preventDefault()}
+                                                onMouseUp={(e: any) => e.preventDefault()}
                                                 edge="end"
                                             >
                                                 {showPassword ? (
@@ -188,8 +188,8 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                                             <IconButton
                                                 aria-label="toggle password visibility"
                                                 onClick={handleClickShowPassword}
-                                                onMouseDown={e => e.preventDefault()}
-                                                onMouseUp={e => e.preventDefault()}
+                                                onMouseDown={(e: any) => e.preventDefault()}
+                                                onMouseUp={(e: any) => e.preventDefault()}
                                                 edge="end"
                                             >
                                                 {showPassword ? (

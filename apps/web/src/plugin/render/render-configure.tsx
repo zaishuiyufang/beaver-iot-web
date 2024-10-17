@@ -1,6 +1,5 @@
 import { useMemo, useRef, forwardRef } from 'react';
-import * as MUI from '@mui/material';
-import { Form, FormItemsType } from '@milesight/shared/src/components';
+import { Form, FormItemsType, MUIForm as MUI } from '@milesight/shared/src/components';
 import * as Milesight from '../components';
 import { parseStyleString } from './util';
 
@@ -39,7 +38,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                 ? item?.theme?.[currentTheme]?.class
                 : undefined;
             components?.forEach((component: ComponentProps, index: number) => {
-                const AllComponent: any = { ...Milesight, ...MUI };
+                const AllComponent: any = { ...MUI, ...Milesight };
                 if (AllComponent[component.type]) {
                     const Component = AllComponent[component.type];
                     const commonStyle = component?.style

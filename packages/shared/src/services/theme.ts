@@ -315,3 +315,27 @@ export const getMuiComponents = (mode: PaletteMode = 'light') => {
 
     return result;
 };
+
+/**
+ * 根据传入的 CSS 变量名获取对应值
+ * @param vars CSS 变量名或变量名数组
+ * @returns 返回对应 CSS 变量值
+ */
+export const getCSSVariableValue = <T extends string | string[]>(
+    vars: T,
+): T extends string[] ? Record<string, string> : string => {
+    const rootStyle = window.getComputedStyle(document.documentElement);
+
+    if (typeof vars === 'string') {
+        const value = rootStyle.getPropertyValue(vars).trim();
+        return value as T extends string[] ? Record<string, string> : string;
+    }
+
+    const result = {} as Record<string, string>;
+    vars.forEach(item => {
+        const value = rootStyle.getPropertyValue(item).trim();
+        result[item as T[number]] = value;
+    });
+
+    return result as T extends string[] ? Record<string, string> : string;
+};
