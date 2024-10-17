@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import {
     DeleteOutlineIcon as DeleteOutline,
     EditOutlinedIcon as EditOutlined,
@@ -95,7 +95,9 @@ const Widget = (props: WidgetProps) => {
             )}
             {ComponentView ? (
                 <div ref={widgetRef}>
-                    <ComponentView config={data.config} configJson={data} />
+                    <Suspense>
+                        <ComponentView config={data.config} configJson={data} />
+                    </Suspense>
                 </div>
             ) : (
                 <div ref={widgetRef}>

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, Suspense } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { Modal, JsonView } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
@@ -66,11 +66,15 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         >
             <div className="config-plugin-container">
                 <div className="config-plugin-container-left">
-                    {ComponentView ? (
-                        <ComponentView config={formValues} configJson={config} />
-                    ) : (
-                        <RenderView configJson={config} config={formValues} />
-                    )}
+                    <Suspense>
+                        {ComponentView ? (
+                            <Suspense>
+                                <ComponentView config={formValues} configJson={config} />
+                            </Suspense>
+                        ) : (
+                            <RenderView configJson={config} config={formValues} />
+                        )}
+                    </Suspense>
                 </div>
                 <div className="config-plugin-container-right">
                     {/* <Tabs className="ms-tabs" value={tabKey} onChange={handleChangeTabs}>
@@ -111,13 +115,15 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                             <JsonView value={formValues} maintainEditStatus />
                         </TabPanel> */}
                         {ComponentConfig ? (
-                            <ComponentConfig
-                                config={config}
-                                onChange={handleChange}
-                                value={formValues}
-                                ref={formRef}
-                                onOk={handleSubmit}
-                            />
+                            <Suspense>
+                                <ComponentConfig
+                                    config={config}
+                                    onChange={handleChange}
+                                    value={formValues}
+                                    ref={formRef}
+                                    onOk={handleSubmit}
+                                />
+                            </Suspense>
                         ) : (
                             <RenderConfig
                                 config={config}
