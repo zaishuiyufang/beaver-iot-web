@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import components from '@/plugin/plugins/components';
+// 定义可导入的模块集合
+const modules = import.meta.glob('../../../plugin/plugins/*/config.json');
 
 const PLUGIN_DIR = '../../../plugin';
 
@@ -9,8 +11,7 @@ export default () => {
 
     const loopComponents = async (comName: string, index: number) => {
         const jsonPath = `${PLUGIN_DIR}/plugins/${comName}/config.json`;
-        const jsonData = await import(jsonPath);
-
+        const jsonData: any = await modules[jsonPath]();
         let icon = null;
         if (jsonData?.icon) {
             const iconSrc = `${PLUGIN_DIR}/plugins/${comName}/icon.png`;
