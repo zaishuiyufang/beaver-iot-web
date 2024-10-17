@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTheme } from '@milesight/shared/src/hooks';
 import Chart from './gauge';
 
@@ -11,6 +11,8 @@ const extendArray = <T,>(arr: T[], n: number): T[] => {
 
 const View = (props: Props) => {
     const { config } = props;
+    const { entity, title } = config || {};
+    const chartRef = useRef<HTMLCanvasElement>(null);
     const { blue, green, red, yellow, grey } = useTheme();
     const colors = [blue[700], green[700], red[700], yellow[700]];
 
@@ -19,8 +21,9 @@ const View = (props: Props) => {
         minValue?: number;
         currentValue: number;
     }) => {
+        const ctx = chartRef.current!;
+        if (!ctx) return;
         const { data, minValue, currentValue } = datasets || {};
-        const ctx = document.getElementById('gaugeChart') as HTMLCanvasElement;
 
         const bgColors = extendArray(colors, data.length);
         const chart = new Chart(ctx, {
@@ -57,6 +60,7 @@ const View = (props: Props) => {
         });
         return () => chart?.destroy();
     };
+
     useEffect(() => {
         // TODO
         const data = [1, 2, 3, 4];
@@ -64,12 +68,12 @@ const View = (props: Props) => {
         const currentValue = 2;
 
         return renderGaugeChart({ data, minValue, currentValue });
-    }, [config]);
+    }, [entity]);
 
     return (
-        <div>
-            <h2>{config.title}</h2>
-            <canvas id="gaugeChart" />
+        <div className="ms-gauge-chart">
+            <h2>{title}</h2>
+            <canvas id="gaugeChart" ref={chartRef} />
         </div>
     );
 };

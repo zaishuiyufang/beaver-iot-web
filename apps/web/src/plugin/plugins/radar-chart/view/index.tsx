@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 
 interface IProps {
@@ -6,9 +6,12 @@ interface IProps {
 }
 const View = (props: IProps) => {
     const { config } = props;
+    const chartRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        const ctx = document.getElementById('radarChart') as HTMLCanvasElement;
+        const ctx = chartRef.current!;
+        if (!ctx) return;
+
         const chart = new Chart(ctx, {
             type: 'radar',
             data: {
@@ -66,7 +69,7 @@ const View = (props: IProps) => {
     return (
         <div>
             <h2>{config.title}</h2>
-            <canvas id="radarChart" />
+            <canvas id="radarChart" ref={chartRef} />
         </div>
     );
 };

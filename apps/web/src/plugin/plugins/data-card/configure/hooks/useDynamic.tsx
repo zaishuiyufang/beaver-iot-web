@@ -15,7 +15,7 @@ export const useDynamic = ({ value, config, setConfig, entityMapRef }: IProps) =
         return {
             $$type: 'dynamic',
             title: `Appearance of ${type}`,
-            style: 'display: flex;',
+            style: 'display: flex;margin-bottom: 20px;',
             theme: {
                 default: {
                     class: 'first-component-icon-select',
