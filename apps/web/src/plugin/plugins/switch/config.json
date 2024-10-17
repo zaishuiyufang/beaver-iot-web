@@ -57,7 +57,7 @@
         },
         {
             "title": "Appearance of off status",
-            "style": "display: flex;margin-top:28px;",
+            "style": "display: flex;",
             "theme": {
                 "default": {
                     "class": "first-component-icon-select"
@@ -85,7 +85,7 @@
         },
         {
             "title": "Appearance of on status",
-            "style": "display: flex;margin-top:28px;",
+            "style": "display: flex;margin-top:20px;",
             "theme": {
                 "default": {
                     "class": "first-component-icon-select"
