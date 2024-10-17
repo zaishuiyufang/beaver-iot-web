@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from 'react';
-import { WifiRounded as WifiRoundedIcon } from '@mui/icons-material';
+import { WifiIcon } from '@milesight/shared/src/components/icons';
 
 import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
@@ -56,7 +56,7 @@ const View = (props: ViewProps) => {
                 <div className={styles.text}>{switchText}</div>
             </div>
             <div className={styles.icon}>
-                <WifiRoundedIcon sx={{ color: iconColor || '#9B9B9B', fontSize: 56 }} />
+                <WifiIcon sx={{ color: iconColor || '#9B9B9B', fontSize: 56 }} />
             </div>
         </div>
     );
