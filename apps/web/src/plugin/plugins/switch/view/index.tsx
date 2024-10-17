@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from 'react';
-import { WifiIcon } from '@milesight/shared/src/components/icons';
+import * as Icons from '@milesight/shared/src/components/icons';
 
 import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
@@ -19,7 +19,7 @@ export interface ViewProps {
 
 const View = (props: ViewProps) => {
     const { config } = props;
-    const { entity, switchText, onIconColor, offIconColor } = config;
+    const { entity, switchText, onIconColor, offIconColor, offIcon, onIcon } = config;
 
     const { getIntlText } = useI18n();
     const [isSwitchOn, setIsSwitchOn] = useState(false);
@@ -47,6 +47,19 @@ const View = (props: ViewProps) => {
             : getIntlText('dashboard.switch_title_off');
     }, [isSwitchOn, getIntlText]);
 
+    /**
+     * Icon 组件
+     */
+    const IconComponent = useMemo(() => {
+        const iconName = isSwitchOn ? onIcon : offIcon;
+        if (!iconName) return null;
+
+        const Icon = Reflect.get(Icons, iconName);
+        if (!Icon) return null;
+
+        return <Icon sx={{ color: iconColor || '#9B9B9B', fontSize: 56 }} />;
+    }, [isSwitchOn, onIcon, offIcon, iconColor]);
+
     return (
         <div className={styles['switch-wrapper']}>
             <div className={styles.content}>
@@ -55,9 +68,7 @@ const View = (props: ViewProps) => {
                 </div>
                 <div className={styles.text}>{switchText}</div>
             </div>
-            <div className={styles.icon}>
-                <WifiIcon sx={{ color: iconColor || '#9B9B9B', fontSize: 56 }} />
-            </div>
+            <div className={styles.icon}>{IconComponent}</div>
         </div>
     );
 };
