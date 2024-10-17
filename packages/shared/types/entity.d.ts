@@ -48,7 +48,7 @@ declare interface EntitySchema {
     attach_target: string;
 
     /** 隶属对象 ID */
-    attach_target_dd: ApiKey;
+    attach_target_id: ApiKey;
 
     /** 实体值属性 */
     value_attribute: any;
