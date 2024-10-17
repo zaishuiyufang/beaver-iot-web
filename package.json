@@ -10,7 +10,7 @@
         "build:web": "pnpm --filter=@app/web -r run build",
         "build:pkgs": "pnpm --filter=@milesight/* -r run build",
         "build": "pnpm --filter=@app/* -r run build",
-        "preview": "pnpm run --filter=@app/* -r run preview",
+        "preview": "pnpm --filter=@app/* -r run preview",
         "i18n:import": "pnpm --filter=@milesight/locales run import",
         "i18n:export": "pnpm --filter=@milesight/locales run export",
         "i18n:export-all": "pnpm --filter=@milesight/locales run exportall",
