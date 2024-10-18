@@ -17,7 +17,7 @@ type Props = {
      * 自定义下拉选项
      * @returns 返回自定义下拉选项内容
      */
-    renderOptions?: () => any[];
+    renderOptions?: (options: (OptionsProps & { description?: string })[]) => any[];
 };
 
 export type SelectProps = Props & MuiSelectProps;
@@ -53,7 +53,7 @@ const Select = (props: SelectProps) => {
             )}
             <MuiSelect {...rest} label={title} labelId="select-label">
                 {renderOptions
-                    ? renderOptions()
+                    ? renderOptions(options)
                     : getMenuItems?.map((item: OptionsProps) => {
                           return item?.value ? (
                               <MenuItem value={item.value}>{item.label}</MenuItem>

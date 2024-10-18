@@ -74,6 +74,26 @@
                     "defaultValue": 86400000
                 }
             ]
+        },
+        {
+            "style": "width: 100%;",
+            "theme": {
+                "default": {
+                    "style": "font-size: 18px;"
+                }
+            },
+            "components": [
+                {
+                    "type": "chartMetricsSelect",
+                    "title": "metrics",
+                    "key": "metrics",
+                    "style": "width: 100%;",
+                    "componentProps": {
+                        "size": "small"
+                    },
+                    "defaultValue": "latest"
+                }
+            ]
         }
     ],
     "view": []
