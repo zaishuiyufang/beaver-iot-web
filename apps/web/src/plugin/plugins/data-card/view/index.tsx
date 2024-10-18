@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useI18n } from '@milesight/shared/src/hooks';
 import * as Icons from '@milesight/shared/src/components/icons';
 import { Tooltip } from '@/components';
 import type { ViewConfigProps } from '../typings';
@@ -11,8 +12,9 @@ interface Props {
 const View = (props: Props) => {
     const { config } = props;
     const { title, entity } = config || {};
+    const { getIntlText } = useI18n();
 
-    const headerLabel = title || 'Title';
+    const headerLabel = title || getIntlText('common.label.title');
     const { Icon, iconColor } = useMemo(() => {
         const key = '0';
         const iconType = config?.[`${key}Icon`];

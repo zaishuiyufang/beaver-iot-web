@@ -4,7 +4,7 @@ export interface ViewConfigProps {
     [key: string]: string;
 }
 
-export type IConfig = any;
+export type ConfigureType = any;
 export interface IEntity {
     id: string;
     key: string;

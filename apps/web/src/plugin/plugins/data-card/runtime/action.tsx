@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { keyBy } from 'lodash-es';
-import { entityToOptions } from '../helper';
-import type { IConfig, IEntity } from '../../typings';
+import useDataViewStore from './store';
+import { ViewConfigProps, ConfigureType } from '../typings';
 
+// TODO 模拟数据，后续需要替换成真实请求
 const mockData = (getDataUrl: string) => {
     const data: IEntity[] = [
         {
@@ -56,33 +57,41 @@ const mockData = (getDataUrl: string) => {
 };
 
 interface IProps {
-    config: IConfig;
-    setConfig: (config: IConfig) => void;
-    entityMapRef: React.MutableRefObject<{ [key: string]: IEntity }>;
+    value: ViewConfigProps;
+    config: ConfigureType;
 }
-export const useInitialize = ({ config, setConfig, entityMapRef }: IProps) => {
-    /** 获取实体配置 */
-    const getEntityConfig = (config: IConfig) => {
-        const [configProp] = config?.configProps || [];
-        const { components } = configProp || {};
-        const [entity] = components || [];
-        return entity;
+export const useAction = ({ value, config }: IProps) => {
+    /* 将实体数据转换为下拉选项 */
+    const entityToOptions = (entityData: any[]) => {
+        return (entityData || []).map(entity => {
+            // 实体名称、设备、来源集成
+            const { id, name, deviceName, integration } = entity || {};
+
+            return {
+                label: name,
+                value: id,
+                description: [deviceName, integration].join(','),
+            };
+        });
     };
     /** 获取实体数据源 */
     const getEntityData = async (dataUrl: string) => {
         // TODO 请求数据
         const entityData = await mockData(dataUrl);
         const options = entityToOptions(entityData);
-        entityMapRef.current = keyBy(entityData, 'id');
+        const entityMap = keyBy(entityData, 'id');
 
-        // 设置下拉选项
-        const entityOptions = getEntityConfig(config);
-        entityOptions.options = options;
-        setConfig({ ...config });
+        const { setState } = useDataViewStore;
+        // 保存状态数据
+        setState({ entityOptions: options, entityData, entityMap });
     };
-    useEffect(() => {
+    const run = () => {
         // TODO 请求数据
         const dataUrl = 'xxxx';
         getEntityData(dataUrl);
+    };
+
+    useEffect(() => {
+        run();
     }, []);
 };
