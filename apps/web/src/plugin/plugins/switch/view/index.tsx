@@ -66,7 +66,7 @@ const View = (props: ViewProps) => {
                 <div className={styles.body}>
                     <Switch value={isSwitchOn} title={switchTitle} onChange={handleSwitchChange} />
                 </div>
-                <div className={styles.text}>{switchText}</div>
+                <div className={styles.text}>{switchText || getIntlText('common.label.title')}</div>
             </div>
             <div className={styles.icon}>{IconComponent}</div>
         </div>
