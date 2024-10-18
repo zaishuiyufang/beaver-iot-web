@@ -1,4 +1,3 @@
-import { type PaletteMode, type CssVarsThemeOptions } from '@mui/material/styles';
 import {
     blue as MBlue,
     green as MGreen,
@@ -7,7 +6,11 @@ import {
     yellow as MYellow,
     deepOrange as MDeepOrange,
 } from '@mui/material/colors';
+import type { PaletteMode, ColorSystemOptions, CssVarsThemeOptions } from '@mui/material/styles';
 import iotStorage from '../utils/storage';
+
+/** 主题类型 */
+export type ThemeType = PaletteMode;
 
 // 缓存 key（注意：使用 iotStorage 会自动拼接 msiot. 前缀）
 export const THEME_CACHE_KEY = 'theme';
@@ -107,17 +110,18 @@ const isDarkMode = ((): boolean => {
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 })();
 
-// 系统主题
-// 首次进入系统时，根据当前是否为深色模式来决定默认主题
-export const SYSTEM_THEME_MODE = isDarkMode ? 'dark' : 'light';
+/** 系统主题 */
+export const SYSTEM_THEME: ThemeType = isDarkMode ? 'dark' : 'light';
+/** 应用默认主题 */
+export const DEFAULT_THEME: ThemeType = 'light';
 
 /**
  * 初始化系统主题
  *
  * 优先根据缓存中的主题类型变更当前主题，若无缓存则默认为 light 主题
  */
-export const initTheme = () => {
-    const type = iotStorage.getItem<PaletteMode>(THEME_CACHE_KEY) || SYSTEM_THEME_MODE;
+export const initTheme = (theme?: ThemeType) => {
+    const type = iotStorage.getItem<ThemeType>(THEME_CACHE_KEY) || theme || DEFAULT_THEME;
     const html = document.querySelector('html');
 
     html?.setAttribute('data-theme', type);
@@ -126,120 +130,133 @@ export const initTheme = () => {
 /**
  * 获取当前系统主题类型
  */
-export const getCurrentTheme = (): PaletteMode => {
-    const mode = iotStorage.getItem<PaletteMode>(THEME_CACHE_KEY);
+export const getCurrentTheme = (): ThemeType => {
+    const mode = iotStorage.getItem<ThemeType>(THEME_CACHE_KEY);
 
-    return mode || SYSTEM_THEME_MODE;
+    return mode || DEFAULT_THEME;
 };
 
-type ColorSchemesType = NonNullable<CssVarsThemeOptions['colorSchemes']>;
+/**
+ * 变更主题
+ * @param theme 主题类型
+ * @param isPersist 是否在 localStorage 持久化存储
+ */
+export const changeTheme = (theme: ThemeType, isPersist = true) => {
+    if (!theme) return;
+
+    const html = document.querySelector('html');
+    html?.setAttribute('data-theme', theme);
+    isPersist && iotStorage.setItem(THEME_CACHE_KEY, theme);
+};
 
 /**
  * 获取 MUI 主题配置
  */
 export const getMuiSchemes = () => {
-    const lightPalette: Exclude<ColorSchemesType['light'], boolean> = {
-        palette: {
-            grey,
-            primary: {
-                main: blue[700],
-                light: blue[600],
-                dark: blue[800],
-            },
-            secondary: {
-                main: '#1261BE',
-                light: '#3380CC',
-                dark: '#064699',
-                contrastText: white,
-            },
-            error: {
-                main: red[700],
-                light: red[600],
-                dark: red[800],
-                contrastText: white,
-            },
-            warning: {
-                main: yellow[700],
-                light: yellow[600],
-                dark: yellow[800],
-                contrastText: white,
-            },
-            info: {
-                main: blue[700],
-                light: blue[600],
-                dark: blue[800],
-                contrastText: white,
-            },
-            success: {
-                main: green[700],
-                light: green[600],
-                dark: green[800],
-                contrastText: white,
-            },
-            background: {
-                default: grey[50],
-            },
-            text: {
-                primary: grey[800],
-                secondary: grey[600],
-                tertiary: grey[500],
-                quaternary: grey[300],
-                disabled: grey[200],
-            },
-            action: {
-                disabled: grey[200],
-            },
-            Tooltip: {
-                bg: grey[800],
-            },
+    const lightPalette: ColorSystemOptions['palette'] = {
+        grey,
+        primary: {
+            main: blue[700],
+            light: blue[600],
+            dark: blue[800],
+        },
+        secondary: {
+            main: '#1261BE',
+            light: '#3380CC',
+            dark: '#064699',
+            contrastText: white,
+        },
+        error: {
+            main: red[700],
+            light: red[600],
+            dark: red[800],
+            contrastText: white,
+        },
+        warning: {
+            main: yellow[700],
+            light: yellow[600],
+            dark: yellow[800],
+            contrastText: white,
+        },
+        info: {
+            main: blue[700],
+            light: blue[600],
+            dark: blue[800],
+            contrastText: white,
+        },
+        success: {
+            main: green[700],
+            light: green[600],
+            dark: green[800],
+            contrastText: white,
+        },
+        background: {
+            default: grey[50],
+        },
+        text: {
+            primary: grey[800],
+            secondary: grey[600],
+            tertiary: grey[500],
+            quaternary: grey[300],
+            disabled: grey[200],
+        },
+        action: {
+            disabled: grey[200],
+        },
+        Tooltip: {
+            bg: grey[800],
         },
     };
-    const darkPalette: ColorSchemesType['dark'] = {
-        palette: {
-            grey,
-            primary: {
-                main: blue[600],
-                light: blue[700],
-                dark: blue[500],
-            },
-            secondary: {
-                main: '#3380cc',
-                light: '#1261BE',
-                dark: '#599DD9',
-            },
-            error: {
-                main: red[600],
-                light: red[700],
-                dark: red[500],
-            },
-            warning: {
-                main: yellow[600],
-                light: yellow[700],
-                dark: yellow[500],
-            },
-            info: {
-                main: blue[600],
-                light: blue[700],
-                dark: blue[500],
-            },
-            success: {
-                main: green[600],
-                light: green[700],
-                dark: green[500],
-            },
-            background: {
-                default: black,
-            },
-            text: {
-                primary: grey[800],
-                secondary: grey[600],
-                tertiary: grey[500],
-                quaternary: grey[300],
-                disabled: grey[200],
-            },
-            Tooltip: {
-                bg: grey[800],
-            },
+    const darkPalette: ColorSystemOptions['palette'] = {
+        grey,
+        primary: {
+            main: blue[600],
+            light: blue[700],
+            dark: blue[500],
+            contrastText: grey[50],
+        },
+        secondary: {
+            main: '#3380cc',
+            light: '#1261BE',
+            dark: '#599DD9',
+            contrastText: grey[50],
+        },
+        error: {
+            main: red[600],
+            light: red[700],
+            dark: red[500],
+            contrastText: grey[50],
+        },
+        warning: {
+            main: yellow[600],
+            light: yellow[700],
+            dark: yellow[500],
+            contrastText: grey[50],
+        },
+        info: {
+            main: blue[600],
+            light: blue[700],
+            dark: blue[500],
+            contrastText: grey[50],
+        },
+        success: {
+            main: green[600],
+            light: green[700],
+            dark: green[500],
+            contrastText: grey[50],
+        },
+        background: {
+            default: black,
+        },
+        text: {
+            primary: grey[50],
+            secondary: grey[100],
+            tertiary: grey[200],
+            quaternary: grey[300],
+            disabled: grey[400],
+        },
+        Tooltip: {
+            bg: grey[800],
         },
     };
     return {
@@ -253,7 +270,7 @@ export const getMuiSchemes = () => {
  * @param mode 主题类型
  * @link https://mui.com/material-ui/customization/theme-components/
  */
-export const getMuiComponents = (mode: PaletteMode = 'light') => {
+export const getMuiComponents = (mode: ThemeType = 'light') => {
     const result: CssVarsThemeOptions['components'] = {
         MuiButtonBase: {
             defaultProps: {

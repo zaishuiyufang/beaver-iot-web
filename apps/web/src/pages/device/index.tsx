@@ -61,7 +61,7 @@ export default () => {
                 </Button>
             </Stack>
         );
-    }, [getIntlText]);
+    }, [confirm, getIntlText]);
 
     const handleTableBtnClick: UseColumnsProps<DeviceDetail>['onButtonClick'] = useCallback(
         (type, record) => {

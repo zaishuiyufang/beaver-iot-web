@@ -1,75 +1,89 @@
 /**
  * 系统主题相关 Hook
  */
-import { useLayoutEffect, useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useEffect } from 'react';
 import { useColorScheme } from '@mui/material/styles';
-import { theme } from '../services';
+import { theme as themeService } from '../services';
+import { useSharedGlobalStore } from '../stores';
 
-const palettes = theme.getMuiSchemes();
+const palettes = themeService.getMuiSchemes();
 
 export default () => {
-    const { mode, setMode } = useColorScheme();
-    const currentMode = theme.getCurrentTheme();
+    const { setMode } = useColorScheme();
+    const theme = useSharedGlobalStore(state => state.theme);
+    const setTheme = useSharedGlobalStore(state => state.setTheme);
 
-    const components = useMemo(() => {
-        const themeType = mode === 'system' ? theme.SYSTEM_THEME_MODE : mode;
-        const result = theme.getMuiComponents(themeType);
+    const themeConfig = useMemo(() => {
+        const palette = { mode: theme, ...palettes[theme] };
+        const colorSchemes = { [theme]: { palette: palettes[theme] } };
+        const components = themeService.getMuiComponents(theme);
+        const cssVariables = {
+            colorSchemeSelector: themeService.THEME_COLOR_SCHEMA_SELECTOR,
+        };
 
-        return result;
-    }, [mode]);
+        return {
+            palette,
+            colorSchemes,
+            components,
+            cssVariables,
+        };
+    }, [theme]);
 
-    useLayoutEffect(() => {
-        if (mode === currentMode) return;
-        setMode(currentMode);
-    }, [currentMode, mode, setMode]);
+    const changeTheme = useCallback(
+        (type: typeof theme, isPersist?: boolean) => {
+            setMode(type);
+            setTheme(type);
+            themeService.changeTheme(type, isPersist);
+        },
+        [setMode, setTheme],
+    );
+
+    // 主动变更 MUI 主题，否则首次进入时组件库主题默认跟随系统主题
+    useEffect(() => {
+        changeTheme(theme, false);
+    }, [theme, changeTheme]);
 
     return {
         /** 当前主题 */
-        theme: mode,
-
-        /** 主题 CSS 变量选择器 */
-        colorSchemeSelector: theme.THEME_COLOR_SCHEMA_SELECTOR,
-
-        /** 各组件主题配置 */
-        components,
+        theme,
 
         /** MUI 主题配置 */
-        muiPalettes: palettes,
+        themeConfig,
 
         /** 切换主题 */
-        setTheme: setMode,
+        changeTheme,
 
         /** 根据传入的 CSS 变量名获取对应值 */
-        getCSSVariableValue: useCallback<typeof theme.getCSSVariableValue>(
+        getCSSVariableValue: useCallback<typeof themeService.getCSSVariableValue>(
             vars => {
-                return theme.getCSSVariableValue(vars);
+                return themeService.getCSSVariableValue(vars);
             },
             // eslint-disable-next-line react-hooks/exhaustive-deps
-            [mode],
+            [theme],
         ),
 
         /** 主题色 - 白 */
-        white: theme.white,
+        white: themeService.white,
 
         /** 主题色 - 黑 */
-        black: theme.black,
+        black: themeService.black,
 
         /** 主题色 - 蓝 */
-        blue: theme.blue,
+        blue: themeService.blue,
 
         /** 主题色 - 绿 */
-        green: theme.green,
+        green: themeService.green,
 
         /** 主题色 - 黄 */
-        yellow: theme.yellow,
+        yellow: themeService.yellow,
 
         /** 主题色 - 橙 */
-        deepOrange: theme.deepOrange,
+        deepOrange: themeService.deepOrange,
 
         /** 主题色 - 红 */
-        red: theme.red,
+        red: themeService.red,
 
         /** 主题色 - 灰 */
-        grey: theme.grey,
+        grey: themeService.grey,
     };
 };

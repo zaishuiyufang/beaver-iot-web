@@ -17,17 +17,8 @@ const layouts: Record<string, React.ReactNode> = {
 function Layout() {
     const routeMatches = useMatches();
     const { muiLocale, getIntlText } = useI18n();
-    const { muiPalettes, components, colorSchemeSelector } = useTheme();
-    const muiTheme = createTheme(
-        {
-            colorSchemes: { light: muiPalettes.light, dark: muiPalettes.dark },
-            cssVariables: {
-                colorSchemeSelector,
-            },
-            components,
-        },
-        muiLocale!,
-    );
+    const { themeConfig } = useTheme();
+    const muiTheme = createTheme(themeConfig, muiLocale!);
     const route = routeMatches[routeMatches.length - 1];
     let { layout = '' } = (route?.handle || {}) as Record<string, any>;
 

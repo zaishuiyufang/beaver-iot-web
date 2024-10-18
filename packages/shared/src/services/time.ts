@@ -53,7 +53,7 @@ export const getTimezone = () => {
  * 变更默认时区
  * @param timezone 时区
  */
-export const changeDefaultTimezone = (timezone: string) => {
+export const changeTimezone = (timezone: string) => {
     dayjs.tz.setDefault(timezone);
 };
 
