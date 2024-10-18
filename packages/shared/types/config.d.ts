@@ -9,7 +9,7 @@ interface ImportMetaEnv {
      */
     readonly MODE: 'development' | 'production';
     /** 应用类型 */
-    readonly APP_TYPE: AppType;
+    // readonly APP_TYPE: AppType;
     /** 应用版本 */
     readonly APP_VERSION: string;
     /** 应用接口 Origin */
@@ -19,11 +19,11 @@ interface ImportMetaEnv {
     /** 应用 OAuth Client Secret */
     readonly APP_OAUTH_CLIENT_SECRET: string;
     /** 应用打包时间戳 */
-    readonly BUILD_TIMESTAMP: number;
+    // readonly BUILD_TIMESTAMP: number;
     /** 应用打包分支 */
-    readonly GIT_BRANCH?: string;
+    // readonly GIT_BRANCH?: string;
     /** 应用打包时的 commit hash */
-    readonly LATEST_COMMIT_HASH?: string;
+    // readonly LATEST_COMMIT_HASH?: string;
 }
 // 定义一个模块类型
 type ModuleType = {

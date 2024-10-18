@@ -1,5 +1,3 @@
-
-const path = require('path');
 const json = require('@rollup/plugin-json');
 const { babel } = require('@rollup/plugin-babel');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
@@ -22,11 +20,11 @@ module.exports = {
         peerDepsExternal(),
         babel({
             babelHelpers: 'bundled',
-            exclude: 'node_modules/**' // 只编译源代码
+            exclude: 'node_modules/**', // 只编译源代码
         }),
         nodeResolve(),
         typescript(),
         json(),
-        dynamicImportVars()
+        dynamicImportVars(),
     ],
 };
