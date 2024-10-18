@@ -7,9 +7,9 @@
         "dev:apps": "pnpm --filter=@app/* -r run dev",
         "dev:pkgs": "pnpm --filter=@milesight/* -r run watch",
         "start": "pnpm run /^dev:.*/",
-        "build:web": "pnpm --filter=@app/web -r run build",
+        "build:apps": "pnpm --filter=@app/* -r run build",
         "build:pkgs": "pnpm --filter=@milesight/* -r run build",
-        "build": "pnpm --filter=@app/* -r run build",
+        "build": "run-s build:pkgs build:apps",
         "preview": "pnpm --filter=@app/* -r run preview",
         "i18n:import": "pnpm --filter=@milesight/locales run import",
         "i18n:export": "pnpm --filter=@milesight/locales run export",
@@ -26,7 +26,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "prepare": "husky",
         "preinstall": "node --import tsx ./scripts/only-allow.ts pnpm",
-        "postinstall": "pnpm --filter=@milesight/* -r run build"
+        "postinstall": "pnpm run build:pkgs"
     },
     "devDependencies": {
         "@commitlint/cli": "^19.4.1",
@@ -39,6 +39,7 @@
         "husky": "^9.1.5",
         "lint-staged": "^15.2.0",
         "rimraf": "^6.0.1",
+        "npm-run-all": "^4.1.5",
         "tsx": "^4.19.0",
         "typescript": "^5.6.2"
     },
