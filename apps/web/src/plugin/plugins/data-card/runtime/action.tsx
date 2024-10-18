@@ -61,6 +61,8 @@ interface IProps {
     config: ConfigureType;
 }
 export const useAction = ({ value, config }: IProps) => {
+    const { clear } = useDataViewStore();
+
     /* 将实体数据转换为下拉选项 */
     const entityToOptions = (entityData: any[]) => {
         return (entityData || []).map(entity => {
@@ -76,7 +78,7 @@ export const useAction = ({ value, config }: IProps) => {
     };
     /** 获取实体数据源 */
     const getEntityData = async (dataUrl: string) => {
-        // TODO 请求数据
+        // TODO 请求数据 + 数据过滤
         const entityData = await mockData(dataUrl);
         const options = entityToOptions(entityData);
         const entityMap = keyBy(entityData, 'id');
@@ -93,5 +95,9 @@ export const useAction = ({ value, config }: IProps) => {
 
     useEffect(() => {
         run();
+
+        return () => {
+            clear && clear();
+        };
     }, []);
 };

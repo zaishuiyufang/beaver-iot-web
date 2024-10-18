@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
+import { cloneDeep } from 'lodash-es';
 import useDataViewStore, { DataViewStore } from './store';
-import { ConfigureType, ViewConfigProps } from '../typings';
+import type { ConfigureType, ViewConfigProps } from '../typings';
 
 interface IProps {
     value: ViewConfigProps;
     config: ConfigureType;
 }
 export const useReducer = ({ value, config }: IProps) => {
-    const state = useDataViewStore();
+    const store = useDataViewStore();
 
     const stateToConfig = (value: ViewConfigProps, config: ConfigureType, state: DataViewStore) => {
         const { entityOptions, entityMap } = state || {};
@@ -82,7 +83,10 @@ export const useReducer = ({ value, config }: IProps) => {
         };
     };
 
-    const configure = useMemo(() => stateToConfig(value, config, state), [value, config, state]);
+    const configure = useMemo(
+        () => stateToConfig(value, cloneDeep(config), store),
+        [value, config, store],
+    );
 
     return {
         configure,

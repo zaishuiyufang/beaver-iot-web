@@ -9,6 +9,8 @@ export interface DataViewStore {
     entityOptions: any[];
     entityData: any[];
     entityMap: Record<string, any>;
+    /** 还原store */
+    clear: () => void;
 }
 const initialState: OmitFunctions<DataViewStore> = {
     entityOptions: [],
