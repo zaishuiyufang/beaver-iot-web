@@ -99,19 +99,6 @@ export const getViteEsbuildConfig = () => {
     return config;
 };
 
-// 公共 Lib
-const baseLibs = [
-    // 'react',
-    // 'qs',
-    // 'ahooks',
-    // 'axios',
-    // 'immer',
-    // 'lodash-es',
-    'dayjs',
-    // 'ysd-iot',
-    'zustand',
-];
-
 /**
  * 通用 Vite 分包策略
  */
@@ -139,9 +126,10 @@ export const customChunkSplit: CustomChunk = ({ id }, { getModuleInfo }) => {
         return `i18n-helper`;
     }
 
-    // if (baseLibs.some(key => id.includes(key))) {
-    //     return 'vendor-base';
-    // }
+    // 组件库分包
+    if (id.includes('node_modules') && id.includes('@mui')) {
+        return 'mui';
+    }
 
     if (/packages\/shared\//.test(id)) {
         if (staticImportedScan(id, getModuleInfo, new Map(), [])) {
