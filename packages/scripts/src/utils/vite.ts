@@ -4,11 +4,15 @@ import { staticImportedScan, CustomChunk } from '../plugins';
 
 /**
  * 拼接生成运行时变量
- * @param vars 变量对象
+ * @param appVars 变量对象
+ *
+ * 注意：该函数规定注入页面的变量必须命名为 `__${name}__`，不可将数据挂载在 `import.meta.env` 下，否则极易导致
+ * 构建编译后 vendor chunk hash 不稳定，出现依赖未变更但 vendor 缓存失效问题。（例如：zustand, dayjs 内部依赖 `import.meta.env?.MODE` 做逻辑判断）
  */
-export const getViteEnvVarsConfig = (vars: Record<string, any>) => {
+export const getViteEnvVarsConfig = (appVars: Record<string, any>) => {
     let hash = '';
     let branch = '';
+    const genKeyName = (name: string) => `__${name}__`;
     try {
         branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
         hash = execSync(`git log -1 --format="%H" ${branch}`, { encoding: 'utf-8' }).trim();
@@ -21,13 +25,13 @@ export const getViteEnvVarsConfig = (vars: Record<string, any>) => {
 
     // 注意：注入的变量会影响编译构建后资源 hash 的稳定性，故此处暂不做导出
     const result: Record<string, any> = {
-        // 'import.meta.env.BUILD_TIMESTAMP': Date.now(),
-        // 'import.meta.env.GIT_BRANCH': JSON.stringify(branch || ''),
-        // 'import.meta.env.LATEST_COMMIT_HASH': JSON.stringify(hash || ''),
+        [genKeyName('BUILD_TIMESTAMP')]: Date.now(),
+        [genKeyName('GIT_BRANCH')]: JSON.stringify(branch || ''),
+        [genKeyName('LATEST_COMMIT_HASH')]: JSON.stringify(hash || ''),
     };
 
-    Object.keys(vars).forEach(key => {
-        result[`import.meta.env.${key}`] = JSON.stringify(vars[key]);
+    Object.keys(appVars).forEach(key => {
+        result[genKeyName(key)] = JSON.stringify(appVars[key]);
     });
 
     return result;
