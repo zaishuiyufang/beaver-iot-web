@@ -15,11 +15,10 @@ declare type ApiKey = string | number;
 declare type ApiResponse<T = any> = {
     data: T;
     status: 'Success' | 'Failed';
-    requestId: string;
-    errCode?: string;
-    errMsg?: string;
-    detailMsg?: string;
-    // timestamp?: number;
+    request_id: string;
+    error_code?: string;
+    error_message?: string;
+    detail_message?: string;
 };
 
 /**

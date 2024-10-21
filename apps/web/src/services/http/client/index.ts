@@ -36,7 +36,7 @@ const apiOriginHandler = async (config: AxiosRequestConfig) => {
 const isRequestSuccess = (resp: AxiosResponse<ApiResponse>) => {
     const data = resp?.data;
 
-    return !!data && !data.errMsg && resp.data.status === 'Success';
+    return !!data && !data.error_message && resp.data.status === 'Success';
 };
 
 const client = createRequestClient({
@@ -45,13 +45,13 @@ const client = createRequestClient({
     configHandlers: [headersHandler, apiOriginHandler],
     onResponse(resp) {
         // 错误处理
-        errorHandler(resp.data.errCode, resp);
+        errorHandler(resp.data.error_code, resp);
         return resp;
     },
     onResponseError(error) {
         const resp = error.response;
         // @ts-ignore
-        errorHandler(resp?.data?.errCode, resp);
+        errorHandler(resp?.data?.error_code, resp);
         return error;
     },
 });

@@ -14,7 +14,7 @@ export const isRequestSuccess = (resp?: AxiosResponse<ApiResponse>) => {
         return !!data && resp?.status === 200;
     }
 
-    return !!data && !data.errCode && data.status === 'Success';
+    return !!data && !data.error_code && data.status === 'Success';
 };
 
 /**
