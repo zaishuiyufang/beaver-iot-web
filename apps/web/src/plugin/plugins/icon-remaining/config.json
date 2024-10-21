@@ -19,17 +19,7 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small"
-                    },
-                    "options": [
-                        {
-                            "label": "实体一",
-                            "value": "1"
-                        },
-                        {
-                            "label": "实体二",
-                            "value": "2"
-                        }
-                    ]
+                    }
                 }
             ]
         },
@@ -46,7 +36,6 @@
                     "title": "Widget name",
                     "key": "title",
                     "style": "width: 100%",
-                    "defaultValue": "title",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {
@@ -112,35 +101,6 @@
                         "size": "small"
                     },
                     "defaultValue": "latest"
-                }
-            ]
-        },
-        {
-            "title": "icon setting",
-            "style": "display: flex;",
-            "theme": {
-                "default": {
-                    "class": "first-component-icon-select"
-                }
-            },
-            "components": [
-                {
-                    "type": "iconSelect",
-                    "key": "icon",
-                    "defaultValue": "LightbulbIcon",
-                    "style": "flex: 1;padding-right: 12px;",
-                    "componentProps": {
-                        "size": "small"
-                    }
-                },
-                {
-                    "type": "iconColorSelect",
-                    "key": "iconColor",
-                    "style": "flex: 1;",
-                    "defaultValue": "#F7BA1E",
-                    "componentProps": {
-                        "size": "small"
-                    }
                 }
             ]
         }

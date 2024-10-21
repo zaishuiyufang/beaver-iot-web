@@ -1,15 +1,18 @@
 import { forwardRef } from 'react';
 import { RenderConfig } from '../../../render';
-import config from '../config.json';
+import { useConnect } from '../runtime';
+import { ConfigureType, ViewConfigProps } from '../typings';
 
 interface ConfigPluginProps {
+    value: ViewConfigProps;
+    config: ConfigureType;
     onOk: (data: any) => void;
     onChange: (data: any) => void;
-    value: any;
 }
 
 const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {
-    const { onOk, onChange, value } = props;
+    const { value, config, onOk, onChange } = props;
+    const { configure } = useConnect({ value, config });
 
     const handleSubmit = (data: any) => {
         onOk(data);
@@ -17,7 +20,7 @@ const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {
 
     return (
         <RenderConfig
-            config={config}
+            config={configure}
             onOk={handleSubmit}
             ref={ref}
             onChange={onChange}
