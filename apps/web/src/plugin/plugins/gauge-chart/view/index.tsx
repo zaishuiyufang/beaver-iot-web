@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { useTheme } from '@milesight/shared/src/hooks';
+import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import Chart from './gauge';
+import './style.less';
 
 interface Props {
     config: any;
@@ -12,6 +13,7 @@ const extendArray = <T,>(arr: T[], n: number): T[] => {
 const View = (props: Props) => {
     const { config } = props;
     const { entity, title } = config || {};
+    const { getIntlText } = useI18n();
     const chartRef = useRef<HTMLCanvasElement>(null);
     const { blue, green, red, yellow, grey } = useTheme();
     const colors = [blue[700], green[700], red[700], yellow[700]];
@@ -70,9 +72,10 @@ const View = (props: Props) => {
         return renderGaugeChart({ data, minValue, currentValue });
     }, [entity]);
 
+    const headerLabel = title || getIntlText('common.label.title');
     return (
         <div className="ms-gauge-chart">
-            <h2>{title}</h2>
+            <div className="ms-gauge-chart__header">{headerLabel}</div>
             <canvas id="gaugeChart" ref={chartRef} />
         </div>
     );

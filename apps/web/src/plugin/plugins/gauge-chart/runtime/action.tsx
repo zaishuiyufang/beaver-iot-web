@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { keyBy } from 'lodash-es';
-import useDataViewStore from './store';
-import type { ViewConfigProps, ConfigureType, IEntity } from '../typings';
+import useChartStore from './store';
+import type { ViewConfigProps, ConfigureType } from '../typings';
 
+type IEntity = any;
 // TODO 模拟数据，后续需要替换成真实请求
 const mockData = (getDataUrl: string) => {
     const data: IEntity[] = [
@@ -61,7 +62,7 @@ interface IProps {
     config: ConfigureType;
 }
 export const useAction = ({ value, config }: IProps) => {
-    const { clear } = useDataViewStore();
+    const { clear } = useChartStore();
 
     /* 将实体数据转换为下拉选项 */
     const entityToOptions = (entityData: any[]) => {
@@ -83,7 +84,7 @@ export const useAction = ({ value, config }: IProps) => {
         const options = entityToOptions(entityData);
         const entityMap = keyBy(entityData, 'id');
 
-        const { setState } = useDataViewStore;
+        const { setState } = useChartStore;
         // 保存状态数据
         setState({ entityOptions: options, entityData, entityMap });
     };
