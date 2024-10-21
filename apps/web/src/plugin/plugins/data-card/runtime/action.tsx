@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { keyBy } from 'lodash-es';
 import useDataViewStore from './store';
-import { ViewConfigProps, ConfigureType } from '../typings';
+import { ViewConfigProps, ConfigureType, IEntity } from '../typings';
 
 // TODO 模拟数据，后续需要替换成真实请求
 const mockData = (getDataUrl: string) => {
