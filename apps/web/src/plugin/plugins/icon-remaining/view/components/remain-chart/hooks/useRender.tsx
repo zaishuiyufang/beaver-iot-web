@@ -3,10 +3,11 @@ import { OFFSET } from '../constant';
 
 interface IProps {
     clickSliderRef: React.RefObject<HTMLDivElement>;
+    draggable?: boolean;
     onChange?: (percent: number) => void;
     updatePercent: (percent: number) => void;
 }
-export const useRender = ({ clickSliderRef, onChange, updatePercent }: IProps) => {
+export const useRender = ({ clickSliderRef, draggable, onChange, updatePercent }: IProps) => {
     const clickSliderListener = () => {
         const clickSliderElement = clickSliderRef.current;
         if (!clickSliderElement) return;
@@ -53,6 +54,8 @@ export const useRender = ({ clickSliderRef, onChange, updatePercent }: IProps) =
         };
     };
     useEffect(() => {
+        if (!draggable) return;
+
         return clickSliderListener();
-    }, []);
+    }, [draggable]);
 };

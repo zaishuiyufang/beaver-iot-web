@@ -1,11 +1,15 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
+import { useI18n } from '@milesight/shared/src/hooks';
+import './style.less';
 
 interface IProps {
     config: any;
 }
 const View = (props: IProps) => {
     const { config } = props;
+    const { entity, title } = config || {};
+    const { getIntlText } = useI18n();
     const chartRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -66,9 +70,10 @@ const View = (props: IProps) => {
         };
     }, []);
 
+    const headerLabel = title || getIntlText('common.label.title');
     return (
-        <div>
-            <h2>{config.title}</h2>
+        <div className="ms-radar-chart">
+            <div className="ms-radar-chart__header">{headerLabel}</div>
             <canvas id="radarChart" ref={chartRef} />
         </div>
     );

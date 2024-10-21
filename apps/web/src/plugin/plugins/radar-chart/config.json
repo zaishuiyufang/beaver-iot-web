@@ -44,7 +44,8 @@
                 {
                     "type": "input",
                     "title": "Widget name",
-                    "key": "widgetName",
+                    "key": "title",
+                    "style": "width: 100%",
                     "defaultValue": "",
                     "componentProps": {
                         "size": "small",

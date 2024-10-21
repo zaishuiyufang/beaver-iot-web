@@ -14,9 +14,10 @@ interface IProps {
         };
     } & CSSProperties;
     value: number;
+    draggable?: boolean;
     onChange?: (percent: number) => void;
 }
-export default React.memo(({ style, value, onChange }: IProps) => {
+export default React.memo(({ style, value, draggable, onChange }: IProps) => {
     const clickSliderRef = React.useRef<HTMLDivElement>(null);
     const actualSliderRef = React.useRef<HTMLDivElement>(null);
     const { tooltip, slider, width, height, ...rest } = style || {};
@@ -35,7 +36,7 @@ export default React.memo(({ style, value, onChange }: IProps) => {
     };
 
     const { updatePercent } = useUpdate({ clickSliderRef, actualSliderRef });
-    useRender({ clickSliderRef, updatePercent, onChange });
+    useRender({ clickSliderRef, draggable, updatePercent, onChange });
 
     useEffect(() => {
         updatePercent(newValue);
