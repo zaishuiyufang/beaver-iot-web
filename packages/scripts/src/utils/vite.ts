@@ -25,7 +25,7 @@ export const getViteEnvVarsConfig = (appVars: Record<string, any>) => {
 
     // 注意：注入的变量会影响编译构建后资源 hash 的稳定性，故此处暂不做导出
     const result: Record<string, any> = {
-        [genKeyName('BUILD_TIMESTAMP')]: Date.now(),
+        [genKeyName('BUILD_TIMESTAMP')]: JSON.stringify(Date.now()),
         [genKeyName('GIT_BRANCH')]: JSON.stringify(branch || ''),
         [genKeyName('LATEST_COMMIT_HASH')]: JSON.stringify(hash || ''),
     };
@@ -91,12 +91,13 @@ export const getViteBuildConfig = () => {
 /**
  * 获取通用 Esbuild 配置
  */
-export const getViteEsbuildConfig = () => {
-    const config: ESBuildOptions = {
+export const getViteEsbuildConfig = (config?: ESBuildOptions) => {
+    const result: ESBuildOptions = {
         drop: ['debugger'],
         pure: ['console.log', 'console.info'],
+        ...config,
     };
-    return config;
+    return result;
 };
 
 /**

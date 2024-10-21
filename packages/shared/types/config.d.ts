@@ -40,19 +40,19 @@ interface Window {
         /** 构建时的 Commit Hash */
         latestGitHash?: string;
     };
-
-    /** 应用版本 */
-    readonly __APP_VERSION__: string;
-    /** 应用接口 Origin */
-    readonly __APP_API_ORIGIN__: string;
-    /** 应用 OAuth Client ID */
-    readonly __APP_OAUTH_CLIENT_ID__: string;
-    /** 应用 OAuth Client Secret */
-    readonly __APP_OAUTH_CLIENT_SECRET__: string;
-    /** 应用打包时间戳 */
-    readonly __BUILD_TIMESTAMP__: number;
-    /** 应用打包分支 */
-    readonly __GIT_BRANCH__?: string;
-    /** 应用打包时的 commit hash */
-    readonly __LATEST_COMMIT_HASH__?: string;
 }
+
+/** 应用版本 */
+declare const __APP_VERSION__: string;
+/** 应用接口 Origin */
+declare const __APP_API_ORIGIN__: string;
+/** 应用 OAuth Client ID */
+declare const __APP_OAUTH_CLIENT_ID__: string;
+/** 应用 OAuth Client Secret */
+declare const __APP_OAUTH_CLIENT_SECRET__: string;
+/** 应用打包时间戳 */
+declare const __BUILD_TIMESTAMP__: number;
+/** 应用打包分支 */
+declare const __GIT_BRANCH__: string;
+/** 应用打包时的 commit hash */
+declare const __LATEST_COMMIT_HASH__: string;
