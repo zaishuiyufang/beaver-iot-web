@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 
+import { useI18n } from '@milesight/shared/src/hooks';
+
 import styles from './style.module.less';
 
 export interface ViewProps {
@@ -14,6 +16,8 @@ export interface ViewProps {
 const View = (props: ViewProps) => {
     const { config } = props;
     const { entity, widgetName, time } = config;
+
+    const { getIntlText } = useI18n();
 
     useEffect(() => {
         const chart = new Chart(document.getElementById('areaChart') as HTMLCanvasElement, {
@@ -51,7 +55,7 @@ const View = (props: ViewProps) => {
     return (
         <div className={styles['area-chart-wrapper']}>
             <div className={styles.name}>
-                {widgetName} {time}
+                {widgetName || getIntlText('common.label.title')} {time}
             </div>
 
             <canvas id="areaChart" />

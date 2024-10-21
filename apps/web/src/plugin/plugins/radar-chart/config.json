@@ -45,7 +45,7 @@
                     "type": "input",
                     "title": "Widget name",
                     "key": "widgetName",
-                    "defaultValue": "Occupancy detection",
+                    "defaultValue": "",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {

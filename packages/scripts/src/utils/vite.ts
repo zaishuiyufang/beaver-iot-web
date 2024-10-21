@@ -19,10 +19,11 @@ export const getViteEnvVarsConfig = (vars: Record<string, any>) => {
         );
     }
 
+    // 注意：注入的变量会影响编译构建后资源 hash 的稳定性，故此处暂不做导出
     const result: Record<string, any> = {
-        'import.meta.env.BUILD_TIMESTAMP': Date.now(),
-        'import.meta.env.GIT_BRANCH': JSON.stringify(branch || ''),
-        'import.meta.env.LATEST_COMMIT_HASH': JSON.stringify(hash || ''),
+        // 'import.meta.env.BUILD_TIMESTAMP': Date.now(),
+        // 'import.meta.env.GIT_BRANCH': JSON.stringify(branch || ''),
+        // 'import.meta.env.LATEST_COMMIT_HASH': JSON.stringify(hash || ''),
     };
 
     Object.keys(vars).forEach(key => {
@@ -30,6 +31,21 @@ export const getViteEnvVarsConfig = (vars: Record<string, any>) => {
     });
 
     return result;
+};
+
+/**
+ * 获取通用 CSS 配置
+ */
+export const getViteCSSConfig = (lessInjectModules: string[] = []) => {
+    return {
+        preprocessorOptions: {
+            less: {
+                javascriptEnabled: true,
+                additionalData: lessInjectModules.join('\n'),
+            },
+        },
+        devSourcemap: true,
+    };
 };
 
 /**
@@ -81,14 +97,14 @@ export const getViteEsbuildConfig = () => {
 
 // 公共 Lib
 const baseLibs = [
-    'react',
-    'qs',
-    'ahooks',
-    'axios',
-    'immer',
-    'lodash-es',
-    'moment',
-    'ysd-iot',
+    // 'react',
+    // 'qs',
+    // 'ahooks',
+    // 'axios',
+    // 'immer',
+    // 'lodash-es',
+    'dayjs',
+    // 'ysd-iot',
     'zustand',
 ];
 
@@ -119,9 +135,9 @@ export const customChunkSplit: CustomChunk = ({ id }, { getModuleInfo }) => {
         return `i18n-helper`;
     }
 
-    if (baseLibs.some(key => id.includes(key))) {
-        return 'vendor-base';
-    }
+    // if (baseLibs.some(key => id.includes(key))) {
+    //     return 'vendor-base';
+    // }
 
     if (/packages\/shared\//.test(id)) {
         if (staticImportedScan(id, getModuleInfo, new Map(), [])) {

@@ -32,7 +32,7 @@
         "@commitlint/cli": "^19.4.1",
         "@changesets/cli": "^2.27.8",
         "@milesight/spec": "workspace:*",
-        "@types/node": "^20.4.8",
+        "@types/node": "^20.14.8",
         "chalk": "^5.3.0",
         "dotenv": "^16.4.5",
         "fast-glob": "^3.3.2",

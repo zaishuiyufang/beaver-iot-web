@@ -1,5 +1,6 @@
 import path from 'path';
 import assert from 'assert';
+import type { Plugin } from 'vite';
 import { ManualChunksOption } from 'rollup';
 import MagicString from 'magic-string';
 import { init, parse } from 'es-module-lexer';
@@ -168,7 +169,7 @@ export function chunkSplitPlugin(
     splitOptions: ChunkSplit = {
         strategy: 'default',
     },
-) {
+): Plugin {
     return {
         name: 'vite-plugin-chunk-split',
         async config(c) {

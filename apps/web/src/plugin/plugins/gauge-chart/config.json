@@ -46,7 +46,7 @@
                     "title": "Widget name",
                     "key": "widgetName",
                     "style": "width: 100%",
-                    "defaultValue": "Occupancy detection",
+                    "defaultValue": "",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {

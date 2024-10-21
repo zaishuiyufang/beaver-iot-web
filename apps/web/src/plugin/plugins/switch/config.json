@@ -45,7 +45,7 @@
                     "type": "input",
                     "title": "Switch Text",
                     "key": "switchText",
-                    "defaultValue": "Switch",
+                    "defaultValue": "",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {

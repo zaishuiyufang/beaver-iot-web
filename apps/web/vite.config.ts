@@ -5,7 +5,15 @@ import vitePluginImport from 'vite-plugin-imp';
 import stylelint from 'vite-plugin-stylelint';
 import progress from 'vite-plugin-progress';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import { parseEnvVariables, getViteEnvVarsConfig } from '@milesight/scripts';
+import {
+    parseEnvVariables,
+    getViteEnvVarsConfig,
+    getViteCSSConfig,
+    getViteBuildConfig,
+    getViteEsbuildConfig,
+    customChunkSplit,
+    chunkSplitPlugin,
+} from '@milesight/scripts';
 import { version } from './package.json';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -17,7 +25,7 @@ const { WEB_DEV_PORT, WEB_API_ORIGIN, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } = p
     path.join(__dirname, '.env.local'),
 ]);
 const runtimeVariables = getViteEnvVarsConfig({
-    APP_TYPE: 'web',
+    // APP_TYPE: 'web',
     APP_VERSION: version,
     APP_API_ORIGIN: WEB_API_ORIGIN,
     APP_OAUTH_CLIENT_ID: OAUTH_CLIENT_ID,
@@ -60,62 +68,26 @@ export default defineConfig({
                 },
             ],
         }),
+        chunkSplitPlugin({
+            customChunk: customChunkSplit,
+        }),
         react(),
-        progress(),
+        // progress(),
     ],
     resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'src'), // src 路径别名
-        },
+        // alias: {
+        //     '@': path.resolve(__dirname, 'src'), // src 路径别名
+        // },
+        alias: [
+            { find: '@', replacement: path.resolve(__dirname, 'src') },
+            // { find: /^zustand$/, replacement: 'zustand/umd/index.production.js' },
+        ],
     },
 
     define: runtimeVariables,
-
-    css: {
-        preprocessorOptions: {
-            less: {
-                javascriptEnabled: true,
-                additionalData: DEFAULT_LESS_INJECT_MODULES.join('\n'),
-            },
-        },
-        devSourcemap: true,
-    },
-
-    esbuild: {
-        drop: ['debugger'],
-        pure: ['console.log', 'console.info'],
-    },
-
-    build: {
-        // sourcemap: 'hidden',
-        commonjsOptions: {
-            transformMixedEsModules: true,
-        },
-        terserOptions: {
-            compress: {
-                drop_debugger: true,
-                pure_funcs: ['console.log', 'console.info'],
-            },
-        },
-        rollupOptions: {
-            output: {
-                assetFileNames: assetInfo => {
-                    const info = assetInfo.name.split('.');
-                    let extType = info[info.length - 1];
-                    if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name)) {
-                        extType = 'media';
-                    } else if (/\.(png|jpe?g|gif|svg)(\?.*)?$/.test(assetInfo.name)) {
-                        extType = 'img';
-                    } else if (/\.(woff2?|eot|ttf|otf)(\?.*)?$/i.test(assetInfo.name)) {
-                        extType = 'font';
-                    }
-                    return `assets/${extType}/[name]-[hash][extname]`;
-                },
-                chunkFileNames: 'assets/js/[name]-[hash].js',
-                entryFileNames: 'assets/js/[name]-[hash].js',
-            },
-        },
-    },
+    css: getViteCSSConfig(DEFAULT_LESS_INJECT_MODULES),
+    build: getViteBuildConfig(),
+    esbuild: getViteEsbuildConfig(),
 
     server: {
         host: '0.0.0.0',
