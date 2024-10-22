@@ -1,77 +1,94 @@
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios';
-import { oauthClientID, oauthClientSecret } from '@milesight/shared/src/config';
+import { apiOrigin } from '@milesight/shared/src/config';
 import { getResponseData } from '@milesight/shared/src/utils/request';
-import iotStorage, { getUserCacheKey, TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
+import iotStorage, { TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
+import { API_PREFIX } from './constant';
 
 type TokenDataType = {
     /** 鉴权 Token */
     access_token: string;
     /** 刷新 Token */
     refresh_token: string;
-    /** 过期时间，单位 ms */
+    /**
+     * 过期时间，单位 ms
+     *
+     * 注意：该值为前端过期时间，仅用于判断何时需刷新 token，实际 token 在后端可能还未过期
+     */
     expires_in: number;
 };
+
+/** 最后一次刷新 token 的时间 */
 let lastTokenRefreshTime = 0;
+const tokenApiPath = `${apiOrigin}/${API_PREFIX}/oauth2/token`;
+/**
+ * 生成 Authorization 请求头数据
+ * @param token 登录凭证
+ */
+const genAuthorization = (token?: string) => {
+    if (!token) return;
+    return `Bearer ${token}`;
+};
 
 /**
- * 通用 Token 刷新处理（每 60 分钟刷新一次 token）
+ * Token 处理逻辑（静默处理）
+ *
+ * 1. 判断缓存中 token 是否合法，若合法则写入请求 header 中
+ * 2. 定时刷新 token，每 60 分钟刷新一次
  */
 const oauthHandler = async (config: AxiosRequestConfig) => {
-    const tokenCacheKey = getUserCacheKey(TOKEN_CACHE_KEY);
+    const token = iotStorage.getItem<TokenDataType>(TOKEN_CACHE_KEY);
+    const isExpired = token && Date.now() >= token.expires_in;
+    const isOauthRequest = config.url?.includes('oauth2/token');
+
+    if (token?.access_token && !isOauthRequest) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = genAuthorization(token?.access_token);
+    }
 
     /**
-     * 1. 无 region 时不发起请求，避免跨区域接口调用耗时过长
-     * 2. 无 tokenCacheKey 时不发起请求，因无用户数据，token 无法基于用户 id 做缓存
-     * 3. 10 秒内若有多个并行 token 获取/更新请求，则只发起 1 次，该判断主要
-     * 针对 token 接口响应报错时，避免一段时间内并行的请求同时重复发起 token 获取/刷新
+     * 1. 若为 oauth 请求，不做刷新 token 处理
+     * 2. 若本地无缓存 token，不做刷新 token 处理
+     * 3. 若本地缓存 token 未过期，不做刷新 token 处理
+     * 4. 若 10 秒内有多个并行 token 刷请求，则只发起 1 次，避免多次重复刷新 token
      */
-    if (!tokenCacheKey || Date.now() - lastTokenRefreshTime < 10 * 1000) return config;
+    if (
+        isOauthRequest ||
+        !token?.access_token ||
+        !isExpired ||
+        Date.now() - lastTokenRefreshTime < 10 * 1000
+    ) {
+        return config;
+    }
 
-    const token = iotStorage.getItem<TokenDataType>(tokenCacheKey);
-    const isExpired = token && Date.now() >= token.expires_in;
-    // TODO: 调整 apiOrigin
-    const apiOrigin = '/';
-    const apiPath = `${apiOrigin}/oauth/token`;
     const requestConfig = {
         headers: {
+            Authorization: genAuthorization(token?.access_token),
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         withCredentials: true,
     };
+    const requestData = {
+        refresh_token: token.refresh_token,
+        grant_type: 'refresh_token',
+    };
 
-    /**
-     * 1. 缓存中无 token（过期/未登录），调用接口获取 token
-     * 2. 缓存中有 token，且已过期，则调用刷新接口，更新 token
-     * 3. token 相关接口请求为异步调用，不阻塞其他接口
-     */
-    if (!token || isExpired) {
-        const requestData = !token
-            ? {
-                  client_id: oauthClientID,
-                  client_secret: oauthClientSecret,
-                  grant_type: 'get_refresh_token',
-              }
-            : {
-                  refresh_token: token.refresh_token,
-                  grant_type: 'refresh_token',
-              };
+    lastTokenRefreshTime = Date.now();
 
-        lastTokenRefreshTime = Date.now();
-        axios
-            .post<ApiResponse<TokenDataType>>(apiPath, requestData, requestConfig)
-            .then(resp => {
-                const data = getResponseData(resp)!;
+    // 异步调用，不阻塞其他接口
+    axios
+        .post<ApiResponse<TokenDataType>>(tokenApiPath, requestData, requestConfig)
+        .then(resp => {
+            const data = getResponseData(resp)!;
 
-                // 每 60 分钟刷新一次 token
-                data.expires_in = Date.now() + 60 * 60 * 1000;
-                iotStorage.setItem(tokenCacheKey, data);
-            })
-            .catch(_ => {
-                // 接口报错则直接移除 token
-                iotStorage.removeItem(tokenCacheKey);
-            });
-    }
+            // 每 60 分钟刷新一次 token
+            data.expires_in = Date.now() + 60 * 60 * 1000;
+            iotStorage.setItem(TOKEN_CACHE_KEY, data);
+        })
+        .catch(_ => {
+            // 接口报错则直接移除 token
+            iotStorage.removeItem(TOKEN_CACHE_KEY);
+        });
 
     return config;
 };

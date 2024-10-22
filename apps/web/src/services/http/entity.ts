@@ -1,4 +1,4 @@
-import { client, apiPrefix, attachAPI } from './client';
+import { client, attachAPI, API_PREFIX } from './client';
 
 export interface EntityAPISchema extends APISchema {
     /** 获取实体列表 */
@@ -93,11 +93,11 @@ export interface EntityAPISchema extends APISchema {
  */
 export default attachAPI<EntityAPISchema>(client, {
     apis: {
-        getList: `POST ${apiPrefix}/entity/search`,
-        getHistory: `POST ${apiPrefix}/entity/history/search`,
-        getMeta: `GET ${apiPrefix}/entity/:id/meta`,
-        getApiDoc: `POST ${apiPrefix}/entity/form`,
-        updateProperty: `POST ${apiPrefix}/entity/property/update`,
-        callService: `POST ${apiPrefix}/entity/service/call`,
+        getList: `POST ${API_PREFIX}/entity/search`,
+        getHistory: `POST ${API_PREFIX}/entity/history/search`,
+        getMeta: `GET ${API_PREFIX}/entity/:id/meta`,
+        getApiDoc: `POST ${API_PREFIX}/entity/form`,
+        updateProperty: `POST ${API_PREFIX}/entity/property/update`,
+        callService: `POST ${API_PREFIX}/entity/service/call`,
     },
 });

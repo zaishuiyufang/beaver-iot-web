@@ -1,4 +1,4 @@
-import { client, apiPrefix, attachAPI } from './client';
+import { client, attachAPI, API_PREFIX } from './client';
 
 export interface IntegrationAPISchema extends APISchema {
     /** 获取集成列表 */
@@ -37,7 +37,7 @@ export interface IntegrationAPISchema extends APISchema {
  */
 export default attachAPI<IntegrationAPISchema>(client, {
     apis: {
-        getList: `POST ${apiPrefix}/integration/search`,
-        getDetail: `GET ${apiPrefix}/integration/:id`,
+        getList: `POST ${API_PREFIX}/integration/search`,
+        getDetail: `GET ${API_PREFIX}/integration/:id`,
     },
 });
