@@ -12,24 +12,14 @@
             },
             "components": [
                 {
-                    "type": "select",
+                    "type": "entitySelect",
                     "title": "Entity",
                     "key": "entity",
                     "style": "width: 100%",
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small"
-                    },
-                    "options": [
-                        {
-                            "label": "实体一",
-                            "value": "1"
-                        },
-                        {
-                            "label": "实体二",
-                            "value": "2"
-                        }
-                    ]
+                    }
                 }
             ]
         },

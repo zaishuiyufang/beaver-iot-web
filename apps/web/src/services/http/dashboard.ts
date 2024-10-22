@@ -65,6 +65,14 @@ export interface dashboardAPISchema extends APISchema {
         };
         response: EntityData[];
     };
+    /** 更新属性类型的实体值 */
+    updatePropertyEntity: {
+        request: {
+            entity_id: string;
+            exchange: Record<string, any>;
+        };
+        response: void;
+    };
 }
 
 export default attachAPI<dashboardAPISchema>(client, {
@@ -72,5 +80,6 @@ export default attachAPI<dashboardAPISchema>(client, {
         getEntityStatus: `GET api/entity/:id/status`,
         getEntityHistorySearch: `POST api/entity/history/search`,
         getEntityList: `POST api/entity/search`,
+        updatePropertyEntity: `POST api/entity/property/update`,
     },
 });

@@ -56,7 +56,9 @@ const Select = (props: SelectProps) => {
                     ? renderOptions(options)
                     : getMenuItems?.map((item: OptionsProps) => {
                           return item?.value ? (
-                              <MenuItem value={item.value}>{item.label}</MenuItem>
+                              <MenuItem value={item.value} key={item.value}>
+                                  {item.label}
+                              </MenuItem>
                           ) : (
                               <ListSubheader>{item.label}</ListSubheader>
                           );
