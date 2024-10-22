@@ -20,6 +20,9 @@ export const useReducer = ({ value, config }: IProps) => {
         const currentEntity = entityMap?.[entityValue];
         const { configProps } = config || {};
 
+        // 实时渲染变化
+        config.config = value || {};
+
         if (currentEntity) {
             // 渲染动态表单
             const result = dynamicConfigure(currentEntity);
