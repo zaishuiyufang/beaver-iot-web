@@ -52,19 +52,13 @@ declare type SortsProps = {
  */
 declare type SearchRequestType = {
     /** 单页数据量 */
-    pageSize?: number | null;
+    page_size?: number | null;
 
     /** 分页页码 */
-    pageNumber?: number | null;
+    page_number?: number | null;
 
     /** 排序字段 */
-    sorts?: SortsProps[];
-
-    /** 查询 offset */
-    offset?: number | null;
-
-    /** 查询 limit 条数 */
-    limit?: number | null;
+    // sorts?: SortsProps[];
 };
 
 /**
@@ -72,9 +66,9 @@ declare type SearchRequestType = {
  */
 declare type SearchResponseType<T = any[]> = {
     /** 单页数据量 */
-    pageSize: number;
+    page_size: number;
     /** 分页页码 */
-    pageNumber: number;
+    page_number: number;
     /** 数据总量 */
     total: number;
     /** 分页列表数据 */

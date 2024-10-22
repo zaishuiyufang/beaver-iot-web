@@ -1,4 +1,4 @@
-import { client, attachAPI } from './client';
+import { client, apiPrefix, attachAPI } from './client';
 
 export interface GlobalAPISchema extends APISchema {
     /** 登录 */
@@ -16,23 +16,59 @@ export interface GlobalAPISchema extends APISchema {
             client_secret: string;
         };
         // TODO: 待补充
-        response: any;
+        response: {
+            /** 鉴权 Token */
+            access_token: string;
+            /** 刷新 Token */
+            refresh_token: string;
+            /** 过期时间，单位 s */
+            // expires_in: number;
+        };
     };
 
     /** 刷新 Token */
-    oauthRefresh: {
+    // oauthRefresh: {
+    //     request: {
+    //         refresh_token: string;
+    //         grant_type: 'refresh_token';
+    //     };
+    //     response: GlobalAPISchema['oauthLogin']['response'];
+    // };
+
+    /** 用户注册 */
+    oauthRegister: {
         request: {
-            refresh_token: string;
-            grant_type: 'refresh_token';
+            email: string;
+            nickname: string;
+            password: string;
         };
         // TODO: 待补充
-        response: any;
+        response: unknown;
+    };
+
+    /** 获取用户信息 */
+    getUserInfo: {
+        request: void;
+        // TODO: 待补充
+        response: unknown;
     };
 }
 
+/**
+ * 全局 API 服务（包括注册、登录及用户等）
+ */
 export default attachAPI<GlobalAPISchema>(client, {
     apis: {
-        oauthLogin: `POST /oauth/token`,
-        oauthRefresh: `POST /oauth/token`,
+        oauthLogin: {
+            method: 'POST',
+            path: `${apiPrefix}/oauth2/token`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        },
+        // oauthRefresh: `POST ${apiPrefix}/oauth2/token`,
+
+        oauthRegister: `POST ${apiPrefix}/user/register`,
+        getUserInfo: `GET ${apiPrefix}/user/info`,
     },
 });
