@@ -21,22 +21,6 @@ type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, undefine
  * 实体选择下拉框组件
  */
 const EntitySelect = (props: EntitySelectProps) => {
-    const { onChange } = props;
-
-    const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {
-        const { key, ...restOptionProps } = optionProps || {};
-        const { label, description } = option || {};
-
-        return (
-            <MenuItem key={key} {...restOptionProps}>
-                <div className="ms-entity-select-item">
-                    <div className="ms-entity-select-item__label">{label}</div>
-                    <div className="ms-entity-select-item__description">{description}</div>
-                </div>
-            </MenuItem>
-        );
-    };
-
     const entityOptions = useMemo(() => {
         return [
             {
@@ -57,11 +41,27 @@ const EntitySelect = (props: EntitySelectProps) => {
         ];
     }, []);
 
+    const { onChange, options = entityOptions } = props;
+
+    const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {
+        const { key, ...restOptionProps } = optionProps || {};
+        const { label, description } = option || {};
+
+        return (
+            <MenuItem key={key} {...restOptionProps}>
+                <div className="ms-entity-select-item">
+                    <div className="ms-entity-select-item__label">{label}</div>
+                    <div className="ms-entity-select-item__description">{description}</div>
+                </div>
+            </MenuItem>
+        );
+    };
+
     return (
         <Autocomplete
             {...props}
             onChange={(_, option) => onChange(option)}
-            options={entityOptions}
+            options={options}
             renderInput={params => <TextField {...params} label="Entity" placeholder="Favorites" />}
             renderOption={renderOption}
             getOptionLabel={option => option?.label || ''}
