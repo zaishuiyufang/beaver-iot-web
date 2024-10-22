@@ -75,8 +75,6 @@ const mockData = (getDataUrl: string) => {
 };
 
 export const useInitialize = () => {
-    const { clear } = useDataViewStore();
-
     /* 将实体数据转换为下拉选项 */
     const entityToOptions = (entityData: IEntity[]) => {
         return (entityData || []).map(entity => {
@@ -131,9 +129,5 @@ export const useInitialize = () => {
 
     useEffect(() => {
         run();
-
-        return () => {
-            clear && clear();
-        };
     }, []);
 };
