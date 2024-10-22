@@ -1,4 +1,4 @@
-import { useMemo, useRef, forwardRef } from 'react';
+import { useMemo, forwardRef, useRef } from 'react';
 import { Form, FormItemsType, MUIForm as MUI } from '@milesight/shared/src/components';
 import * as Milesight from '../components';
 import { parseStyleString } from './util';
@@ -25,6 +25,7 @@ export interface IPlugin {
 const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
     const { config, onOk, onChange, value: defaultValue } = props;
     const currentTheme = 'default';
+    const configRef = useRef<Record<string, any>>({});
 
     const getFormItems = useMemo(() => {
         const formItems: FormItemsType[] = [];
@@ -72,7 +73,12 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             } else {
                                 defaultValues[component.key] = value;
                             }
-
+                            if (
+                                configRef.current[component.key] !== config?.config?.[component.key]
+                            ) {
+                                value = config?.config?.[component.key];
+                            }
+                            configRef.current[component.key] = config?.config?.[component.key];
                             return (
                                 <Component
                                     {...restItem}
@@ -98,7 +104,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
         return { formItems, defaultValues };
     }, [config]);
 
-    const handleSubmit = (values: AddDashboardProps) => {
+    const handleSubmit = (values: any) => {
         onOk(values);
     };
 

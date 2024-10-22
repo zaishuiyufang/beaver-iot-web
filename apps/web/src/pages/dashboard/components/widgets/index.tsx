@@ -3,10 +3,10 @@ import Widget from './widget';
 
 interface WidgetProps {
     parentRef: any;
-    onChangeWidgets: (widgets: any[]) => void;
-    widgets: any[];
+    onChangeWidgets: (widgets: WidgetType[]) => void;
+    widgets: WidgetType[];
     isEdit: boolean;
-    onEdit: (data: any) => void;
+    onEdit: (data: WidgetType) => void;
 }
 
 const Widgets = (props: WidgetProps) => {
@@ -28,22 +28,95 @@ const Widgets = (props: WidgetProps) => {
         [widgets],
     );
 
+    // 计算新组件初始位置，排列在最后top最高的，left最大的右边，放不下另起一行
+    const getInitPos = (data: WidgetType) => {
+        const left = data.pos?.left;
+        const top = data.pos?.top;
+        if (widgets?.length === 1) return { left: 0, top: 0 };
+        if (!left && !top && left !== 0 && top !== 0) {
+            const isOverlapping = (newBox: any) => {
+                return widgets.some(widget => {
+                    const right = (widget.pos?.left || 0) + (widget.pos?.initWidth || 0);
+                    const bottom = (widget.pos?.top || 0) + (widget.pos?.initHeight || 0);
+                    console.log(newBox, widget.pos, right, bottom);
+                    return newBox.left <= right && newBox.top <= bottom;
+                    // return !(
+                    //     widget.pos?.left < newBox.right ||
+                    //     right > newBox.left ||
+                    //     widget.pos?.top < newBox.bottom ||
+                    //     bottom > newBox.top
+                    // );
+                });
+            };
+            const findPosition = (width: number, height: number): any => {
+                for (
+                    let top = 0;
+                    top < (parentRef?.current?.clientHeight || 0) - height;
+                    top += 10
+                ) {
+                    for (
+                        let left = 0;
+                        left < (parentRef?.current?.clientWidth || 0) - width;
+                        left += 10
+                    ) {
+                        const newBox = {
+                            top,
+                            left,
+                            right: left + width,
+                            bottom: top + height,
+                        };
+                        if (!isOverlapping(newBox)) {
+                            return { top, left };
+                        }
+                    }
+                }
+                return {}; // No position found
+            };
+            const pos: any = findPosition(data.pos?.initWidth || 0, data.pos?.initHeight || 0);
+            return pos;
+        }
+        return {
+            left,
+            top,
+        };
+    };
+
     const resizeBox = useCallback(
-        ({ id, ...rest }: any) => {
-            const index = widgets.findIndex((item: any) => item.id === id);
+        ({ id, ...rest }: draggerType) => {
+            const index = widgets.findIndex((item: WidgetType) => item.id === id);
             const newWidgets = [...widgets];
             const unitHeight = (parentRef?.current?.clientHeight || 0) / 24;
             const unitWidth = (parentRef?.current?.clientWidth || 0) / 24;
-            const width = Math.ceil(rest.width / unitWidth);
-            const height = Math.ceil(rest.height / unitHeight);
+            const width = Math.ceil((rest.width || 0) / unitWidth);
+            const height = Math.ceil((rest.height || 0) / unitHeight);
             // const initWidth = newWidgets[index].pos?.initWidth
             //     ? newWidgets[index].pos?.initWidth
             //     : Math.ceil(rest.initWidth / unitWidth);
             // const initHeight = newWidgets[index].pos?.initHeight
             //     ? newWidgets[index].pos?.initHeight
             //     : Math.ceil(rest.initHeight / unitHeight);
-            const initWidth = newWidgets[index].pos?.initWidth || rest.initWidth;
-            const initHeight = newWidgets[index].pos?.initHeight || rest.initHeight;
+            const initWidth = newWidgets[index].pos?.initWidth || rest.initWidth || 0;
+            const initHeight = newWidgets[index].pos?.initHeight || rest.initHeight || 0;
+            const curLeft = newWidgets[index].pos?.left;
+            const cueTop = newWidgets[index].pos?.top;
+            // TODO：计算太慢先注释
+            // if (curLeft === undefined && cueTop === undefined) {
+            //     const { left, top } = getInitPos({
+            //         ...newWidgets[index],
+            //         pos: {
+            //             ...newWidgets[index].pos,
+            //             ...rest,
+            //             width,
+            //             height,
+            //             initWidth,
+            //             initHeight,
+            //             parentHeight: parentRef?.current?.clientHeight,
+            //             parentWidth: parentRef?.current?.clientWidth,
+            //         },
+            //     });
+            //     curLeft = left;
+            //     cueTop = top;
+            // }
 
             newWidgets[index] = {
                 ...newWidgets[index],
@@ -52,6 +125,8 @@ const Widgets = (props: WidgetProps) => {
                     ...rest,
                     width,
                     height,
+                    left: curLeft || 0,
+                    top: cueTop || 0,
                     initWidth,
                     initHeight,
                     parentHeight: parentRef?.current?.clientHeight,
@@ -64,13 +139,13 @@ const Widgets = (props: WidgetProps) => {
     );
 
     // 编辑组件
-    const handleEdit = useCallback((data: any) => {
+    const handleEdit = useCallback((data: WidgetType) => {
         onEdit(data);
     }, []);
 
     // 删除组件
-    const handleDelete = useCallback((data: any) => {
-        const index = widgets.findIndex((item: any) => item.id === data.id);
+    const handleDelete = useCallback((data: WidgetType) => {
+        const index = widgets.findIndex((item: WidgetType) => item.id === data.id);
         const newWidgets = [...widgets];
         newWidgets.splice(index, 1);
         onChangeWidgets(newWidgets);
@@ -78,7 +153,7 @@ const Widgets = (props: WidgetProps) => {
 
     const resetWidgetsPos = useCallback(() => {
         // 遍历widgets并将pos按照窗口大小比例重新计算
-        const newWidgets = widgets.map((item: any) => {
+        const newWidgets = widgets.map((item: WidgetType) => {
             // 根据当前窗口大小重新计算位置
             const leftRate = item.pos.left / item.pos.parentWidth;
             const topRate = item.pos.top / item.pos.parentHeight;
@@ -111,7 +186,7 @@ const Widgets = (props: WidgetProps) => {
 
     return (
         <div>
-            {widgets.map((data: any) => {
+            {widgets.map((data: WidgetType) => {
                 return (
                     <Widget
                         onEdit={handleEdit}

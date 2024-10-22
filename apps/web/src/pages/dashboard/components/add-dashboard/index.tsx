@@ -4,8 +4,8 @@ import { Modal, Form } from '@milesight/shared/src/components';
 
 interface ConfigPluginProps {
     onCancel: () => void;
-    onOk: (data: AddDashboardProps) => void;
-    data?: AddDashboardProps;
+    onOk: (data: AddDashboardType) => void;
+    data?: AddDashboardType;
 }
 
 const AddDashboard = (props: ConfigPluginProps) => {
@@ -37,7 +37,7 @@ const AddDashboard = (props: ConfigPluginProps) => {
         formRef.current?.handleSubmit();
     };
 
-    const handleSubmit = (values: AddDashboardProps) => {
+    const handleSubmit = (values: AddDashboardType) => {
         onOk(values);
     };
 
@@ -47,7 +47,7 @@ const AddDashboard = (props: ConfigPluginProps) => {
             onOk={handleOk}
             title={`${getIntlText(data?.id ? 'dashboard.add_title' : 'dashboard.edit_title')}`}
         >
-            <Form<AddDashboardProps> ref={formRef} formItems={formItems} onOk={handleSubmit} />
+            <Form<AddDashboardType> ref={formRef} formItems={formItems} onOk={handleSubmit} />
         </Modal>
     );
 };

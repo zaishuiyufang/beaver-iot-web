@@ -5,5 +5,4 @@ declare type draggerType = {
     initWidth?: number;
     initHeight?: number;
     parentWidth?: number;
-    parentHeight?: number;
 };

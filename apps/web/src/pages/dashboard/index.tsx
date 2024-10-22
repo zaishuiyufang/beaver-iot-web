@@ -54,7 +54,7 @@ export default () => {
         setShowAdd(false);
     };
 
-    const handleAdd = (data: AddDashboardProps) => {
+    const handleAdd = (data: AddDashboardType) => {
         setShowAdd(false);
         setTabs([
             ...tabs,
@@ -77,6 +77,7 @@ export default () => {
                     {tabs?.map(tabItem => {
                         return (
                             <Tab
+                                key={tabItem.id}
                                 disableRipple
                                 title={tabItem.name}
                                 label={tabItem.name}
@@ -89,7 +90,7 @@ export default () => {
                 <div className="ms-tab-content">
                     {tabs?.map(tabItem => {
                         return (
-                            <TabPanel value={tabKey} index={tabItem.id}>
+                            <TabPanel key={tabItem.id} value={tabKey} index={tabItem.id}>
                                 <DashboardContent />
                             </TabPanel>
                         );
