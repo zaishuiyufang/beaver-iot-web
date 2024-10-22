@@ -10,12 +10,13 @@ export const useTrigger = ({ onChange }: IProps) => {
 
     const handleChange = (value: ViewConfigProps) => {
         const { entity } = value || {};
+        const entityValue = entity?.value;
 
         // 如果实体变化时，更新title为当前选中实体名称
-        if (prevStateRef.current?.entity !== entity) {
+        if (prevStateRef.current?.entity?.value !== entityValue) {
             // 当前选中实体
             const { entityMap } = useDataViewStore.getState();
-            const currentEntity = entityMap?.[entity];
+            const currentEntity = entityMap?.[entityValue];
 
             value.title = currentEntity?.entityName;
         }

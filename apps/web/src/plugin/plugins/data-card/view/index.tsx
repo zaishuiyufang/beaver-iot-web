@@ -28,9 +28,10 @@ const View = (props: Props) => {
     }, [config]);
 
     const entityValue = useMemo(() => {
+        const entityValue = entity?.value;
         const { entityMap } = useDataViewStore.getState();
         // 获取当前选中实体
-        const currentEntity = entityMap?.[entity];
+        const currentEntity = entityMap?.[entityValue];
         if (!currentEntity) return null;
 
         const { entityValueAttribute, entityValueType } = currentEntity || {};

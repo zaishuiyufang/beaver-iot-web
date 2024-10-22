@@ -60,7 +60,8 @@ export const useDynamic = () => {
         state: DataViewStore,
     ) => {
         const { entityMap } = state || {};
-        const { entity: entityValue } = value || {};
+        const { entity } = value || {};
+        const entityValue = entity?.value;
 
         // 获取当前选中实体
         const currentEntity = entityMap?.[entityValue];
