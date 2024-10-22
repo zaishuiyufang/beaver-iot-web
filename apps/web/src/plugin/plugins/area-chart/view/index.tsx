@@ -3,11 +3,13 @@ import Chart from 'chart.js/auto'; // 引入 Chart.js
 
 import { useI18n } from '@milesight/shared/src/hooks';
 
+import type { EntityOptionType } from '@/plugin/components/entity-select';
+
 import styles from './style.module.less';
 
 export interface ViewProps {
     config: {
-        entity?: string;
+        entity?: EntityOptionType;
         widgetName?: string;
         time?: number;
     };
@@ -26,7 +28,7 @@ const View = (props: ViewProps) => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                     {
-                        label: entity || 'Monthly',
+                        label: entity?.label || 'Monthly',
                         data: [12, -19, 3, 5, -2, 3, 16],
                         borderColor: '#3491FA',
                         backgroundColor: 'rgba(176, 211, 255, 0.5)',

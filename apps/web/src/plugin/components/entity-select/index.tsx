@@ -1,20 +1,28 @@
+import { useMemo } from 'react';
 import { MenuItem, Autocomplete, TextField } from '@mui/material';
 
 import type { AutocompleteProps } from '@mui/material';
 import './style.less';
 
-interface OptionType {
+/**
+ * 实体下拉框类型
+ */
+export interface EntityOptionType {
     label: string;
     value: string;
     description: string;
 }
 
-type EntitySelectProps = AutocompleteProps<OptionType, boolean, boolean, undefined>;
+type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, undefined, undefined> & {
+    onChange: (value: EntityOptionType | null) => void;
+};
 
 /**
  * 实体选择下拉框组件
  */
 const EntitySelect = (props: EntitySelectProps) => {
+    const { onChange } = props;
+
     const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {
         const { key, ...restOptionProps } = optionProps || {};
         const { label, description } = option || {};
@@ -28,26 +36,32 @@ const EntitySelect = (props: EntitySelectProps) => {
             </MenuItem>
         );
     };
+
+    const entityOptions = useMemo(() => {
+        return [
+            {
+                label: 'Option 1',
+                value: 'option value 1',
+                description: 'Option 1 Description',
+            },
+            {
+                label: 'Option 2',
+                value: 'option value 2',
+                description: 'Option 2 Description',
+            },
+            {
+                label: 'Option 3',
+                value: 'option value 3',
+                description: 'Option 3 Description',
+            },
+        ];
+    }, []);
+
     return (
         <Autocomplete
             {...props}
-            options={[
-                {
-                    label: 'Option 1',
-                    value: 'option value 1',
-                    description: 'Option 1 Description',
-                },
-                {
-                    label: 'Option 2',
-                    value: 'option value 2',
-                    description: 'Option 2 Description',
-                },
-                {
-                    label: 'Option 3',
-                    value: 'option value 3',
-                    description: 'Option 3 Description',
-                },
-            ]}
+            onChange={(_, option) => onChange(option)}
+            options={entityOptions}
             renderInput={params => <TextField {...params} label="Entity" placeholder="Favorites" />}
             renderOption={renderOption}
             getOptionLabel={option => option?.label || ''}
