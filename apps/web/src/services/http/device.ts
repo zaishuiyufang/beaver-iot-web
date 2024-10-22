@@ -1,7 +1,4 @@
-/**
- * 设备相关 API 服务
- */
-import { client, attachAPI } from './client';
+import { client, apiPrefix, attachAPI } from './client';
 
 /**
  * 设备详情定义
@@ -31,7 +28,10 @@ export interface DeviceEntity {
 export interface DeviceAPISchema extends APISchema {
     /** 获取设备列表 */
     getDeviceList: {
-        request: SearchRequestType;
+        request: SearchRequestType & {
+            /** 名称（模糊搜索） */
+            name?: string;
+        };
         response: SearchResponseType<DeviceDetail>;
     };
 
@@ -43,19 +43,47 @@ export interface DeviceAPISchema extends APISchema {
         response: DeviceDetail;
     };
 
-    /** 获取设备实体 */
-    getDeviceEntity: {
+    /** 添加设备 */
+    addDevice: {
+        request: {
+            /** 名称 */
+            name: string;
+            /** 集成 ID */
+            integration: ApiKey;
+            /** 集成新增设备需要的额外信息 */
+            param_entities: Record<string, any>;
+        };
+        response: unknown;
+    };
+
+    /** 删除设备 */
+    deleteDevices: {
+        request: {
+            device_id_list: ApiKey[];
+        };
+        response: unknown;
+    };
+
+    /** 更新设备 */
+    updateDevice: {
         request: {
             id: ApiKey;
+            /** 名称 */
+            name: string;
         };
-        response: DeviceEntity[];
+        response: unknown;
     };
 }
 
+/**
+ * 设备相关 API 服务
+ */
 export default attachAPI<DeviceAPISchema>(client, {
     apis: {
-        getDeviceList: `GET api/devices`,
-        getDeviceDetail: `GET api/devices/:id`,
-        getDeviceEntity: `GET api/devices/:id/entity`,
+        getDeviceList: `GET ${apiPrefix}/device/search`,
+        getDeviceDetail: `GET ${apiPrefix}/device/:id`,
+        addDevice: `POST ${apiPrefix}/device`,
+        deleteDevices: `POST ${apiPrefix}/device/batch-delete`,
+        updateDevice: `PUT ${apiPrefix}/device/:id`,
     },
 });
