@@ -12,16 +12,24 @@ export const useReducer = ({ value, config }: IProps) => {
     const store = useDataViewStore();
     const { dynamicConfigure } = useDynamic();
 
-    /** 数据转化为配置 */
-    const stateToConfig = (value: ViewConfigProps, config: ConfigureType, state: DataViewStore) => {
-        const { entityOptions, entityMap } = state || {};
+    /** config实时保存value */
+    const updateConfigState = (value: ViewConfigProps, config: ConfigureType) => {
+        config.config = value || {};
+
+        return config;
+    };
+    /** 动态渲染表单 */
+    const updateConfigForm = (
+        value: ViewConfigProps,
+        config: ConfigureType,
+        state: DataViewStore,
+    ) => {
+        const { entityMap } = state || {};
         const { entity: entityValue } = value || {};
+
         // 获取当前选中实体
         const currentEntity = entityMap?.[entityValue];
         const { configProps } = config || {};
-
-        // 实时渲染变化
-        config.config = value || {};
 
         if (currentEntity) {
             // 渲染动态表单
@@ -35,6 +43,17 @@ export const useReducer = ({ value, config }: IProps) => {
             }
         }
 
+        return config;
+    };
+    /** 渲染实体下拉选项 */
+    const updateEntityOptions = (
+        _: ViewConfigProps,
+        config: ConfigureType,
+        state: DataViewStore,
+    ) => {
+        const { entityOptions } = state || {};
+
+        const { configProps } = config || {};
         const [configProp] = configProps || [];
         const { components } = configProp || {};
         const [entity] = components || [];
@@ -44,13 +63,19 @@ export const useReducer = ({ value, config }: IProps) => {
             entity.options = entityOptions;
         }
 
-        return { ...config };
+        return config;
     };
 
-    const configure = useMemo(
-        () => stateToConfig(value, cloneDeep(config), store),
-        [value, config, store],
-    );
+    /** 生成新的configure */
+    const configure = useMemo(() => {
+        const ChainCallList = [updateConfigState, updateEntityOptions, updateConfigForm];
+
+        const newConfig = ChainCallList.reduce((config, fn) => {
+            return fn(value, cloneDeep(config), store);
+        }, config);
+
+        return { ...newConfig };
+    }, [value, config, store]);
 
     return {
         configure,

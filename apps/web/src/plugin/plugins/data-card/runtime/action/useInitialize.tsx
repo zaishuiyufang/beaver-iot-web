@@ -39,12 +39,32 @@ const mockData = (getDataUrl: string) => {
                 format: '',
                 coefficient: 1,
                 enum: {
+                    free: '1',
+                    busy: '1',
+                    entertainment: '1',
+                },
+            }),
+            entity_value_type: 'enum',
+        },
+        {
+            device_name: '设备3',
+            integration_name: '云生态',
+            entity_key: 'key3',
+            entity_name: '选项3',
+            entity_value_attribute: JSON.stringify({
+                displayType: '',
+                unit: '%',
+                max: 10,
+                min: 1,
+                format: '',
+                coefficient: 1,
+                enum: {
                     busy: '1',
                     free: '1',
                     entertainment: '1',
                 },
             }),
-            entity_value_type: 'enum',
+            entity_value_type: 'int',
         },
     ];
     return new Promise<EntityData[]>(resolve => {

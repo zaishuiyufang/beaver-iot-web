@@ -9,19 +9,21 @@ export const useDynamic = () => {
 
         if (['boolean', 'enum'].includes(entityValueType)) {
             const { enum: enumData } = entityValueAttribute || {};
-            return Object.keys(enumData || {}).map((key, index) => generateFormItem(key, index));
+            return Object.keys(enumData || {}).map((key, index) =>
+                generateFormItem(`Appearance of ${key}`, index),
+            );
         }
 
-        return null;
+        return [generateFormItem(`Appearance`, 0)];
     };
     /**
      * 动态生成的每一项表单
      */
-    const generateFormItem = (type: string, index: number) => {
+    const generateFormItem = (title: string, index: number) => {
         // TODO 根据entityData渲染配置
         return {
             $$type: 'dynamic',
-            title: `Appearance of ${type}`,
+            title,
             style: 'display: flex;margin-bottom: 20px;',
             theme: {
                 default: {
