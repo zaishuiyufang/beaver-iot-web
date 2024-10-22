@@ -5,6 +5,7 @@
  */
 
 import axios, { type Canceler } from 'axios';
+import { camelCase, isPlainObject } from 'lodash-es';
 
 /**
  * 判断是否为本地 IP 地址
@@ -516,4 +517,31 @@ export const getObjectType = (obj: any) => {
 export const isFileName = (name: string) => {
     const fileNameRegex = /^[^\\/:*?"<>|]+\.[a-zA-Z0-9]+$/;
     return fileNameRegex.test(name);
+};
+
+/**
+ * 将对象key的下划线转为驼峰
+ */
+export const convertKeysToCamelCase = <T extends Record<string, any>>(target: T) => {
+    if (!target || !isPlainObject(target)) {
+        throw new Error('convertKeysToCamelCase: target must be an object');
+    }
+
+    const camelCaseObj: Record<string, any> = {};
+
+    // eslint-disable-next-line guard-for-in
+    for (const key in target) {
+        const value = target[key];
+        const camelCaseKey = camelCase(key);
+
+        if (Array.isArray(value)) {
+            camelCaseObj[camelCaseKey] = value.map((item: any) => convertKeysToCamelCase(item));
+        } else if (isPlainObject(value)) {
+            camelCaseObj[camelCaseKey] = convertKeysToCamelCase(value);
+        } else {
+            camelCaseObj[camelCaseKey] = value;
+        }
+    }
+
+    return camelCaseObj as ConvertKeysToCamelCase<T>;
 };

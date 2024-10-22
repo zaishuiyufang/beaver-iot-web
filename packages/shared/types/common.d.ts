@@ -94,3 +94,18 @@ declare type PartialOptional<T, K extends keyof T> = Omit<T, K> & {
 declare type RequiredOptional<T, K extends keyof T> = Omit<T, K> & {
     [P in K]-?: T[P];
 };
+
+/**
+ * 将下划线转为驼峰命名
+ */
+declare type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}`
+    ? `${T}${Capitalize<SnakeToCamelCase<U>>}`
+    : S;
+/**
+ * 递归将对象中的所有属性名从下划线命名转换为驼峰命名
+ */
+declare type ConvertKeysToCamelCase<T> = {
+    [K in keyof T as SnakeToCamelCase<Extract<K, string>>]: T[K] extends object
+        ? ConvertKeysToCamelCase<T[K]>
+        : T[K];
+};

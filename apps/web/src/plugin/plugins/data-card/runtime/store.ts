@@ -1,14 +1,18 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import type { IEntity } from '../typings';
 
 export type OmitFunctions<T> = {
     [K in keyof T as T[K] extends (...args: any[]) => any ? never : K]: T[K];
 };
-
 export interface DataViewStore {
-    entityOptions: any[];
-    entityData: any[];
-    entityMap: Record<string, any>;
+    entityData: IEntity[];
+    entityMap: Record<string, IEntity>;
+    entityOptions: {
+        label: string;
+        value: string;
+        description?: string;
+    }[];
     /** 还原store */
     clear: () => void;
 }

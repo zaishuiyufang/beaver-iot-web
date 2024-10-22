@@ -5,3 +5,5 @@ export {
     type DeviceEntity,
     type DeviceAPISchema,
 } from './device';
+
+export { default as dashboardAPI, type EntityData } from './dashboard';
