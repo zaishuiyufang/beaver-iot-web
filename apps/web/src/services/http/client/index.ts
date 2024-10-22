@@ -5,6 +5,9 @@ import { getCurrentComponentLang } from '@milesight/shared/src/services/i18n';
 // import oauthHandler from './oauth-handler';
 import errorHandler from './error-handler';
 
+/** API 前缀 */
+const apiPrefix = '/api/v1';
+
 /**
  * 业务请求头配置（非动态请求头直接在 headers 中配置即可）
  */
@@ -56,4 +59,4 @@ const client = createRequestClient({
     },
 });
 
-export { client, attachAPI, isRequestSuccess };
+export { client, apiPrefix, attachAPI, isRequestSuccess };
