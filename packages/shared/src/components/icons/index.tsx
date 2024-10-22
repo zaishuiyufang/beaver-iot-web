@@ -70,3 +70,6 @@ export {
     Share as ShareIcon,
     Https as HttpsIcon,
 } from '@mui/icons-material';
+
+// 导出所有自定义 SVG Icon 组件
+export * from './components';
