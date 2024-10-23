@@ -85,7 +85,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                                     {...componentProps}
                                     error={!!error}
                                     helperText={error ? error.message : null}
-                                    value={value || ''}
+                                    value={value}
                                     onChange={onChange}
                                     key={component.type}
                                     sx={{

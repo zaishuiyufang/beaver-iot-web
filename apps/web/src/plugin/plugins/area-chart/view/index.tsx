@@ -9,7 +9,7 @@ import styles from './style.module.less';
 
 export interface ViewProps {
     config: {
-        entity?: EntityOptionType;
+        entity?: EntityOptionType[];
         widgetName?: string;
         time?: number;
     };
@@ -22,20 +22,34 @@ const View = (props: ViewProps) => {
     const { getIntlText } = useI18n();
 
     useEffect(() => {
+        function getRandomNumber(min: number, max: number) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        const datasets = (entity || []).map(e => {
+            return {
+                label: e.label,
+                data: [
+                    getRandomNumber(-20, 20),
+                    getRandomNumber(-20, 20),
+                    getRandomNumber(-20, 20),
+                    getRandomNumber(-20, 20),
+                    getRandomNumber(-20, 20),
+                    getRandomNumber(-20, 20),
+                    getRandomNumber(-20, 20),
+                ],
+                borderColor: '#3491FA',
+                backgroundColor: 'rgba(176, 211, 255, 0.5)',
+                borderWidth: 1,
+                fill: true,
+            };
+        });
+
         const chart = new Chart(document.getElementById('areaChart') as HTMLCanvasElement, {
             type: 'line',
             data: {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                    {
-                        label: entity?.label || 'Monthly',
-                        data: [12, -19, 3, 5, -2, 3, 16],
-                        borderColor: '#3491FA',
-                        backgroundColor: 'rgba(176, 211, 255, 0.5)',
-                        borderWidth: 1,
-                        fill: true,
-                    },
-                ],
+                datasets,
             },
             options: {
                 scales: {

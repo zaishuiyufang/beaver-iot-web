@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { MenuItem, Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, Checkbox } from '@mui/material';
 
 import type { AutocompleteProps } from '@mui/material';
 import './style.less';
@@ -13,14 +13,14 @@ export interface EntityOptionType {
     description: string;
 }
 
-type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, false, undefined> & {
-    onChange: (value: EntityOptionType | null) => void;
+type EntitySelectProps = AutocompleteProps<EntityOptionType, true, false, undefined> & {
+    onChange: (value: EntityOptionType[] | null) => void;
 };
 
 /**
- * 实体选择下拉框组件（单选）
+ * 实体选择下拉框组件（多选）
  */
-const EntitySelect = (props: EntitySelectProps) => {
+const MultiEntitySelect = (props: EntitySelectProps) => {
     const entityOptions = useMemo(() => {
         return [
             {
@@ -43,23 +43,27 @@ const EntitySelect = (props: EntitySelectProps) => {
 
     const { onChange, options = entityOptions, ...restProps } = props;
 
-    const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {
+    const renderOption: EntitySelectProps['renderOption'] = (optionProps, option, { selected }) => {
         const { key, ...restOptionProps } = optionProps || {};
         const { label, description } = option || {};
 
         return (
-            <MenuItem key={key} {...restOptionProps}>
-                <div className="ms-entity-select-item">
-                    <div className="ms-entity-select-item__label">{label}</div>
-                    <div className="ms-entity-select-item__description">{description}</div>
+            <li key={key} {...restOptionProps}>
+                <div className="ms-multi-entity-select">
+                    <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                    <div className="ms-entity-select-item">
+                        <div className="ms-entity-select-item__label">{label}</div>
+                        <div className="ms-entity-select-item__description">{description}</div>
+                    </div>
                 </div>
-            </MenuItem>
+            </li>
         );
     };
 
     return (
         <Autocomplete
             {...restProps}
+            multiple
             onChange={(_, option) => onChange(option)}
             options={options}
             renderInput={params => <TextField {...params} label="Entity" placeholder="Favorites" />}
@@ -69,4 +73,4 @@ const EntitySelect = (props: EntitySelectProps) => {
     );
 };
 
-export default EntitySelect;
+export default MultiEntitySelect;
