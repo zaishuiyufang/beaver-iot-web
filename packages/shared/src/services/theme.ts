@@ -201,7 +201,8 @@ export const getMuiSchemes = () => {
             disabled: grey[200],
         },
         action: {
-            disabled: grey[200],
+            disabled: grey[300],
+            disabledBackground: grey[100],
         },
         Tooltip: {
             bg: grey[800],

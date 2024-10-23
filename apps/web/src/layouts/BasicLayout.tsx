@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useRequest } from 'ahooks';
 import { CircularProgress, Stack, Skeleton } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
+import iotStorage, { TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
 import routes from '@/routes/routes';
 import { useUserStore } from '@/stores';
 import { globalAPI, awaitWrap, getResponseData, isRequestSuccess } from '@/services/http';
@@ -10,6 +11,7 @@ import { Sidebar, RouteLoadingIndicator } from '@/components';
 
 function BasicLayout() {
     const { lang } = useI18n();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState<null | boolean>(null);
     const setUserInfo = useUserStore(state => state.setUserInfo);
     const menus = useMemo(() => {
@@ -22,10 +24,12 @@ function BasicLayout() {
             }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lang]);
+    // const token = iotStorage.getItem(TOKEN_CACHE_KEY);
 
     // TODO: 获取用户信息&鉴权&跳转逻辑
     useRequest(
         async () => {
+            // if (!token) return;
             // setLoading(true);
             // const [error, resp] = await awaitWrap(globalAPI.getUserInfo());
             // setLoading(false);
@@ -46,6 +50,12 @@ function BasicLayout() {
             debounceWait: 300,
         },
     );
+
+    // TODO: 判断 localStorage 中若无缓存 token 则直接跳转登录页
+    // if (!token) {
+    //     navigate('/auth/login');
+    //     return null;
+    // }
 
     return (
         <section className="ms-layout">

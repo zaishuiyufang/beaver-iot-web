@@ -3,22 +3,30 @@ import { client, attachAPI, API_PREFIX } from './client';
 export interface IntegrationAPISchema extends APISchema {
     /** 获取集成列表 */
     getList: {
-        request: {
+        request: void | {
             /** 是否能添加设备 */
-            device_addable: boolean;
+            device_addable?: boolean;
             /** 是否能删除设备 */
-            device_deleteable: boolean;
+            device_deletable?: boolean;
         };
         // TODO: 待调整补充
         response: {
-            /** ID */
-            integration_id: ApiKey;
-            /** 名称 */
-            name: string;
-            /** 描述 */
-            description: string;
-            /** Logo URL */
-            logo_url: string;
+            integrations: {
+                /** ID */
+                id: ApiKey;
+                /** 图标 */
+                icon: string;
+                /** 名称 */
+                name: string;
+                /** 描述 */
+                description: string;
+                /** 添加设备的实体 Key */
+                add_device_service_key: ApiKey;
+                /** 设备数量 */
+                device_count: number;
+                /** 实体数量 */
+                entity_count: number;
+            }[];
         };
     };
 

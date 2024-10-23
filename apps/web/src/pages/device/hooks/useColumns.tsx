@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Stack, IconButton } from '@mui/material';
 import { useI18n, useTime } from '@milesight/shared/src/hooks';
 import { ListAltIcon, DeleteOutlineIcon } from '@milesight/shared/src/components';
-import { type ColumnType } from '@/components';
+import { Tooltip, type ColumnType } from '@/components';
 import { type DeviceDetail } from '@/services/http';
 
 type OperationType = 'detail' | 'delete';
@@ -23,14 +23,16 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
             {
                 field: 'name',
                 headerName: getIntlText('device.label.param_device_name'),
-                width: 150,
+                flex: 1,
+                minWidth: 150,
                 ellipsis: true,
-                disableColumnMenu: false,
+                // disableColumnMenu: false,
             },
             {
                 field: 'createTime',
                 headerName: getIntlText('common.label.create_time'),
-                width: 150,
+                flex: 1,
+                minWidth: 150,
                 ellipsis: true,
                 renderCell({ value }) {
                     return getTimeFormat(value);
@@ -40,14 +42,14 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 field: 'source',
                 headerName: getIntlText('device.label.param_source'),
                 ellipsis: true,
-                width: 200,
+                flex: 2,
+                minWidth: 200,
             },
             {
                 field: '$operation',
                 headerName: getIntlText('common.label.operation'),
-                // flex: 1,
+                flex: 2,
                 minWidth: 100,
-                flex: 1,
                 renderCell({ row }) {
                     // console.log(row);
                     return (
@@ -56,24 +58,29 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                             spacing="4px"
                             sx={{ height: '100%', alignItems: 'center', justifyContent: 'end' }}
                         >
-                            <IconButton
-                                sx={{ width: 30, height: 30 }}
-                                onClick={() => onButtonClick('detail', row)}
-                            >
-                                <ListAltIcon sx={{ width: 20, height: 20 }} />
-                            </IconButton>
-                            <IconButton
-                                color="error"
-                                sx={{
-                                    width: 30,
-                                    height: 30,
-                                    color: 'text.secondary',
-                                    '&:hover': { color: 'error.light' },
-                                }}
-                                onClick={() => onButtonClick('delete', row)}
-                            >
-                                <DeleteOutlineIcon sx={{ width: 20, height: 20 }} />
-                            </IconButton>
+                            <Tooltip title={getIntlText('common.label.detail')}>
+                                <IconButton
+                                    sx={{ width: 30, height: 30 }}
+                                    onClick={() => onButtonClick('detail', row)}
+                                >
+                                    <ListAltIcon sx={{ width: 20, height: 20 }} />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={getIntlText('common.label.delete')}>
+                                <IconButton
+                                    color="error"
+                                    disabled={!row.deletable}
+                                    sx={{
+                                        width: 30,
+                                        height: 30,
+                                        color: 'text.secondary',
+                                        '&:hover': { color: 'error.light' },
+                                    }}
+                                    onClick={() => onButtonClick('delete', row)}
+                                >
+                                    <DeleteOutlineIcon sx={{ width: 20, height: 20 }} />
+                                </IconButton>
+                            </Tooltip>
                         </Stack>
                     );
                 },

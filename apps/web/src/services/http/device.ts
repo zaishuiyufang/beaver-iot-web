@@ -5,11 +5,12 @@ import { client, attachAPI, API_PREFIX } from './client';
  */
 export interface DeviceDetail {
     id: ApiKey;
-    externalId: ApiKey;
+    external_id: ApiKey;
     name: string;
     source: string;
     founder: string;
     createTime: number;
+    deletable: boolean;
 }
 
 /**
@@ -27,16 +28,16 @@ export interface DeviceEntity {
  */
 export interface DeviceAPISchema extends APISchema {
     /** 获取设备列表 */
-    getDeviceList: {
+    getList: {
         request: SearchRequestType & {
             /** 名称（模糊搜索） */
             name?: string;
         };
-        response: SearchResponseType<DeviceDetail>;
+        response: SearchResponseType<DeviceDetail[]>;
     };
 
     /** 获取设备详情 */
-    getDeviceDetail: {
+    getDetail: {
         request: {
             id: ApiKey;
         };
@@ -80,8 +81,8 @@ export interface DeviceAPISchema extends APISchema {
  */
 export default attachAPI<DeviceAPISchema>(client, {
     apis: {
-        getDeviceList: `GET ${API_PREFIX}/device/search`,
-        getDeviceDetail: `GET ${API_PREFIX}/device/:id`,
+        getList: `GET ${API_PREFIX}/device/search`,
+        getDetail: `GET ${API_PREFIX}/device/:id`,
         addDevice: `POST ${API_PREFIX}/device`,
         deleteDevices: `POST ${API_PREFIX}/device/batch-delete`,
         updateDevice: `PUT ${API_PREFIX}/device/:id`,
