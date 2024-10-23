@@ -44,6 +44,7 @@ class ToastManager {
                 {this.toasts.map(toast => (
                     <Snackbar
                         open
+                        disableWindowBlurListener
                         className="ms-toast-container"
                         key={toast.key}
                         autoHideDuration={toast.duration}
