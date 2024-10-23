@@ -25,7 +25,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 headerName: getIntlText('device.label.param_device_name'),
                 width: 150,
                 ellipsis: true,
-                disableColumnMenu: false,
+                // disableColumnMenu: false,
             },
             {
                 field: 'createTime',

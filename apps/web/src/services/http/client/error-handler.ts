@@ -47,6 +47,9 @@ const handler: ErrorHandlerConfig['handler'] = (errCode, resp) => {
         (code: string, resp?: AxiosResponse<unknown, any>) => void
     >();
 
+    errCode = errCode?.toLowerCase();
+
+    // console.log({ ignoreError, resp, errCode });
     if (!Array.isArray(ignoreError)) {
         !!ignoreError && ignoreErrorMap.set(errCode!, noop);
     } else {

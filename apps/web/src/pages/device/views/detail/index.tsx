@@ -1,6 +1,7 @@
-import { useState, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
+import { useRouteTab } from '@/hooks';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { BasicTable, EntityTable, type BasicTableInstance } from './components';
 import './style.less';
@@ -22,7 +23,7 @@ export default () => {
             },
         ];
     }, [getIntlText]);
-    const [tabKey, setTabKey] = useState<ApiKey>(tabs[0].key);
+    const [tabKey, setTabKey] = useRouteTab(tabs[0].key);
 
     return (
         <div className="ms-main">

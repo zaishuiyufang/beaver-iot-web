@@ -48,7 +48,7 @@ const client = createRequestClient({
     onResponseError(error) {
         const resp = error.response;
         // @ts-ignore
-        errorHandler(resp?.data?.error_code, resp);
+        errorHandler(resp?.data?.error_code || error.code, resp || error);
         return error;
     },
 });

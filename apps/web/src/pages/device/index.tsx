@@ -94,7 +94,7 @@ export default () => {
                         checkboxSelection
                         columns={columns}
                         rows={mockList}
-                        rowCount={50}
+                        rowCount={mockList.length}
                         onRowDoubleClick={({ row }) => {
                             navigate(`/device/detail/${row.id}`);
                         }}

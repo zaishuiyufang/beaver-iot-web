@@ -18,6 +18,19 @@
         margin: 0 0 @margin-xs 0;
     }
 
+    .icon {
+        width: 48px;
+        height: 48px;
+        margin: 0 0 @margin-xs 0;
+        overflow: hidden;
+        border-radius: @border-radius-base;
+
+        > img {
+            width: 100%;
+            -webkit-user-drag: none;
+        }
+    }
+
     .title {
         .text-size(@font-size-lg);
 

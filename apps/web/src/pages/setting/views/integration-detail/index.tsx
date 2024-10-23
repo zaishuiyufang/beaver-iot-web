@@ -1,15 +1,23 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Stack, Tabs, Tab } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
-import { Logo, DevicesOtherIcon, ShareIcon } from '@milesight/shared/src/components';
+import { Logo, DevicesOtherIcon, EntityIcon } from '@milesight/shared/src/components';
 import { thousandSeparate } from '@milesight/shared/src/utils/tools';
+import { useRouteTab } from '@/hooks';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { Config, Functions } from './components';
 import './style.less';
 
+type TabKey = 'config' | 'function';
+type TabItem = {
+    key: TabKey;
+    label: string;
+    component: React.ReactNode;
+};
+
 const InformationDetail = () => {
     const { getIntlText } = useI18n();
-    const tabs = useMemo(() => {
+    const tabs = useMemo<TabItem[]>(() => {
         return [
             {
                 key: 'config',
@@ -23,7 +31,7 @@ const InformationDetail = () => {
             },
         ];
     }, [getIntlText]);
-    const [tabKey, setTabKey] = useState<ApiKey>(tabs[0].key);
+    const [tabKey, setTabKey] = useRouteTab<TabKey>(tabs[0].key);
 
     return (
         <div className="ms-main">
@@ -41,7 +49,7 @@ const InformationDetail = () => {
                                         <span>{thousandSeparate(2214)}</span>
                                     </span>
                                     <span className="meta-item">
-                                        <ShareIcon />
+                                        <EntityIcon />
                                         <span>{thousandSeparate(5432)}</span>
                                     </span>
                                 </div>
