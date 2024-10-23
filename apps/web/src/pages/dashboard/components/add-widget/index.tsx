@@ -9,7 +9,7 @@ interface WidgetProps {
 
 export default (props: WidgetProps) => {
     const { plugin, onCancel, onOk } = props;
-    const [config, setConfig] = useState<CustomComponentProps>();
+    const [config, setConfig] = useState<any>();
 
     useEffect(() => {
         setConfig(plugin);
@@ -18,6 +18,10 @@ export default (props: WidgetProps) => {
     const handleClose = () => {
         setConfig(undefined);
         onCancel();
+    };
+
+    const handleChange = (data: any) => {
+        setConfig({ ...config, config: data });
     };
 
     const handleOk = (data: any) => {
@@ -30,5 +34,12 @@ export default (props: WidgetProps) => {
         handleClose();
     };
 
-    return config ? <ConfigPlugin onClose={handleClose} onOk={handleOk} config={config} /> : null;
+    return config ? (
+        <ConfigPlugin
+            onClose={handleClose}
+            onOk={handleOk}
+            config={config}
+            onChange={handleChange}
+        />
+    ) : null;
 };

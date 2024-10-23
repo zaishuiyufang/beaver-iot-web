@@ -1,3 +1,5 @@
+export { isRequestSuccess, getResponseData, awaitWrap } from './client';
+
 export {
     default as deviceAPI,
     type DeviceDetail,

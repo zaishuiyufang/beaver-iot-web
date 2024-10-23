@@ -145,5 +145,6 @@
     "common.label.password": "Password",
     "common.label.username": "Username",
     "common.label.confirm_password": "Confirm Password",
-    "common.label.title": "Title"
+    "common.label.title": "Title",
+    "common.message.register_helper_text": "Welcome！Let's get started by creating a user account."
 }

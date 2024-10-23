@@ -27,14 +27,29 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
     const formValues = watch();
 
     useEffect(() => {
-        reset(defaultValues);
+        const values: any = {};
+        Object.keys(defaultValues)?.forEach((key: string) => {
+            if (defaultValues[key] !== undefined) {
+                values[key] = defaultValues[key];
+            }
+        });
+        !!Object.keys(values)?.length && reset(defaultValues);
     }, [defaultValues, reset]);
 
     useEffect(() => {
-        if (!formValuesRef?.current || !isEqual(formValuesRef?.current, formValues)) {
-            formValuesRef.current = { ...formValues };
+        const values: any = {};
+        Object.keys(formValues)?.forEach((key: string) => {
+            if (formValues[key] !== undefined) {
+                values[key] = formValues[key];
+            }
+        });
+        if (
+            (!formValuesRef?.current || !isEqual(formValuesRef?.current, formValues)) &&
+            !!Object.keys(values)?.length
+        ) {
+            formValuesRef.current = { ...formValuesRef?.current, ...formValues };
             // 表单值变更回调
-            !!onChange && onChange(formValues);
+            !!onChange && onChange({ ...formValuesRef?.current, formValues });
         }
     }, [formValues]);
 

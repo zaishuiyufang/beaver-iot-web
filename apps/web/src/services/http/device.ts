@@ -1,4 +1,4 @@
-import { client, apiPrefix, attachAPI } from './client';
+import { client, attachAPI, API_PREFIX } from './client';
 
 /**
  * 设备详情定义
@@ -80,10 +80,10 @@ export interface DeviceAPISchema extends APISchema {
  */
 export default attachAPI<DeviceAPISchema>(client, {
     apis: {
-        getDeviceList: `GET ${apiPrefix}/device/search`,
-        getDeviceDetail: `GET ${apiPrefix}/device/:id`,
-        addDevice: `POST ${apiPrefix}/device`,
-        deleteDevices: `POST ${apiPrefix}/device/batch-delete`,
-        updateDevice: `PUT ${apiPrefix}/device/:id`,
+        getDeviceList: `GET ${API_PREFIX}/device/search`,
+        getDeviceDetail: `GET ${API_PREFIX}/device/:id`,
+        addDevice: `POST ${API_PREFIX}/device`,
+        deleteDevices: `POST ${API_PREFIX}/device/batch-delete`,
+        updateDevice: `PUT ${API_PREFIX}/device/:id`,
     },
 });

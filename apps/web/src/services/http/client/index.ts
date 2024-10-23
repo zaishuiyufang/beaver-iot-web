@@ -1,12 +1,15 @@
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosRequestConfig } from 'axios';
 import { apiOrigin } from '@milesight/shared/src/config';
-import { createRequestClient, attachAPI } from '@milesight/shared/src/utils/request';
+import {
+    createRequestClient,
+    attachAPI,
+    awaitWrap,
+    getResponseData,
+    isRequestSuccess,
+} from '@milesight/shared/src/utils/request';
 import { getCurrentComponentLang } from '@milesight/shared/src/services/i18n';
-// import oauthHandler from './oauth-handler';
+import oauthHandler from './oauth-handler';
 import errorHandler from './error-handler';
-
-/** API 前缀 */
-const apiPrefix = '/api/v1';
 
 /**
  * 业务请求头配置（非动态请求头直接在 headers 中配置即可）
@@ -33,19 +36,10 @@ const apiOriginHandler = async (config: AxiosRequestConfig) => {
     return config;
 };
 
-/**
- * 判断 API 请求是否成功
- */
-const isRequestSuccess = (resp: AxiosResponse<ApiResponse>) => {
-    const data = resp?.data;
-
-    return !!data && !data.error_message && resp.data.status === 'Success';
-};
-
 const client = createRequestClient({
     baseURL: '/',
-    // TODO: 增加 oauthHandler
-    configHandlers: [headersHandler, apiOriginHandler],
+    // TODO: 验证 oauthHandler
+    configHandlers: [headersHandler, apiOriginHandler, oauthHandler],
     onResponse(resp) {
         // 错误处理
         errorHandler(resp.data.error_code, resp);
@@ -59,4 +53,5 @@ const client = createRequestClient({
     },
 });
 
-export { client, apiPrefix, attachAPI, isRequestSuccess };
+export * from './constant';
+export { client, attachAPI, awaitWrap, getResponseData, isRequestSuccess };

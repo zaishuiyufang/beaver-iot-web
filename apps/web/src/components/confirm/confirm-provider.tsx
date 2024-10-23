@@ -25,18 +25,21 @@ export const ConfirmProvider: React.FC<Props> = ({ children, ...globalOptions })
         onTimeTick: timeLeft => setTimerProgress((100 * timeLeft) / finalOptions.timer!),
     });
 
-    const confirm = React.useCallback((confirmOptions?: ConfirmOptions) => {
-        return new Promise((resolve, reject) => {
-            const finalOptions = handleOverrideOptions(globalOptions, confirmOptions);
-            setFinalOptions(finalOptions);
-            setPromise({ resolve, reject });
+    const confirm = React.useCallback(
+        (confirmOptions?: ConfirmOptions) => {
+            return new Promise((resolve, reject) => {
+                const finalOptions = handleOverrideOptions(globalOptions, confirmOptions);
+                setFinalOptions(finalOptions);
+                setPromise({ resolve, reject });
 
-            if (finalOptions?.timer) {
-                setTimerIsRunning(true);
-                timer.start(finalOptions.timer);
-            }
-        });
-    }, []);
+                if (finalOptions?.timer) {
+                    setTimerIsRunning(true);
+                    timer.start(finalOptions.timer);
+                }
+            });
+        },
+        [globalOptions, timer],
+    );
 
     const handleStopTimer = React.useCallback(() => {
         if (timerIsRunning) {
@@ -44,7 +47,7 @@ export const ConfirmProvider: React.FC<Props> = ({ children, ...globalOptions })
             setTimerProgress(0);
             timer.stop();
         }
-    }, [timerIsRunning]);
+    }, [timerIsRunning, timer]);
 
     const handleResolveAndClear = React.useCallback(() => {
         promise?.resolve?.();

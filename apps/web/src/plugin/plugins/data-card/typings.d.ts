@@ -2,7 +2,11 @@ import type { EntityData } from '@/services/http';
 
 export interface ViewConfigProps {
     title: string;
-    entity: string;
+    entity: {
+        label: string;
+        value: string;
+        description: string;
+    };
     [key: string]: string;
 }
 

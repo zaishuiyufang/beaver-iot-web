@@ -1,4 +1,4 @@
-import { client, apiPrefix, attachAPI } from './client';
+import { client, attachAPI, API_PREFIX } from './client';
 
 export interface GlobalAPISchema extends APISchema {
     /** 登录 */
@@ -43,7 +43,7 @@ export interface GlobalAPISchema extends APISchema {
             password: string;
         };
         // TODO: 待补充
-        response: unknown;
+        response: GlobalAPISchema['oauthLogin']['response'];
     };
 
     /** 获取用户信息 */
@@ -61,14 +61,14 @@ export default attachAPI<GlobalAPISchema>(client, {
     apis: {
         oauthLogin: {
             method: 'POST',
-            path: `${apiPrefix}/oauth2/token`,
+            path: `${API_PREFIX}/oauth2/token`,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         },
-        // oauthRefresh: `POST ${apiPrefix}/oauth2/token`,
+        // oauthRefresh: `POST ${API_PREFIX}/oauth2/token`,
 
-        oauthRegister: `POST ${apiPrefix}/user/register`,
-        getUserInfo: `GET ${apiPrefix}/user/info`,
+        oauthRegister: `POST ${API_PREFIX}/user/register`,
+        getUserInfo: `GET ${API_PREFIX}/user/info`,
     },
 });

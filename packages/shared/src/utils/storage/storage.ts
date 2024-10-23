@@ -1,7 +1,7 @@
 /**
  * localStorage, sessionStorage 封装，支持任意数据类型及自定义缓存时长
  */
-import { DEFAULT_CACHE_PREFIX } from './consts';
+import { DEFAULT_CACHE_PREFIX } from './constant';
 
 interface IStorage {
     /** key 名前缀 */
