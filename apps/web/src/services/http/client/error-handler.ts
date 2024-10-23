@@ -5,6 +5,7 @@
  */
 import type { AxiosResponse } from 'axios';
 import { noop } from 'lodash-es';
+import { replace } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { toast } from '@milesight/shared/src/components';
 import { isRequestSuccess } from '@milesight/shared/src/utils/request';
@@ -33,6 +34,7 @@ const handlerConfigs: ErrorHandlerConfig[] = [
             const message = intl.get(intlKey) || intl.get(serverErrorKey);
 
             toast.error({ key: errCode, content: message });
+            replace('/login');
         },
     },
 ];

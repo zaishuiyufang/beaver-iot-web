@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Tooltip, Chip, Switch, IconButton } from '@mui/material';
 import cls from 'classnames';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
-import { useI18n, useCopy } from '@milesight/shared/src/hooks';
+import { useI18n, useCopy, useTheme } from '@milesight/shared/src/hooks';
 import { InfoOutlinedIcon, ContentCopyIcon } from '@milesight/shared/src/components';
 import useFormItems from './useFormItems';
 import './style.less';
@@ -19,6 +19,7 @@ interface FormDataProps {
 const Config = () => {
     const { getIntlText } = useI18n();
     const { handleCopy } = useCopy();
+    const { blue, green } = useTheme();
     const [webhookEnabled, setWebhookEnabled] = useState(false);
     const [OpenApiEnabled, setOpenApiEnabled] = useState(false);
     const formItems = useFormItems();
@@ -45,12 +46,12 @@ const Config = () => {
                         </span>
                         <span className="status-value">
                             <Chip
-                                color="primary"
                                 label={getIntlText('setting.integration.api_status_waiting')}
+                                sx={{ bgcolor: blue[200], color: 'primary.main' }}
                             />
                             {/* <Chip
-                                color="success"
                                 label={getIntlText('setting.integration.api_status_ready')}
+                                sx={{ bgcolor: green[200], color: 'success.main' }}
                             /> */}
                         </span>
                     </div>
@@ -92,16 +93,16 @@ const Config = () => {
                                 </span>
                                 <span className="service-prop-value">
                                     <Chip
-                                        color="success"
                                         label={getIntlText(
                                             'setting.integration.webhook_status_ready',
                                         )}
+                                        sx={{ bgcolor: green[200], color: 'success.main' }}
                                     />
                                     {/* <Chip
-                                        color="primary"
                                         label={getIntlText(
                                             'setting.integration.webhook_status_waiting',
                                         )}
+                                        sx={{ bgcolor: blue[200], color: 'primary.main' }}
                                     /> */}
                                 </span>
                             </div>
