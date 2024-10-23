@@ -146,5 +146,6 @@
     "common.label.username": "Username",
     "common.label.confirm_password": "Confirm Password",
     "common.label.title": "Title",
-    "common.message.register_helper_text": "Welcome！Let's get started by creating a user account."
+    "common.message.register_helper_text": "Welcome！Let's get started by creating a user account.",
+    "common.message.no_results_found": "No Results found."
 }
