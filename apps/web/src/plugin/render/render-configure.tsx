@@ -1,4 +1,5 @@
-import { useMemo, forwardRef, useRef } from 'react';
+import { useMemo, forwardRef, useRef, useEffect } from 'react';
+import { isEqual } from 'lodash-es';
 import { Form, FormItemsType, MUIForm as MUI } from '@milesight/shared/src/components';
 import * as Milesight from '../components';
 import { parseStyleString } from './util';
@@ -26,6 +27,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
     const { config, onOk, onChange, value: defaultValue } = props;
     const currentTheme = 'default';
     const configRef = useRef<Record<string, any>>({});
+    const defaultRef = useRef<Record<string, any>>({});
 
     const getFormItems = useMemo(() => {
         const formItems: FormItemsType[] = [];
@@ -73,12 +75,16 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             } else {
                                 defaultValues[component.key] = value;
                             }
-                            if (
-                                configRef.current[component.key] !== config?.config?.[component.key]
-                            ) {
-                                value = config?.config?.[component.key];
-                            }
-                            configRef.current[component.key] = config?.config?.[component.key];
+                            // if (
+                            //     configRef.current[component.key] !== config?.config?.[component.key]
+                            // ) {
+                            //     console.log('111', component.key, value, config);
+                            //     value = config?.config?.[component.key];
+                            //     defaultValues[component.key] = config?.config?.[component.key];
+                            // }
+                            // console.log(component.key, config?.config?.[component.key]);
+                            // configRef.current[component.key] = config?.config?.[component.key];
+                            // console.log(component.key, value, config);
                             return (
                                 <Component
                                     {...restItem}
@@ -108,11 +114,21 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
         onOk(values);
     };
 
+    const defaultIsChange = isEqual(defaultRef.current, getFormItems.defaultValues);
+
+    const defaultValues = useMemo(() => {
+        return getFormItems.defaultValues;
+    }, [defaultIsChange]);
+
+    const formItems = useMemo(() => {
+        return getFormItems.formItems;
+    }, [getFormItems.formItems]);
+
     return (
         <Form
             ref={ref}
-            formItems={getFormItems.formItems}
-            defaultValues={getFormItems.defaultValues}
+            formItems={formItems}
+            defaultValues={defaultValues}
             onOk={handleSubmit}
             onChange={onChange}
         />

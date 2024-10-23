@@ -11,11 +11,12 @@ interface ConfigPluginProps {
     config: CustomComponentProps;
     onClose: () => void;
     onOk?: (data: any) => void;
+    onChange?: (data: any) => void;
 }
 
 const ConfigPlugin = (props: ConfigPluginProps) => {
     const { getIntlText } = useI18n();
-    const { config, onClose, onOk } = props;
+    const { config, onClose, onOk, onChange } = props;
     const ComponentConfig = (plugins as any)[`${config.type}Config`];
     const ComponentView = (plugins as any)[`${config.type}View`];
     const formRef = useRef<any>();
@@ -35,6 +36,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         });
         if (curFormValues && Object.keys(curFormValues)?.length) {
             setFormValues(curFormValues);
+            onChange && onChange(curFormValues);
         }
     };
 
