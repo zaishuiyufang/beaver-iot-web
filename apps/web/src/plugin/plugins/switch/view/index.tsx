@@ -4,11 +4,13 @@ import * as Icons from '@milesight/shared/src/components/icons';
 import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
 
+// import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
+
 import styles from './style.module.less';
 
 export interface ViewProps {
     config: {
-        entity?: string;
+        entity?: EntityOptionType;
         switchText?: string;
         offIcon?: string;
         offIconColor?: string;
@@ -24,11 +26,32 @@ const View = (props: ViewProps) => {
     const { getIntlText } = useI18n();
     const [isSwitchOn, setIsSwitchOn] = useState(false);
 
+    /**
+     * 切换 switch 状态时，
+     * 更新所选实体的状态数据
+     */
+    const handleEntityStatus = useCallback(
+        async (switchVal: boolean) => {
+            console.log('handleEntityStatus ? ', entity, switchVal);
+
+            // const needToUpdate = true;
+            // if (!entity || !needToUpdate) return;
+
+            // dashboardAPI.updatePropertyEntity({
+            //     entity_id: entity,
+            //     exchange: {},
+            // });
+        },
+        [entity],
+    );
+
     const handleSwitchChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>, val: boolean) => {
             setIsSwitchOn(val);
+
+            handleEntityStatus(val);
         },
-        [],
+        [handleEntityStatus],
     );
 
     /**

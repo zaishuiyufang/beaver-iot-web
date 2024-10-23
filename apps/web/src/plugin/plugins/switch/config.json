@@ -18,7 +18,9 @@
                     "style": "width: 100%",
                     "getDataUrl": "",
                     "componentProps": {
-                        "size": "small"
+                        "size": "small",
+                        "entityType": "property",
+                        "entityValueTypes": ["boolean"]
                     }
                 }
             ]

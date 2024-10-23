@@ -1,47 +1,31 @@
-import { useMemo } from 'react';
 import { MenuItem, Autocomplete, TextField } from '@mui/material';
 
 import type { AutocompleteProps } from '@mui/material';
+
+import { useEntitySelectOptions } from '../../hooks';
+
 import './style.less';
 
-/**
- * 实体下拉框类型
- */
-export interface EntityOptionType {
-    label: string;
-    value: string;
-    description: string;
-}
-
-type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, false, undefined> & {
-    onChange: (value: EntityOptionType | null) => void;
-};
+type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, false, undefined> &
+    EntitySelectCommonProps<EntityOptionType>;
 
 /**
  * 实体选择下拉框组件（单选）
  */
 const EntitySelect = (props: EntitySelectProps) => {
-    const entityOptions = useMemo(() => {
-        return [
-            {
-                label: 'Option 1',
-                value: 'option value 1',
-                description: 'Option 1 Description',
-            },
-            {
-                label: 'Option 2',
-                value: 'option value 2',
-                description: 'Option 2 Description',
-            },
-            {
-                label: 'Option 3',
-                value: 'option value 3',
-                description: 'Option 3 Description',
-            },
-        ];
-    }, []);
+    const { onChange, entityType, entityValueTypes, ...restProps } = props;
 
-    const { onChange, options = entityOptions, ...restProps } = props;
+    /**
+     * 动态从服务器获取 options
+     */
+    const {
+        loading,
+        getEntityOptions,
+        options = [],
+    } = useEntitySelectOptions({
+        entityType,
+        entityValueTypes,
+    });
 
     const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {
         const { key, ...restOptionProps } = optionProps || {};
@@ -65,6 +49,13 @@ const EntitySelect = (props: EntitySelectProps) => {
             renderInput={params => <TextField {...params} label="Entity" placeholder="Favorites" />}
             renderOption={renderOption}
             getOptionLabel={option => option?.label || ''}
+            loading={loading}
+            filterOptions={options => options}
+            onInputChange={(_, keyword, reason) => {
+                if (reason !== 'input') return;
+
+                getEntityOptions(keyword);
+            }}
         />
     );
 };

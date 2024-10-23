@@ -192,3 +192,31 @@ declare interface CustomComponentProps {
      */
     id?: string;
 }
+
+/**
+ * 实体下拉框类型
+ */
+declare interface EntityOptionType {
+    label: string;
+    value: string;
+    description: string;
+}
+
+/**
+ * 定义实体类型
+ */
+declare type EntityType = 'service' | 'property' | 'event';
+
+/**
+ * 定义实体数据值类型
+ */
+declare type EntityValueType = 'string' | 'number' | 'boolean' | 'float' | 'binary' | 'object';
+
+/**
+ * 实体下拉选项组件通用 props
+ */
+declare interface EntitySelectCommonProps<T> {
+    entityType: EntityType;
+    entityValueTypes: EntityValueType[];
+    onChange: (value: T | null) => void;
+}
