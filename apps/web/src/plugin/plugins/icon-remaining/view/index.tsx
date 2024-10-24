@@ -15,10 +15,9 @@ const View = (props: Props) => {
 
     const headerLabel = title || getIntlText('common.label.title');
     const { Icon, iconColor } = useMemo(() => {
-        const key = '0';
-        const iconType = config?.[`${key}Icon`];
+        const iconType = config?.icon;
         const Icon = iconType && Icons[iconType as keyof typeof Icons];
-        const iconColor = config?.[`${key}IconColor`];
+        const iconColor = config?.iconColor;
 
         return {
             Icon,
