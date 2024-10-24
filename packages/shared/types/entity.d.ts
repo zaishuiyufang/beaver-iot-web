@@ -63,6 +63,26 @@ declare interface EntitySchema {
     update_at: number;
 }
 
+/** 实体属性类型 */
+declare interface EntityValueAttributeType {
+    /** 单位 */
+    unit: string;
+    /** 最大值 */
+    max: number;
+    /** 最小值 */
+    min: number;
+    /** 最大长度 */
+    max_length: number;
+    /** 最小长度 */
+    min_length: number;
+    /** 枚举 */
+    enum: Record<string, string>;
+    /** 格式 */
+    format: string;
+    /** 精度 */
+    fraction_digits: number;
+}
+
 /** 实体数据 */
 declare interface EntityData {
     /** 实体 id */
