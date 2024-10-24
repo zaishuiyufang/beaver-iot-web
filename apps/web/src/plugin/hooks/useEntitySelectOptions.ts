@@ -9,8 +9,18 @@ import { useRequest } from 'ahooks';
 // } from '@/services/http';
 
 interface EntityOptionProps {
+    /**
+     * 实体类型
+     */
     entityType: EntityType;
+    /**
+     * 实体数据值类型
+     */
     entityValueTypes: EntityValueType[];
+    /**
+     * 实体属性访问类型
+     */
+    accessMods: EntityAccessMod[];
 }
 
 function sleep(duration: number): Promise<void> {
@@ -25,7 +35,7 @@ function sleep(duration: number): Promise<void> {
  * 实体选项数据获取 hooks
  */
 export function useEntitySelectOptions(props: EntityOptionProps) {
-    const { entityType, entityValueTypes } = props;
+    const { entityType, entityValueTypes, accessMods } = props;
 
     const [options, setOptions] = useState<EntityOptionType[]>([]);
     const [loading, setLoading] = useState(false);
@@ -56,6 +66,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                         },
                     }),
                     entity_value_type: 'boolean',
+                    access_mod: 'rw',
                 },
                 {
                     entity_id: 2,
@@ -77,6 +88,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                         },
                     }),
                     entity_value_type: 'enum',
+                    access_mod: 'r',
                 },
                 {
                     entity_id: 3,
@@ -98,8 +110,97 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                         },
                     }),
                     entity_value_type: 'int',
+                    access_mod: 'r',
                 },
-            ];
+                {
+                    entity_id: 5,
+                    device_name: '设备 5',
+                    integration_name: '云生态',
+                    entity_key: 'key5',
+                    entity_name: '选项5',
+                    entity_value_attribute: JSON.stringify({
+                        displayType: '',
+                        unit: '%',
+                        max: 10,
+                        min: 1,
+                        format: '',
+                        coefficient: 1,
+                        enum: {
+                            busy: '1',
+                            free: '1',
+                            entertainment: '1',
+                        },
+                    }),
+                    entity_value_type: 'number',
+                    access_mod: 'r',
+                },
+                {
+                    entity_id: 6,
+                    device_name: '设备6',
+                    integration_name: '云生态',
+                    entity_key: 'key6',
+                    entity_name: '选项6',
+                    entity_value_attribute: JSON.stringify({
+                        displayType: '',
+                        unit: '%',
+                        max: 10,
+                        min: 1,
+                        format: '',
+                        coefficient: 1,
+                        enum: {
+                            busy: '1',
+                            free: '1',
+                            entertainment: '1',
+                        },
+                    }),
+                    entity_value_type: 'string',
+                    access_mod: 'r',
+                },
+                {
+                    entity_id: 7,
+                    device_name: '设备7',
+                    integration_name: '云生态',
+                    entity_key: 'key7',
+                    entity_name: '选项7',
+                    entity_value_attribute: JSON.stringify({
+                        displayType: '',
+                        unit: '%',
+                        max: 10,
+                        min: 1,
+                        format: '',
+                        coefficient: 1,
+                        enum: {
+                            busy: '1',
+                            free: '1',
+                            entertainment: '1',
+                        },
+                    }),
+                    entity_value_type: 'boolean',
+                    access_mod: 'w',
+                },
+                {
+                    entity_id: 8,
+                    device_name: '设备8',
+                    integration_name: '云生态',
+                    entity_key: 'key8',
+                    entity_name: '选项8',
+                    entity_value_attribute: JSON.stringify({
+                        displayType: '',
+                        unit: '%',
+                        max: 10,
+                        min: 1,
+                        format: '',
+                        coefficient: 1,
+                        enum: {
+                            busy: '1',
+                            free: '1',
+                            entertainment: '1',
+                        },
+                    }),
+                    entity_value_type: 'float',
+                    access_mod: 'r',
+                },
+            ] as EntityData[];
         },
         {
             manual: true,
@@ -119,11 +220,21 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
     useEffect(() => {
         const newOptions: EntityOptionType[] = (entityOptions || [])
             .filter(e => {
-                if (!Array.isArray(entityValueTypes)) {
-                    return true;
-                }
+                /**
+                 * 过滤实体数据值类型
+                 */
+                const isValidValueType =
+                    !Array.isArray(entityValueTypes) ||
+                    entityValueTypes.includes(e.entity_value_type as EntityValueType);
 
-                return entityValueTypes.includes(e.entity_value_type as EntityValueType);
+                /**
+                 * 过滤实体属性访问类型
+                 */
+                const isValidAccessMod =
+                    !Array.isArray(accessMods) ||
+                    accessMods.includes(e.access_mod as EntityAccessMod);
+
+                return isValidValueType && isValidAccessMod;
             })
             .map(e => {
                 return {
@@ -138,7 +249,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
 
         setOptions(newOptions);
         setLoading(false);
-    }, [entityOptions, entityValueTypes]);
+    }, [entityOptions, entityValueTypes, accessMods]);
 
     return {
         loading,

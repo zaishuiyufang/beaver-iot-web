@@ -194,6 +194,31 @@ declare interface CustomComponentProps {
 }
 
 /**
+ * 定义实体属性访问类型
+ */
+declare type EntityAccessMod = 'r' | 'w' | 'rw';
+
+/** 实体数据 */
+declare interface EntityData {
+    /** 实体 id */
+    entity_id: ApiKey;
+    /** 设备名称 */
+    device_name: string;
+    /** 集成名称 */
+    integration_name: string;
+    /** 实体key */
+    entity_key: string;
+    /** 实体名称 */
+    entity_name: string;
+    /** 实体值属性 */
+    entity_value_attribute: string;
+    /** 实体值类型 */
+    entity_value_type: string;
+    /** 实体属性访问类型 */
+    access_mod: EntityAccessMod;
+}
+
+/**
  * 实体下拉框类型
  */
 declare interface EntityOptionType {
@@ -201,22 +226,7 @@ declare interface EntityOptionType {
     value: string | number;
     description: string;
     /** 源数据 */
-    rawData?: {
-        /** 实体 id */
-        entity_id: ApiKey;
-        /** 设备名称 */
-        device_name: string;
-        /** 集成名称 */
-        integration_name: string;
-        /** 实体key */
-        entity_key: string;
-        /** 实体名称 */
-        entity_name: string;
-        /** 实体值属性 */
-        entity_value_attribute: string;
-        /** 实体值类型 */
-        entity_value_type: string;
-    };
+    rawData?: EntityData;
 }
 
 /**
@@ -233,7 +243,17 @@ declare type EntityValueType = 'string' | 'number' | 'boolean' | 'float' | 'bina
  * 实体下拉选项组件通用 props
  */
 declare interface EntitySelectCommonProps<T> {
+    /**
+     * 实体类型
+     */
     entityType: EntityType;
+    /**
+     * 实体数据值类型
+     */
     entityValueTypes: EntityValueType[];
+    /**
+     * 实体属性访问类型
+     */
+    accessMods: EntityAccessMod[];
     onChange: (value: T | null) => void;
 }

@@ -20,7 +20,8 @@
                     "componentProps": {
                         "size": "small",
                         "entityType": "property",
-                        "entityValueTypes": ["string", "number", "float"]
+                        "entityValueTypes": ["string", "number", "float"],
+                        "accessMods": ["r"]
                     }
                 }
             ]

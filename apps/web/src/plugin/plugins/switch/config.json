@@ -20,7 +20,8 @@
                     "componentProps": {
                         "size": "small",
                         "entityType": "property",
-                        "entityValueTypes": ["boolean"]
+                        "entityValueTypes": ["boolean"],
+                        "accessMods": ["w", "rw"]
                     }
                 }
             ]

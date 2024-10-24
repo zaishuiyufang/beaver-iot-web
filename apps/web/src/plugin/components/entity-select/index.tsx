@@ -13,7 +13,7 @@ type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, false, u
  * 实体选择下拉框组件（单选）
  */
 const EntitySelect = (props: EntitySelectProps) => {
-    const { onChange, entityType, entityValueTypes, ...restProps } = props;
+    const { onChange, entityType, entityValueTypes, accessMods, ...restProps } = props;
 
     /**
      * 动态从服务器获取 options
@@ -25,6 +25,7 @@ const EntitySelect = (props: EntitySelectProps) => {
     } = useEntitySelectOptions({
         entityType,
         entityValueTypes,
+        accessMods,
     });
 
     const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {

@@ -12,24 +12,6 @@ export interface EntityHistoryData {
     value: any;
 }
 
-/** 实体数据 */
-export interface EntityData {
-    /** 实体 id */
-    entity_id: string;
-    /** 设备名称 */
-    device_name: string;
-    /** 集成名称 */
-    integration_name: string;
-    /** 实体key */
-    entity_key: string;
-    /** 实体名称 */
-    entity_name: string;
-    /** 实体值属性 */
-    entity_value_attribute: string;
-    /** 实体值类型 */
-    entity_value_type: string;
-}
-
 /**
  * dashboard 相关接口定义
  */
