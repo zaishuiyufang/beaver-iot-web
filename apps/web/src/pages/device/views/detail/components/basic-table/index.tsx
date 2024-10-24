@@ -3,17 +3,19 @@ import { Stack, IconButton } from '@mui/material';
 import { useI18n, useTime } from '@milesight/shared/src/hooks';
 import { EditIcon } from '@milesight/shared/src/components';
 import { Descriptions, Tooltip } from '@/components';
-import { deviceAPI, type DeviceDetail } from '@/services/http';
+import { type DeviceAPISchema } from '@/services/http';
 import EditDialog from './edit-dialog';
 
-const mockData: DeviceDetail = {
-    id: 11,
-    externalId: 22,
-    name: 'AM308',
-    createTime: 1727072105549,
-    founder: 'System',
-    source: 'Milesight Development Platform',
-};
+interface Props {
+    /** 是否加载中 */
+    loading?: boolean;
+
+    /** 设备详情 */
+    data?: ObjectToCamelCase<DeviceAPISchema['getDetail']['response']>;
+
+    /** 编辑成功回调 */
+    onEditSuccess?: () => void;
+}
 
 export interface BasicTableInstance {
     /** 打开编辑弹窗 */
@@ -23,7 +25,10 @@ export interface BasicTableInstance {
 /**
  * 设备基本信息表格
  */
-const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
+const BasicTable = (
+    { data, loading, onEditSuccess }: Props,
+    ref?: React.ForwardedRef<BasicTableInstance>,
+) => {
     const { getIntlText } = useI18n();
     const { getTimeFormat } = useTime();
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -37,7 +42,7 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
                         direction="row"
                         sx={{ alignItems: 'center', justifyContent: 'space-between' }}
                     >
-                        <Tooltip autoEllipsis title={mockData.name} />
+                        <Tooltip autoEllipsis title={data?.name} />
                         <IconButton
                             sx={{ width: 22, height: 22 }}
                             onClick={() => {
@@ -52,30 +57,30 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
             {
                 key: 'externalId',
                 label: getIntlText('device.label.param_entity_id'),
-                content: mockData.externalId,
+                content: data?.externalId,
             },
             {
                 key: 'source',
                 label: getIntlText('device.label.param_source'),
-                content: <Tooltip autoEllipsis title={mockData.source} />,
+                content: <Tooltip autoEllipsis title={data?.integrationName} />,
             },
             {
                 key: 'createTime',
                 label: getIntlText('common.label.create_time'),
-                content: getTimeFormat(mockData.createTime),
+                content: getTimeFormat(data?.createAt),
             },
             {
                 key: 'founder',
                 label: getIntlText('device.label.param_founder'),
-                content: mockData.founder,
+                content: data?.founder,
             },
             {
                 key: 'id',
                 label: getIntlText('device.label.param_device_id'),
-                content: mockData.id,
+                content: data?.id,
             },
         ];
-    }, [getIntlText, getTimeFormat]);
+    }, [data, getIntlText, getTimeFormat]);
     const handleDialogClose = useCallback(() => {
         setDialogOpen(false);
     }, []);
@@ -91,21 +96,22 @@ const BasicTable = (_: any, ref?: React.ForwardedRef<BasicTableInstance>) => {
 
     return (
         <div className="ms-com-device-basic">
-            <Descriptions data={descList} />
+            <Descriptions data={descList} loading={loading} />
             <EditDialog
-                open={dialogOpen}
-                data={mockData}
+                visible={dialogOpen}
+                data={data}
                 onCancel={handleDialogClose}
                 onError={handleDialogClose}
                 onSuccess={() => {
                     // Todo: 刷新列表
                     handleDialogClose();
+                    onEditSuccess?.();
                 }}
             />
         </div>
     );
 };
 
-const ForwardBasicTable = (forwardRef as FixedForwardRef)<BasicTableInstance, any>(BasicTable);
+const ForwardBasicTable = (forwardRef as FixedForwardRef)<BasicTableInstance, Props>(BasicTable);
 
 export default ForwardBasicTable;

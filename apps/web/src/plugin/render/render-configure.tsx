@@ -1,4 +1,4 @@
-import { useMemo, forwardRef, useRef, useEffect } from 'react';
+import { useMemo, forwardRef, useRef } from 'react';
 import { isEqual } from 'lodash-es';
 import { Form, FormItemsType, MUIForm as MUI } from '@milesight/shared/src/components';
 import * as Milesight from '../components';
@@ -26,7 +26,6 @@ export interface IPlugin {
 const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
     const { config, onOk, onChange, value: defaultValue } = props;
     const currentTheme = 'default';
-    const configRef = useRef<Record<string, any>>({});
     const defaultRef = useRef<Record<string, any>>({});
 
     const getFormItems = useMemo(() => {
@@ -75,23 +74,13 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             } else {
                                 defaultValues[component.key] = value;
                             }
-                            // if (
-                            //     configRef.current[component.key] !== config?.config?.[component.key]
-                            // ) {
-                            //     console.log('111', component.key, value, config);
-                            //     value = config?.config?.[component.key];
-                            //     defaultValues[component.key] = config?.config?.[component.key];
-                            // }
-                            // console.log(component.key, config?.config?.[component.key]);
-                            // configRef.current[component.key] = config?.config?.[component.key];
-                            // console.log(component.key, value, config);
                             return (
                                 <Component
                                     {...restItem}
                                     {...componentProps}
                                     error={!!error}
                                     helperText={error ? error.message : null}
-                                    value={value}
+                                    value={value || (component.valueType === 'array' ? [] : '')}
                                     onChange={onChange}
                                     key={component.type}
                                     sx={{

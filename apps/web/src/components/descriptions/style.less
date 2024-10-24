@@ -1,6 +1,23 @@
 .@{prefix}-descriptions {
     border: 1px solid var(--border-color-base);
 
+    &-root {
+        position: relative;
+
+        &.loading {
+            .@{prefix}-descriptions {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    &-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -15px 0 0 -15px;
+    }
+
     & &-label {
         width: 15%;
         padding: @padding-sm;

@@ -521,6 +521,7 @@ export const isFileName = (name: string) => {
 
 /**
  * 将对象key的下划线转为驼峰
+ * @deprecated
  */
 export const convertKeysToCamelCase = <T extends Record<string, any>>(target: T) => {
     if (!target || !isPlainObject(target)) {
@@ -545,3 +546,64 @@ export const convertKeysToCamelCase = <T extends Record<string, any>>(target: T)
 
     return camelCaseObj as ConvertKeysToCamelCase<T>;
 };
+
+/**
+ * 将对象的所有属性名转换为指定命名法
+ * @param obj 要转换的对象
+ * @param keyConverter 转换属性名的函数
+ * @returns 转换为驼峰命名法后的对象
+ */
+function convertObjectCase<TInput extends object, TResult extends ObjectToCamelCase<TInput>>(
+    obj: TInput,
+    keyConverter: (arg: string) => string,
+): TResult {
+    if (obj === null || typeof obj === 'undefined' || typeof obj !== 'object') {
+        return obj;
+    }
+
+    const out = (Array.isArray(obj) ? [] : {}) as TResult;
+    for (const [k, v] of Object.entries(obj)) {
+        // @ts-ignore
+        out[keyConverter(k)] = Array.isArray(v)
+            ? (v.map(<ArrayItem extends object>(item: ArrayItem) =>
+                  typeof item === 'object' &&
+                  !(item instanceof Uint8Array) &&
+                  !(item instanceof Date)
+                      ? convertObjectCase<ArrayItem, ObjectToCamelCase<ArrayItem>>(
+                            item,
+                            keyConverter,
+                        )
+                      : item,
+              ) as unknown[])
+            : v instanceof Uint8Array || v instanceof Date
+              ? v
+              : typeof v === 'object'
+                ? convertObjectCase<typeof v, ObjectToCamelCase<typeof v>>(v, keyConverter)
+                : (v as unknown);
+    }
+    return out;
+}
+
+/**
+ * 将字符串转换为驼峰命名法
+ * @param str 要转换的字符串
+ * @returns 转换为驼峰命名法后的字符串
+ */
+export function toCamelCase<T extends string>(str: T): ToCamelCase<T> {
+    return (
+        str.length === 1
+            ? str.toLowerCase()
+            : str
+                  .replace(/^([A-Z])/, m => m[0].toLowerCase())
+                  .replace(/[_-]([a-z0-9])/g, m => m[1].toUpperCase())
+    ) as ToCamelCase<T>;
+}
+
+/**
+ * 将对象的所有属性名转换为驼峰命名法
+ * @param obj 要转换的对象
+ * @returns 转换为驼峰命名法后的对象
+ */
+export function objectToCamelCase<T extends object>(obj: T): ObjectToCamelCase<T> {
+    return convertObjectCase(obj, toCamelCase);
+}

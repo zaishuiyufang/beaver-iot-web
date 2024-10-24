@@ -43,13 +43,14 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
                 values[key] = formValues[key];
             }
         });
+        console.log(values, formValues);
         if (
             (!formValuesRef?.current || !isEqual(formValuesRef?.current, formValues)) &&
             !!Object.keys(values)?.length
         ) {
             formValuesRef.current = { ...formValuesRef?.current, ...formValues };
             // 表单值变更回调
-            !!onChange && onChange({ ...formValuesRef?.current, formValues });
+            !!onChange && onChange({ ...formValuesRef?.current, ...formValues });
         }
     }, [formValues]);
 

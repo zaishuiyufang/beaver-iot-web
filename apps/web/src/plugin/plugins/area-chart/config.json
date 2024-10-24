@@ -17,6 +17,7 @@
                     "key": "entity",
                     "style": "width: 100%",
                     "getDataUrl": "",
+                    "valueType": "array",
                     "componentProps": {
                         "size": "small",
                         "entityType": "property",

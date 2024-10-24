@@ -5,11 +5,11 @@ import { client, attachAPI, API_PREFIX } from './client';
  */
 export interface DeviceDetail {
     id: ApiKey;
-    external_id: ApiKey;
     name: string;
-    source: string;
+    external_id: ApiKey;
+    integration_name: string;
     founder: string;
-    createTime: number;
+    create_at: number;
     deletable: boolean;
 }
 
@@ -41,7 +41,16 @@ export interface DeviceAPISchema extends APISchema {
         request: {
             id: ApiKey;
         };
-        response: DeviceDetail;
+        response: DeviceDetail & {
+            entities: {
+                id: ApiKey;
+                key: ApiKey;
+                name: string;
+                type: EntityType;
+                value_attribute: Record<string, any>;
+                value_type: EntityValueDataType;
+            }[];
+        };
     };
 
     /** 添加设备 */

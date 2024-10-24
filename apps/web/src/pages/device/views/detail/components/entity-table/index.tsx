@@ -1,29 +1,17 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Stack, Chip, type ChipProps } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { TablePro, type ColumnType } from '@/components';
-import { type DeviceEntity } from '@/services/http';
+import { type DeviceEntity, type DeviceAPISchema } from '@/services/http';
 
-const mockList = (() => {
-    const data: DeviceEntity = {
-        id: 'sensor.am308.temperature',
-        name: 'AM308',
-        type: 'Event',
-        dataType: 'Int',
-    };
-    const types = ['Event', 'Service', 'Property'];
-    const dataTypes = ['String', 'Boolean', 'Int', 'Float', 'Double'];
+interface Props {
+    data?: ObjectToCamelCase<DeviceAPISchema['getDetail']['response']>;
 
-    return new Array(100).fill({ ...data }).map((item, index) => {
-        return {
-            ...item,
-            id: `${item.id}-${index}`,
-            name: `${item.name}-${index}`,
-            type: types[index % 3],
-            dataType: dataTypes[index % 5],
-        };
-    });
-})();
+    /** 点击 Table 刷新按钮回调 */
+    onRefresh?: () => void;
+}
+
+type TableRowDataType = ObjectToCamelCase<DeviceAPISchema['getDetail']['response']['entities'][0]>;
 
 // 实体类型 Tag 颜色映射
 const entityTypeColorMap: Record<string, ChipProps['color']> = {
@@ -35,10 +23,10 @@ const entityTypeColorMap: Record<string, ChipProps['color']> = {
 /**
  * 设备实体数据表格
  */
-const EntityTable = () => {
+const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
     const { getIntlText } = useI18n();
     const columns = useMemo(() => {
-        const result: ColumnType<DeviceEntity>[] = [
+        const result: ColumnType<TableRowDataType>[] = [
             {
                 field: 'name',
                 headerName: getIntlText('device.label.param_device_name'),
@@ -68,7 +56,7 @@ const EntityTable = () => {
                 },
             },
             {
-                field: 'dataType',
+                field: 'valueType',
                 headerName: getIntlText('common.label.data_type'),
                 align: 'left',
                 headerAlign: 'left',
@@ -82,11 +70,11 @@ const EntityTable = () => {
 
     return (
         <Stack className="ms-com-device-entity" sx={{ height: '100%' }}>
-            <TablePro<DeviceEntity>
+            <TablePro<TableRowDataType>
                 paginationMode="client"
                 loading={false}
                 columns={columns}
-                rows={mockList}
+                rows={data?.entities}
                 onRefreshButtonClick={() => console.log('refresh')}
             />
         </Stack>

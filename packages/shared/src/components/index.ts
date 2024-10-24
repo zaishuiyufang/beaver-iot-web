@@ -11,3 +11,4 @@ export { default as DraggableResizable } from './draggable-resizable';
 export { default as EntityForm } from './entity-form';
 export * from './icons';
 export * as MUIForm from './mui-form';
+export { default as LoadingButton } from './loading-button';

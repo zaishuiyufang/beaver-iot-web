@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { Grid2, Backdrop, CircularProgress } from '@mui/material';
+import { Grid2, CircularProgress } from '@mui/material';
 import { useRequest } from 'ahooks';
 import { DevicesOtherIcon, EntityIcon } from '@milesight/shared/src/components';
-import { thousandSeparate, convertKeysToCamelCase } from '@milesight/shared/src/utils/tools';
+import { thousandSeparate, objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import {
     integrationAPI,
     IntegrationAPISchema,
@@ -25,7 +25,7 @@ const Integration = () => {
             if (error || !isRequestSuccess(resp)) return;
 
             const data = getResponseData(resp);
-            const result = data?.integrations.map(item => convertKeysToCamelCase(item));
+            const result = data?.integrations.map(item => objectToCamelCase(item));
 
             console.log(result);
             return result;
