@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRequest } from 'ahooks';
+import { convertKeysToCamelCase } from '@milesight/shared/src/utils/tools';
 // import {
 //     dashboardAPI,
 //     awaitWrap,
@@ -29,6 +30,14 @@ function sleep(duration: number): Promise<void> {
             resolve();
         }, duration);
     });
+}
+
+function safeJsonParse(str: string) {
+    try {
+        return JSON.parse(str);
+    } catch (e) {
+        return str;
+    }
 }
 
 /**
@@ -237,12 +246,17 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                 return isValidValueType && isValidAccessMod;
             })
             .map(e => {
+                const entityValueAttribute = safeJsonParse(
+                    e.entity_value_attribute,
+                ) as EntityValueAttributeType;
+
                 return {
                     label: e.entity_name,
                     value: e.entity_id,
                     description: [e.device_name, e.integration_name].join(', '),
                     rawData: {
-                        ...e,
+                        ...convertKeysToCamelCase(e),
+                        entityValueAttribute,
                     },
                 };
             });
