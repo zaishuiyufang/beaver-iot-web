@@ -1,5 +1,6 @@
 import { useMemo, Fragment } from 'react';
-import { Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { Table, TableBody, TableRow, TableCell, CircularProgress } from '@mui/material';
+import cls from 'classnames';
 import './style.less';
 
 interface Props {
@@ -13,6 +14,11 @@ interface Props {
     }[];
 
     /**
+     * 是否加载中
+     */
+    loading?: boolean;
+
+    /**
      * 每行渲染数据对数量，默认为 2
      *
      * __注意__：当前样式仅支持 2 列，若要修改，请自行调整样式
@@ -23,7 +29,7 @@ interface Props {
 /**
  * 描述列表组件
  */
-const Descriptions: React.FC<Props> = ({ data, columns = 2 }) => {
+const Descriptions: React.FC<Props> = ({ data, loading, columns = 2 }) => {
     const list = useMemo(() => {
         return data?.reduce(
             (acc, item) => {
@@ -40,25 +46,29 @@ const Descriptions: React.FC<Props> = ({ data, columns = 2 }) => {
     }, [data, columns]);
 
     return (
-        <Table className="ms-descriptions">
-            <TableBody>
-                {list?.map((items, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <TableRow key={index}>
-                        {items.map(item => (
-                            <Fragment key={item.key}>
-                                <TableCell className="ms-descriptions-label">
-                                    {item.label}
-                                </TableCell>
-                                <TableCell className="ms-descriptions-content">
-                                    {item.content}
-                                </TableCell>
-                            </Fragment>
-                        ))}
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+        <div className={cls('ms-descriptions-root', { loading })}>
+            <Table className="ms-descriptions">
+                <TableBody>
+                    {list?.map((items, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <TableRow key={index}>
+                            {items.map(item => (
+                                <Fragment key={item.key}>
+                                    <TableCell className="ms-descriptions-label">
+                                        {item.label}
+                                    </TableCell>
+                                    <TableCell className="ms-descriptions-content">
+                                        {item.content}
+                                    </TableCell>
+                                </Fragment>
+                            ))}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+
+            {loading && <CircularProgress className="ms-descriptions-loading" size={30} />}
+        </div>
     );
 };
 

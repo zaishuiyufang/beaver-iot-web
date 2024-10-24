@@ -10,11 +10,11 @@ import {
 } from '@mui/material';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { checkRequired } from '@milesight/shared/src/utils/validators';
-import { type DeviceDetail } from '@/services/http';
+import { type DeviceAPISchema } from '@/services/http';
 
 interface Props extends DialogProps {
     /** 设备详情 */
-    data?: DeviceDetail;
+    data?: ObjectToCamelCase<DeviceAPISchema['getDetail']['response']>;
 
     /** 点击取消 Button 回调 */
     onCancel: () => void;
