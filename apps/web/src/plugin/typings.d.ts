@@ -198,8 +198,9 @@ declare interface CustomComponentProps {
  */
 declare interface EntityOptionType {
     label: string;
-    value: string;
+    value: string | number;
     description: string;
+    [key: string]: any;
 }
 
 /**

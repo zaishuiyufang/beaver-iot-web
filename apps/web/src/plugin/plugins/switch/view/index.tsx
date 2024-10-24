@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback, useEffect } from 'react';
 import * as Icons from '@milesight/shared/src/components/icons';
 
 import { useI18n } from '@milesight/shared/src/hooks';
@@ -25,6 +25,22 @@ const View = (props: ViewProps) => {
 
     const { getIntlText } = useI18n();
     const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+    /**
+     * 获取所选实体的状态
+     */
+    useEffect(() => {
+        if (entity) {
+            // dashboardAPI.getPropertyEntity({
+            //     entity_id: entity,
+            // }).then(awaitWrap).then(data => {
+            //     if (isRequestSuccess(data)) {
+            //         const { state } = getResponseData(data);
+            //         setIsSwitchOn(state);
+            //     }
+            // });
+        }
+    }, [entity]);
 
     /**
      * 切换 switch 状态时，

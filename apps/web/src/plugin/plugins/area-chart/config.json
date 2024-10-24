@@ -20,7 +20,7 @@
                     "componentProps": {
                         "size": "small",
                         "entityType": "property",
-                        "entityValueTypes": ["boolean"]
+                        "entityValueTypes": ["string", "number", "float"]
                     }
                 }
             ]

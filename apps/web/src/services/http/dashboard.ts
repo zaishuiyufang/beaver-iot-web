@@ -14,6 +14,8 @@ export interface EntityHistoryData {
 
 /** 实体数据 */
 export interface EntityData {
+    /** 实体 id */
+    entity_id: string;
     /** 设备名称 */
     device_name: string;
     /** 集成名称 */
