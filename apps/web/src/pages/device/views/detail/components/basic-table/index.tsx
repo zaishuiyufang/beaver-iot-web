@@ -7,9 +7,14 @@ import { type DeviceAPISchema } from '@/services/http';
 import EditDialog from './edit-dialog';
 
 interface Props {
+    /** 是否加载中 */
     loading?: boolean;
 
+    /** 设备详情 */
     data?: ObjectToCamelCase<DeviceAPISchema['getDetail']['response']>;
+
+    /** 编辑成功回调 */
+    onEditSuccess?: () => void;
 }
 
 export interface BasicTableInstance {
@@ -20,7 +25,10 @@ export interface BasicTableInstance {
 /**
  * 设备基本信息表格
  */
-const BasicTable = ({ data, loading }: Props, ref?: React.ForwardedRef<BasicTableInstance>) => {
+const BasicTable = (
+    { data, loading, onEditSuccess }: Props,
+    ref?: React.ForwardedRef<BasicTableInstance>,
+) => {
     const { getIntlText } = useI18n();
     const { getTimeFormat } = useTime();
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -90,13 +98,14 @@ const BasicTable = ({ data, loading }: Props, ref?: React.ForwardedRef<BasicTabl
         <div className="ms-com-device-basic">
             <Descriptions data={descList} loading={loading} />
             <EditDialog
-                open={dialogOpen}
+                visible={dialogOpen}
                 data={data}
                 onCancel={handleDialogClose}
                 onError={handleDialogClose}
                 onSuccess={() => {
                     // Todo: 刷新列表
                     handleDialogClose();
+                    onEditSuccess?.();
                 }}
             />
         </div>
