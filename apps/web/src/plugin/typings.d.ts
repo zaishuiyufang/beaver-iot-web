@@ -201,7 +201,7 @@ declare interface EntityOptionType {
     value: string | number;
     description: string;
     /** 源数据 */
-    rawData?: ConvertKeysToCamelCase<Omit<EntityData, 'entity_value_attribute'>> & {
+    rawData?: ObjectToCamelCase<Omit<EntityData, 'entity_value_attribute'>> & {
         entityValueAttribute: EntityValueAttributeType;
     };
 }

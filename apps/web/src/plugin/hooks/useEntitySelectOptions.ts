@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRequest } from 'ahooks';
 
-import { convertKeysToCamelCase } from '@milesight/shared/src/utils/tools';
+import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 // import {
 //     dashboardAPI,
 //     awaitWrap,
@@ -256,7 +256,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                     value: e.entity_id,
                     description: [e.device_name, e.integration_name].join(', '),
                     rawData: {
-                        ...convertKeysToCamelCase(e),
+                        ...objectToCamelCase(e),
                         entityValueAttribute,
                     },
                 };
