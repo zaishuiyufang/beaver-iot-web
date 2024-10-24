@@ -4,7 +4,7 @@ import * as Icons from '@milesight/shared/src/components/icons';
 import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
 
-// import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
+// import { entityAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
 
 import styles from './style.module.less';
 
@@ -31,7 +31,7 @@ const View = (props: ViewProps) => {
      */
     useEffect(() => {
         if (entity) {
-            // dashboardAPI.getPropertyEntity({
+            // entityAPI.getPropertyEntity({
             //     entity_id: entity,
             // }).then(awaitWrap).then(data => {
             //     if (isRequestSuccess(data)) {
@@ -53,7 +53,7 @@ const View = (props: ViewProps) => {
             // const needToUpdate = true;
             // if (!entity || !needToUpdate) return;
 
-            // dashboardAPI.updatePropertyEntity({
+            // entityAPI.updatePropertyEntity({
             //     entity_id: entity,
             //     exchange: {},
             // });

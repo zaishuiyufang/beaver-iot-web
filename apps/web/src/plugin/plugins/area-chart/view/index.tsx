@@ -3,8 +3,6 @@ import Chart from 'chart.js/auto'; // 引入 Chart.js
 
 import { useI18n } from '@milesight/shared/src/hooks';
 
-import type { EntityOptionType } from '@/plugin/components/entity-select';
-
 import styles from './style.module.less';
 
 export interface ViewProps {

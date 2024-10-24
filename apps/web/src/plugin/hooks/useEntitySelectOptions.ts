@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRequest } from 'ahooks';
-// import {
-//     dashboardAPI,
-//     awaitWrap,
-//     isRequestSuccess,
-//     getResponseData,
-//     type EntityData,
-// } from '@/services/http';
+// import { entityAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
 
 interface EntityOptionProps {
     /**
@@ -16,11 +10,11 @@ interface EntityOptionProps {
     /**
      * 实体数据值类型
      */
-    entityValueTypes: EntityValueType[];
+    entityValueTypes: EntityValueDataType[];
     /**
      * 实体属性访问类型
      */
-    accessMods: EntityAccessMod[];
+    accessMods: EntityAccessMode[];
 }
 
 function sleep(duration: number): Promise<void> {
@@ -65,8 +59,8 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                             busy: '1',
                         },
                     }),
-                    entity_value_type: 'boolean',
-                    access_mod: 'rw',
+                    entity_value_type: 'BOOLEAN',
+                    access_mod: 'RW',
                 },
                 {
                     entity_id: 2,
@@ -87,8 +81,8 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                             entertainment: '1',
                         },
                     }),
-                    entity_value_type: 'enum',
-                    access_mod: 'r',
+                    entity_value_type: 'BOOLEAN',
+                    access_mod: 'W',
                 },
                 {
                     entity_id: 3,
@@ -109,7 +103,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                             entertainment: '1',
                         },
                     }),
-                    entity_value_type: 'int',
+                    entity_value_type: 'FLOAT',
                     access_mod: 'r',
                 },
                 {
@@ -131,8 +125,8 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                             entertainment: '1',
                         },
                     }),
-                    entity_value_type: 'number',
-                    access_mod: 'r',
+                    entity_value_type: 'INT',
+                    access_mod: 'R',
                 },
                 {
                     entity_id: 6,
@@ -153,8 +147,8 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                             entertainment: '1',
                         },
                     }),
-                    entity_value_type: 'string',
-                    access_mod: 'r',
+                    entity_value_type: 'STRING',
+                    access_mod: 'R',
                 },
                 {
                     entity_id: 7,
@@ -175,8 +169,8 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                             entertainment: '1',
                         },
                     }),
-                    entity_value_type: 'boolean',
-                    access_mod: 'w',
+                    entity_value_type: 'BOOLEAN',
+                    access_mod: 'W',
                 },
                 {
                     entity_id: 8,
@@ -197,8 +191,8 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                             entertainment: '1',
                         },
                     }),
-                    entity_value_type: 'float',
-                    access_mod: 'r',
+                    entity_value_type: 'FLOAT',
+                    access_mod: 'R',
                 },
             ] as EntityData[];
         },
@@ -225,14 +219,14 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                  */
                 const isValidValueType =
                     !Array.isArray(entityValueTypes) ||
-                    entityValueTypes.includes(e.entity_value_type as EntityValueType);
+                    entityValueTypes.includes(e.entity_value_type as EntityValueDataType);
 
                 /**
                  * 过滤实体属性访问类型
                  */
                 const isValidAccessMod =
                     !Array.isArray(accessMods) ||
-                    accessMods.includes(e.access_mod as EntityAccessMod);
+                    accessMods.includes(e.access_mod as EntityAccessMode);
 
                 return isValidValueType && isValidAccessMod;
             })

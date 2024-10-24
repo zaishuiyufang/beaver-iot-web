@@ -86,6 +86,17 @@ export interface EntityAPISchema extends APISchema {
         // TODO: 待补充
         response: unknown;
     };
+
+    /** 获取实体当前数据 */
+    getEntityStatus: {
+        request: {
+            id: ApiKey;
+        };
+        response: {
+            value: any;
+            updated_at: number;
+        };
+    };
 }
 
 /**
@@ -99,5 +110,6 @@ export default attachAPI<EntityAPISchema>(client, {
         getApiDoc: `POST ${API_PREFIX}/entity/form`,
         updateProperty: `POST ${API_PREFIX}/entity/property/update`,
         callService: `POST ${API_PREFIX}/entity/service/call`,
+        getEntityStatus: `GET ${API_PREFIX}/entity/:id/status`,
     },
 });
