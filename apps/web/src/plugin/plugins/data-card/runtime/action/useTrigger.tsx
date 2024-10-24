@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import useDataViewStore from '../store';
 import type { ViewConfigProps } from '../../typings';
 
 interface IProps {
@@ -10,15 +9,14 @@ export const useTrigger = ({ onChange }: IProps) => {
 
     const handleChange = (value: ViewConfigProps) => {
         const { entity } = value || {};
-        const entityValue = entity?.value;
+        const { value: entityValue, rawData } = entity || {};
+        const prevEntityValue = prevStateRef.current?.entity?.value;
 
         // 如果实体变化时，更新title为当前选中实体名称
-        if (prevStateRef.current?.entity?.value !== entityValue) {
+        if (prevEntityValue !== entityValue) {
             // 当前选中实体
-            const { entityMap } = useDataViewStore.getState();
-            const currentEntity = entityMap?.[entityValue];
-
-            value.title = currentEntity?.entityName;
+            const { entityName } = rawData || {};
+            entityName && (value.title = entityName);
         }
 
         prevStateRef.current = value;

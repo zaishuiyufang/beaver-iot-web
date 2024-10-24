@@ -194,6 +194,28 @@ declare interface CustomComponentProps {
 }
 
 /**
+ * 实体属性类型
+ */
+declare interface EntityValueAttributeType {
+    /** 单位 */
+    unit: string;
+    /** 最大值 */
+    max: number;
+    /** 最小值 */
+    min: number;
+    /** 最大长度 */
+    max_length: number;
+    /** 最小长度 */
+    min_length: number;
+    /** 枚举 */
+    enum: Record<string, string>;
+    /** 格式 */
+    format: string;
+    /** 精度 */
+    fraction_digits: number;
+}
+
+/**
  * 实体下拉框类型
  */
 declare interface EntityOptionType {
@@ -201,7 +223,9 @@ declare interface EntityOptionType {
     value: string | number;
     description: string;
     /** 源数据 */
-    rawData?: EntityData;
+    rawData?: ConvertKeysToCamelCase<Omit<EntityData, 'entity_value_attribute'>> & {
+        entityValueAttribute: EntityValueAttributeType;
+    };
 }
 
 /**
