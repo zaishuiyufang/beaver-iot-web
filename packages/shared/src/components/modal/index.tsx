@@ -1,6 +1,15 @@
-import { Fragment, useMemo } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { useMemo, useState } from 'react';
+import { useMemoizedFn } from 'ahooks';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    type DialogProps,
+} from '@mui/material';
 import useI18n from '../../hooks/useI18n';
+import LoadingButton from '../loading-button';
 import './style.less';
 
 export interface ModalProps {
@@ -33,14 +42,29 @@ export interface ModalProps {
      */
     size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     /**
+     * 是否禁止点击遮罩层关闭弹框
+     */
+    disabledBackdropClose?: boolean;
+    /**
      * 弹框内容
      */
     children?: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = props => {
+const Modal: React.FC<ModalProps> = ({
+    size,
+    title,
+    width,
+    visible,
+    onOkText,
+    onCancelText,
+    disabledBackdropClose = true,
+    onOk,
+    onCancel,
+    children,
+}) => {
     const { getIntlText } = useI18n();
-    const { onOk, onCancel, onCancelText, onOkText, title, width, size, visible, children } = props;
+    const [loading, setLoading] = useState<boolean>();
 
     const ModalWidth = useMemo(() => {
         if (width) {
@@ -65,19 +89,23 @@ const Modal: React.FC<ModalProps> = props => {
         return '450px';
     }, [width, size]);
 
-    const handleClose = () => {
+    const handleClose = useMemoizedFn<NonNullable<DialogProps['onClose']>>((_, reason) => {
+        if (disabledBackdropClose && reason === 'backdropClick') return;
         onCancel();
-    };
+    });
 
-    const handleOk = () => {
-        onOk();
-    };
+    const handleOk = useMemoizedFn(async () => {
+        setLoading(true);
+        await onOk();
+        setLoading(false);
+    });
 
     return (
         <Dialog
-            onClose={handleClose}
             aria-labelledby="customized-dialog-title"
-            open={visible !== undefined ? visible : true}
+            className="ms-modal-root"
+            open={!!visible}
+            onClose={handleClose}
             sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}
         >
             {!!title && (
@@ -86,13 +114,23 @@ const Modal: React.FC<ModalProps> = props => {
                 </DialogTitle>
             )}
             <DialogContent>{children}</DialogContent>
-            <DialogActions className="modal-footer">
-                <Button variant="outlined" onClick={handleClose}>
+            <DialogActions className="ms-modal-footer">
+                <Button
+                    variant="outlined"
+                    disabled={loading}
+                    onClick={onCancel}
+                    sx={{ mr: 1, '&:last-child': { mr: 0 } }}
+                >
                     {onCancelText || getIntlText('common.button.cancel')}
                 </Button>
-                <Button variant="contained" onClick={handleOk} className="modal-button">
+                <LoadingButton
+                    variant="contained"
+                    className="ms-modal-button"
+                    loading={loading}
+                    onClick={handleOk}
+                >
                     {onOkText || getIntlText('common.button.confirm')}
-                </Button>
+                </LoadingButton>
             </DialogActions>
         </Dialog>
     );
