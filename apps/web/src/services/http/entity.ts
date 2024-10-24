@@ -38,12 +38,7 @@ export interface EntityAPISchema extends APISchema {
             aggregate_type: string;
         };
         // TODO: 待补充
-        response: SearchResponseType<{
-            history_data: {
-                value: unknown;
-                timestamp: number;
-            }[];
-        }>;
+        response: SearchResponseType<EntityHistoryData[]>;
     };
 
     /** 获取元数据 */

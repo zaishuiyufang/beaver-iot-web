@@ -13,7 +13,7 @@ type EntitySelectProps = AutocompleteProps<EntityOptionType, true, false, undefi
  * 实体选择下拉框组件（多选）
  */
 const MultiEntitySelect = (props: EntitySelectProps) => {
-    const { onChange, entityType, entityValueTypes, accessMods, ...restProps } = props;
+    const { value, onChange, entityType, entityValueTypes, accessMods, ...restProps } = props;
 
     /**
      * 动态从服务器获取 options
@@ -51,6 +51,17 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
             multiple
             onChange={(_, option) => onChange(option)}
             options={options}
+            getOptionDisabled={option => {
+                const currentValue = value || [];
+                /**
+                 * 实体最多只能选择 5 个
+                 */
+                if (currentValue.length < 5) {
+                    return false;
+                }
+
+                return currentValue.every(e => e.value !== option.value);
+            }}
             renderInput={params => <TextField {...params} label="Entity" placeholder="Favorites" />}
             renderOption={renderOption}
             getOptionLabel={option => option?.label || ''}

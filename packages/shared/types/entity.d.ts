@@ -82,3 +82,11 @@ declare interface EntityData {
     /** 实体属性访问类型 */
     access_mod: EntityAccessMode;
 }
+
+/**
+ * 实体历史数据
+ */
+declare interface EntityHistoryData {
+    value: any[];
+    timestamp: number[];
+}
