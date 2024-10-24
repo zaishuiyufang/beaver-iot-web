@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTime } from '@milesight/shared/src/hooks';
 
 export interface UseBasicChartEntityProps {
     entity?: EntityOptionType[];
@@ -46,6 +47,8 @@ export interface ChartShowDataProps {
 export function useBasicChartEntity(props: UseBasicChartEntityProps) {
     const { entity, time } = props;
 
+    const { getTimeFormat } = useTime();
+
     /**
      * 图表所需展示的数据
      */
@@ -53,7 +56,7 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
     /**
      * 图表 X 轴 label
      */
-    const [chartLabels, setChartLabels] = useState<string[]>([]);
+    const [chartLabels, setChartLabels] = useState<number[]>([]);
 
     useEffect(() => {
         /**
@@ -65,8 +68,7 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
                     .reduce((a: number[], c) => {
                         return [...new Set([...a, ...c.timestamp])];
                     }, [])
-                    .sort((a, b) => a - b)
-                    .map(String);
+                    .sort((a, b) => a - b);
                 setChartLabels(newChartLabels);
 
                 const newChartShowData: ChartShowDataProps[] = [];
@@ -81,7 +83,7 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
                      * 根据时间戳判断当前实体在该时间段是否有数据
                      */
                     const chartData = newChartLabels.map(l => {
-                        const valueIndex = r.timestamp.findIndex(t => String(t) === l);
+                        const valueIndex = r.timestamp.findIndex(t => t === l);
                         if (valueIndex !== -1) {
                             return r.value[valueIndex];
                         }
@@ -116,7 +118,7 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
         /**
          * 图表所需展示的数据
          */
-        chartLabels,
+        chartLabels: chartLabels.map(l => getTimeFormat(l)),
         /**
          * 图表所需展示的数据
          */
