@@ -15,7 +15,6 @@ const IconSelect = (props: any) => {
     const IconTag = value ? (Icons as any)[value] : null;
 
     const handleColorChange = (value?: string | number) => {
-        console.log(onChange, value);
         onChange(value);
         handleClose();
     };

@@ -74,7 +74,6 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             } else {
                                 defaultValues[component.key] = value;
                             }
-                            console.log(component.key, value);
                             return (
                                 <Component
                                     {...restItem}
