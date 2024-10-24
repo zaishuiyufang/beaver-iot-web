@@ -548,7 +548,7 @@ export const convertKeysToCamelCase = <T extends Record<string, any>>(target: T)
 };
 
 /**
- * 将对象的所有属性名转换为驼峰命名法
+ * 将对象的所有属性名转换为指定命名法
  * @param obj 要转换的对象
  * @param keyConverter 转换属性名的函数
  * @returns 转换为驼峰命名法后的对象
