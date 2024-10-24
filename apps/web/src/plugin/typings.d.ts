@@ -38,6 +38,10 @@ declare interface ComponentProps {
      */
     title?: string;
     /**
+     * 值类型，没有填默认string
+     */
+    valueType?: 'string' | 'number' | 'boolean' | 'array' | Record<string, any>;
+    /**
      * 默认值
      */
     defaultValue?: string | number | boolean | Array<string | number>;

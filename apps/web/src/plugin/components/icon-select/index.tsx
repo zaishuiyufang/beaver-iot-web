@@ -15,6 +15,7 @@ const IconSelect = (props: any) => {
     const IconTag = value ? (Icons as any)[value] : null;
 
     const handleColorChange = (value?: string | number) => {
+        console.log(onChange, value);
         onChange(value);
         handleClose();
     };
@@ -25,7 +26,6 @@ const IconSelect = (props: any) => {
             value: key,
         };
     });
-
     return (
         <Select
             {...rest}
@@ -34,12 +34,17 @@ const IconSelect = (props: any) => {
             open={open}
             value={value}
             className="icon-select"
-            renderValue={() => (
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>{IconTag && <IconTag />}</Box>
-            )}
+            renderValue={() => {
+                console.log(IconTag);
+                return (
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        {IconTag && <IconTag />}
+                    </Box>
+                );
+            }}
             renderOptions={() => {
                 return (
-                    <MenuItem onClick={handleOpen} className="icon-select-menu">
+                    <MenuItem onClick={handleOpen} className="icon-select-menu" value="icon">
                         <IconList
                             onChange={handleColorChange}
                             options={options}
