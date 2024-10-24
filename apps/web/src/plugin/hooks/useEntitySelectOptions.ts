@@ -40,45 +40,64 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
             return [
                 {
                     entity_id: 1,
-                    entity_name: `entity name ${keyword || ''}`,
-                    device_name: 'Device name',
-                    integration_name: 'Integration name',
+                    device_name: '设备1',
+                    integration_name: '云生态',
+                    entity_key: 'key1',
+                    entity_name: '选项1',
+                    entity_value_attribute: JSON.stringify({
+                        displayType: '',
+                        unit: '',
+                        max: 10,
+                        min: 1,
+                        format: '',
+                        coefficient: 1,
+                        enum: {
+                            busy: '1',
+                        },
+                    }),
                     entity_value_type: 'boolean',
                 },
                 {
                     entity_id: 2,
-                    entity_name: `entity name 2`,
-                    device_name: 'Device name 2',
-                    integration_name: 'Integration name 2',
-                    entity_value_type: 'string',
+                    device_name: '设备2',
+                    integration_name: '云生态',
+                    entity_key: 'key2',
+                    entity_name: '选项2',
+                    entity_value_attribute: JSON.stringify({
+                        displayType: '',
+                        unit: '',
+                        max: 10,
+                        min: 1,
+                        format: '',
+                        coefficient: 1,
+                        enum: {
+                            free: '1',
+                            busy: '1',
+                            entertainment: '1',
+                        },
+                    }),
+                    entity_value_type: 'enum',
                 },
                 {
                     entity_id: 3,
-                    entity_name: `entity name 3`,
-                    device_name: 'Device name 3',
-                    integration_name: 'Integration name 3',
-                    entity_value_type: 'number',
-                },
-                {
-                    entity_id: 5,
-                    entity_name: `entity name 5`,
-                    device_name: 'Device name 5',
-                    integration_name: 'Integration name 5',
-                    entity_value_type: 'float',
-                },
-                {
-                    entity_id: 6,
-                    entity_name: `entity name 6`,
-                    device_name: 'Device name 6',
-                    integration_name: 'Integration name 6',
-                    entity_value_type: 'boolean',
-                },
-                {
-                    entity_id: 7,
-                    entity_name: `entity name 7`,
-                    device_name: 'Device name 7',
-                    integration_name: 'Integration name 7',
-                    entity_value_type: 'boolean',
+                    device_name: '设备3',
+                    integration_name: '云生态',
+                    entity_key: 'key3',
+                    entity_name: '选项3',
+                    entity_value_attribute: JSON.stringify({
+                        displayType: '',
+                        unit: '%',
+                        max: 10,
+                        min: 1,
+                        format: '',
+                        coefficient: 1,
+                        enum: {
+                            busy: '1',
+                            free: '1',
+                            entertainment: '1',
+                        },
+                    }),
+                    entity_value_type: 'int',
                 },
             ];
         },
@@ -108,10 +127,12 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
             })
             .map(e => {
                 return {
-                    ...e,
                     label: e.entity_name,
                     value: e.entity_id,
                     description: [e.device_name, e.integration_name].join(', '),
+                    rawData: {
+                        ...e,
+                    },
                 };
             });
 

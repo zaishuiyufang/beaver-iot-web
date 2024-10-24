@@ -200,7 +200,23 @@ declare interface EntityOptionType {
     label: string;
     value: string | number;
     description: string;
-    [key: string]: any;
+    /** 源数据 */
+    rawData?: {
+        /** 实体 id */
+        entity_id: ApiKey;
+        /** 设备名称 */
+        device_name: string;
+        /** 集成名称 */
+        integration_name: string;
+        /** 实体key */
+        entity_key: string;
+        /** 实体名称 */
+        entity_name: string;
+        /** 实体值属性 */
+        entity_value_attribute: string;
+        /** 实体值类型 */
+        entity_value_type: string;
+    };
 }
 
 /**
