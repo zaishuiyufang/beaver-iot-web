@@ -34,7 +34,6 @@ const IconSelect = (props: any) => {
             value={value}
             className="icon-select"
             renderValue={() => {
-                console.log(IconTag);
                 return (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {IconTag && <IconTag />}

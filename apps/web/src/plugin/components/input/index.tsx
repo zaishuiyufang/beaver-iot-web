@@ -13,9 +13,6 @@ const Input = (props: InputType) => {
                     ...(sx as any),
                 },
             }}
-            InputLabelProps={{
-                shrink: !!rest.value, // 当 value 不为空时，强制收缩标签
-            }}
         />
     );
 };
