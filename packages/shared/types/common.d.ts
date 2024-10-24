@@ -91,15 +91,56 @@ declare type RequiredOptional<T, K extends keyof T> = Omit<T, K> & {
 
 /**
  * 将下划线转为驼峰命名
+ * @deprecated
  */
 declare type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}`
     ? `${T}${Capitalize<SnakeToCamelCase<U>>}`
     : S;
 /**
  * 递归将对象中的所有属性名从下划线命名转换为驼峰命名
+ * @deprecated
  */
 declare type ConvertKeysToCamelCase<T> = {
     [K in keyof T as SnakeToCamelCase<Extract<K, string>>]: T[K] extends object
         ? ConvertKeysToCamelCase<T[K]>
         : T[K];
 };
+
+/**
+ * 将字符串类型从下划线/中划线命名转换为驼峰命名
+ */
+declare type ToCamelCase<S extends string | number | symbol> = S extends string
+    ? S extends `${infer Head}_${infer Tail}`
+        ? `${ToCamelCase<Uncapitalize<Head>>}${Capitalize<ToCamelCase<Tail>>}`
+        : S extends `${infer Head}-${infer Tail}`
+          ? `${ToCamelCase<Uncapitalize<Head>>}${Capitalize<ToCamelCase<Tail>>}`
+          : Uncapitalize<S>
+    : never;
+
+/**
+ * 递归将对象中的所有属性名从下划线命名转换为驼峰命名
+ */
+declare type ObjectToCamelCase<T extends object | undefined | null> = T extends undefined
+    ? undefined
+    : T extends null
+      ? null
+      : T extends Array<infer ArrayType>
+        ? ArrayType extends object
+            ? Array<ObjectToCamelCase<ArrayType>>
+            : Array<ArrayType>
+        : T extends Uint8Array
+          ? Uint8Array
+          : T extends Date
+            ? Date
+            : {
+                  [K in keyof T as ToCamelCase<K>]: T[K] extends
+                      | Array<infer ArrayType>
+                      | undefined
+                      | null
+                      ? ArrayType extends object
+                          ? Array<ObjectToCamelCase<ArrayType>>
+                          : Array<ArrayType>
+                      : T[K] extends object | undefined | null
+                        ? ObjectToCamelCase<T[K]>
+                        : T[K];
+              };
