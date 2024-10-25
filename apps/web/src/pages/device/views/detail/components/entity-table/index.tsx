@@ -32,12 +32,14 @@ const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
                 headerName: getIntlText('device.label.param_device_name'),
                 flex: 1,
                 minWidth: 150,
+                ellipsis: true,
             },
             {
                 field: 'id',
                 headerName: getIntlText('device.label.param_external_id'),
                 flex: 1,
                 minWidth: 150,
+                ellipsis: true,
             },
             {
                 field: 'type',
@@ -50,7 +52,7 @@ const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
                             size="small"
                             color={entityTypeColorMap[(value || '').toLocaleLowerCase()]}
                             label={value}
-                            sx={{ borderRadius: 1 }}
+                            sx={{ borderRadius: 1, lineHeight: '24px' }}
                         />
                     );
                 },
@@ -62,6 +64,7 @@ const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
                 headerAlign: 'left',
                 flex: 1,
                 minWidth: 150,
+                ellipsis: true,
             },
         ];
 
