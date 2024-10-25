@@ -4,8 +4,7 @@ export const useDynamic = () => {
     /**
      * 动态生成的每一项表单
      */
-    const generateFormItem = (title: string, index: number) => {
-        // TODO 根据entityData渲染配置
+    const generateFormItem = (title: string, index: string) => {
         return {
             $$type: 'dynamic',
             title,
@@ -40,13 +39,17 @@ export const useDynamic = () => {
      * 生成动态configure逻辑
      */
     const dynamicConfigure = (currentEntity: Required<EntityOptionType>['rawData']) => {
-        const { entityValueAttribute } = currentEntity || {};
-        if (!entityValueAttribute) return [generateFormItem(`Appearance`, 0)];
+        const { entityValueAttribute, entityId } = currentEntity || {};
+        const { enum: enumStruct } = entityValueAttribute || {};
 
-        const { enum: enumData } = entityValueAttribute || {};
-        return Object.keys(enumData || {}).map((key, index) =>
-            generateFormItem(`Appearance of ${key}`, index),
-        );
+        // 非枚举类型
+        if (!enumStruct) return [generateFormItem(`Appearance`, entityId?.toString())];
+
+        // 枚举类型
+        return Object.keys(enumStruct || {}).map(enumKey => {
+            const enumValue = enumStruct[enumKey];
+            return generateFormItem(`Appearance of ${enumValue}`, enumKey);
+        });
     };
 
     /** 动态渲染表单 */

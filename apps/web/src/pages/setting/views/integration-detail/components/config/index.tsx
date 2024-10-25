@@ -76,7 +76,10 @@ const Config = () => {
                 <div className="ms-int-service__body">
                     <div className="ms-service-card">
                         <div className="ms-service-card__header">
-                            <Switch onChange={(_, checked) => setWebhookEnabled(checked)} />
+                            <Switch
+                                size="small"
+                                onChange={(_, checked) => setWebhookEnabled(checked)}
+                            />
                             <span className="title">{getIntlText('common.label.webhook')}</span>
                             <Tooltip
                                 title={getIntlText('setting.integration.webhook_helper_text')}
@@ -127,7 +130,10 @@ const Config = () => {
                     </div>
                     <div className="ms-service-card">
                         <div className="ms-service-card__header">
-                            <Switch onChange={(_, checked) => setOpenApiEnabled(checked)} />
+                            <Switch
+                                size="small"
+                                onChange={(_, checked) => setOpenApiEnabled(checked)}
+                            />
                             <span className="title">{getIntlText('common.label.openapi')}</span>
                             <Tooltip
                                 title={getIntlText('setting.integration.openapi_helper_text')}

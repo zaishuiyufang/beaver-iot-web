@@ -1,1 +1,1 @@
-export { default as useColumns, type UseColumnsProps } from './useColumns';
+export { default as useColumns, type UseColumnsProps, type TableRowDataType } from './useColumns';

@@ -9,7 +9,7 @@ import {
     TextField,
     LinearProgress,
 } from '@mui/material';
-import LoadingButton from '../loading-button';
+import { LoadingButton } from '@milesight/shared/src/components';
 import { DialogProps } from './types';
 import { defaultGlobalOptions } from './default-options';
 

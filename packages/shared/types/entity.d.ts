@@ -12,12 +12,23 @@ declare type EntityAccessMode = 'R' | 'W' | 'RW';
  * @param property 属性
  * @param event 事件
  */
-declare type EntityType = 'service' | 'property' | 'event';
+declare type EntityType = 'SERVICE' | 'PROPERTY' | 'EVENT';
 
 /**
  * 物模型属性数据类型
  */
 declare type EntityValueDataType = 'STRING' | 'INT' | 'FLOAT' | 'BOOLEAN' | 'BINARY' | 'OBJECT';
+
+/**
+ * 数据聚合类型
+ * @param LAST 最新一条
+ * @param MIN 最小值
+ * @param MAX 最大值
+ * @param AVG 平均值
+ * @param SUM 累计值
+ * @param COUNT 统计条数
+ */
+declare type DataAggregateType = 'LAST' | 'MIN' | 'MAX' | 'AVG' | 'SUM' | 'COUNT';
 
 /**
  * 实体数据模型
@@ -61,6 +72,26 @@ declare interface EntitySchema {
 
     /** 更新时间 */
     update_at: number;
+}
+
+/** 实体属性类型 */
+declare interface EntityValueAttributeType {
+    /** 单位 */
+    unit: string;
+    /** 最大值 */
+    max: number;
+    /** 最小值 */
+    min: number;
+    /** 最大长度 */
+    max_length: number;
+    /** 最小长度 */
+    min_length: number;
+    /** 枚举 */
+    enum: Record<string, string>;
+    /** 格式 */
+    format: string;
+    /** 精度 */
+    fraction_digits: number;
 }
 
 /** 实体数据 */

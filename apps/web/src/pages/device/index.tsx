@@ -3,36 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
 import { useRequest } from 'ahooks';
 import { useI18n } from '@milesight/shared/src/hooks';
+import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { AddIcon, DeleteOutlineIcon, toast } from '@milesight/shared/src/components';
 import { Breadcrumbs, TablePro, useConfirm } from '@/components';
-import {
-    deviceAPI,
-    awaitWrap,
-    getResponseData,
-    isRequestSuccess,
-    type DeviceDetail,
-} from '@/services/http';
-import { useColumns, type UseColumnsProps } from './hooks';
+import { deviceAPI, awaitWrap, getResponseData, isRequestSuccess } from '@/services/http';
+import { useColumns, type UseColumnsProps, type TableRowDataType } from './hooks';
 import { AddModal } from './components';
 import './style.less';
-
-const mockList = (() => {
-    const data = {
-        id: 1,
-        name: 'AM308',
-        createTime: 1727058769161,
-        source: 'Milesight Development Platform',
-    };
-
-    return new Array(100).fill({ ...data }).map((item, index) => {
-        return {
-            ...item,
-            id: `${item.id}-${index}`,
-            name: `${item.name}-${index}`,
-            deletable: index % 5,
-        };
-    });
-})();
 
 export default () => {
     const navigate = useNavigate();
@@ -49,27 +26,19 @@ export default () => {
     } = useRequest(
         async () => {
             const { page, pageSize } = paginationModel;
-            // TODO: $ignoreError 为临时处理，待接口正常返回数据后删除
             const [error, resp] = await awaitWrap(
-                deviceAPI.getList(
-                    {
-                        name: keyword,
-                        page_size: pageSize,
-                        page_number: page + 1,
-                    },
-                    { $ignoreError: true },
-                ),
+                deviceAPI.getList({
+                    name: keyword,
+                    page_size: pageSize,
+                    page_number: page + 1,
+                }),
             );
-
-            console.log({ error, resp });
-            // TODO: 以下为临时处理，待接口正常返回数据后删除
-            // if (error || !isRequestSuccess(resp)) return;
             const data = getResponseData(resp);
 
-            return (data || {
-                total: mockList.length,
-                content: mockList.slice(page * pageSize, (page + 1) * pageSize),
-            }) as typeof data;
+            console.log({ error, resp });
+            if (error || !data || !isRequestSuccess(resp)) return;
+
+            return objectToCamelCase(data);
         },
         {
             debounceWait: 300,
@@ -138,7 +107,7 @@ export default () => {
         );
     }, [getIntlText, handleDeleteConfirm, selectedIds]);
 
-    const handleTableBtnClick: UseColumnsProps<DeviceDetail>['onButtonClick'] = useCallback(
+    const handleTableBtnClick: UseColumnsProps<TableRowDataType>['onButtonClick'] = useCallback(
         (type, record) => {
             console.log(type, record);
             switch (type) {
@@ -158,14 +127,14 @@ export default () => {
         },
         [navigate],
     );
-    const columns = useColumns<DeviceDetail>({ onButtonClick: handleTableBtnClick });
+    const columns = useColumns<TableRowDataType>({ onButtonClick: handleTableBtnClick });
 
     return (
         <div className="ms-main">
             <Breadcrumbs />
             <div className="ms-view ms-view-device">
                 <div className="ms-view__inner">
-                    <TablePro<DeviceDetail>
+                    <TablePro<TableRowDataType>
                         checkboxSelection
                         loading={loading}
                         columns={columns}
