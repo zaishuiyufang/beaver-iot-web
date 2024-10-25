@@ -20,7 +20,7 @@
                     "valueType": "array",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "property",
+                        "entityType": "PROPERTY",
                         "entityValueTypes": ["STRING", "INT", "FLOAT"],
                         "accessMods": ["R"]
                     }

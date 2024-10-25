@@ -18,7 +18,7 @@
                     "style": "width: 100%",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "property"
+                        "entityType": "PROPERTY"
                     }
                 }
             ]

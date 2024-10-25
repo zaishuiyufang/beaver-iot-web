@@ -12,7 +12,7 @@ declare type EntityAccessMode = 'R' | 'W' | 'RW';
  * @param property 属性
  * @param event 事件
  */
-declare type EntityType = 'service' | 'property' | 'event';
+declare type EntityType = 'SERVICE' | 'PROPERTY' | 'EVENT';
 
 /**
  * 物模型属性数据类型

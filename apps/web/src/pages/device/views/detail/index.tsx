@@ -21,11 +21,11 @@ const mockEntityList = (() => {
         id: 'sensor.am308.temperature',
         key: 'sensor.am308.temperature',
         name: 'AM308',
-        type: 'event',
+        type: 'EVENT',
         value_type: 'INT',
         value_attribute: {},
     };
-    const types = ['event', 'service', 'property'];
+    const types = ['EVENT', 'SERVICE', 'PROPERTY'];
     const dataTypes = ['STRING', 'BOOLEAN', 'INT', 'FLOAT', 'DOUBLE'] as const;
 
     return new Array(100).fill({ ...data }).map((item, index) => {

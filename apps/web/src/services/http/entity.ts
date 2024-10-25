@@ -9,20 +9,7 @@ export interface EntityAPISchema extends APISchema {
             /** 实体类型 */
             entity_type?: EntitySchema['type'];
         };
-        response: SearchResponseType<{
-            /** 设备名称 */
-            device_name: string;
-            /** 集成名称 */
-            integration_name: string;
-            /** 实体 Key */
-            entity_key: ApiKey;
-            /** 实体名称 */
-            entity_name: string;
-            /** 实体值属性 JSON 字符串 */
-            entity_value_attribute: string;
-            /** 实体值数据类型 */
-            entity_value_type: EntityValueDataType;
-        }>;
+        response: SearchResponseType<EntityData[]>;
     };
 
     /** 获取实体数据 */

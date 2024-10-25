@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRequest } from 'ahooks';
 
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
+import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
 // import {
 //     dashboardAPI,
 //     awaitWrap,
@@ -52,165 +53,16 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
 
     const { run: getEntityOptions, data: entityOptions } = useRequest(
         async (keyword?: string) => {
-            setLoading(true);
-            setOptions([]);
+            const [error, resp] = await awaitWrap(
+                entityAPI.getList({
+                    keyword,
+                    entity_type: entityType,
+                }),
+            );
+            if (error || !isRequestSuccess(resp)) return;
 
-            await sleep(1500);
-
-            return [
-                {
-                    entity_id: 1,
-                    device_name: '设备1',
-                    integration_name: '云生态',
-                    entity_key: 'key1',
-                    entity_name: '选项1',
-                    entity_value_attribute: JSON.stringify({
-                        displayType: '',
-                        unit: '',
-                        max: 10,
-                        min: 1,
-                        format: '',
-                        coefficient: 1,
-                        enum: {
-                            busy: '1',
-                        },
-                    }),
-                    entity_value_type: 'BOOLEAN',
-                    access_mod: 'RW',
-                },
-                {
-                    entity_id: 2,
-                    device_name: '设备2',
-                    integration_name: '云生态',
-                    entity_key: 'key2',
-                    entity_name: '选项2',
-                    entity_value_attribute: JSON.stringify({
-                        displayType: '',
-                        unit: '',
-                        max: 10,
-                        min: 1,
-                        format: '',
-                        coefficient: 1,
-                        enum: {
-                            free: '1',
-                            busy: '1',
-                            entertainment: '1',
-                        },
-                    }),
-                    entity_value_type: 'BOOLEAN',
-                    access_mod: 'W',
-                },
-                {
-                    entity_id: 3,
-                    device_name: '设备3',
-                    integration_name: '云生态',
-                    entity_key: 'key3',
-                    entity_name: '选项3',
-                    entity_value_attribute: JSON.stringify({
-                        displayType: '',
-                        unit: '%',
-                        max: 10,
-                        min: 1,
-                        format: '',
-                        coefficient: 1,
-                        enum: {
-                            busy: '1',
-                            free: '1',
-                            entertainment: '1',
-                        },
-                    }),
-                    entity_value_type: 'FLOAT',
-                    access_mod: 'r',
-                },
-                {
-                    entity_id: 5,
-                    device_name: '设备 5',
-                    integration_name: '云生态',
-                    entity_key: 'key5',
-                    entity_name: '选项5',
-                    entity_value_attribute: JSON.stringify({
-                        displayType: '',
-                        unit: '%',
-                        max: 10,
-                        min: 1,
-                        format: '',
-                        coefficient: 1,
-                        enum: {
-                            busy: '1',
-                            free: '1',
-                            entertainment: '1',
-                        },
-                    }),
-                    entity_value_type: 'INT',
-                    access_mod: 'R',
-                },
-                {
-                    entity_id: 6,
-                    device_name: '设备6',
-                    integration_name: '云生态',
-                    entity_key: 'key6',
-                    entity_name: '选项6',
-                    entity_value_attribute: JSON.stringify({
-                        displayType: '',
-                        unit: '%',
-                        max: 10,
-                        min: 1,
-                        format: '',
-                        coefficient: 1,
-                        enum: {
-                            busy: '1',
-                            free: '1',
-                            entertainment: '1',
-                        },
-                    }),
-                    entity_value_type: 'STRING',
-                    access_mod: 'R',
-                },
-                {
-                    entity_id: 7,
-                    device_name: '设备7',
-                    integration_name: '云生态',
-                    entity_key: 'key7',
-                    entity_name: '选项7',
-                    entity_value_attribute: JSON.stringify({
-                        displayType: '',
-                        unit: '%',
-                        max: 10,
-                        min: 1,
-                        format: '',
-                        coefficient: 1,
-                        enum: {
-                            busy: '1',
-                            free: '1',
-                            entertainment: '1',
-                        },
-                    }),
-                    entity_value_type: 'BOOLEAN',
-                    access_mod: 'W',
-                },
-                {
-                    entity_id: 8,
-                    device_name: '设备8',
-                    integration_name: '云生态',
-                    entity_key: 'key8',
-                    entity_name: '选项8',
-                    entity_value_attribute: JSON.stringify({
-                        displayType: '',
-                        unit: '%',
-                        max: 10,
-                        min: 1,
-                        format: '',
-                        coefficient: 1,
-                        enum: {
-                            busy: '1',
-                            free: '1',
-                            entertainment: '1',
-                        },
-                    }),
-                    entity_value_type: 'FLOAT',
-                    access_mod: 'R',
-                },
-            ] as EntityData[];
+            const data = getResponseData(resp)!;
+            return data?.content || [];
         },
         {
             manual: true,
