@@ -19,9 +19,7 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY",
-                        "entityValueTypes": ["int", "float", "double"],
-                        "accessMods": ["r"]
+                        "entityType": "PROPERTY"
                     }
                 }
             ]
@@ -57,33 +55,14 @@
             },
             "components": [
                 {
-                    "type": "select",
+                    "type": "ChartTimeSelect",
                     "title": "Time",
                     "key": "time",
                     "style": "width: 100%;",
-                    "getDataUrl": "",
                     "componentProps": {
                         "size": "small"
                     },
-                    "defaultValue": "1440",
-                    "options": [
-                        {
-                            "label": "Nearly 3 hours",
-                            "value": "180"
-                        },
-                        {
-                            "label": "Nearly 6 hours",
-                            "value": "360"
-                        },
-                        {
-                            "label": "Nearly 12 hours",
-                            "value": "720"
-                        },
-                        {
-                            "label": "Nearly one days",
-                            "value": "1440"
-                        }
-                    ]
+                    "defaultValue": 86400000
                 }
             ]
         },
@@ -102,8 +81,7 @@
                     "style": "width: 100%;",
                     "componentProps": {
                         "size": "small"
-                    },
-                    "defaultValue": "latest"
+                    }
                 }
             ]
         },

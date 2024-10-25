@@ -20,9 +20,8 @@ const View = (props: Props) => {
             const { value } = entity || {};
 
             const [error, resp] = await awaitWrap(entityAPI.getEntityStatus({ id: value }));
-            if (error) return;
-
             if (error || !isRequestSuccess(resp)) return;
+
             return getResponseData(resp)?.value;
         },
         { refreshDeps: [entity] },

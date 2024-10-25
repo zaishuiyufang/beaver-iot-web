@@ -1,16 +1,48 @@
 import { useEffect, useRef } from 'react';
+import { useRequest } from 'ahooks';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 import { useI18n } from '@milesight/shared/src/hooks';
+import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
+import { ViewConfigProps } from '../typings';
 import './style.less';
 
 interface IProps {
-    config: any;
+    config: ViewConfigProps;
 }
 const View = (props: IProps) => {
     const { config } = props;
-    const { entity, title } = config || {};
+    const { entityList, title, metrics, time } = config || {};
     const { getIntlText } = useI18n();
     const chartRef = useRef<HTMLCanvasElement>(null);
+
+    const { data: aggregateHistoryList } = useRequest(
+        async () => {
+            if (!entityList || entityList.length === 0) return;
+
+            const run = async (entityId: ApiKey) => {
+                const now = Date.now();
+                const [error, resp] = await awaitWrap(
+                    entityAPI.getAggregateHistory({
+                        entity_id: entityId,
+                        aggregate_type: metrics,
+                        start_timestamp: now - time,
+                        end_timestamp: now,
+                    }),
+                );
+                if (error || !isRequestSuccess(resp)) return;
+
+                return getResponseData(resp);
+            };
+            const fetchList = entityList.map(entity => {
+                const { value: entityId } = entity || {};
+                if (!entityId) return;
+
+                return run(entityId);
+            });
+            return Promise.all(fetchList.filter(Boolean));
+        },
+        { refreshDeps: [entityList, title, time, metrics] },
+    );
 
     useEffect(() => {
         const ctx = chartRef.current!;

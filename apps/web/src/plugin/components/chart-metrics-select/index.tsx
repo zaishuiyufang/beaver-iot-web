@@ -13,27 +13,27 @@ const ChartTimeSelect = (selectProps: SelectProps) => {
         return [
             {
                 label: getIntlText('dashboard.label_latest_value'),
-                value: 'latest',
+                value: 'LAST',
             },
             {
                 label: getIntlText('dashboard.label_min_value'),
-                value: 'min',
+                value: 'MIN',
             },
             {
                 label: getIntlText('dashboard.label_max_value'),
-                value: 'max',
+                value: 'MAX',
             },
             {
                 label: getIntlText('dashboard.label_avg_value'),
-                value: 'avg',
+                value: 'AVG',
             },
             {
                 label: getIntlText('dashboard.label_sum_value'),
-                value: 'sum',
+                value: 'SUM',
             },
             {
                 label: getIntlText('dashboard.label_count_value'),
-                value: 'count',
+                value: 'COUNT',
             },
         ];
     }, [getIntlText]);

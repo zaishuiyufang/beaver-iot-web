@@ -19,9 +19,7 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY",
-                        "entityValueTypes": ["int", "float", "double"],
-                        "accessMods": ["r"]
+                        "entityType": "PROPERTY"
                     }
                 }
             ]
@@ -84,8 +82,7 @@
                     "style": "width: 100%;",
                     "componentProps": {
                         "size": "small"
-                    },
-                    "defaultValue": "latest"
+                    }
                 }
             ]
         }

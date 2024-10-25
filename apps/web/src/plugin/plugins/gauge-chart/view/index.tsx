@@ -1,10 +1,13 @@
 import { useEffect, useRef } from 'react';
+import { useRequest } from 'ahooks';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
+import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
 import Chart from './gauge';
+import type { ViewConfigProps } from '../typings';
 import './style.less';
 
 interface Props {
-    config: any;
+    config: ViewConfigProps;
 }
 const extendArray = <T,>(arr: T[], n: number): T[] => {
     return Array.from({ length: n }, (_, i) => arr[i % arr.length]);
@@ -12,11 +15,32 @@ const extendArray = <T,>(arr: T[], n: number): T[] => {
 
 const View = (props: Props) => {
     const { config } = props;
-    const { entity, title } = config || {};
+    const { entity, title, time, metrics } = config || {};
     const { getIntlText } = useI18n();
     const chartRef = useRef<HTMLCanvasElement>(null);
     const { blue, green, red, yellow, grey } = useTheme();
     const colors = [blue[700], green[700], red[700], yellow[700]];
+
+    const { data: aggregateHistory } = useRequest(
+        async () => {
+            const { value: entityId } = entity || {};
+            if (!entityId) return;
+
+            const now = Date.now();
+            const [error, resp] = await awaitWrap(
+                entityAPI.getAggregateHistory({
+                    entity_id: entityId,
+                    aggregate_type: metrics,
+                    start_timestamp: now - time,
+                    end_timestamp: now,
+                }),
+            );
+            if (error || !isRequestSuccess(resp)) return;
+
+            return getResponseData(resp);
+        },
+        { refreshDeps: [entity, title, time, metrics] },
+    );
 
     const renderGaugeChart = (datasets: {
         data: number[];
