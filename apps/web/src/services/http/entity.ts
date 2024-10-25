@@ -25,6 +25,18 @@ export interface EntityAPISchema extends APISchema {
         }>;
     };
 
+    /** 获取实体数据 */
+    getDetail: {
+        request: {
+            id: ApiKey;
+        };
+        response: {
+            update_at: number;
+            // TODO: 待补充
+            value: unknown;
+        };
+    };
+
     /** 获取历史数据 */
     getHistory: {
         request: SearchRequestType & {
@@ -34,11 +46,39 @@ export interface EntityAPISchema extends APISchema {
             start_timestamp: number;
             /** 结束时间戳，单位 ms */
             end_timestamp: number;
-            /** 聚合类型，TODO: 枚举值？ */
-            aggregate_type: string;
         };
         // TODO: 待补充
-        response: SearchResponseType<EntityHistoryData[]>;
+        response: SearchResponseType<
+            {
+                value: unknown;
+                timestamp: number;
+            }[]
+        >;
+    };
+
+    /** 获取聚合历史数据 */
+    getAggregateHistory: {
+        request: {
+            /** 实体 ID */
+            entity_id: ApiKey;
+            /** 开始时间戳，单位 ms */
+            start_timestamp: number;
+            /** 结束时间戳，单位 ms */
+            end_timestamp: number;
+            /** 聚合类型 */
+            aggregate_type: DataAggregateType;
+        };
+        response: SearchResponseType<
+            {
+                /** TODO: 待补充，只有在 LAST, MIN, MAX, AVG, SUM 出现 */
+                value: unknown;
+                count_result: {
+                    value: unknown;
+                    /** 数量 */
+                    count: number;
+                }[];
+            }[]
+        >;
     };
 
     /** 获取元数据 */
@@ -46,8 +86,12 @@ export interface EntityAPISchema extends APISchema {
         request: {
             id: ApiKey;
         };
-        // TODO: 待补充
-        response: unknown;
+        response: {
+            entity_key: ApiKey;
+            entity_name: string;
+            entity_value_attribute: string;
+            entity_value_type: EntityValueDataType;
+        };
     };
 
     /** 获取实体 ApiDoc 表单数据 */
@@ -100,7 +144,9 @@ export interface EntityAPISchema extends APISchema {
 export default attachAPI<EntityAPISchema>(client, {
     apis: {
         getList: `POST ${API_PREFIX}/entity/search`,
+        getDetail: `GET ${API_PREFIX}/entity/:id/status`,
         getHistory: `POST ${API_PREFIX}/entity/history/search`,
+        getAggregateHistory: `POST ${API_PREFIX}/entity/history/aggregate`,
         getMeta: `GET ${API_PREFIX}/entity/:id/meta`,
         getApiDoc: `POST ${API_PREFIX}/entity/form`,
         updateProperty: `POST ${API_PREFIX}/entity/property/update`,

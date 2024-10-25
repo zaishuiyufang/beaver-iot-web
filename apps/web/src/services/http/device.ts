@@ -90,7 +90,7 @@ export interface DeviceAPISchema extends APISchema {
  */
 export default attachAPI<DeviceAPISchema>(client, {
     apis: {
-        getList: `GET ${API_PREFIX}/device/search`,
+        getList: `POST ${API_PREFIX}/device/search`,
         getDetail: `GET ${API_PREFIX}/device/:id`,
         addDevice: `POST ${API_PREFIX}/device`,
         deleteDevices: `POST ${API_PREFIX}/device/batch-delete`,

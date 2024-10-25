@@ -20,6 +20,17 @@ declare type EntityType = 'service' | 'property' | 'event';
 declare type EntityValueDataType = 'STRING' | 'INT' | 'FLOAT' | 'BOOLEAN' | 'BINARY' | 'OBJECT';
 
 /**
+ * 数据聚合类型
+ * @param LAST 最新一条
+ * @param MIN 最小值
+ * @param MAX 最大值
+ * @param AVG 平均值
+ * @param SUM 累计值
+ * @param COUNT 统计条数
+ */
+declare type DataAggregateType = 'LAST' | 'MIN' | 'MAX' | 'AVG' | 'SUM' | 'COUNT';
+
+/**
  * 实体数据模型
  */
 declare interface EntitySchema {
