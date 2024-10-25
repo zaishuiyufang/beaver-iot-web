@@ -22,7 +22,7 @@ const AddDashboard = (props: ConfigPluginProps) => {
             rules: {
                 required: true,
                 maxLength: {
-                    value: 2,
+                    value: 64,
                     message: 'name is too long',
                 },
             },
@@ -40,9 +40,9 @@ const AddDashboard = (props: ConfigPluginProps) => {
     const handleSubmit = (values: AddDashboardType) => {
         onOk(values);
     };
-
     return (
         <Modal
+            visible
             onCancel={handleClose}
             onOk={handleOk}
             title={`${getIntlText(data?.id ? 'dashboard.add_title' : 'dashboard.edit_title')}`}

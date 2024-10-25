@@ -15,7 +15,7 @@ const Widgets = (props: WidgetProps) => {
 
     const moveBox = useCallback(
         ({ id, ...rest }: any) => {
-            const index = widgets.findIndex((item: any) => item.id === id);
+            const index = widgets.findIndex((item: WidgetDetail) => item.widget_id === id);
             const newWidgets = [...widgets];
             newWidgets[index] = {
                 ...newWidgets[index],
@@ -40,9 +40,13 @@ const Widgets = (props: WidgetProps) => {
         if (!left && !top && left !== 0 && top !== 0) {
             const isOverlapping = (newBox: any) => {
                 return widgets.some(widget => {
-                    const right = (widget.data.pos?.left || 0) + (widget.data.pos?.initWidth || 0);
-                    const bottom = (widget.data.pos?.top || 0) + (widget.data.pos?.initHeight || 0);
-                    console.log(newBox, widget.data.pos, right, bottom);
+                    const right =
+                        (widget.data.config.pos?.left || 0) +
+                        (widget.data.config.pos?.initWidth || 0);
+                    const bottom =
+                        (widget.data.config.pos?.top || 0) +
+                        (widget.data.config.pos?.initHeight || 0);
+                    // console.log(newBox, widget.data.config.pos, right, bottom);
                     return newBox.left <= right && newBox.top <= bottom;
                     // return !(
                     //     widget.pos?.left < newBox.right ||
@@ -99,10 +103,11 @@ const Widgets = (props: WidgetProps) => {
             // const initHeight = newWidgets[index].pos?.initHeight
             //     ? newWidgets[index].pos?.initHeight
             //     : Math.ceil(rest.initHeight / unitHeight);
-            const initWidth = newWidgets[index].data?.pos?.initWidth || rest.initWidth || 0;
-            const initHeight = newWidgets[index].data?.pos?.initHeight || rest.initHeight || 0;
-            const curLeft = newWidgets[index].data?.pos?.left;
-            const cueTop = newWidgets[index].data?.pos?.top;
+            const initWidth = newWidgets[index].data.config?.pos?.initWidth || rest.initWidth || 0;
+            const initHeight =
+                newWidgets[index].data.config?.pos?.initHeight || rest.initHeight || 0;
+            const curLeft = newWidgets[index].data.config?.pos?.left;
+            const cueTop = newWidgets[index].data.config?.pos?.top;
             // TODO：计算太慢先注释
             // if (curLeft === undefined && cueTop === undefined) {
             //     const { left, top } = getInitPos({
@@ -125,9 +130,9 @@ const Widgets = (props: WidgetProps) => {
             newWidgets[index] = {
                 ...newWidgets[index],
                 data: {
-                    ...(newWidgets[index]?.data || {}),
+                    ...(newWidgets[index]?.data.config || {}),
                     pos: {
-                        ...newWidgets[index].data?.pos,
+                        ...newWidgets[index].data.config?.pos,
                         ...rest,
                         width,
                         height,
@@ -162,14 +167,14 @@ const Widgets = (props: WidgetProps) => {
         // 遍历widgets并将pos按照窗口大小比例重新计算
         const newWidgets = widgets.map((item: WidgetDetail) => {
             // 根据当前窗口大小重新计算位置
-            const leftRate = item.data.pos.left / item.data.pos.parentWidth;
-            const topRate = item.data.pos.top / item.data.pos.parentHeight;
+            const leftRate = item.data.config.pos.left / item.data.config.pos.parentWidth;
+            const topRate = item.data.config.pos.top / item.data.config.pos.parentHeight;
             const left = parentRef.current.clientWidth * leftRate;
             const top = parentRef.current.clientHeight * topRate;
             return {
                 ...item,
                 pos: {
-                    ...item.data.pos,
+                    ...item.data.config.pos,
                     top: top > 0 ? top : 0,
                     left: left > 0 ? left : 0,
                     parentWidth: parentRef.current.clientWidth,

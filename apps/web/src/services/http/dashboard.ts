@@ -79,7 +79,7 @@ export interface DashboardAPISchema extends APISchema {
  */
 export default attachAPI<DashboardAPISchema>(client, {
     apis: {
-        getDashboards: `POST ${API_PREFIX}/dashboards`,
+        getDashboards: `GET ${API_PREFIX}/dashboard/dashboards`,
         addDashboard: `POST ${API_PREFIX}/dashboard`,
         deleteDashboard: `DELETE ${API_PREFIX}/dashboard/:id`,
         updateDashboard: `PUT ${API_PREFIX}/device/:id`,

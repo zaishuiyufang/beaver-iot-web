@@ -35,7 +35,7 @@ const Widget = (props: WidgetProps) => {
     };
 
     useEffect(() => {
-        if (!data?.data.pos?.width && !data?.data.pos?.height && widgetRef?.current) {
+        if (!data?.data.config.pos?.width && !data?.data.config.pos?.height && widgetRef?.current) {
             onResizeBox({
                 id: data.widget_id as any,
                 width: widgetRef?.current?.clientWidth,
@@ -45,18 +45,22 @@ const Widget = (props: WidgetProps) => {
             });
         } else {
             const { unitHeight, unitWidth } = getSize();
-            let width = (data?.data.pos?.width || 0) * unitWidth;
-            let height = (data?.data.pos?.height || 0) * unitHeight;
-            if (width < data?.data.pos?.initWidth) {
-                const diff = Math.ceil(((data?.data.pos?.initWidth || 0) - width) / unitWidth);
-                width = ((data?.data.pos?.width || 0) + diff) * unitWidth;
+            let width = (data?.data.config.pos?.width || 0) * unitWidth;
+            let height = (data?.data.config.pos?.height || 0) * unitHeight;
+            if (width < data?.data.config.pos?.initWidth) {
+                const diff = Math.ceil(
+                    ((data?.data.config.pos?.initWidth || 0) - width) / unitWidth,
+                );
+                width = ((data?.data.config.pos?.width || 0) + diff) * unitWidth;
             }
-            if (height < data?.data.pos?.initHeight) {
-                const diff = Math.ceil(((data?.data.pos?.initHeight || 0) - height) / unitHeight);
-                height = ((data?.data.pos?.height || 0) + diff) * unitHeight;
+            if (height < data?.data.config.pos?.initHeight) {
+                const diff = Math.ceil(
+                    ((data?.data.config.pos?.initHeight || 0) - height) / unitHeight,
+                );
+                height = ((data?.data.config.pos?.height || 0) + diff) * unitHeight;
             }
             setPos({
-                ...(data.data.pos || {}),
+                ...(data.data.config.pos || {}),
                 width,
                 height,
             });
@@ -97,12 +101,12 @@ const Widget = (props: WidgetProps) => {
             {ComponentView ? (
                 <div ref={widgetRef}>
                     <Suspense>
-                        <ComponentView config={data.data} configJson={data} />
+                        <ComponentView config={data.data.config} configJson={data.data} />
                     </Suspense>
                 </div>
             ) : (
                 <div ref={widgetRef}>
-                    <RenderView configJson={data as any} config={data.data} />
+                    <RenderView configJson={data.data as any} config={data.data.config} />
                 </div>
             )}
         </DraggableResizable>

@@ -19,17 +19,16 @@ import AddCustomerWidget from '../custom-widget';
 import Widgets from '../widgets';
 
 interface DashboardContentProps {
-    dashboardId: string;
     dashboardDetail: DashboardDetail;
     getDashboards: () => void;
 }
 
 export default (props: DashboardContentProps) => {
     const { getIntlText } = useI18n();
-    const { dashboardId, dashboardDetail, getDashboards } = props;
+    const { dashboardDetail, getDashboards } = props;
     const [isShowAddWidget, setIsShowAddWidget] = useState(false);
     const [widgets, setWidgets] = useState<WidgetDetail[]>([]);
-    const [plugin, setPlugin] = useState<CustomComponentProps>();
+    const [plugin, setPlugin] = useState<WidgetDetail>();
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [isEdit, setIsEdit] = useState(false);
@@ -41,6 +40,8 @@ export default (props: DashboardContentProps) => {
         widgetsRef.current = cloneDeep(dashboardDetail.widgets);
     }, [dashboardDetail.widgets]);
 
+    const dashboardId = dashboardDetail.dashboard_id;
+
     const handleShowAddWidget = (event: React.MouseEvent<HTMLButtonElement>) => {
         setIsShowAddWidget(true);
         setAnchorEl(event.currentTarget);
@@ -51,9 +52,9 @@ export default (props: DashboardContentProps) => {
         setAnchorEl(null);
     };
 
-    const handleSelectPlugin = (type: CustomComponentProps) => {
+    const handleSelectPlugin = (plugin: WidgetDetail) => {
         handleCloseAddWidgetPopover();
-        setPlugin(type);
+        setPlugin(plugin);
     };
 
     const closeAddWidget = () => {
@@ -115,7 +116,7 @@ export default (props: DashboardContentProps) => {
         <div className="dashboard-content">
             <div className="dashboard-content-operate">
                 <div className="dashboard-content-operate-left">
-                    {isEdit || !widgets.length ? (
+                    {isEdit || !widgets?.length ? (
                         <>
                             <Button
                                 variant="contained"

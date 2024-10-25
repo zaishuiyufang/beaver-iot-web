@@ -103,7 +103,10 @@ export default () => {
                                 value={tabKey || ''}
                                 index={tabItem.dashboard_id}
                             >
-                                <DashboardContent />
+                                <DashboardContent
+                                    dashboardDetail={tabItem}
+                                    getDashboards={getDashboards}
+                                />
                             </TabPanel>
                         );
                     })}

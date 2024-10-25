@@ -28,11 +28,12 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
 
     useEffect(() => {
         const values: any = {};
-        Object.keys(defaultValues)?.forEach((key: string) => {
-            if (defaultValues[key] !== undefined) {
-                values[key] = defaultValues[key];
-            }
-        });
+        defaultValues &&
+            Object.keys(defaultValues)?.forEach((key: string) => {
+                if (defaultValues[key] !== undefined) {
+                    values[key] = defaultValues[key];
+                }
+            });
         !!Object.keys(values)?.length && reset(defaultValues);
     }, [defaultValues, reset]);
 

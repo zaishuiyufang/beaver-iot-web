@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import ConfigPlugin from '@/plugin/config-plugin';
+import { WidgetDetail } from '@/services/http/dashboard';
 
 interface WidgetProps {
-    plugin: CustomComponentProps;
+    plugin: WidgetDetail;
     onCancel: () => void;
     onOk: (data: any) => void;
 }
@@ -21,7 +22,7 @@ export default (props: WidgetProps) => {
     };
 
     const handleChange = (data: any) => {
-        setConfig({ ...config, config: data });
+        setConfig({ ...config, data });
     };
 
     const handleOk = (data: any) => {
@@ -38,7 +39,7 @@ export default (props: WidgetProps) => {
         <ConfigPlugin
             onClose={handleClose}
             onOk={handleOk}
-            config={config}
+            config={config.data}
             onChange={handleChange}
         />
     ) : null;

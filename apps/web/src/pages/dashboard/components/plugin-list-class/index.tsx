@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { Grid, Typography } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { COMPONENTCLASS } from '@/plugin/constant';
+import { WidgetDetail } from '@/services/http/dashboard';
 import pluginImg from '@/assets/plugin.png';
 import { useGetPluginConfigs } from '../../hooks';
 import './style.less';
 
 interface PluginListProps {
-    onSelect: (plugin: CustomComponentProps) => void;
+    onSelect: (plugin: WidgetDetail) => void;
 }
 
 export default (props: PluginListProps) => {
@@ -43,7 +44,7 @@ export default (props: PluginListProps) => {
         }
     }, [pluginsConfigs]);
 
-    const handleClick = (type: CustomComponentProps) => {
+    const handleClick = (type: WidgetDetail) => {
         onSelect(type);
     };
 

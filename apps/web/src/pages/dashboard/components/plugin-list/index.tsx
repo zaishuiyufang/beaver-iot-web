@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { Grid } from '@mui/material';
+import { WidgetDetail } from '@/services/http/dashboard';
 import pluginImg from '@/assets/plugin.png';
 import { useGetPluginConfigs } from '../../hooks';
 import './style.less';
 
 interface PluginListProps {
-    onSelect: (plugin: CustomComponentProps) => void;
+    onSelect: (plugin: WidgetDetail) => void;
 }
 
 export default (props: PluginListProps) => {
     const { onSelect } = props;
     const { pluginsConfigs } = useGetPluginConfigs();
 
-    const handleClick = (type: CustomComponentProps) => {
+    const handleClick = (type: WidgetDetail) => {
         onSelect(type);
     };
 
