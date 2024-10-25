@@ -1,28 +1,38 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import {
     FullscreenIcon,
     FullscreenExitIcon as FullscreenIconExit,
     AddIcon,
 } from '@milesight/shared/src/components';
+import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
+import { DashboardDetail } from '@/services/http/dashboard';
 import { TabPanel } from '@/components';
 import DashboardContent from './components/dashboard-content';
 import AddDashboard from './components/add-dashboard';
 import './style.less';
 
-const TSBS = [
-    {
-        name: 'my-dashboard',
-        id: '111',
-    },
-];
-
 export default () => {
-    const [tabs, setTabs] = useState(TSBS);
-    const [tabKey, setTabKey] = useState<string>(TSBS[0].id);
+    const [tabs, setTabs] = useState<DashboardDetail[]>([]);
+    const [tabKey, setTabKey] = useState<ApiKey>();
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
     const containerRef = useRef<any>(null);
+
+    const getDashboards = async () => {
+        const [_, res] = await awaitWrap(dashboardAPI.getDashboards());
+        if (isRequestSuccess(res)) {
+            const data = getResponseData(res);
+            setTabs(data || []);
+            if (!tabKey) {
+                setTabKey(data?.[0]?.dashboard_id || '');
+            }
+        }
+    };
+
+    useEffect(() => {
+        getDashboards();
+    }, []);
 
     // 切换dasboard页签
     const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
@@ -54,15 +64,13 @@ export default () => {
         setShowAdd(false);
     };
 
-    const handleAdd = (data: AddDashboardType) => {
+    const handleAdd = async (data: AddDashboardType) => {
         setShowAdd(false);
-        setTabs([
-            ...tabs,
-            {
-                name: data.name,
-                id: new Date().getTime().toString(),
-            },
-        ]);
+        const [_, res] = await awaitWrap(dashboardAPI.addDashboard(data));
+        if (isRequestSuccess(res)) {
+            const data: any = getResponseData(res);
+            setTabs([...tabs, data]);
+        }
     };
 
     return (
@@ -77,11 +85,11 @@ export default () => {
                     {tabs?.map(tabItem => {
                         return (
                             <Tab
-                                key={tabItem.id}
+                                key={tabItem.dashboard_id}
                                 disableRipple
                                 title={tabItem.name}
                                 label={tabItem.name}
-                                value={tabItem.id}
+                                value={tabItem.dashboard_id}
                             />
                         );
                     })}
@@ -90,7 +98,11 @@ export default () => {
                 <div className="ms-tab-content">
                     {tabs?.map(tabItem => {
                         return (
-                            <TabPanel key={tabItem.id} value={tabKey} index={tabItem.id}>
+                            <TabPanel
+                                key={tabItem.dashboard_id}
+                                value={tabKey || ''}
+                                index={tabItem.dashboard_id}
+                            >
                                 <DashboardContent />
                             </TabPanel>
                         );

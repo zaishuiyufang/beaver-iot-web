@@ -1,12 +1,13 @@
 import { useCallback, useEffect } from 'react';
+import { WidgetDetail } from '@/services/http/dashboard';
 import Widget from './widget';
 
 interface WidgetProps {
     parentRef: any;
-    onChangeWidgets: (widgets: WidgetType[]) => void;
-    widgets: WidgetType[];
+    onChangeWidgets: (widgets: WidgetDetail[]) => void;
+    widgets: WidgetDetail[];
     isEdit: boolean;
-    onEdit: (data: WidgetType) => void;
+    onEdit: (data: WidgetDetail) => void;
 }
 
 const Widgets = (props: WidgetProps) => {
@@ -18,9 +19,12 @@ const Widgets = (props: WidgetProps) => {
             const newWidgets = [...widgets];
             newWidgets[index] = {
                 ...newWidgets[index],
-                pos: {
-                    ...newWidgets[index].pos,
-                    ...rest,
+                data: {
+                    ...(newWidgets[index].data || {}),
+                    pos: {
+                        ...newWidgets[index].data?.pos,
+                        ...rest,
+                    },
                 },
             };
             onChangeWidgets(newWidgets);
@@ -36,9 +40,9 @@ const Widgets = (props: WidgetProps) => {
         if (!left && !top && left !== 0 && top !== 0) {
             const isOverlapping = (newBox: any) => {
                 return widgets.some(widget => {
-                    const right = (widget.pos?.left || 0) + (widget.pos?.initWidth || 0);
-                    const bottom = (widget.pos?.top || 0) + (widget.pos?.initHeight || 0);
-                    console.log(newBox, widget.pos, right, bottom);
+                    const right = (widget.data.pos?.left || 0) + (widget.data.pos?.initWidth || 0);
+                    const bottom = (widget.data.pos?.top || 0) + (widget.data.pos?.initHeight || 0);
+                    console.log(newBox, widget.data.pos, right, bottom);
                     return newBox.left <= right && newBox.top <= bottom;
                     // return !(
                     //     widget.pos?.left < newBox.right ||
@@ -83,7 +87,7 @@ const Widgets = (props: WidgetProps) => {
 
     const resizeBox = useCallback(
         ({ id, ...rest }: draggerType) => {
-            const index = widgets.findIndex((item: WidgetType) => item.id === id);
+            const index = widgets.findIndex((item: WidgetDetail) => item.widget_id === id);
             const newWidgets = [...widgets];
             const unitHeight = (parentRef?.current?.clientHeight || 0) / 24;
             const unitWidth = (parentRef?.current?.clientWidth || 0) / 24;
@@ -95,10 +99,10 @@ const Widgets = (props: WidgetProps) => {
             // const initHeight = newWidgets[index].pos?.initHeight
             //     ? newWidgets[index].pos?.initHeight
             //     : Math.ceil(rest.initHeight / unitHeight);
-            const initWidth = newWidgets[index].pos?.initWidth || rest.initWidth || 0;
-            const initHeight = newWidgets[index].pos?.initHeight || rest.initHeight || 0;
-            const curLeft = newWidgets[index].pos?.left;
-            const cueTop = newWidgets[index].pos?.top;
+            const initWidth = newWidgets[index].data?.pos?.initWidth || rest.initWidth || 0;
+            const initHeight = newWidgets[index].data?.pos?.initHeight || rest.initHeight || 0;
+            const curLeft = newWidgets[index].data?.pos?.left;
+            const cueTop = newWidgets[index].data?.pos?.top;
             // TODO：计算太慢先注释
             // if (curLeft === undefined && cueTop === undefined) {
             //     const { left, top } = getInitPos({
@@ -120,17 +124,20 @@ const Widgets = (props: WidgetProps) => {
 
             newWidgets[index] = {
                 ...newWidgets[index],
-                pos: {
-                    ...newWidgets[index].pos,
-                    ...rest,
-                    width,
-                    height,
-                    left: curLeft || 0,
-                    top: cueTop || 0,
-                    initWidth,
-                    initHeight,
-                    parentHeight: parentRef?.current?.clientHeight,
-                    parentWidth: parentRef?.current?.clientWidth,
+                data: {
+                    ...(newWidgets[index]?.data || {}),
+                    pos: {
+                        ...newWidgets[index].data?.pos,
+                        ...rest,
+                        width,
+                        height,
+                        left: curLeft || 0,
+                        top: cueTop || 0,
+                        initWidth,
+                        initHeight,
+                        parentHeight: parentRef?.current?.clientHeight,
+                        parentWidth: parentRef?.current?.clientWidth,
+                    },
                 },
             };
             onChangeWidgets(newWidgets);
@@ -139,13 +146,13 @@ const Widgets = (props: WidgetProps) => {
     );
 
     // 编辑组件
-    const handleEdit = useCallback((data: WidgetType) => {
+    const handleEdit = useCallback((data: WidgetDetail) => {
         onEdit(data);
     }, []);
 
     // 删除组件
-    const handleDelete = useCallback((data: WidgetType) => {
-        const index = widgets.findIndex((item: WidgetType) => item.id === data.id);
+    const handleDelete = useCallback((data: WidgetDetail) => {
+        const index = widgets.findIndex((item: WidgetDetail) => item.widget_id === data.widget_id);
         const newWidgets = [...widgets];
         newWidgets.splice(index, 1);
         onChangeWidgets(newWidgets);
@@ -153,16 +160,16 @@ const Widgets = (props: WidgetProps) => {
 
     const resetWidgetsPos = useCallback(() => {
         // 遍历widgets并将pos按照窗口大小比例重新计算
-        const newWidgets = widgets.map((item: WidgetType) => {
+        const newWidgets = widgets.map((item: WidgetDetail) => {
             // 根据当前窗口大小重新计算位置
-            const leftRate = item.pos.left / item.pos.parentWidth;
-            const topRate = item.pos.top / item.pos.parentHeight;
+            const leftRate = item.data.pos.left / item.data.pos.parentWidth;
+            const topRate = item.data.pos.top / item.data.pos.parentHeight;
             const left = parentRef.current.clientWidth * leftRate;
             const top = parentRef.current.clientHeight * topRate;
             return {
                 ...item,
                 pos: {
-                    ...item.pos,
+                    ...item.data.pos,
                     top: top > 0 ? top : 0,
                     left: left > 0 ? left : 0,
                     parentWidth: parentRef.current.clientWidth,
@@ -186,7 +193,7 @@ const Widgets = (props: WidgetProps) => {
 
     return (
         <div>
-            {widgets.map((data: WidgetType) => {
+            {widgets.map((data: WidgetDetail) => {
                 return (
                     <Widget
                         onEdit={handleEdit}
