@@ -26,26 +26,19 @@ const EditDialog: React.FC<Props> = ({ data, visible, onCancel, onError, onSucce
     const { control, formState, handleSubmit, reset, setValue } = useForm<FormDataProps>();
     const onSubmit: SubmitHandler<FormDataProps> = async formData => {
         console.log(formData);
-        // TODO: 以下为临时 Mock 处理，待接口正常返回数据后调整
-        // if (!data?.id) return;
+        if (!data?.id) return;
 
-        // const [error, resp] = await awaitWrap(
-        //     deviceAPI.updateDevice({ id: data.id, name: formData.name }),
-        // );
+        const [error, resp] = await awaitWrap(
+            deviceAPI.updateDevice({ id: data.id, name: formData.name }),
+        );
 
-        // if (error || !isRequestSuccess(resp)) {
-        //     onError?.(error);
-        //     return;
-        // }
+        if (error || !isRequestSuccess(resp)) {
+            onError?.(error);
+            return;
+        }
 
-        // onSuccess?.();
-        await new Promise(resolve => {
-            setTimeout(() => {
-                resolve(true);
-                onSuccess?.();
-                toast.success(getIntlText('common.message.operation_success'));
-            }, 5000);
-        });
+        onSuccess?.();
+        toast.success(getIntlText('common.message.operation_success'));
     };
 
     // 填充/重置表单

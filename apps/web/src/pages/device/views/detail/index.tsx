@@ -39,17 +39,6 @@ const mockEntityList = (() => {
     });
 })();
 
-const mockData: DeviceAPISchema['getDetail']['response'] = {
-    id: 11,
-    external_id: 22,
-    name: 'AM308',
-    create_at: 1727072105549,
-    founder: 'System',
-    integration_name: 'Milesight Development Platform',
-    deletable: true,
-    entities: mockEntityList,
-};
-
 export default () => {
     const { deviceId } = useParams();
     const { getIntlText } = useI18n();
@@ -82,7 +71,13 @@ export default () => {
             {
                 key: 'basic',
                 label: getIntlText('device.detail.basic_info'),
-                component: <BasicTable data={deviceDetail} loading={loading} />,
+                component: (
+                    <BasicTable
+                        data={deviceDetail}
+                        loading={loading}
+                        onEditSuccess={getDeviceDetail}
+                    />
+                ),
             },
             {
                 key: 'entity',

@@ -8,9 +8,9 @@ declare type EntityAccessMode = 'R' | 'W' | 'RW';
 
 /**
  * 实体类型
- * @param service 服务
- * @param property 属性
- * @param event 事件
+ * @param SERVICE 服务
+ * @param PROPERTY 属性
+ * @param EVENT 事件
  */
 declare type EntityType = 'SERVICE' | 'PROPERTY' | 'EVENT';
 

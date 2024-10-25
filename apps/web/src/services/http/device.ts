@@ -4,13 +4,26 @@ import { client, attachAPI, API_PREFIX } from './client';
  * 设备详情定义
  */
 export interface DeviceDetail {
+    /** ID */
     id: ApiKey;
+    /** Key */
+    key: ApiKey;
+    /** 名称 */
     name: string;
+    /** TODO: 当前接口返回值中无此字段 */
     external_id: ApiKey;
+    /** 集成 ID */
+    integration: ApiKey;
+    /** 集成名称 */
     integration_name: string;
-    founder: string;
-    create_at: number;
+    /** 创建时间 */
+    created_at: number;
+    /** 更新时间 */
+    updated_at: number;
+    /** 是否可删除 */
     deletable: boolean;
+    /** 额外数据 */
+    additional_data?: Record<string, any>;
 }
 
 /**

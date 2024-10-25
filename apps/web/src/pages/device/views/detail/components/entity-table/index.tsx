@@ -29,14 +29,14 @@ const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
         const result: ColumnType<TableRowDataType>[] = [
             {
                 field: 'name',
-                headerName: getIntlText('device.label.param_device_name'),
+                headerName: getIntlText('device.label.param_entity_name'),
                 flex: 1,
                 minWidth: 150,
                 ellipsis: true,
             },
             {
                 field: 'id',
-                headerName: getIntlText('device.label.param_external_id'),
+                headerName: getIntlText('device.label.param_entity_id'),
                 flex: 1,
                 minWidth: 150,
                 ellipsis: true,

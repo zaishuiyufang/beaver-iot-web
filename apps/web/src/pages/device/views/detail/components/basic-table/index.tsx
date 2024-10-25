@@ -56,7 +56,7 @@ const BasicTable = (
             },
             {
                 key: 'externalId',
-                label: getIntlText('device.label.param_entity_id'),
+                label: getIntlText('device.label.param_external_id'),
                 content: data?.externalId,
             },
             {
@@ -67,12 +67,12 @@ const BasicTable = (
             {
                 key: 'createTime',
                 label: getIntlText('common.label.create_time'),
-                content: getTimeFormat(data?.createAt),
+                content: getTimeFormat(data?.createdAt),
             },
             {
                 key: 'founder',
                 label: getIntlText('device.label.param_founder'),
-                content: data?.founder,
+                content: data?.integrationName,
             },
             {
                 key: 'id',
@@ -103,7 +103,6 @@ const BasicTable = (
                 onCancel={handleDialogClose}
                 onError={handleDialogClose}
                 onSuccess={() => {
-                    // Todo: 刷新列表
                     handleDialogClose();
                     onEditSuccess?.();
                 }}
