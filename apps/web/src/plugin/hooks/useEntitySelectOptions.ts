@@ -57,6 +57,9 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                 entityAPI.getList({
                     keyword,
                     entity_type: entityType,
+                    // TODO 是否做分页请求
+                    page_number: 1,
+                    page_size: 9999,
                 }),
             );
             if (error || !isRequestSuccess(resp)) return;
