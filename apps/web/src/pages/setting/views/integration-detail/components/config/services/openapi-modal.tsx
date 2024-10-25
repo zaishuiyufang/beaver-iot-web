@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
-import { TextField } from '@mui/material';
+import { TextField, InputAdornment } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { checkRequired, checkRangeValue } from '@milesight/shared/src/utils/validators';
 import { Modal, toast, type ModalProps } from '@milesight/shared/src/components';
@@ -97,6 +97,11 @@ const OpenapiModal: React.FC<Props> = ({ mode, visible, onCancel, onError, onSuc
                                           'setting.integration.openapi_frequency_helper_text',
                                       )
                             }
+                            slotProps={{
+                                input: {
+                                    endAdornment: <InputAdornment position="end">s</InputAdornment>,
+                                },
+                            }}
                             value={value}
                             onChange={onChange}
                         />

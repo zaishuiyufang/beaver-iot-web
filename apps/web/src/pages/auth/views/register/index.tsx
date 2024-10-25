@@ -3,7 +3,11 @@ import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { Paper, Typography, Button } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { Logo, toast } from '@milesight/shared/src/components';
-import { iotLocalStorage, TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
+import {
+    iotLocalStorage,
+    TOKEN_CACHE_KEY,
+    REGISTERED_KEY,
+} from '@milesight/shared/src/utils/storage';
 import { globalAPI, awaitWrap, isRequestSuccess } from '@/services/http';
 import useFormItems, { type FormDataProps } from '../useFormItems';
 import './style.less';
@@ -28,6 +32,7 @@ export default () => {
         if (error || !isRequestSuccess(resp)) return;
 
         navigate('/auth/login');
+        iotLocalStorage.setItem(REGISTERED_KEY, true);
         // 清除已有的 TOKEN 数据，避免影响新用户登录
         iotLocalStorage.removeItem(TOKEN_CACHE_KEY);
         toast.success(getIntlText('auth.message.register_success'));

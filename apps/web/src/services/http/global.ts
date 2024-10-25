@@ -49,8 +49,11 @@ export interface GlobalAPISchema extends APISchema {
     /** 获取用户信息 */
     getUserInfo: {
         request: void;
-        // TODO: 待补充
-        response: unknown;
+        response: {
+            user_id: ApiKey;
+            email: string;
+            nickname: string;
+        };
     };
 }
 
@@ -66,9 +69,7 @@ export default attachAPI<GlobalAPISchema>(client, {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         },
-        // oauthRefresh: `POST ${API_PREFIX}/oauth2/token`,
-
         oauthRegister: `POST ${API_PREFIX}/user/register`,
-        getUserInfo: `GET ${API_PREFIX}/user/info`,
+        getUserInfo: `GET ${API_PREFIX}/user`,
     },
 });

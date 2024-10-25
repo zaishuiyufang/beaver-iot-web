@@ -58,6 +58,12 @@
         .@{prefix}-sidebar-user-trigger {
             cursor: pointer;
 
+            .@{prefix}-name > .@{prefix}-tooltip-cont {
+                display: block;
+                max-width: 70px;
+                .ellipsis();
+            }
+
             .@{prefix}-icon {
                 transition: .3s;
             }

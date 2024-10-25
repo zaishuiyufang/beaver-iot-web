@@ -1,9 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useRequest } from 'ahooks';
-import { CircularProgress, Stack, Skeleton } from '@mui/material';
+import { Stack, Skeleton } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
-import iotStorage, { TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
+import {
+    iotLocalStorage,
+    TOKEN_CACHE_KEY,
+    REGISTERED_KEY,
+} from '@milesight/shared/src/utils/storage';
 import routes from '@/routes/routes';
 import { useUserStore } from '@/stores';
 import { globalAPI, awaitWrap, getResponseData, isRequestSuccess } from '@/services/http';
@@ -24,38 +28,32 @@ function BasicLayout() {
             }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lang]);
-    // const token = iotStorage.getItem(TOKEN_CACHE_KEY);
+    const token = iotLocalStorage.getItem(TOKEN_CACHE_KEY);
 
-    // TODO: 获取用户信息&鉴权&跳转逻辑
+    // 获取用户信息&鉴权&跳转逻辑
     useRequest(
         async () => {
-            // if (!token) return;
-            // setLoading(true);
-            // const [error, resp] = await awaitWrap(globalAPI.getUserInfo());
-            // setLoading(false);
-            // if (error || !isRequestSuccess(resp)) return;
-            // const data = getResponseData(resp);
-            // console.log('get userinfo', data);
-            // setUserInfo(data as Record<string, any>);
-            // return data;
+            if (!token) return;
 
-            await new Promise(resolve => {
-                setTimeout(() => {
-                    setLoading(false);
-                    resolve(null);
-                }, 500);
-            });
+            setLoading(true);
+            const [error, resp] = await awaitWrap(globalAPI.getUserInfo());
+            setLoading(false);
+
+            if (error || !isRequestSuccess(resp)) return;
+            setUserInfo(getResponseData(resp));
         },
         {
             debounceWait: 300,
         },
     );
 
-    // TODO: 判断 localStorage 中若无缓存 token 则直接跳转登录页
-    // if (!token) {
-    //     navigate('/auth/login');
-    //     return null;
-    // }
+    // 判断 localStorage 中若无缓存 token 则直接跳转登录页
+    if (!token) {
+        const target = iotLocalStorage.getItem(REGISTERED_KEY) ? '/auth/login' : '/auth/register';
+
+        navigate(target);
+        return null;
+    }
 
     return (
         <section className="ms-layout">

@@ -10,6 +10,11 @@ import intl from 'react-intl-universal';
 import { toast } from '@milesight/shared/src/components';
 import { isRequestSuccess } from '@milesight/shared/src/utils/request';
 import { getHttpErrorKey } from '@milesight/shared/src/services/i18n';
+import {
+    iotLocalStorage,
+    TOKEN_CACHE_KEY,
+    REGISTERED_KEY,
+} from '@milesight/shared/src/utils/storage';
 import type { RequestFunctionOptions } from '@milesight/shared/src/utils/request/types';
 
 type ErrorHandlerConfig = {
@@ -28,13 +33,22 @@ const networkErrorKey = getHttpErrorKey('network_timeout');
 const handlerConfigs: ErrorHandlerConfig[] = [
     // 统一 Message 弹窗提示
     {
-        errCodes: ['token_not_found', 'token_invalid', 'account_session_logout'],
+        errCodes: [
+            'authentication_failed',
+            'token_not_found',
+            'token_invalid',
+            'account_session_logout',
+        ],
         handler(errCode, resp) {
             const intlKey = getHttpErrorKey(errCode);
             const message = intl.get(intlKey) || intl.get(serverErrorKey);
+            const target = iotLocalStorage.getItem(REGISTERED_KEY)
+                ? '/auth/login'
+                : '/auth/register';
 
+            replace(target);
             toast.error({ key: errCode, content: message });
-            replace('/login');
+            iotLocalStorage.removeItem(TOKEN_CACHE_KEY);
         },
     },
 ];

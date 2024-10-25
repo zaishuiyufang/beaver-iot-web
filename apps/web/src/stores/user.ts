@@ -1,13 +1,12 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { type GlobalAPISchema } from '@/services/http';
 
 interface UserStore {
     /**
      * 用户信息
-     *
-     * TODO: 类型待补充
      */
-    userInfo?: null | Record<string, any>;
+    userInfo?: null | GlobalAPISchema['getUserInfo']['response'];
 
     /**
      * 更新用户信息

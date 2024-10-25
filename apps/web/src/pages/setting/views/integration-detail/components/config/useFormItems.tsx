@@ -85,6 +85,7 @@ const useFormItems = () => {
                     return (
                         <TextField
                             {...commTextProps}
+                            autoComplete="new-password"
                             label={getIntlText('setting.integration.param_client_secret')}
                             type={showSecret ? 'text' : 'password'}
                             error={!!error}
