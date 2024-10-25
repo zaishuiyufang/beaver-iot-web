@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button, Popover } from '@mui/material';
 import {
     AddIcon as Add,
@@ -10,22 +10,36 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep } from 'lodash-es';
 import { useI18n } from '@milesight/shared/src/hooks';
+import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
+import { DashboardDetail, WidgetDetail } from '@/services/http/dashboard';
 import AddWidget from '../add-widget';
 import PluginList from '../plugin-list';
 import PluginListClass from '../plugin-list-class';
 import AddCustomerWidget from '../custom-widget';
 import Widgets from '../widgets';
 
-export default () => {
+interface DashboardContentProps {
+    dashboardId: string;
+    dashboardDetail: DashboardDetail;
+    getDashboards: () => void;
+}
+
+export default (props: DashboardContentProps) => {
     const { getIntlText } = useI18n();
+    const { dashboardId, dashboardDetail, getDashboards } = props;
     const [isShowAddWidget, setIsShowAddWidget] = useState(false);
-    const [widgets, setWidgets] = useState<any[]>([]);
+    const [widgets, setWidgets] = useState<WidgetDetail[]>([]);
     const [plugin, setPlugin] = useState<CustomComponentProps>();
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [isEdit, setIsEdit] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
     const widgetsRef = useRef<any[]>([]);
+
+    useEffect(() => {
+        setWidgets(dashboardDetail.widgets);
+        widgetsRef.current = cloneDeep(dashboardDetail.widgets);
+    }, [dashboardDetail.widgets]);
 
     const handleShowAddWidget = (event: React.MouseEvent<HTMLButtonElement>) => {
         setIsShowAddWidget(true);
@@ -84,9 +98,17 @@ export default () => {
     };
 
     // 编辑dashboard保存
-    const saveEditDashboard = () => {
-        widgetsRef.current = cloneDeep(widgets);
-        setIsEdit(false);
+    const saveEditDashboard = async () => {
+        const [_, res] = await awaitWrap(
+            dashboardAPI.updateWidget({
+                widgets,
+                dashboard_id: dashboardId,
+            }),
+        );
+        if (isRequestSuccess(res)) {
+            getDashboards();
+            setIsEdit(false);
+        }
     };
 
     return (

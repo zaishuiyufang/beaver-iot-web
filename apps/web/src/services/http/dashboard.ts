@@ -11,7 +11,6 @@ export interface DashboardDetail {
 
 export interface WidgetDetail {
     widget_id?: ApiKey;
-    dashboard_id: ApiKey;
     data: Record<string, any>;
 }
 
@@ -21,8 +20,8 @@ export interface WidgetDetail {
 export interface DashboardAPISchema extends APISchema {
     /** 获取列表 */
     getDashboards: {
-        request: SearchRequestType;
-        response: SearchResponseType<DashboardDetail[]>;
+        request: void;
+        response: DashboardDetail[];
     };
 
     /** 添加dashboard */
@@ -47,14 +46,15 @@ export interface DashboardAPISchema extends APISchema {
         request: {
             id: ApiKey;
             /** 名称 */
-            name: string;
+            name?: string;
+            widgets?: WidgetDetail;
         };
         response: unknown;
     };
 
     /** 添加组件 */
     addWidget: {
-        request: WidgetDetail;
+        request: Record<string, any>;
         response: unknown;
     };
 
@@ -69,7 +69,7 @@ export interface DashboardAPISchema extends APISchema {
 
     /** 更新组件 */
     updateWidget: {
-        request: WidgetDetail;
+        request: Record<string, any>;
         response: unknown;
     };
 }

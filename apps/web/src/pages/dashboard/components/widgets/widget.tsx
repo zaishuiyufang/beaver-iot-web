@@ -6,20 +6,21 @@ import {
 } from '@milesight/shared/src/components';
 import plugins from '@/plugin/plugins';
 import { RenderView } from '@/plugin/render';
+import { WidgetDetail } from '@/services/http/dashboard';
 
 interface WidgetProps {
-    data: any;
+    data: WidgetDetail;
     onResizeBox: (data: draggerType) => void;
     onMove: ({ id, left, top }: { id?: string; left: number; top: number }) => void;
     isEdit: boolean;
-    onEdit: (data: any) => void;
-    onDelete: (data: any) => void;
+    onEdit: (data: WidgetDetail) => void;
+    onDelete: (data: WidgetDetail) => void;
     parentRef: any;
 }
 
 const Widget = (props: WidgetProps) => {
     const { data, onResizeBox, isEdit, onEdit, onDelete, onMove, parentRef } = props;
-    const ComponentView = (plugins as any)[`${data.type}View`];
+    const ComponentView = (plugins as any)[`${data.data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
     const [pos, setPos] = useState<draggerType>();
 
@@ -34,9 +35,9 @@ const Widget = (props: WidgetProps) => {
     };
 
     useEffect(() => {
-        if (!data?.pos?.width && !data?.pos?.height && widgetRef?.current) {
+        if (!data?.data.pos?.width && !data?.data.pos?.height && widgetRef?.current) {
             onResizeBox({
-                id: data.id,
+                id: data.widget_id as any,
                 width: widgetRef?.current?.clientWidth,
                 height: widgetRef?.current?.clientHeight,
                 initWidth: widgetRef?.current?.clientWidth,
@@ -44,18 +45,18 @@ const Widget = (props: WidgetProps) => {
             });
         } else {
             const { unitHeight, unitWidth } = getSize();
-            let width = (data?.pos?.width || 0) * unitWidth;
-            let height = (data?.pos?.height || 0) * unitHeight;
-            if (width < data?.pos?.initWidth) {
-                const diff = Math.ceil(((data?.pos?.initWidth || 0) - width) / unitWidth);
-                width = ((data?.pos?.width || 0) + diff) * unitWidth;
+            let width = (data?.data.pos?.width || 0) * unitWidth;
+            let height = (data?.data.pos?.height || 0) * unitHeight;
+            if (width < data?.data.pos?.initWidth) {
+                const diff = Math.ceil(((data?.data.pos?.initWidth || 0) - width) / unitWidth);
+                width = ((data?.data.pos?.width || 0) + diff) * unitWidth;
             }
-            if (height < data?.pos?.initHeight) {
-                const diff = Math.ceil(((data?.pos?.initHeight || 0) - height) / unitHeight);
-                height = ((data?.pos?.height || 0) + diff) * unitHeight;
+            if (height < data?.data.pos?.initHeight) {
+                const diff = Math.ceil(((data?.data.pos?.initHeight || 0) - height) / unitHeight);
+                height = ((data?.data.pos?.height || 0) + diff) * unitHeight;
             }
             setPos({
-                ...(data.pos || {}),
+                ...(data.data.pos || {}),
                 width,
                 height,
             });
@@ -77,8 +78,8 @@ const Widget = (props: WidgetProps) => {
             limitHeight={pos?.initHeight}
             onResize={onResizeBox}
             onMove={onMove}
-            id={data.id}
-            key={data.id}
+            id={data.widget_id as any}
+            key={data.widget_id as any}
             isEdit={isEdit}
             parentRef={parentRef}
             className="dashboard-content-widget"
@@ -96,12 +97,12 @@ const Widget = (props: WidgetProps) => {
             {ComponentView ? (
                 <div ref={widgetRef}>
                     <Suspense>
-                        <ComponentView config={data.config} configJson={data} />
+                        <ComponentView config={data.data} configJson={data} />
                     </Suspense>
                 </div>
             ) : (
                 <div ref={widgetRef}>
-                    <RenderView configJson={data} config={data.config} />
+                    <RenderView configJson={data as any} config={data.data} />
                 </div>
             )}
         </DraggableResizable>

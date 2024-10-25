@@ -3,9 +3,13 @@ import { Stack, IconButton } from '@mui/material';
 import { useI18n, useTime } from '@milesight/shared/src/hooks';
 import { ListAltIcon, DeleteOutlineIcon } from '@milesight/shared/src/components';
 import { Tooltip, type ColumnType } from '@/components';
-import { type DeviceDetail } from '@/services/http';
+import { type DeviceAPISchema } from '@/services/http';
 
 type OperationType = 'detail' | 'delete';
+
+export type TableRowDataType = ObjectToCamelCase<
+    DeviceAPISchema['getList']['response']['content'][0]
+>;
 
 export interface UseColumnsProps<T> {
     /**
@@ -14,7 +18,7 @@ export interface UseColumnsProps<T> {
     onButtonClick: (type: OperationType, record: T) => void;
 }
 
-const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T>) => {
+const useColumns = <T extends TableRowDataType>({ onButtonClick }: UseColumnsProps<T>) => {
     const { getIntlText } = useI18n();
     const { getTimeFormat } = useTime();
 
@@ -29,7 +33,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 // disableColumnMenu: false,
             },
             {
-                field: 'createTime',
+                field: 'createdAt',
                 headerName: getIntlText('common.label.create_time'),
                 flex: 1,
                 minWidth: 150,
@@ -39,7 +43,7 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 },
             },
             {
-                field: 'source',
+                field: 'integrationName',
                 headerName: getIntlText('device.label.param_source'),
                 ellipsis: true,
                 flex: 2,
@@ -51,7 +55,6 @@ const useColumns = <T extends DeviceDetail>({ onButtonClick }: UseColumnsProps<T
                 flex: 2,
                 minWidth: 100,
                 renderCell({ row }) {
-                    // console.log(row);
                     return (
                         <Stack
                             direction="row"

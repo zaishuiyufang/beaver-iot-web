@@ -10,3 +10,4 @@ export {
 export { default as entityAPI, type EntityAPISchema } from './entity';
 export { default as integrationAPI, type IntegrationAPISchema } from './integration';
 export { default as globalAPI, type GlobalAPISchema } from './global';
+export { default as dashboardAPI, type DashboardAPISchema } from './dashboard';
