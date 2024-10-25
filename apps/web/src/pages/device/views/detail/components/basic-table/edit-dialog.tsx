@@ -63,7 +63,7 @@ const EditDialog: React.FC<Props> = ({ data, visible, onCancel, onError, onSucce
     return (
         <Modal
             visible={visible}
-            title={getIntlText('device.detail.edit_title', { 1: data?.name })}
+            title={getIntlText('common.label.edit_title', { 1: data?.name })}
             onCancel={onCancel}
             onOk={handleSubmit(onSubmit)}
         >

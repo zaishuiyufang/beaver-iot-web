@@ -17,5 +17,7 @@
     "setting.integration.webhook_url": "Webhook URL",
     "setting.integration.openapi_helper_text": "Proactively pull device information and device telemetry data at regular intervals via OpenAPI.",
     "setting.integration.openapi_frequency_of_request": "Frequency of requests",
-    "setting.integration.available_function_warning_text": "The following functions are not available and need to be configured with Open API under integrated configuration before they can be used."
+    "setting.integration.available_function_warning_text": "The following functions are not available and need to be configured with Open API under integrated configuration before they can be used.",
+    "setting.integration.webhook_secret_key": "Secret Key",
+    "setting.integration.openapi_frequency_helper_text": "Range: 30s - 86400s"
 }

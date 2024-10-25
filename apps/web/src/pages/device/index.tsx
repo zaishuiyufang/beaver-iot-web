@@ -61,6 +61,7 @@ export default () => {
             },
             onConfirm: async () => {
                 console.log('confirm...', selectedIds);
+                // TODO: 以下为临时 Mock 处理，待接口正常返回数据后调整
                 // const [error, resp] = await awaitWrap(
                 //     deviceAPI.deleteDevices({ device_id_list: selectedIds as ApiKey[] }),
                 // );

@@ -63,14 +63,12 @@ export default () => {
 
             // TODO: 判断路由 state 中是否已有详情数据，若有则无需请求接口？
             // TODO: $ignoreError 为临时处理，待接口正常返回数据后删除
-            // const [error, resp] = await awaitWrap(
-            //     deviceAPI.getDetail({ id: deviceId }, { $ignoreError: true }),
-            // );
+            const [error, resp] = await awaitWrap(deviceAPI.getDetail({ id: deviceId }));
+            const data = getResponseData(resp);
 
-            // if (error || !isRequestSuccess(resp)) return;
-            const data = mockData;
+            if (error || !data || !isRequestSuccess(resp)) return;
 
-            return data && objectToCamelCase(data);
+            return objectToCamelCase(data);
         },
         {
             debounceWait: 300,
