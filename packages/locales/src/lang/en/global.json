@@ -149,5 +149,6 @@
     "common.message.register_helper_text": "Welcome！Let's get started by creating a user account.",
     "common.message.no_results_found": "No Results found.",
     "common.label.edit_title": "Edit {1}",
-    "common.label.enable_title": "Enable {1}"
+    "common.label.enable_title": "Enable {1}",
+    "auth.message.register_success": "Register successfully."
 }

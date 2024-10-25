@@ -86,8 +86,8 @@ const oauthHandler = async (config: AxiosRequestConfig) => {
             iotStorage.setItem(TOKEN_CACHE_KEY, data);
         })
         .catch(_ => {
-            // 接口报错则直接移除 token
-            iotStorage.removeItem(TOKEN_CACHE_KEY);
+            // TODO: 若为 token 无效错误，则直接移除 token
+            // iotStorage.removeItem(TOKEN_CACHE_KEY);
         });
 
     return config;

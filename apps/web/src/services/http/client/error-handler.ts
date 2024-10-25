@@ -92,9 +92,10 @@ const handler: ErrorHandlerConfig['handler'] = (errCode, resp) => {
     const config = handlerConfigs.find(item => item.errCodes.includes(errCode));
 
     if (!config) {
-        // eslint-disable-next-line
-        console.warn('未配置全局接口错误码处理逻辑，请确认是否已自行处理', resp);
-        toast.error({ key: 'commonError', content: serverErrorText });
+        const intlKey = getHttpErrorKey(errCode);
+        const message = intl.get(intlKey) || intl.get(serverErrorKey);
+
+        toast.error({ key: errCode, content: message });
         return;
     }
 

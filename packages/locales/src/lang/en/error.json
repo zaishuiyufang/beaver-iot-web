@@ -5,5 +5,6 @@
     "error.http.account_session_logout": "Your account has been signed out.",
     "error.http.network_timeout": "Network connection timeout.",
     "error.http.server_error": "Request error, please check and try again.",
-    "error.http.page_not_found": "Sorry, the page you visited does not exist."
+    "error.http.page_not_found": "Sorry, the page you visited does not exist.",
+    "error.http.user_register_email_exist": "User Register Email Already Exist."
 }

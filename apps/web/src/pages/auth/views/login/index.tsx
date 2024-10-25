@@ -26,17 +26,15 @@ export default () => {
                 client_secret: oauthClientSecret,
             }),
         );
-
-        console.log({ error, resp });
-        if (error || !isRequestSuccess(resp)) return;
         const respData = getResponseData(resp);
 
-        console.log({ respData });
-        // TODO: 存储到 localStorage 中
-        // TODO: 判断是否登录不同用户，清除旧的 user 相关 localStorage 缓存数据
-        // TODO: 跳转到首页
+        // console.log({ error, resp });
+        if (error || !respData || !isRequestSuccess(resp)) return;
+        // 每 60 分钟刷新一次 token
+        const result = { ...respData, expires_in: Date.now() + 60 * 60 * 1000 };
+
         navigate('/');
-        iotLocalStorage.setItem(TOKEN_CACHE_KEY, respData);
+        iotLocalStorage.setItem(TOKEN_CACHE_KEY, result);
     };
 
     return (

@@ -116,6 +116,7 @@ const useFormItems = ({ mode = 'login' }: UseFormItemsProps) => {
                     return (
                         <TextField
                             {...props}
+                            autoComplete={mode === 'login' ? undefined : 'new-password'}
                             label={getIntlText('common.label.password')}
                             type={showPassword ? 'text' : 'password'}
                             error={!!error}

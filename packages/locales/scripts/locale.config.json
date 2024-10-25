@@ -9,7 +9,7 @@
             "cn": ["zh", "zh_cn"]
         },
         "splitRules": {
-            "global": ["common", "valid"]
+            "global": ["common", "valid", "auth"]
         }
     },
     "export": {
