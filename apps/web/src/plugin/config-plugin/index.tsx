@@ -65,6 +65,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
             onOk={handleOk}
             title={getIntlText('common.plugin_add_title', { 1: config.type })}
             width="80%"
+            visible
         >
             <div className="config-plugin-container">
                 <div className="config-plugin-container-left">
