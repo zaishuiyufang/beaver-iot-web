@@ -106,7 +106,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                 return {
                     label: e.entity_name,
                     value: e.entity_id,
-                    description: [e.device_name, e.integration_name].join(', '),
+                    description: [e.device_name, e.integration_name].filter(Boolean).join(', '),
                     rawData: {
                         ...objectToCamelCase(e),
                         entityValueAttribute,
