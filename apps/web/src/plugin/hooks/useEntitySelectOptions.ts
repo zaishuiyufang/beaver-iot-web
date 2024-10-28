@@ -3,13 +3,6 @@ import { useRequest } from 'ahooks';
 
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
-// import {
-//     dashboardAPI,
-//     awaitWrap,
-//     isRequestSuccess,
-//     getResponseData,
-//     type EntityData,
-// } from '@/services/http';
 
 interface EntityOptionProps {
     /**
@@ -24,14 +17,6 @@ interface EntityOptionProps {
      * 实体属性访问类型
      */
     accessMods: EntityAccessMode[];
-}
-
-function sleep(duration: number): Promise<void> {
-    return new Promise<void>(resolve => {
-        setTimeout(() => {
-            resolve();
-        }, duration);
-    });
 }
 
 function safeJsonParse(str: string) {
@@ -59,7 +44,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                     entity_type: entityType,
                     // TODO 是否做分页请求
                     page_number: 1,
-                    page_size: 9999,
+                    page_size: 999,
                 }),
             );
             if (error || !isRequestSuccess(resp)) return;
@@ -97,7 +82,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                  */
                 const isValidAccessMod =
                     !Array.isArray(accessMods) ||
-                    accessMods.includes(e.access_mod as EntityAccessMode);
+                    accessMods.includes(e.entity_access_mod as EntityAccessMode);
 
                 return isValidValueType && isValidAccessMod;
             })
