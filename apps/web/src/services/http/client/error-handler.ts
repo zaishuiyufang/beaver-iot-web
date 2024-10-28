@@ -5,7 +5,6 @@
  */
 import type { AxiosResponse } from 'axios';
 import { noop } from 'lodash-es';
-import { replace } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import { toast } from '@milesight/shared/src/components';
 import { isRequestSuccess } from '@milesight/shared/src/utils/request';
@@ -33,12 +32,7 @@ const networkErrorKey = getHttpErrorKey('network_timeout');
 const handlerConfigs: ErrorHandlerConfig[] = [
     // 统一 Message 弹窗提示
     {
-        errCodes: [
-            'authentication_failed',
-            'token_not_found',
-            'token_invalid',
-            'account_session_logout',
-        ],
+        errCodes: ['authentication_failed'],
         handler(errCode, resp) {
             const intlKey = getHttpErrorKey(errCode);
             const message = intl.get(intlKey) || intl.get(serverErrorKey);
@@ -46,8 +40,12 @@ const handlerConfigs: ErrorHandlerConfig[] = [
                 ? '/auth/login'
                 : '/auth/register';
 
-            replace(target);
-            toast.error({ key: errCode, content: message });
+            toast.error({
+                key: errCode,
+                content: message,
+                duration: 1000,
+                onClose: () => location.replace(target),
+            });
             iotLocalStorage.removeItem(TOKEN_CACHE_KEY);
         },
     },
