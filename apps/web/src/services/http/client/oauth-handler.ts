@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios';
-import { apiOrigin } from '@milesight/shared/src/config';
+import { apiOrigin, oauthClientID, oauthClientSecret } from '@milesight/shared/src/config';
 import { getResponseData } from '@milesight/shared/src/utils/request';
 import iotStorage, { TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
 import { API_PREFIX } from './constant';
@@ -20,7 +20,7 @@ type TokenDataType = {
 
 /** 最后一次刷新 token 的时间 */
 let lastTokenRefreshTime = 0;
-const tokenApiPath = `${apiOrigin}/${API_PREFIX}/oauth2/token`;
+const tokenApiPath = `${API_PREFIX}/oauth2/token`;
 /**
  * 生成 Authorization 请求头数据
  * @param token 登录凭证
@@ -62,6 +62,7 @@ const oauthHandler = async (config: AxiosRequestConfig) => {
     }
 
     const requestConfig = {
+        baseURL: apiOrigin,
         headers: {
             Authorization: genAuthorization(token?.access_token),
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -71,6 +72,8 @@ const oauthHandler = async (config: AxiosRequestConfig) => {
     const requestData = {
         refresh_token: token.refresh_token,
         grant_type: 'refresh_token',
+        client_id: oauthClientID,
+        client_secret: oauthClientSecret,
     };
 
     lastTokenRefreshTime = Date.now();
