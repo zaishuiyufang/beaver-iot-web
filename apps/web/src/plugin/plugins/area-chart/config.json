@@ -22,7 +22,7 @@
                         "size": "small",
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["STRING", "INT", "FLOAT"],
-                        "accessMods": ["R"]
+                        "accessMods": ["R", "RW"]
                     }
                 }
             ]

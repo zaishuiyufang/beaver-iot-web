@@ -37,7 +37,7 @@ export interface EntityAPISchema extends APISchema {
         // TODO: 待补充
         response: SearchResponseType<
             {
-                value: unknown;
+                value: string | number;
                 timestamp: number;
             }[]
         >;
