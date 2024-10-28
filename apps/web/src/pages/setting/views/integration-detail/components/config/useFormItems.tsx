@@ -15,11 +15,18 @@ import { checkRequired } from '@milesight/shared/src/utils/validators';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { VisibilityIcon, VisibilityOffIcon } from '@milesight/shared/src/components';
 
-export interface FormDataProps {
-    address?: string;
-    clientId?: string;
-    clientSecret?: string;
+export enum OPENAPI_KEYS {
+    /** OpenAPI Status 实体关键字 */
+    STATUS = 'openapi_status',
+    /** OpenAPI Server Url 实体关键字 */
+    SERVER_URL = 'openapi.server_url',
+    /** OpenAPI ClientID 实体关键字 */
+    CLIENT_ID = 'openapi.client_id',
+    /** OpenAPI ClientSecret 实体关键字 */
+    CLIENT_SECRET = 'openapi.client_secret',
 }
+
+export type FormDataProps = Partial<Record<OPENAPI_KEYS, string | boolean>>;
 
 const useFormItems = () => {
     const { getIntlText } = useI18n();
@@ -35,7 +42,7 @@ const useFormItems = () => {
 
         const items: ControllerProps<FormDataProps>[] = [
             {
-                name: 'address',
+                name: 'openapi.server_url',
                 render({ field: { onChange, value }, fieldState: { error } }) {
                     return (
                         <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
@@ -59,7 +66,7 @@ const useFormItems = () => {
                 },
             },
             {
-                name: 'clientId',
+                name: 'openapi.client_id',
                 rules: {
                     validate: { checkRequired: checkRequired() },
                 },
@@ -77,7 +84,7 @@ const useFormItems = () => {
                 },
             },
             {
-                name: 'clientSecret',
+                name: 'openapi.client_secret',
                 rules: {
                     validate: { checkRequired: checkRequired() },
                 },

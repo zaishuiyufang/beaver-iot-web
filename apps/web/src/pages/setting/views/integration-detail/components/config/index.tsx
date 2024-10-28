@@ -1,26 +1,56 @@
 import { Button, Tooltip, Chip } from '@mui/material';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
-import { InfoOutlinedIcon } from '@milesight/shared/src/components';
+import { InfoOutlinedIcon, toast } from '@milesight/shared/src/components';
+import { entityAPI, awaitWrap, isRequestSuccess } from '@/services/http';
+import { useEntity, type InteEntityType } from '../../hooks';
 import Services from './services';
-import useFormItems from './useFormItems';
+import useFormItems, { OPENAPI_KEYS, type FormDataProps } from './useFormItems';
 import './style.less';
 
-interface FormDataProps {
-    address?: string;
-    clientId?: string;
-    clientSecret?: string;
+interface Props {
+    /** 实体列表 */
+    entities?: InteEntityType[];
 }
 
 /**
  * 集成配置组件
  */
-const Config = () => {
+const Config: React.FC<Props> = ({ entities }) => {
     const { getIntlText } = useI18n();
     const { blue, green } = useTheme();
+    const { getEntityKey, getEntityValue } = useEntity({ entities });
+
+    // ---------- 表单相关处理逻辑 ----------
     const formItems = useFormItems();
-    const { control, handleSubmit } = useForm<FormDataProps>();
-    const onSubmit: SubmitHandler<FormDataProps> = data => console.log(data);
+    const { control, handleSubmit, setValue } = useForm<FormDataProps>();
+    const onSubmit: SubmitHandler<FormDataProps> = async params => {
+        console.log(params);
+        const finalParams =
+            params &&
+            Object.entries(params).reduce(
+                (acc, [key, value]) => {
+                    const entityKey = getEntityKey(key);
+
+                    if (entityKey && value !== undefined) {
+                        entityKey && (acc[entityKey] = value);
+                    }
+                    return acc;
+                },
+                {} as Record<string, any>,
+            );
+
+        console.log({ finalParams });
+        if (!finalParams || !Object.keys(finalParams).length) {
+            console.warn(`params is empty, the origin params is ${JSON.stringify(params)}`);
+            return;
+        }
+
+        const [error, resp] = await awaitWrap(entityAPI.updateProperty({ exchange: finalParams }));
+        if (error || !isRequestSuccess(resp)) return;
+
+        toast.success({ content: getIntlText('common.message.operation_success') });
+    };
 
     return (
         <>
@@ -65,7 +95,7 @@ const Config = () => {
                     </Button>
                 </div>
             </div>
-            <Services />
+            <Services entities={entities} />
         </>
     );
 };

@@ -3,6 +3,7 @@ import { Alert, IconButton, Grid2 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { Modal, ChevronRightIcon } from '@milesight/shared/src/components';
+import { IntegrationAPISchema } from '@/services/http';
 import { useConfirm, Tooltip, DateRangePicker } from '@/components';
 import './style.less';
 
@@ -11,7 +12,14 @@ interface FormDataProps {
     endTime?: number;
 }
 
-const Functions = () => {
+interface Props {
+    /** 实体列表 */
+    entities?: ObjectToCamelCase<
+        IntegrationAPISchema['getDetail']['response']['integration_entities'][0]
+    >;
+}
+
+const Functions: React.FC<Props> = ({ entities }) => {
     const { getIntlText } = useI18n();
     const confirm = useConfirm();
     const [modalOpen, setModalOpen] = useState(false);

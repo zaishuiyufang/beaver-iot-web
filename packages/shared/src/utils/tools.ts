@@ -607,3 +607,34 @@ export function toCamelCase<T extends string>(str: T): ToCamelCase<T> {
 export function objectToCamelCase<T extends object>(obj: T): ObjectToCamelCase<T> {
     return convertObjectCase(obj, toCamelCase);
 }
+
+/**
+ * 将嵌套的对象展开为扁平化的对象，其中嵌套的键通过点号连接。
+ *
+ * @template T 输入对象的类型，它必须是一个 Record<string, any>。
+ * @param obj 要展开的嵌套对象。
+ * @returns 展开后的扁平化对象。
+ *
+ * @example
+ * const nestedObj = { a: { b: { c: 1 } } };
+ * const flattenedObj = flattenObject(nestedObj);
+ * // flattenedObj 现在是 { 'a.b.c': 1 }
+ */
+
+export function flattenObject<T extends Record<string, any>>(obj: T) {
+    const result: Record<string, any> = {};
+
+    for (const i in obj) {
+        if (typeof obj[i] === 'object' && !Array.isArray(obj[i])) {
+            const temp = flattenObject(obj[i]);
+            // eslint-disable-next-line guard-for-in
+            for (const j in temp) {
+                result[`${i}.${j}`] = temp[j];
+            }
+        } else {
+            result[i] = obj[i];
+        }
+    }
+
+    return result;
+}
