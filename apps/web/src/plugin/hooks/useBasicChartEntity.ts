@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useTime } from '@milesight/shared/src/hooks';
 import { entityAPI, isRequestSuccess, getResponseData } from '@/services/http';
@@ -13,28 +13,6 @@ export interface ChartShowDataProps {
     entityLabel: string;
     entityValues: (string | number | null)[];
 }
-
-/**
- * 边框颜色定义
- */
-const BORDER_COLORS = [
-    'rgba(255, 99, 132, 1)', // 柔和的红色
-    'rgba(54, 162, 235, 1)', // 柔和的蓝色
-    'rgba(255, 206, 86, 1)', // 柔和的黄色
-    'rgba(75, 192, 192, 1)', // 柔和的青色
-    'rgba(153, 102, 255, 1)', // 柔和的紫色
-];
-
-/**
- * 背景颜色定义
- */
-const BACKGROUND_COLORS = [
-    'rgba(255, 99, 132, 0.3)', // 柔和的透明红色
-    'rgba(54, 162, 235, 0.3)', // 柔和的透明蓝色
-    'rgba(255, 206, 86, 0.3)', // 柔和的透明黄色
-    'rgba(75, 192, 192, 0.3)', // 柔和的透明青色
-    'rgba(153, 102, 255, 0.3)', // 柔和的透明紫色
-];
 
 /**
  * 基础图表数据统一处理逻辑 hooks
@@ -132,20 +110,6 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
         });
     }, [entity, time]);
 
-    /**
-     * 获取边框颜色
-     */
-    const getBorderColor = useCallback((index: number) => {
-        return BORDER_COLORS[index % BORDER_COLORS.length];
-    }, []);
-
-    /**
-     * 获取背景颜色
-     */
-    const getBackgroundColor = useCallback((index: number) => {
-        return BACKGROUND_COLORS[index % BACKGROUND_COLORS.length];
-    }, []);
-
     return {
         /**
          * 图表所需展示的数据
@@ -155,13 +119,5 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
          * 图表所需展示的数据
          */
         chartShowData,
-        /**
-         * 获取边框颜色
-         */
-        getBorderColor,
-        /**
-         * 获取背景颜色
-         */
-        getBackgroundColor,
     };
 }

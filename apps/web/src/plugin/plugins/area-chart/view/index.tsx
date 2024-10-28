@@ -19,7 +19,7 @@ const View = (props: ViewProps) => {
     const { entity, widgetName, time } = config || {};
 
     const { getIntlText } = useI18n();
-    const { chartShowData, chartLabels, getBorderColor, getBackgroundColor } = useBasicChartEntity({
+    const { chartShowData, chartLabels } = useBasicChartEntity({
         entity,
         time,
     });
@@ -29,11 +29,9 @@ const View = (props: ViewProps) => {
             type: 'line',
             data: {
                 labels: chartLabels,
-                datasets: chartShowData.map((chart, index) => ({
+                datasets: chartShowData.map(chart => ({
                     label: chart.entityLabel,
                     data: chart.entityValues,
-                    borderColor: getBorderColor(index),
-                    backgroundColor: getBackgroundColor(index),
                     borderWidth: 1,
                     fill: true,
                     spanGaps: true,
@@ -54,7 +52,7 @@ const View = (props: ViewProps) => {
              */
             chart?.destroy();
         };
-    }, [chartShowData, chartLabels, getBackgroundColor, getBorderColor]);
+    }, [chartShowData, chartLabels]);
 
     return (
         <div className={styles['area-chart-wrapper']}>

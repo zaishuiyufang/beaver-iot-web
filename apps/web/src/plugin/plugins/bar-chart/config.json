@@ -12,24 +12,18 @@
             },
             "components": [
                 {
-                    "type": "select",
+                    "type": "multiEntitySelect",
                     "title": "Entity",
                     "key": "entity",
                     "style": "width: 100%",
                     "getDataUrl": "",
+                    "valueType": "array",
                     "componentProps": {
-                        "size": "small"
-                    },
-                    "options": [
-                        {
-                            "label": "实体一",
-                            "value": "1"
-                        },
-                        {
-                            "label": "实体二",
-                            "value": "2"
-                        }
-                    ]
+                        "size": "small",
+                        "entityType": "PROPERTY",
+                        "entityValueTypes": ["STRING", "INT", "FLOAT"],
+                        "accessMods": ["R", "RW"]
+                    }
                 }
             ]
         },

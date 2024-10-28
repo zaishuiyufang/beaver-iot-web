@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 
+import { useI18n } from '@milesight/shared/src/hooks';
+import { useBasicChartEntity } from '@/plugin/hooks';
+
 import styles from './style.module.less';
 
 export interface ViewProps {
     config: {
-        entity?: string;
+        entity?: EntityOptionType[];
         widgetName?: string;
-        time?: number;
+        time: number;
     };
 }
 
@@ -15,18 +18,23 @@ const View = (props: ViewProps) => {
     const { config } = props;
     const { entity, widgetName, time } = config || {};
 
+    const { getIntlText } = useI18n();
+    const { chartShowData, chartLabels } = useBasicChartEntity({
+        entity,
+        time,
+    });
+
     useEffect(() => {
         const chart = new Chart(document.getElementById('lineChart') as HTMLCanvasElement, {
             type: 'line',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'july'],
-                datasets: [
-                    {
-                        label: entity || 'Monthly',
-                        data: [12, 19, 3, 5, 2, 3, 16],
-                        borderWidth: 1,
-                    },
-                ],
+                labels: chartLabels,
+                datasets: chartShowData.map(chart => ({
+                    label: chart.entityLabel,
+                    data: chart.entityValues,
+                    borderWidth: 1,
+                    spanGaps: true,
+                })),
             },
             options: {
                 scales: {
@@ -43,13 +51,11 @@ const View = (props: ViewProps) => {
              */
             chart.destroy();
         };
-    }, [entity]);
+    }, [entity, chartLabels, chartShowData]);
 
     return (
         <div className={styles['line-chart-wrapper']}>
-            <div className={styles.name}>
-                {widgetName} {time}
-            </div>
+            <div className={styles.name}>{widgetName || getIntlText('common.label.title')}</div>
 
             <canvas id="lineChart" />
         </div>
