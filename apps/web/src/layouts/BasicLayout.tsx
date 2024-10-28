@@ -33,7 +33,15 @@ function BasicLayout() {
     // 获取用户信息&鉴权&跳转逻辑
     useRequest(
         async () => {
-            if (!token) return;
+            if (!token) {
+                // 若 localStorage 中无缓存 token 则直接跳转登录页
+                const target = iotLocalStorage.getItem(REGISTERED_KEY)
+                    ? '/auth/login'
+                    : '/auth/register';
+
+                navigate(target, { replace: true });
+                return;
+            }
 
             setLoading(true);
             const [error, resp] = await awaitWrap(globalAPI.getUserInfo());
@@ -46,14 +54,6 @@ function BasicLayout() {
             debounceWait: 300,
         },
     );
-
-    // 判断 localStorage 中若无缓存 token 则直接跳转登录页
-    if (!token) {
-        const target = iotLocalStorage.getItem(REGISTERED_KEY) ? '/auth/login' : '/auth/register';
-
-        navigate(target);
-        return null;
-    }
 
     return (
         <section className="ms-layout">
