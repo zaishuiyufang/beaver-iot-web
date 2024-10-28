@@ -104,13 +104,13 @@ const Sidebar: React.FC<Props> = memo(({ menus, logoLinkTo = '/' }) => {
                             className={cls('ms-sidebar-user-trigger', {
                                 active: !!userMenuAnchorEl,
                             })}
-                            onClick={e => setUserMenuAnchorEl(e.currentTarget)}
+                            // onClick={e => setUserMenuAnchorEl(e.currentTarget)}
                         >
                             <Avatar {...stringAvatar(userInfo.nickname || '')} />
                             <Tooltip autoEllipsis className="ms-name" title={userInfo.nickname} />
-                            <ExpandMoreIcon className="ms-icon" />
+                            {/* <ExpandMoreIcon className="ms-icon" /> */}
                         </Stack>
-                        <Popover
+                        {/* <Popover
                             open={!!userMenuAnchorEl}
                             anchorEl={userMenuAnchorEl}
                             anchorOrigin={{
@@ -124,7 +124,7 @@ const Sidebar: React.FC<Props> = memo(({ menus, logoLinkTo = '/' }) => {
                             onClose={() => setUserMenuAnchorEl(null)}
                         >
                             <p>UserMenu</p>
-                        </Popover>
+                        </Popover> */}
                     </div>
                 )}
                 <IconButton className="ms-oprt-shrink" onClick={() => setShrink(!shrink)}>
