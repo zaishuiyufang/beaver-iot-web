@@ -36,7 +36,7 @@ const routes: RouteObjectType[] = [
             get title() {
                 return intl.get('common.label.dashboard');
             },
-            icon: <DashboardCustomizeIcon />,
+            icon: <DashboardCustomizeIcon fontSize="medium" />,
         },
         async lazy() {
             const { default: Component } = await import('@/pages/dashboard');
@@ -50,7 +50,7 @@ const routes: RouteObjectType[] = [
             get title() {
                 return intl.get('common.label.device');
             },
-            icon: <DevicesIcon />,
+            icon: <DevicesIcon fontSize="medium" />,
         },
         children: [
             {
@@ -82,7 +82,7 @@ const routes: RouteObjectType[] = [
             get title() {
                 return intl.get('common.label.setting');
             },
-            icon: <SettingsIcon />,
+            icon: <SettingsIcon fontSize="medium" />,
         },
         children: [
             {
