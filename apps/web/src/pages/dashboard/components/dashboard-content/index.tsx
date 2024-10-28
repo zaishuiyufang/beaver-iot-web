@@ -62,18 +62,21 @@ export default (props: DashboardContentProps) => {
     };
 
     const handleChangeWidgets = (data: any) => {
-        console.log(data);
+        console.log('change', data);
         setWidgets(data);
     };
 
     const handleOk = (data: any) => {
-        const newWidgets = [...widgets];
-        const index = newWidgets.findIndex((item: any) => item.id === data.id);
-        if (index > -1 && data?.id) {
+        const newWidgets = [...(widgets || [])];
+        const index = newWidgets.findIndex(
+            (item: WidgetDetail) => item.widget_id === data.widget_id,
+        );
+        if (index > -1 && data?.widget_id) {
             newWidgets[index] = data;
         } else {
             newWidgets.push(data);
         }
+        console.log('ok', data, newWidgets);
         widgetsRef.current = cloneDeep(newWidgets);
         handleChangeWidgets(newWidgets);
     };

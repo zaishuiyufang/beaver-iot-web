@@ -44,8 +44,10 @@ export default (props: PluginListProps) => {
         }
     }, [pluginsConfigs]);
 
-    const handleClick = (type: WidgetDetail) => {
-        onSelect(type);
+    const handleClick = (type: CustomComponentProps) => {
+        onSelect({
+            data: type,
+        });
     };
 
     return (

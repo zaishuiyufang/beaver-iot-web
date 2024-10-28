@@ -22,15 +22,23 @@ export default (props: WidgetProps) => {
     };
 
     const handleChange = (data: any) => {
-        setConfig({ ...config, data });
+        setConfig({
+            ...config,
+            data: {
+                ...(config?.data || {}),
+                ...data,
+            },
+        });
     };
 
     const handleOk = (data: any) => {
         // TODO: 插件配置保存
         onOk({
-            ...config,
             id: config?.id || new Date().getTime(),
-            config: data,
+            data: {
+                ...config.data,
+                config: data,
+            },
         });
         handleClose();
     };
@@ -39,7 +47,7 @@ export default (props: WidgetProps) => {
         <ConfigPlugin
             onClose={handleClose}
             onOk={handleOk}
-            config={config.data}
+            config={config?.data}
             onChange={handleChange}
         />
     ) : null;

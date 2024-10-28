@@ -13,8 +13,10 @@ export default (props: PluginListProps) => {
     const { onSelect } = props;
     const { pluginsConfigs } = useGetPluginConfigs();
 
-    const handleClick = (type: WidgetDetail) => {
-        onSelect(type);
+    const handleClick = (type: CustomComponentProps) => {
+        onSelect({
+            data: type,
+        });
     };
 
     return (
