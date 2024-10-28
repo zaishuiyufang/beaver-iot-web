@@ -81,12 +81,14 @@
                     "style": "width: 100%;",
                     "componentProps": {
                         "size": "small"
-                    }
+                    },
+                    "defaultValue": "LAST",
+                    "filters": ["SUM", "COUNT"]
                 }
             ]
         },
         {
-            "title": "Appearance of off status",
+            "title": "Appearance",
             "style": "display: flex;",
             "theme": {
                 "default": {

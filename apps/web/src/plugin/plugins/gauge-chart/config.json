@@ -82,7 +82,8 @@
                     "style": "width: 100%;",
                     "componentProps": {
                         "size": "small"
-                    }
+                    },
+                    "defaultValue": "LAST"
                 }
             ]
         }

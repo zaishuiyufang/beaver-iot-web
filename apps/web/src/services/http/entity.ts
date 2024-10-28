@@ -55,17 +55,15 @@ export interface EntityAPISchema extends APISchema {
             /** 聚合类型 */
             aggregate_type: DataAggregateType;
         };
-        response: SearchResponseType<
-            {
-                /** TODO: 待补充，只有在 LAST, MIN, MAX, AVG, SUM 出现 */
+        response: {
+            /** TODO: 待补充，只有在 LAST, MIN, MAX, AVG, SUM 出现 */
+            value: number;
+            count_result: {
                 value: unknown;
-                count_result: {
-                    value: unknown;
-                    /** 数量 */
-                    count: number;
-                }[];
-            }[]
-        >;
+                /** 数量 */
+                count: number;
+            }[];
+        };
     };
 
     /** 获取元数据 */

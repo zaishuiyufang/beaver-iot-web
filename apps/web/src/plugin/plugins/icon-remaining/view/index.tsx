@@ -1,21 +1,21 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import * as Icons from '@milesight/shared/src/components/icons';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
 import RemainChart from './components/remain-chart';
+import type { ViewConfigProps } from '../typings';
 import './style.less';
 
 interface Props {
-    config: any;
+    config: ViewConfigProps;
 }
 const View = (props: Props) => {
     const { config } = props;
     const { title, entity, metrics, time } = config || {};
     const { getIntlText } = useI18n();
-    const [percent, setPercent] = useState(50);
 
-    const { data: aggregateHistory } = useRequest(
+    const { data: aggregateHistoryData } = useRequest(
         async () => {
             const { value: entityId } = entity || {};
             if (!entityId) return;
@@ -35,6 +35,21 @@ const View = (props: Props) => {
         },
         { refreshDeps: [entity, title, time, metrics] },
     );
+    // 百分比
+    const percent = useMemo(() => {
+        const { rawData } = entity || {};
+        const { entityValueAttribute } = rawData || {};
+        const { min, max } = entityValueAttribute || {};
+
+        const { value } = aggregateHistoryData || {};
+        if (!value) return 0;
+
+        const range = (max || 0) - (min || 0);
+        if (range === 0) return 100;
+
+        const percent = (value / range) * 100;
+        return Math.min(100, Math.max(0, percent));
+    }, [entity, aggregateHistoryData]);
 
     const headerLabel = title || getIntlText('common.label.title');
     const { Icon, iconColor } = useMemo(() => {
@@ -52,7 +67,7 @@ const View = (props: Props) => {
         <div className="ms-icon-remaining">
             <div className="ms-icon-remaining__header">
                 <div className="ms-icon-remaining__icon">
-                    {Icon && <Icon sx={{ color: iconColor, fontSize: 24 }} />}
+                    {Icon && <Icon sx={{ color: iconColor, fontSize: 28 }} />}
                     <div
                         className="ms-icon-remaining__icon-bg"
                         style={{ backgroundColor: iconColor }}
@@ -66,10 +81,7 @@ const View = (props: Props) => {
             <div className="ms-icon-remaining__chart">
                 <RemainChart
                     draggable={false}
-                    value={50}
-                    onChange={percent => {
-                        setPercent(percent);
-                    }}
+                    value={percent}
                     style={{
                         slider: {
                             bgColor: iconColor,
