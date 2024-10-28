@@ -12,7 +12,7 @@ interface Toast {
     duration: number | null;
     severity: SeverityType;
     content: React.ReactNode;
-    // onClose?: (event: React.SyntheticEvent) => void;
+    onClose?: (event: Event | React.SyntheticEvent<any, Event>) => void;
 }
 
 type Params = string | PartialOptional<Omit<Toast, 'severity'>, 'key' | 'duration'>;
@@ -52,7 +52,10 @@ class ToastManager {
                         ClickAwayListenerProps={{
                             onClickAway: () => false,
                         }}
-                        onClose={() => this.removeToast(toast.key)}
+                        onClose={e => {
+                            this.removeToast(toast.key);
+                            toast.onClose?.(e);
+                        }}
                     >
                         <div className={`ms-toast ${toast.severity}`}>
                             <div className="ms-toast-icon">{iconMap[toast.severity]}</div>
