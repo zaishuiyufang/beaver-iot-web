@@ -29,11 +29,10 @@ const EntitySelect = (props: EntitySelectProps) => {
     });
 
     const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {
-        const { key, ...restOptionProps } = optionProps || {};
-        const { label, description } = option || {};
+        const { label, value, description } = option || {};
 
         return (
-            <MenuItem key={key} {...restOptionProps}>
+            <MenuItem {...(optionProps || {})} key={value}>
                 <div className="ms-entity-select-item">
                     <div className="ms-entity-select-item__label">{label}</div>
                     <div className="ms-entity-select-item__description">{description}</div>
@@ -57,6 +56,7 @@ const EntitySelect = (props: EntitySelectProps) => {
 
                 getEntityOptions(keyword);
             }}
+            isOptionEqualToValue={(option, currentVal) => option.value === currentVal.value}
         />
     );
 };

@@ -4,7 +4,7 @@ import * as Icons from '@milesight/shared/src/components/icons';
 import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
 
-// import { entityAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
+import { entityAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
 
 import styles from './style.module.less';
 
@@ -30,16 +30,24 @@ const View = (props: ViewProps) => {
      * 获取所选实体的状态
      */
     useEffect(() => {
-        if (entity) {
-            // entityAPI.getPropertyEntity({
-            //     entity_id: entity,
-            // }).then(awaitWrap).then(data => {
-            //     if (isRequestSuccess(data)) {
-            //         const { state } = getResponseData(data);
-            //         setIsSwitchOn(state);
-            //     }
-            // });
-        }
+        (async () => {
+            if (entity) {
+                const [error, res] = await awaitWrap(
+                    entityAPI.getEntityStatus({ id: entity.value }),
+                );
+
+                if (error || !isRequestSuccess(res)) {
+                    /**
+                     * 请求失败，以关闭 false 为默认值
+                     */
+                    setIsSwitchOn(false);
+                    return;
+                }
+
+                const entityStatus = getResponseData(res);
+                setIsSwitchOn(Boolean(entityStatus?.value));
+            }
+        })();
     }, [entity]);
 
     /**

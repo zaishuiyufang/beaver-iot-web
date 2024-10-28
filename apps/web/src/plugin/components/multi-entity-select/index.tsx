@@ -29,11 +29,10 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
     });
 
     const renderOption: EntitySelectProps['renderOption'] = (optionProps, option, { selected }) => {
-        const { key, ...restOptionProps } = optionProps || {};
-        const { label, description } = option || {};
+        const { label, value, description } = option || {};
 
         return (
-            <li key={key} {...restOptionProps}>
+            <li {...(optionProps || {})} key={value}>
                 <div className="ms-multi-entity-select">
                     <Checkbox style={{ marginRight: 8 }} checked={selected} />
                     <div className="ms-entity-select-item">

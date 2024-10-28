@@ -44,6 +44,10 @@ export interface ChartShowDataProps {
     entityValues: (string | null)[];
 }
 
+/**
+ * 基础图表数据统一处理逻辑 hooks
+ * 目前使用于（柱状图、横向柱状图、折线图、面积图）
+ */
 export function useBasicChartEntity(props: UseBasicChartEntityProps) {
     const { entity, time } = props;
 
