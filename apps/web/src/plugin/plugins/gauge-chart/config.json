@@ -83,7 +83,8 @@
                     "componentProps": {
                         "size": "small"
                     },
-                    "defaultValue": "LAST"
+                    "defaultValue": "LAST",
+                    "filters": ["SUM", "COUNT"]
                 }
             ]
         }

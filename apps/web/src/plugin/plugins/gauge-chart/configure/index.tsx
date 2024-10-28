@@ -5,8 +5,8 @@ import type { ConfigureType, ViewConfigProps } from '../typings';
 interface ConfigPluginProps {
     value: ViewConfigProps;
     config: ConfigureType;
-    onOk: (data: any) => void;
-    onChange: (data: any) => void;
+    onOk: (data: ViewConfigProps) => void;
+    onChange: (data: ViewConfigProps) => void;
 }
 
 const Plugin = forwardRef((props: ConfigPluginProps, ref: any) => {

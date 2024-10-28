@@ -12,7 +12,6 @@ interface Props {
 const extendArray = <T,>(arr: T[], n: number): T[] => {
     return Array.from({ length: n }, (_, i) => arr[i % arr.length]);
 };
-
 const View = (props: Props) => {
     const { config } = props;
     const { entity, title, time, metrics } = config || {};
@@ -21,7 +20,7 @@ const View = (props: Props) => {
     const { blue, green, red, yellow, grey } = useTheme();
     const colors = [blue[700], green[700], red[700], yellow[700]];
 
-    const { data: aggregateHistory } = useRequest(
+    const { data: aggregateHistoryData } = useRequest(
         async () => {
             const { value: entityId } = entity || {};
             if (!entityId) return;
@@ -42,6 +41,7 @@ const View = (props: Props) => {
         { refreshDeps: [entity, title, time, metrics] },
     );
 
+    /** 渲染仪表图 */
     const renderGaugeChart = (datasets: {
         data: number[];
         minValue?: number;
@@ -87,16 +87,21 @@ const View = (props: Props) => {
         return () => chart?.destroy();
     };
 
+    const headerLabel = title || getIntlText('common.label.title');
     useEffect(() => {
-        // TODO
-        const data = [1, 2, 3, 4];
-        const minValue = 0;
-        const currentValue = 2;
+        const { value } = aggregateHistoryData || {};
+
+        const { rawData } = entity || {};
+        const { entityValueAttribute } = rawData || {};
+        const { min, max } = entityValueAttribute || {};
+
+        const data = [max || value || 0];
+        const minValue = min || 0;
+        const currentValue = value || 0;
 
         return renderGaugeChart({ data, minValue, currentValue });
-    }, [entity]);
+    }, [entity, aggregateHistoryData]);
 
-    const headerLabel = title || getIntlText('common.label.title');
     return (
         <div className="ms-gauge-chart">
             <div className="ms-gauge-chart__header">{headerLabel}</div>
