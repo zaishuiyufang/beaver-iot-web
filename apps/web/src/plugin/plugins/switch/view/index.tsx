@@ -17,11 +17,15 @@ export interface ViewProps {
         onIcon?: string;
         onIconColor?: string;
     };
+    configJson: {
+        isPreview?: boolean;
+    };
 }
 
 const View = (props: ViewProps) => {
-    const { config } = props;
-    const { entity, switchText, onIconColor, offIconColor, offIcon, onIcon } = config;
+    const { config, configJson } = props;
+    const { entity, switchText, onIconColor, offIconColor, offIcon, onIcon } = config || {};
+    const { isPreview } = configJson || {};
 
     const { getIntlText } = useI18n();
     const [isSwitchOn, setIsSwitchOn] = useState(false);
@@ -56,17 +60,18 @@ const View = (props: ViewProps) => {
      */
     const handleEntityStatus = useCallback(
         async (switchVal: boolean) => {
-            console.log('handleEntityStatus ? ', entity, switchVal);
+            const entityKey = entity?.rawData?.entityKey;
 
-            // const needToUpdate = true;
-            // if (!entity || !needToUpdate) return;
+            /**
+             * 非预览状态，则可以进行数据更新
+             */
+            if (!entityKey || Boolean(isPreview)) return;
 
-            // entityAPI.updatePropertyEntity({
-            //     entity_id: entity,
-            //     exchange: {},
-            // });
+            entityAPI.updateProperty({
+                exchange: { [entityKey]: switchVal },
+            });
         },
-        [entity],
+        [entity, isPreview],
     );
 
     const handleSwitchChange = useCallback(

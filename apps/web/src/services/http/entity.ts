@@ -89,26 +89,24 @@ export interface EntityAPISchema extends APISchema {
 
     /** 更新属性类型实体 */
     updateProperty: {
-        // TODO: 待补充
         request: {
-            /** 实体 ID */
-            entity_id: ApiKey;
+            /**
+             * 实体 key, value
+             * */
             exchange: Record<string, any>;
         };
-        // TODO: 待补充
-        response: unknown;
+        response: void;
     };
 
     /** 调用服务类型实体 */
     callService: {
-        // TODO: 待补充
         request: {
-            /** 实体 ID */
-            entity_id: ApiKey;
+            /**
+             * 实体 key, value
+             * */
             exchange: Record<string, any>;
         };
-        // TODO: 待补充
-        response: unknown;
+        response: void;
     };
 
     /** 获取实体当前数据 */

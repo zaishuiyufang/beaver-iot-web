@@ -13,7 +13,7 @@ export interface ViewProps {
 
 const View = (props: ViewProps) => {
     const { config } = props;
-    const { entity, widgetName, time } = config;
+    const { entity, widgetName, time } = config || {};
 
     useEffect(() => {
         const chart = new Chart(document.getElementById('barChart') as HTMLCanvasElement, {

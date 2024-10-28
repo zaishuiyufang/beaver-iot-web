@@ -33,7 +33,7 @@ const BACKGROUND_COLORS = [
 
 const View = (props: ViewProps) => {
     const { config } = props;
-    const { entity, widgetName, time } = config;
+    const { entity, widgetName, time } = config || {};
 
     const { getIntlText } = useI18n();
     const { chartShowData, chartLabels } = useBasicChartEntity({
