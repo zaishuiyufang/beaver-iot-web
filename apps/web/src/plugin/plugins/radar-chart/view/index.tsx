@@ -79,7 +79,7 @@ const View = (props: IProps) => {
             labels: (aggregateHistoryList || []).map(item => item?.entity?.label),
             datasets: [
                 {
-                    label: headerLabel,
+                    label: '',
                     data: aggregateHistoryList.map(item => item?.data?.value || 0),
                     fill: true,
                     backgroundColor: blue[300],
@@ -92,11 +92,11 @@ const View = (props: IProps) => {
             ],
         };
         return renderRadarChart(data);
-    }, [aggregateHistoryList, headerLabel]);
+    }, [aggregateHistoryList]);
 
     return (
         <div className="ms-radar-chart">
-            {/* <div className="ms-radar-chart__header">{headerLabel}</div> */}
+            <div className="ms-radar-chart__header">{headerLabel}</div>
             <canvas id="radarChart" ref={chartRef} />
         </div>
     );

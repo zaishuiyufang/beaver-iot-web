@@ -37,7 +37,7 @@ const View = (props: Props) => {
         // 获取当前选中实体
         const { entityValueAttribute } = currentEntity || {};
         const { enum: enumStruct, unit } = entityValueAttribute || {};
-        const currentEntityStatus = entityStatusValue?.toString() || '';
+        const currentEntityStatus = entityStatusValue?.toString();
 
         // 枚举类型
         if (enumStruct) {
@@ -54,7 +54,7 @@ const View = (props: Props) => {
 
         // 非枚举类型
         return {
-            label: unit ? `${currentEntityStatus}${unit}` : `${currentEntityStatus}`,
+            label: unit ? `${currentEntityStatus ?? '- '}${unit}` : `${currentEntityStatus ?? ''}`,
             value: entityValue,
         };
     }, [entity, entityStatusValue]);
