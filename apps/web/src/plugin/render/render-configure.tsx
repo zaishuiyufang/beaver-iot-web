@@ -63,7 +63,8 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             const error = data?.fieldState?.error;
                             if (value === undefined) {
                                 value =
-                                    config?.config?.[component.key] || defaultValue[component.key];
+                                    config?.config?.[component.key] ||
+                                    defaultValue?.[component.key];
                             }
                             if (
                                 value === undefined &&

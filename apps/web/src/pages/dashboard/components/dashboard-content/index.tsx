@@ -103,9 +103,23 @@ export default (props: DashboardContentProps) => {
     // 编辑dashboard保存
     const saveEditDashboard = async () => {
         const [_, res] = await awaitWrap(
-            dashboardAPI.updateWidget({
+            dashboardAPI.updateDashboard({
                 widgets,
                 dashboard_id: dashboardId,
+                name: dashboardDetail.name,
+            }),
+        );
+        if (isRequestSuccess(res)) {
+            getDashboards();
+            setIsEdit(false);
+        }
+    };
+
+    // 删除dashboard
+    const handleDelete = async () => {
+        const [_, res] = await awaitWrap(
+            dashboardAPI.deleteDashboard({
+                id: dashboardId,
             }),
         );
         if (isRequestSuccess(res)) {
@@ -118,7 +132,7 @@ export default (props: DashboardContentProps) => {
         <div className="dashboard-content">
             <div className="dashboard-content-operate">
                 <div className="dashboard-content-operate-left">
-                    {isEdit || !widgets?.length ? (
+                    {isEdit ? (
                         <>
                             <Button
                                 variant="contained"
@@ -127,14 +141,14 @@ export default (props: DashboardContentProps) => {
                             >
                                 {getIntlText('dashboard.add_widget')}
                             </Button>
-                            <Button
+                            {/* <Button
                                 variant="contained"
                                 onClick={handleShowAddCustomWidget}
                                 sx={{ marginLeft: '20px' }}
                                 startIcon={<Add />}
                             >
                                 添加自定义组件
-                            </Button>
+                            </Button> */}
                         </>
                     ) : (
                         <Button variant="contained" onClick={changeEditStatus}>
@@ -146,7 +160,7 @@ export default (props: DashboardContentProps) => {
                     <div className="dashboard-content-operate-right">
                         <Button
                             variant="outlined"
-                            onClick={handleShowAddWidget}
+                            onClick={handleDelete}
                             startIcon={<DeleteOutline />}
                         >
                             {getIntlText('common.label.delete')}

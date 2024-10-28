@@ -195,6 +195,11 @@ declare interface CustomComponentProps {
      * @description 存储到服务端后数据库自动生成，无需维护
      */
     id?: string;
+    /**
+     * 是否预览模式
+     * @description 默认非预览，不需要手动配置该项，在配置界面会默认传true
+     */
+    isPreview?: boolean;
 }
 
 /**

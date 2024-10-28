@@ -24,8 +24,15 @@ export default () => {
         if (isRequestSuccess(res)) {
             const data = getResponseData(res);
             setTabs(data || []);
+            // 没有选择则默认选中第一个
             if (!tabKey) {
                 setTabKey(data?.[0]?.dashboard_id || '');
+            } else {
+                // 已选中判断当前选中是否还存在不存在默认选中第一个
+                const isExist = data?.some((item: DashboardDetail) => item.dashboard_id === tabKey);
+                if (!isExist) {
+                    setTabKey(data?.[0]?.dashboard_id || '');
+                }
             }
         }
     };
@@ -64,12 +71,13 @@ export default () => {
         setShowAdd(false);
     };
 
+    // 添加dashboard
     const handleAdd = async (data: AddDashboardType) => {
         setShowAdd(false);
         const [_, res] = await awaitWrap(dashboardAPI.addDashboard(data));
         if (isRequestSuccess(res)) {
-            const data: any = getResponseData(res);
-            setTabs([...tabs, data]);
+            const resData: any = getResponseData(res);
+            setTabs([...tabs, { ...data, dashboard_id: resData.dashboard_id, widgets: [] }]);
         }
     };
 

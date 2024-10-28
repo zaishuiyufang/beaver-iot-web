@@ -38,6 +38,9 @@ const View = (props: Props) => {
     const ref = useRef<any>();
 
     const handleClick = () => {
+        if (configJson.isPreview) {
+            return;
+        }
         setVisible(true);
     };
 
@@ -53,7 +56,12 @@ const View = (props: Props) => {
         <>
             <RenderView config={config} configJson={configJson} onClick={handleClick} />
             {visible && (
-                <Modal title={configJson.name} onOk={handleOk} onCancel={() => setVisible(false)}>
+                <Modal
+                    title={configJson.name}
+                    onOk={handleOk}
+                    onCancel={() => setVisible(false)}
+                    visible
+                >
                     {/* @ts-ignore: Mock 数据字段缺失，暂忽略 ts 校验报错 */}
                     <EntityForm ref={ref} entities={entities} onOk={handleSubmit} />
                 </Modal>

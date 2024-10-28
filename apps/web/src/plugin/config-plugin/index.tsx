@@ -72,10 +72,16 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                     <Suspense>
                         {ComponentView ? (
                             <Suspense>
-                                <ComponentView config={formValues} configJson={config} />
+                                <ComponentView
+                                    config={formValues}
+                                    configJson={{ ...config, isPreview: true }}
+                                />
                             </Suspense>
                         ) : (
-                            <RenderView configJson={config} config={formValues} />
+                            <RenderView
+                                configJson={{ ...config, isPreview: true }}
+                                config={formValues}
+                            />
                         )}
                     </Suspense>
                 </div>

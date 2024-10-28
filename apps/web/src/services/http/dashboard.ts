@@ -44,10 +44,10 @@ export interface DashboardAPISchema extends APISchema {
     /** 更新dashboard */
     updateDashboard: {
         request: {
-            id: ApiKey;
+            dashboard_id: ApiKey;
             /** 名称 */
             name?: string;
-            widgets?: WidgetDetail;
+            widgets?: WidgetDetail[];
         };
         response: unknown;
     };
@@ -82,7 +82,7 @@ export default attachAPI<DashboardAPISchema>(client, {
         getDashboards: `GET ${API_PREFIX}/dashboard/dashboards`,
         addDashboard: `POST ${API_PREFIX}/dashboard`,
         deleteDashboard: `DELETE ${API_PREFIX}/dashboard/:id`,
-        updateDashboard: `PUT ${API_PREFIX}/device/:id`,
+        updateDashboard: `PUT ${API_PREFIX}/dashboard/:dashboard_id`,
         addWidget: `POST ${API_PREFIX}/dashboard/:id/widget`,
         updateWidget: `PUT ${API_PREFIX}/dashboard/:id/widget/:widget_id`,
         deleteWidget: `DELETE ${API_PREFIX}/dashboard/:id/widget/:widget_id`,
