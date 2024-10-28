@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useRequest } from 'ahooks';
-import Chart from 'chart.js/auto'; // 引入 Chart.js
-import { useI18n } from '@milesight/shared/src/hooks';
+import Chart, { ChartConfiguration } from 'chart.js/auto'; // 引入 Chart.js
+import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
 import { ViewConfigProps } from '../typings';
 import './style.less';
@@ -13,13 +13,18 @@ const View = (props: IProps) => {
     const { config } = props;
     const { entityList, title, metrics, time } = config || {};
     const { getIntlText } = useI18n();
-    const chartRef = useRef<HTMLCanvasElement>(null);
+    const { blue, white } = useTheme();
+    const headerLabel = title || getIntlText('common.label.title');
 
+    const chartRef = useRef<HTMLCanvasElement>(null);
     const { data: aggregateHistoryList } = useRequest(
         async () => {
             if (!entityList || entityList.length === 0) return;
 
-            const run = async (entityId: ApiKey) => {
+            const run = async (entity: EntityOptionType) => {
+                const { value: entityId } = entity || {};
+                if (!entityId) return;
+
                 const now = Date.now();
                 const [error, resp] = await awaitWrap(
                     entityAPI.getAggregateHistory({
@@ -31,60 +36,26 @@ const View = (props: IProps) => {
                 );
                 if (error || !isRequestSuccess(resp)) return;
 
-                return getResponseData(resp);
+                const data = getResponseData(resp);
+                return {
+                    entity,
+                    data,
+                };
             };
-            const fetchList = entityList.map(entity => {
-                const { value: entityId } = entity || {};
-                if (!entityId) return;
-
-                return run(entityId);
-            });
+            const fetchList = entityList.map(entity => run(entity));
             return Promise.all(fetchList.filter(Boolean));
         },
-        { refreshDeps: [entityList, title, time, metrics] },
+        { refreshDeps: [entityList, time, metrics] },
     );
 
-    useEffect(() => {
+    /** 渲染雷达图 */
+    const renderRadarChart = (data: ChartConfiguration['data']) => {
         const ctx = chartRef.current!;
         if (!ctx) return;
 
         const chart = new Chart(ctx, {
             type: 'radar',
-            data: {
-                labels: [
-                    'Eating',
-                    'Drinking',
-                    'Sleeping',
-                    'Designing',
-                    'Coding',
-                    'Cycling',
-                    'Running',
-                ],
-                datasets: [
-                    {
-                        label: 'My First Dataset',
-                        data: [65, 59, 90, 81, 56, 55, 40],
-                        fill: true,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        pointBackgroundColor: 'rgb(255, 99, 132)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(255, 99, 132)',
-                    },
-                    {
-                        label: 'My Second Dataset',
-                        data: [28, 48, 40, 19, 96, 27, 100],
-                        fill: true,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        pointBackgroundColor: 'rgb(54, 162, 235)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(54, 162, 235)',
-                    },
-                ],
-            },
+            data,
             options: {
                 elements: {
                     line: {
@@ -100,12 +71,32 @@ const View = (props: IProps) => {
              */
             chart.destroy();
         };
-    }, []);
+    };
+    useEffect(() => {
+        if (!aggregateHistoryList) return;
 
-    const headerLabel = title || getIntlText('common.label.title');
+        const data = {
+            labels: (aggregateHistoryList || []).map(item => item?.entity?.label),
+            datasets: [
+                {
+                    label: headerLabel,
+                    data: aggregateHistoryList.map(item => item?.data?.value || 0),
+                    fill: true,
+                    backgroundColor: blue[300],
+                    borderColor: blue[600],
+                    pointBackgroundColor: blue[700],
+                    pointBorderColor: white,
+                    pointHoverBackgroundColor: white,
+                    pointHoverBorderColor: blue[700],
+                },
+            ],
+        };
+        return renderRadarChart(data);
+    }, [aggregateHistoryList, headerLabel]);
+
     return (
         <div className="ms-radar-chart">
-            <div className="ms-radar-chart__header">{headerLabel}</div>
+            {/* <div className="ms-radar-chart__header">{headerLabel}</div> */}
             <canvas id="radarChart" ref={chartRef} />
         </div>
     );

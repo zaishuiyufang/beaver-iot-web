@@ -38,7 +38,7 @@ const View = (props: Props) => {
 
             return getResponseData(resp);
         },
-        { refreshDeps: [entity, title, time, metrics] },
+        { refreshDeps: [entity, time, metrics] },
     );
 
     /** 渲染仪表图 */
