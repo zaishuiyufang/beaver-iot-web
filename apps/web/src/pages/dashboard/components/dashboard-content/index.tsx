@@ -76,7 +76,6 @@ export default (props: DashboardContentProps) => {
         } else {
             newWidgets.push(data);
         }
-        console.log('ok', data, newWidgets);
         widgetsRef.current = cloneDeep(newWidgets);
         handleChangeWidgets(newWidgets);
     };
