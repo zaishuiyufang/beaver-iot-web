@@ -100,7 +100,7 @@
             "children": [
                 {
                     "tag": "canvas",
-                    "key": "areaChart"
+                    "key": "gaugeChart"
                 }
             ]
         }

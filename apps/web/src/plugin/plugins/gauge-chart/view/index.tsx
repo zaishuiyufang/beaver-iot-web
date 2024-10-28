@@ -89,6 +89,7 @@ const View = (props: Props) => {
 
     const headerLabel = title || getIntlText('common.label.title');
     useEffect(() => {
+        if (!aggregateHistoryData) return;
         const { value } = aggregateHistoryData || {};
 
         const { rawData } = entity || {};
@@ -100,7 +101,7 @@ const View = (props: Props) => {
         const currentValue = value || 0;
 
         return renderGaugeChart({ data, minValue, currentValue });
-    }, [entity, aggregateHistoryData]);
+    }, [aggregateHistoryData]);
 
     return (
         <div className="ms-gauge-chart">
