@@ -3,6 +3,8 @@ export interface ViewConfigProps {
     entity: EntityOptionType;
     time: number;
     metrics: DataAggregateType;
+    icon: string;
+    iconColor: string;
 }
 
 export type ConfigureType = any;

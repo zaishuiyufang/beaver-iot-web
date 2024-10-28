@@ -17,10 +17,10 @@ declare interface ThemeProps {
     style?: string;
 }
 
-declare interface OptionsProps {
+declare interface OptionsProps<T extends string | number = string | number> {
     label: string;
-    value?: string | number;
-    options?: OptionsProps[];
+    value?: T;
+    options?: OptionsProps<T>[];
 }
 
 declare interface ComponentProps {
