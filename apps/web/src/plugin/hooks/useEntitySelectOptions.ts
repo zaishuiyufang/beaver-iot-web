@@ -38,6 +38,12 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
 
     const { run: getEntityOptions, data: entityOptions } = useRequest(
         async (keyword?: string) => {
+            /**
+             * 初始化加载状态
+             */
+            setOptions([]);
+            setLoading(true);
+
             const [error, resp] = await awaitWrap(
                 entityAPI.getList({
                     keyword,
