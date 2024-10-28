@@ -53,7 +53,10 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                     page_size: 999,
                 }),
             );
-            if (error || !isRequestSuccess(resp)) return;
+            if (error || !isRequestSuccess(resp)) {
+                setLoading(false);
+                return;
+            }
 
             const data = getResponseData(resp)!;
             return data?.content || [];
