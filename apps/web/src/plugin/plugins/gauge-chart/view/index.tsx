@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { isNil } from 'lodash-es';
 import { useRequest } from 'ahooks';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
@@ -51,7 +52,7 @@ const View = (props: Props) => {
         const currentValue = value || 0;
         const minValue = min || 0;
         const maxValue = max ? Math.max(max, currentValue) : currentValue;
-        const data = [...new Set([currentValue, maxValue])].filter(Boolean) as number[];
+        const data = [...new Set([currentValue, maxValue])].filter(v => !isNil(v)) as number[];
 
         // 渲染图表
         const circumference = 216; // 定义仪表盘的周长
