@@ -11,7 +11,7 @@ import styles from './style.module.less';
 export interface ViewProps {
     config: {
         entity?: EntityOptionType;
-        switchText?: string;
+        title?: string;
         offIcon?: string;
         offIconColor?: string;
         onIcon?: string;
@@ -24,7 +24,7 @@ export interface ViewProps {
 
 const View = (props: ViewProps) => {
     const { config, configJson } = props;
-    const { entity, switchText, onIconColor, offIconColor, offIcon, onIcon } = config || {};
+    const { entity, title, onIconColor, offIconColor, offIcon, onIcon } = config || {};
     const { isPreview } = configJson || {};
 
     const { getIntlText } = useI18n();
@@ -118,7 +118,7 @@ const View = (props: ViewProps) => {
                 <div className={styles.body}>
                     <Switch value={isSwitchOn} title={switchTitle} onChange={handleSwitchChange} />
                 </div>
-                <div className={styles.text}>{switchText || getIntlText('common.label.title')}</div>
+                <div className={styles.text}>{title || getIntlText('common.label.title')}</div>
             </div>
             <div className={styles.icon}>{IconComponent}</div>
         </div>

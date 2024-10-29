@@ -36,8 +36,8 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Switch Text",
-                    "key": "switchText",
+                    "title": "Title",
+                    "key": "title",
                     "defaultValue": "",
                     "componentProps": {
                         "size": "small",

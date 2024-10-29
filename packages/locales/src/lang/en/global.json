@@ -150,5 +150,6 @@
     "common.message.no_results_found": "No Results found.",
     "common.label.edit_title": "Edit {1}",
     "common.label.enable_title": "Enable {1}",
-    "auth.message.register_success": "Register successfully."
+    "auth.message.register_success": "Register successfully.",
+    "common.label.entity": "Entity"
 }
