@@ -52,8 +52,11 @@ const View = (props: Props) => {
         const currentValue = value || 0;
         const minValue = min || 0;
         const maxValue = max ? Math.max(max, currentValue) : currentValue;
-        const data = [...new Set([currentValue, maxValue])].filter(v => !isNil(v)) as number[];
-        if (data.length === 1 && data[0] === 0) return;
+        let data = [...new Set([currentValue, maxValue])].filter(v => !isNil(v)) as number[];
+        if (data.length === 1 && data[0] === 0) {
+            // 没有数据时，展示为空状态
+            data = [0, 1];
+        }
 
         // 渲染图表
         const circumference = 216; // 定义仪表盘的周长
@@ -115,7 +118,9 @@ const View = (props: Props) => {
 
     const headerLabel = title || getIntlText('common.label.title');
     useEffect(() => {
-        if (!aggregateHistoryData) return;
+        if (!aggregateHistoryData) {
+            return renderGaugeChart({ minValue: 0, maxValue: 0, currentValue: 0 });
+        }
         const { value } = aggregateHistoryData || {};
 
         const { rawData } = entity || {};

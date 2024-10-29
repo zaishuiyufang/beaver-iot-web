@@ -75,12 +75,16 @@ const View = (props: IProps) => {
                         display: false,
                     },
                     tooltip: {
+                        filter: tooltipItem => {
+                            return tooltipItem.dataIndex <= aggregateHistoryList.length - 1; // 只显示真实的点
+                        },
                         callbacks: {
                             label: context => {
                                 const { raw, dataset, dataIndex } = context || {};
 
                                 const label = dataset.label || '';
 
+                                // 获取单位
                                 const getUnit = () => {
                                     const { entity } = aggregateHistoryList[dataIndex] || {};
                                     const { rawData: currentEntity } = entity || {};
@@ -115,13 +119,33 @@ const View = (props: IProps) => {
         };
     };
     useEffect(() => {
-        if (!aggregateHistoryList) return;
+        const historyList = aggregateHistoryList || [];
+
+        // 填充占位图表数据
+        const getFillList = <T,>(list: T[] = []): T[] => {
+            const DEFAULT_COUNT = 5;
+            if (list && list.length >= DEFAULT_COUNT) return list;
+
+            // 余量
+            const surplus = 5 - list.length;
+            const surplusList = new Array(surplus).fill({
+                entity: {
+                    label: '',
+                },
+                data: {
+                    value: 0,
+                },
+            });
+
+            return [...list, ...surplusList];
+        };
+        const lists = getFillList(historyList);
 
         const data = {
-            labels: (aggregateHistoryList || []).map(item => item?.entity?.label),
+            labels: (lists || []).map(item => item?.entity?.label),
             datasets: [
                 {
-                    data: aggregateHistoryList.map(item => item?.data?.value || 0),
+                    data: historyList.map(item => item?.data?.value || 0),
                     fill: true,
                     backgroundColor: blue[300],
                     borderColor: blue[600],
@@ -132,7 +156,7 @@ const View = (props: IProps) => {
                 },
             ],
         };
-        return renderRadarChart(data, aggregateHistoryList);
+        return renderRadarChart(data, historyList);
     }, [aggregateHistoryList]);
 
     return (
