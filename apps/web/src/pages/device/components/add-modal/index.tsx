@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useRequest } from 'ahooks';
+import React, { useCallback, useState } from 'react';
+import { useRequest, useMemoizedFn } from 'ahooks';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import {
     FormControl,
@@ -9,39 +9,38 @@ import {
     FormHelperText,
     type SelectProps,
 } from '@mui/material';
-import { checkRequired } from '@milesight/shared/src/utils/validators';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
-import { Modal, type ModalProps } from '@milesight/shared/src/components';
+import { Modal, toast, type ModalProps } from '@milesight/shared/src/components';
 import {
     integrationAPI,
-    entityAPI,
+    deviceAPI,
     awaitWrap,
     getResponseData,
     isRequestSuccess,
 } from '@/services/http';
+import useDynamicFormItems, { type FormDataProps } from './useDynamicFormItems';
 
 interface Props extends Omit<ModalProps, 'onOk'> {
+    /** 添加失败回调 */
     onError?: (err: any) => void;
-    onSuccess?: () => void;
-}
 
-interface FormDataProps {
-    /** 集成 ID */
-    integration: ApiKey;
+    /** 添加成功回调 */
+    onSuccess?: () => void;
 }
 
 /**
  * 设备添加弹窗
  */
-const AddModal: React.FC<Props> = ({ visible, ...props }) => {
+const AddModal: React.FC<Props> = ({ visible, onCancel, onError, onSuccess, ...props }) => {
     const { getIntlText } = useI18n();
-    const { control, formState, handleSubmit, reset, setValue } = useForm<FormDataProps>();
+
+    // ---------- 集成相关逻辑处理 ----------
     const [inteID, setInteID] = useState<ApiKey>('');
     const { data: inteList } = useRequest(
         async () => {
             if (!visible) return;
-            const [error, resp] = await awaitWrap(integrationAPI.getList());
+            const [error, resp] = await awaitWrap(integrationAPI.getList({ device_addable: true }));
             const data = getResponseData(resp);
 
             if (error || !data || !isRequestSuccess(resp)) return;
@@ -49,34 +48,75 @@ const AddModal: React.FC<Props> = ({ visible, ...props }) => {
         },
         { debounceWait: 300, refreshDeps: [visible] },
     );
-    const { data: apiDoc } = useRequest(
+    const handleIntegrationChange: SelectProps['onChange'] = e => {
+        console.log(e, e.target.value);
+        setInteID(e.target.value as string);
+    };
+
+    // ---------- 实体表单相关逻辑处理 ----------
+    const { control, formState, handleSubmit, reset } = useForm<FormDataProps>();
+    const { data: entities } = useRequest(
         async () => {
             if (!inteID) return;
-            const [error, resp] = await awaitWrap(
-                entityAPI.getApiDoc({ entity_id_list: [inteID] }),
-            );
-            const data = getResponseData(resp);
+            const [error, resp] = await awaitWrap(integrationAPI.getDetail({ id: inteID }));
+            const respData = getResponseData(resp);
 
-            console.log('api doc', resp);
-            if (error || !data || !isRequestSuccess(resp)) return;
-            return objectToCamelCase(data);
+            if (error || !respData || !isRequestSuccess(resp)) return;
+
+            const data = objectToCamelCase(respData);
+            const addDeviceKey = data.addDeviceServiceKey;
+            const list = data.integrationEntities?.filter(item => {
+                // TODO: 接口 addDeviceKey 字段错误，暂时写死，方便调试
+                return `${item.key}`.includes('msc-integration.integration.add_device');
+                // return `${item.key}`.includes(`${addDeviceKey}`);
+            });
+
+            return list;
         },
         {
             debounceWait: 300,
             refreshDeps: [inteID],
         },
     );
+    const formItems = useDynamicFormItems({ entities });
+    const onSubmit: SubmitHandler<FormDataProps> = async ({ name, ...params }) => {
+        const entityParams = Object.entries(params).reduce(
+            (acc, [name, value]) => {
+                const entity = entities?.find(item => item.name === name);
 
-    const handleIntegrationChange: SelectProps['onChange'] = e => {
-        console.log(e, e.target.value);
-        setInteID(e.target.value as string);
+                entity && (acc[entity?.key] = value);
+                return acc;
+            },
+            {} as Record<string, any>,
+        );
+        const [error, resp] = await awaitWrap(
+            deviceAPI.addDevice({ name, integration: inteID, param_entities: entityParams }),
+        );
+
+        console.log({ error, resp });
+        if (error || !isRequestSuccess(resp)) {
+            onError?.(error);
+            return;
+        }
+
+        reset();
+        setInteID('');
+        onSuccess?.();
+        toast.success(getIntlText('common.message.add_success'));
     };
+
+    const handleCancel = useMemoizedFn(() => {
+        reset();
+        setInteID('');
+        onCancel?.();
+    });
 
     return (
         <Modal
             visible={visible}
             title={getIntlText('common.label.add')}
-            onOk={() => console.log('handle ok...')}
+            onOk={handleSubmit(onSubmit)}
+            onCancel={handleCancel}
             {...props}
         >
             <FormControl fullWidth size="small" disabled={formState.isSubmitting} sx={{ my: 1.5 }}>
@@ -96,6 +136,9 @@ const AddModal: React.FC<Props> = ({ visible, ...props }) => {
                     ))}
                 </Select>
             </FormControl>
+            {formItems.map(props => (
+                <Controller<FormDataProps> {...props} key={props.name} control={control} />
+            ))}
         </Modal>
     );
 };

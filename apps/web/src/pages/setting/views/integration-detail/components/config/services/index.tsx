@@ -169,7 +169,7 @@ const Services: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
                                 <Button
                                     variant="outlined"
                                     size="small"
-                                    startIcon={<EditIcon />}
+                                    startIcon={<EditIcon sx={{ width: 16, height: 16 }} />}
                                     onClick={() => setWebhookModalVisible(true)}
                                 >
                                     {getIntlText('common.button.edit')}

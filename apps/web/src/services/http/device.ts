@@ -70,7 +70,7 @@ export interface DeviceAPISchema extends APISchema {
     addDevice: {
         request: {
             /** 名称 */
-            name: string;
+            name?: string;
             /** 集成 ID */
             integration: ApiKey;
             /** 集成新增设备需要的额外信息 */

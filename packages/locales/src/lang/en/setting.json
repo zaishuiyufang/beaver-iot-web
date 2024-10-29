@@ -21,5 +21,10 @@
     "setting.integration.openapi_frequency_of_request": "Frequency of requests",
     "setting.integration.available_function_warning_text": "The following functions are not available and need to be configured with Open API under integrated configuration before they can be used.",
     "setting.integration.webhook_secret_key": "Secret Key",
-    "setting.integration.openapi_frequency_helper_text": "Range: 30s - 86400s"
+    "setting.integration.openapi_frequency_helper_text": "Range: 30s - 86400s",
+    "setting.integration.function_data_sync_title": "Data synchronization (device information and historical data)",
+    "setting.integration.function_data_sync_desc": "This service will pull all device information from the Milesight Development Platform that is bound to a connected application and telemetry data reported by devices.",
+    "setting.integration.function_data_sync_confirm_title": "Data synchronization",
+    "setting.integration.function_data_sync_confirm_helper_text": "Confirm or not to perform this operation. synchronization will only add non-existing devices and will not update the information of existing devices."
+
 }

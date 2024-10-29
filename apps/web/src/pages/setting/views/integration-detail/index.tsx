@@ -68,7 +68,7 @@ const InformationDetail = () => {
             {
                 key: 'function',
                 label: getIntlText('setting.integration.available_function'),
-                component: <Functions />,
+                component: <Functions entities={entityList} />,
             },
         ];
     }, [entityList, getIntlText, refreshInteDetail]);

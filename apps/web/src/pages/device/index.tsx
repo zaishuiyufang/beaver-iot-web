@@ -35,7 +35,7 @@ export default () => {
             );
             const data = getResponseData(resp);
 
-            console.log({ error, resp });
+            // console.log({ error, resp });
             if (error || !data || !isRequestSuccess(resp)) return;
 
             return objectToCamelCase(data);
@@ -60,24 +60,17 @@ export default () => {
                 color: 'error',
             },
             onConfirm: async () => {
-                console.log('confirm...', selectedIds);
-                // TODO: 以下为临时 Mock 处理，待接口正常返回数据后调整
-                // const [error, resp] = await awaitWrap(
-                //     deviceAPI.deleteDevices({ device_id_list: selectedIds as ApiKey[] }),
-                // );
+                console.log({ selectedIds });
+                const [error, resp] = await awaitWrap(
+                    deviceAPI.deleteDevices({ device_id_list: selectedIds as ApiKey[] }),
+                );
 
-                // if (error || !isRequestSuccess(resp)) return;
-                // setSelectedIds([]);
-                // toast.success(getIntlText('common.label.delete_success'));
+                // console.log({ error, resp });
+                if (error || !isRequestSuccess(resp)) return;
 
-                await new Promise(resolve => {
-                    setTimeout(() => {
-                        resolve(undefined);
-                        setSelectedIds([]);
-                        getDeviceList();
-                        toast.success(getIntlText('common.message.delete_success'));
-                    }, 2000);
-                });
+                getDeviceList();
+                setSelectedIds([]);
+                toast.success(getIntlText('common.label.delete_success'));
             },
         });
     }, [confirm, getIntlText, getDeviceList, selectedIds]);
@@ -110,15 +103,14 @@ export default () => {
 
     const handleTableBtnClick: UseColumnsProps<TableRowDataType>['onButtonClick'] = useCallback(
         (type, record) => {
-            console.log(type, record);
+            // console.log(type, record);
             switch (type) {
                 case 'detail': {
-                    console.log('go to detail');
                     navigate(`/device/detail/${record.id}`);
                     break;
                 }
                 case 'delete': {
-                    console.log('delete');
+                    handleDeleteConfirm();
                     break;
                 }
                 default: {
@@ -126,7 +118,7 @@ export default () => {
                 }
             }
         },
-        [navigate],
+        [navigate, handleDeleteConfirm],
     );
     const columns = useColumns<TableRowDataType>({ onButtonClick: handleTableBtnClick });
 
@@ -155,7 +147,14 @@ export default () => {
                     />
                 </div>
             </div>
-            <AddModal visible={modalOpen} onCancel={() => setModalOpen(false)} />
+            <AddModal
+                visible={modalOpen}
+                onCancel={() => setModalOpen(false)}
+                onSuccess={() => {
+                    getDeviceList();
+                    setModalOpen(false);
+                }}
+            />
         </div>
     );
 };

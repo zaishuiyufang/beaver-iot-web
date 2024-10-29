@@ -1,41 +1,53 @@
-import { useState } from 'react';
 import { Alert, IconButton, Grid2 } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import { useI18n } from '@milesight/shared/src/hooks';
-import { Modal, ChevronRightIcon } from '@milesight/shared/src/components';
-import { IntegrationAPISchema } from '@/services/http';
-import { useConfirm, Tooltip, DateRangePicker } from '@/components';
+import { ChevronRightIcon, toast } from '@milesight/shared/src/components';
+import { entityAPI, awaitWrap, isRequestSuccess } from '@/services/http';
+import { useConfirm, Tooltip } from '@/components';
+import { useEntity, type InteEntityType } from '../../hooks';
 import './style.less';
 
-interface FormDataProps {
-    startTime?: number;
-    endTime?: number;
-}
+// interface FormDataProps {
+//     startTime?: number;
+//     endTime?: number;
+// }
 
 interface Props {
     /** 实体列表 */
-    entities?: ObjectToCamelCase<
-        IntegrationAPISchema['getDetail']['response']['integration_entities'][0]
-    >;
+    entities?: InteEntityType[];
+
+    /** 编辑成功回调 */
+    onUpdateSuccess?: () => void;
 }
 
-const Functions: React.FC<Props> = ({ entities }) => {
+// 「同步设备信息与历史数据」实体关键字
+const SYNC_DEVICE_KEY = 'sync_device';
+
+const Functions: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
     const { getIntlText } = useI18n();
+
+    // ---------- 确认弹框相关处理逻辑 ----------
+    const { getEntityKey } = useEntity({ entities });
     const confirm = useConfirm();
-    const [modalOpen, setModalOpen] = useState(false);
+    // const [modalOpen, setModalOpen] = useState(false);
     const handleConfirm = () => {
         confirm({
-            title: 'Device Batch Synchronization',
-            description:
-                'Confirm or not to perform this operation. synchronization will only add non-existing devices and will not update the information of existing devices.',
+            title: getIntlText('setting.integration.function_data_sync_confirm_title'),
+            description: getIntlText('setting.integration.function_data_sync_confirm_helper_text'),
             async onConfirm() {
-                // Todo: 接口调用
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve();
-                        console.log('confirm...');
-                    }, 2000);
-                });
+                const entityKey = getEntityKey(SYNC_DEVICE_KEY);
+
+                if (!entityKey) {
+                    console.warn('Entity key is not found');
+                    return;
+                }
+                const [error, resp] = await awaitWrap(
+                    entityAPI.callService({ exchange: { [entityKey]: {} } }),
+                );
+
+                if (error || !isRequestSuccess(resp)) return;
+
+                onUpdateSuccess?.();
+                toast.success({ content: getIntlText('common.message.operation_success') });
             },
         });
     };
@@ -52,20 +64,18 @@ const Functions: React.FC<Props> = ({ entities }) => {
                             <Tooltip
                                 autoEllipsis
                                 className="title"
-                                title="Pull added device information"
+                                title={getIntlText('setting.integration.function_data_sync_title')}
                             />
                             <IconButton sx={{ width: 24, height: 24 }}>
                                 <ChevronRightIcon />
                             </IconButton>
                         </div>
                         <div className="desc">
-                            This service will pull all device information from the Milesight
-                            Development Platform that is bound to a connected application and will
-                            not update device information if the device already exists.
+                            {getIntlText('setting.integration.function_data_sync_desc')}
                         </div>
                     </div>
                 </Grid2>
-                <Grid2 size={{ sm: 6, md: 4, xl: 3 }}>
+                {/* <Grid2 size={{ sm: 6, md: 4, xl: 3 }}>
                     <div className="ms-int-feat-card" onClick={() => setModalOpen(true)}>
                         <div className="header">
                             <Tooltip
@@ -82,16 +92,16 @@ const Functions: React.FC<Props> = ({ entities }) => {
                             to the Milesight Development Platform.
                         </div>
                     </div>
-                </Grid2>
+                </Grid2> */}
             </Grid2>
-            <Modal
+            {/* <Modal
                 visible={modalOpen}
                 title="Query the historical data"
                 onCancel={() => setModalOpen(false)}
                 onOk={() => console.log('handle ok...')}
             >
                 <DateRangePicker label={{ start: 'Start date', end: 'End date' }} />
-            </Modal>
+            </Modal> */}
         </div>
     );
 };
