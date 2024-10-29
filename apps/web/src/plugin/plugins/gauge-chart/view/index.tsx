@@ -53,6 +53,7 @@ const View = (props: Props) => {
         const minValue = min || 0;
         const maxValue = max ? Math.max(max, currentValue) : currentValue;
         const data = [...new Set([currentValue, maxValue])].filter(v => !isNil(v)) as number[];
+        if (data.length === 1 && data[0] === 0) return;
 
         // 渲染图表
         const circumference = 216; // 定义仪表盘的周长
@@ -99,10 +100,11 @@ const View = (props: Props) => {
         const { rawData } = entity || {};
         const { entityValueAttribute } = rawData || {};
         const { min, max } = entityValueAttribute || {};
+        const getNumData = (value: unknown) => (Number.isNaN(Number(value)) ? 0 : Number(value));
 
-        const currentValue = value || 0;
-        const minValue = min || 0;
-        const maxValue = max || 0;
+        const currentValue = getNumData(value);
+        const minValue = getNumData(min);
+        const maxValue = getNumData(max);
         return renderGaugeChart({ minValue, maxValue, currentValue });
     }, [aggregateHistoryData]);
 
