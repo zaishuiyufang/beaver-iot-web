@@ -50,6 +50,11 @@ const View = (props: ViewProps) => {
 
                 const entityStatus = getResponseData(res);
                 setIsSwitchOn(Boolean(entityStatus?.value));
+            } else {
+                /**
+                 * 无实体，初始化数据
+                 */
+                setIsSwitchOn(false);
             }
         })();
     }, [entity]);
