@@ -57,7 +57,7 @@ const View = (props: Props) => {
 
         // 渲染图表
         const circumference = 216; // 定义仪表盘的周长
-        const rotation = (360 - 216) / 2 + 180;
+        const rotation = (360 - 216) / 2 + 180; // 根据周长，计算旋转的角度
         const chart = new Chart(ctx, {
             type: 'gauge',
             data: {
@@ -87,6 +87,27 @@ const View = (props: Props) => {
                     color: grey[700],
                     bottomMarginPercentage: -20,
                 },
+                hover: {
+                    // @ts-ignore
+                    mode: null, // 禁用悬停效果
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        enabled: true,
+                        filter: tooltipItem => tooltipItem.dataIndex === 0, // 只显示第一个数据项的 tooltip
+                        callbacks: {
+                            label: context => {
+                                const { raw, dataset } = context || {};
+                                const label = dataset.label || '';
+
+                                return `${label} ${raw}`;
+                            },
+                        },
+                    },
+                },
             },
         });
         return () => chart?.destroy();
@@ -99,7 +120,7 @@ const View = (props: Props) => {
 
         const { rawData } = entity || {};
         const { entityValueAttribute } = rawData || {};
-        const { min, max } = entityValueAttribute || {};
+        const { min, max = 50 } = entityValueAttribute || {};
         const getNumData = (value: unknown) => (Number.isNaN(Number(value)) ? 0 : Number(value));
 
         const currentValue = getNumData(value);
