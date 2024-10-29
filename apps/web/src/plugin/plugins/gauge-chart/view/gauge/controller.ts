@@ -275,10 +275,13 @@ export default class GaugeController extends DoughnutController {
             borderRadius,
             padding,
             bottomMarginPercentage,
+            leftMarginPercentage,
         } = this.options.valueLabel;
 
         const width = chartArea.right - chartArea.left;
+        const height = chartArea.bottom - chartArea.top;
         const bottomMargin = ((bottomMarginPercentage || 0) / 100) * width;
+        const leftMargin = ((leftMarginPercentage || 0) / 100) * height;
 
         const fmt = formatter || (value => value);
         const valueText = fmt((dataset as Record<string, any>).value).toString();
@@ -305,7 +308,7 @@ export default class GaugeController extends DoughnutController {
         let { dx, dy } = this.getTranslation(this.chart);
         // add rotation
         const rotation = toRadians(this.chart.options.rotation) % (Math.PI * 2.0);
-        dx += bottomMargin * Math.cos(rotation + Math.PI / 2);
+        dx += leftMargin * Math.cos(rotation + Math.PI / 2);
         dy += bottomMargin * Math.sin(rotation + Math.PI / 2);
 
         // draw
@@ -336,7 +339,7 @@ export default class GaugeController extends DoughnutController {
         super.draw();
         this.drawNeedle();
 
-        // this.drawValueLabel();
+        this.drawValueLabel();
     }
 }
 
@@ -369,6 +372,7 @@ GaugeController.overrides = {
             left: 5,
         },
         bottomMarginPercentage: 5,
+        leftMarginPercentage: 0,
     },
     // The percentage of the chart that we cut out of the middle.
     cutout: '50%',
