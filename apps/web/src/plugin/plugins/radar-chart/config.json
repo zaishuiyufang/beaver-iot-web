@@ -19,7 +19,9 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY"
+                        "entityType": "PROPERTY",
+                        "entityValueTypes": ["STRING", "INT", "LONG", "DOUBLE"],
+                        "accessMods": ["R"]
                     }
                 }
             ]
