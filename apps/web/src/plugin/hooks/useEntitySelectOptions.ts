@@ -8,15 +8,15 @@ interface EntityOptionProps {
     /**
      * 实体类型
      */
-    entityType: EntityType;
+    entityType?: EntityType;
     /**
      * 实体数据值类型
      */
-    entityValueTypes: EntityValueDataType[];
+    entityValueTypes?: EntityValueDataType[];
     /**
      * 实体属性访问类型
      */
-    accessMods: EntityAccessMode[];
+    accessMods?: EntityAccessMode[];
 }
 
 function safeJsonParse(str: string) {

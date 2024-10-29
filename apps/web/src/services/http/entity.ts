@@ -34,13 +34,7 @@ export interface EntityAPISchema extends APISchema {
             /** 结束时间戳，单位 ms */
             end_timestamp: number;
         };
-        // TODO: 待补充
-        response: SearchResponseType<
-            {
-                value: string | number;
-                timestamp: number;
-            }[]
-        >;
+        response: SearchResponseType<EntityHistoryData[]>;
     };
 
     /** 获取聚合历史数据 */
@@ -117,6 +111,7 @@ export interface EntityAPISchema extends APISchema {
         response: {
             value: any;
             updated_at: number;
+            value_type: EntityValueDataType;
         };
     };
 }

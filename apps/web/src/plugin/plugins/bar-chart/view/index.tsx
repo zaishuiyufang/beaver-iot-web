@@ -9,14 +9,14 @@ import styles from './style.module.less';
 export interface ViewProps {
     config: {
         entity?: EntityOptionType[];
-        widgetName?: string;
+        title?: string;
         time: number;
     };
 }
 
 const View = (props: ViewProps) => {
     const { config } = props;
-    const { entity, widgetName, time } = config || {};
+    const { entity, title, time } = config || {};
 
     const { getIntlText } = useI18n();
     const { chartShowData, chartLabels } = useBasicChartEntity({
@@ -54,7 +54,7 @@ const View = (props: ViewProps) => {
 
     return (
         <div className={styles['bar-chart-wrapper']}>
-            <div className={styles.name}>{widgetName || getIntlText('common.label.title')}</div>
+            <div className={styles.name}>{title || getIntlText('common.label.title')}</div>
 
             <canvas id="barChart" />
         </div>

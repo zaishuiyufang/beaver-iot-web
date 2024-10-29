@@ -21,7 +21,7 @@
                     "componentProps": {
                         "size": "small",
                         "entityType": "PROPERTY",
-                        "entityValueTypes": ["STRING", "INT", "FLOAT"],
+                        "entityValueTypes": ["STRING", "LONG", "DOUBLE"],
                         "accessMods": ["R", "RW"]
                     }
                 }
@@ -37,8 +37,8 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Widget name",
-                    "key": "widgetName",
+                    "title": "Title",
+                    "key": "title",
                     "defaultValue": "",
                     "componentProps": {
                         "size": "small",
