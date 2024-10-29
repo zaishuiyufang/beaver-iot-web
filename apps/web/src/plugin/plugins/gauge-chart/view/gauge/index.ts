@@ -1,6 +1,6 @@
 import Chart, { type ChartType, type DefaultDataPoint } from 'chart.js/auto';
 import GaugeController from './controller';
-import type { extraDatasets, GaugeNeedle, GaugeValueLabel } from './types';
+import type { extraDatasets, GaugeNeedle, GaugeOptions, GaugeValueLabel } from './types';
 
 type GenericClassConstructorParams<
     TType extends ChartType = ChartType,
@@ -25,6 +25,10 @@ export type IConfig<
     options?: TCache['options'] & {
         needle?: Partial<GaugeNeedle>;
         valueLabel?: Partial<GaugeValueLabel>;
+        cutout?: string;
+        rotation?: number;
+        circumference?: number;
+        radius?: number;
     };
 };
 

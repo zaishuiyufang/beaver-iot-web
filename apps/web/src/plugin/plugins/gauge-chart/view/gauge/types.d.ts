@@ -20,6 +20,7 @@ export type GaugeValueLabel = {
         left?: number;
     };
     bottomMarginPercentage?: number;
+    leftMarginPercentage?: number;
 };
 export type GaugePlugins = {
     legend: {

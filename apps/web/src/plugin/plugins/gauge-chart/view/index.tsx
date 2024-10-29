@@ -9,16 +9,12 @@ import './style.less';
 interface Props {
     config: ViewConfigProps;
 }
-const extendArray = <T,>(arr: T[], n: number): T[] => {
-    return Array.from({ length: n }, (_, i) => arr[i % arr.length]);
-};
 const View = (props: Props) => {
     const { config } = props;
     const { entity, title, time, metrics } = config || {};
     const { getIntlText } = useI18n();
     const chartRef = useRef<HTMLCanvasElement>(null);
-    const { blue, green, red, yellow, grey } = useTheme();
-    const colors = [blue[700], green[700], red[700], yellow[700]];
+    const { blue, grey } = useTheme();
 
     const { data: aggregateHistoryData } = useRequest(
         async () => {
@@ -43,15 +39,23 @@ const View = (props: Props) => {
 
     /** 渲染仪表图 */
     const renderGaugeChart = (datasets: {
-        data: number[];
         minValue?: number;
+        maxValue?: number;
         currentValue: number;
     }) => {
         const ctx = chartRef.current!;
         if (!ctx) return;
-        const { data, minValue, currentValue } = datasets || {};
 
-        const bgColors = extendArray(colors, data.length);
+        // 换成成符合条件的数据
+        const { minValue: min, maxValue: max, currentValue: value } = datasets || {};
+        const currentValue = value || 0;
+        const minValue = min || 0;
+        const maxValue = max ? Math.max(max, currentValue) : currentValue;
+        const data = [...new Set([currentValue, maxValue])].filter(Boolean) as number[];
+
+        // 渲染图表
+        const circumference = 216; // 定义仪表盘的周长
+        const rotation = (360 - 216) / 2 + 180;
         const chart = new Chart(ctx, {
             type: 'gauge',
             data: {
@@ -60,28 +64,27 @@ const View = (props: Props) => {
                         data,
                         minValue,
                         value: currentValue,
-                        backgroundColor: bgColors,
+                        backgroundColor: [blue[700], grey[100]],
                     },
                 ],
             },
             options: {
+                cutout: '90%', // 通过设置 cutout 属性调整圆环宽度，值越大圆环越细
                 needle: {
-                    radiusPercentage: 3,
-                    widthPercentage: 3.6,
+                    radiusPercentage: 1.5,
+                    widthPercentage: 3,
                     lengthPercentage: 80,
-                    color: grey[700],
+                    color: blue[600],
                 },
-                //     valueLabel: {
-                //         display: true,
-                //         formatter: (value: number) => `$${Math.round(value)}`,
-                //         color: 'rgba(255, 255, 255, 1)',
-                //         backgroundColor: 'rgba(0, 0, 0, 1)',
-                //         borderRadius: 5,
-                //         padding: {
-                //             top: 10,
-                //             bottom: 10,
-                //         },
-                //     },
+                circumference,
+                rotation,
+                valueLabel: {
+                    fontSize: 20,
+                    display: true,
+                    formatter: null,
+                    color: grey[700],
+                    bottomMarginPercentage: -20,
+                },
             },
         });
         return () => chart?.destroy();
@@ -96,11 +99,10 @@ const View = (props: Props) => {
         const { entityValueAttribute } = rawData || {};
         const { min, max } = entityValueAttribute || {};
 
-        const data = [max || value || 0];
-        const minValue = min || 0;
         const currentValue = value || 0;
-
-        return renderGaugeChart({ data, minValue, currentValue });
+        const minValue = min || 0;
+        const maxValue = max || 0;
+        return renderGaugeChart({ minValue, maxValue, currentValue });
     }, [aggregateHistoryData]);
 
     return (
