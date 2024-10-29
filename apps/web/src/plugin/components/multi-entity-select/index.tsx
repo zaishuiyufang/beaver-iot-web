@@ -14,7 +14,18 @@ type EntitySelectProps = AutocompleteProps<EntityOptionType, true, false, undefi
  * 实体选择下拉框组件（多选）
  */
 const MultiEntitySelect = (props: EntitySelectProps) => {
-    const { value, onChange, entityType, entityValueTypes, accessMods, ...restProps } = props;
+    const {
+        value,
+        onChange,
+        entityType,
+        entityValueTypes,
+        accessMods,
+        /**
+         * 默认最大可选择 5 个
+         */
+        maxCount = 5,
+        ...restProps
+    } = props;
 
     const { getIntlText } = useI18n();
 
@@ -56,9 +67,9 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
             getOptionDisabled={option => {
                 const currentValue = value || [];
                 /**
-                 * 实体最多只能选择 5 个
+                 * 默认实体最多只能选择 5 个
                  */
-                if (currentValue.length < 5) {
+                if (currentValue.length < maxCount) {
                     return false;
                 }
 

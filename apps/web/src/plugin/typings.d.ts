@@ -222,14 +222,19 @@ declare interface EntitySelectCommonProps<T> {
     /**
      * 实体类型
      */
-    entityType: EntityType;
+    entityType?: EntityType;
     /**
      * 实体数据值类型
      */
-    entityValueTypes: EntityValueDataType[];
+    entityValueTypes?: EntityValueDataType[];
     /**
      * 实体属性访问类型
      */
-    accessMods: EntityAccessMode[];
+    accessMods?: EntityAccessMode[];
+    /**
+     * 最大选中数量
+     * 仅多选（multiple）时有效
+     */
+    maxCount?: number;
     onChange: (value: T | null) => void;
 }

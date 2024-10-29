@@ -17,7 +17,7 @@ declare type EntityType = 'SERVICE' | 'PROPERTY' | 'EVENT';
 /**
  * 物模型属性数据类型
  */
-declare type EntityValueDataType = 'STRING' | 'INT' | 'FLOAT' | 'BOOLEAN' | 'BINARY' | 'OBJECT';
+declare type EntityValueDataType = 'STRING' | 'LONG' | 'DOUBLE' | 'BOOLEAN' | 'BINARY' | 'OBJECT';
 
 /**
  * 数据聚合类型
@@ -118,6 +118,7 @@ declare interface EntityData {
  * 实体历史数据
  */
 declare interface EntityHistoryData {
-    value: any[];
-    timestamp: number[];
+    value: any;
+    timestamp: number;
+    value_type: EntityValueDataType;
 }
