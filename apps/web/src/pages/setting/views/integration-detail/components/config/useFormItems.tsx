@@ -26,7 +26,9 @@ export enum OPENAPI_KEYS {
     CLIENT_SECRET = 'openapi.client_secret',
 }
 
-export type FormDataProps = Partial<Record<OPENAPI_KEYS, string | boolean>>;
+export type FormDataProps = Omit<Record<OPENAPI_KEYS, string | boolean>, OPENAPI_KEYS.STATUS> & {
+    [key: string]: any;
+};
 
 const useFormItems = () => {
     const { getIntlText } = useI18n();
@@ -42,34 +44,48 @@ const useFormItems = () => {
 
         const items: ControllerProps<FormDataProps>[] = [
             {
-                name: 'openapi.server_url',
+                name: OPENAPI_KEYS.SERVER_URL,
+                rules: {
+                    validate: { checkRequired: checkRequired() },
+                },
+                defaultValue: '',
                 render({ field: { onChange, value }, fieldState: { error } }) {
                     return (
-                        <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
-                            <InputLabel id="select-label-address">
-                                {getIntlText('setting.integration.param_server_address')}
-                            </InputLabel>
-                            <Select
-                                label={getIntlText('setting.integration.param_server_address')}
-                                labelId="select-label-address"
-                                error={!!error}
-                                value={value}
-                                onChange={onChange}
-                            >
-                                <MenuItem value="1">1</MenuItem>
-                                <MenuItem value="2">2</MenuItem>
-                                <MenuItem value="3">3</MenuItem>
-                            </Select>
-                            {!!error && <FormHelperText error>{error.message}</FormHelperText>}
-                        </FormControl>
+                        // TODO: 确认使用 Input / Select 组件
+                        // <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
+                        //     <InputLabel id="select-label-address">
+                        //         {getIntlText('setting.integration.param_server_address')}
+                        //     </InputLabel>
+                        //     <Select
+                        //         label={getIntlText('setting.integration.param_server_address')}
+                        //         labelId="select-label-address"
+                        //         error={!!error}
+                        //         value={value}
+                        //         onChange={onChange}
+                        //     >
+                        //         <MenuItem value="1">1</MenuItem>
+                        //         <MenuItem value="2">2</MenuItem>
+                        //         <MenuItem value="3">3</MenuItem>
+                        //     </Select>
+                        //     {!!error && <FormHelperText error>{error.message}</FormHelperText>}
+                        // </FormControl>
+                        <TextField
+                            {...commTextProps}
+                            label={getIntlText('setting.integration.param_server_address')}
+                            error={!!error}
+                            helperText={error ? error.message : null}
+                            value={value}
+                            onChange={onChange}
+                        />
                     );
                 },
             },
             {
-                name: 'openapi.client_id',
+                name: OPENAPI_KEYS.CLIENT_ID,
                 rules: {
                     validate: { checkRequired: checkRequired() },
                 },
+                defaultValue: '',
                 render({ field: { onChange, value }, fieldState: { error } }) {
                     return (
                         <TextField
@@ -84,10 +100,11 @@ const useFormItems = () => {
                 },
             },
             {
-                name: 'openapi.client_secret',
+                name: OPENAPI_KEYS.CLIENT_SECRET,
                 rules: {
                     validate: { checkRequired: checkRequired() },
                 },
+                defaultValue: '',
                 render({ field: { onChange, value }, fieldState: { error } }) {
                     return (
                         <TextField

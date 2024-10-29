@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { TextField, InputAdornment } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
@@ -23,6 +23,9 @@ interface Props extends Omit<ModalProps, 'onOk'> {
      */
     mode: 'edit' | 'switch';
 
+    /** 表单数据 */
+    data?: OpenapiFormDataProps;
+
     /** 表单提交回调 */
     onSubmit?: (params: OpenapiFormDataProps) => void;
 }
@@ -30,7 +33,7 @@ interface Props extends Omit<ModalProps, 'onOk'> {
 /**
  * Openapi 编辑弹窗
  */
-const OpenapiModal: React.FC<Props> = ({ mode, visible, onCancel, onSubmit }) => {
+const OpenapiModal: React.FC<Props> = ({ mode, data, visible, onCancel, onSubmit }) => {
     const { getIntlText } = useI18n();
     const title = useMemo(() => {
         const subTitle = getIntlText('common.label.openapi');
@@ -47,13 +50,19 @@ const OpenapiModal: React.FC<Props> = ({ mode, visible, onCancel, onSubmit }) =>
     // ---------- 表单数据处理 ----------
     const { control, formState, handleSubmit, reset, setValue } = useForm<OpenapiFormDataProps>();
     const onInnerSubmit: SubmitHandler<OpenapiFormDataProps> = async formData => {
-        console.log(formData);
         await onSubmit?.({
-            [OPENAPI_SCHEDULED_KEYS.ENABLED_KEY]: true,
             ...flattenObject(formData),
+            [OPENAPI_SCHEDULED_KEYS.ENABLED_KEY]: true,
         });
         reset();
     };
+
+    // 填入表单值
+    useEffect(() => {
+        Object.keys(data || {}).forEach(key => {
+            setValue(key as OPENAPI_SCHEDULED_KEYS, data?.[key as OPENAPI_SCHEDULED_KEYS] as never);
+        });
+    }, [data, setValue]);
 
     return (
         <Modal

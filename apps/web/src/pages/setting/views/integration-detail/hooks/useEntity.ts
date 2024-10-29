@@ -45,6 +45,22 @@ const useEntity = ({ entities }: Props) => {
         [entityMap],
     );
 
+    const getEntityValues = useCallback(
+        <T extends string[]>(keys: T) => {
+            const result: Partial<Record<T[number], any>> = {};
+
+            keys.forEach(key => {
+                const entityKey = Object.keys(entityMap).find(item => item.includes(key));
+                const entity = !entityKey ? undefined : entityMap[entityKey];
+
+                result[key as T[number]] = entity?.value;
+            });
+
+            return result;
+        },
+        [entityMap],
+    );
+
     return {
         /**
          * 根据 key 关键字获取准确实体 key
@@ -59,6 +75,13 @@ const useEntity = ({ entities }: Props) => {
          * 注意：若多个实体中均包含 key 关键字，则返回第一个匹配的实体 value
          */
         getEntityValue,
+
+        /**
+         * 根据 keys 关键字列表获取实体 values
+         *
+         * 注意：若多个实体中均包含 key 关键字，则返回第一个匹配的实体 value
+         */
+        getEntityValues,
     };
 };
 

@@ -5,39 +5,10 @@ import { useRequest } from 'ahooks';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { useRouteTab } from '@/hooks';
-import {
-    deviceAPI,
-    awaitWrap,
-    getResponseData,
-    isRequestSuccess,
-    type DeviceAPISchema,
-} from '@/services/http';
+import { deviceAPI, awaitWrap, getResponseData, isRequestSuccess } from '@/services/http';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { BasicTable, EntityTable } from './components';
 import './style.less';
-
-const mockEntityList = (() => {
-    const data: DeviceAPISchema['getDetail']['response']['entities'][0] = {
-        id: 'sensor.am308.temperature',
-        key: 'sensor.am308.temperature',
-        name: 'AM308',
-        type: 'EVENT',
-        value_type: 'INT',
-        value_attribute: {},
-    };
-    const types = ['EVENT', 'SERVICE', 'PROPERTY'];
-    const dataTypes = ['STRING', 'BOOLEAN', 'INT', 'FLOAT', 'DOUBLE'] as const;
-
-    return new Array(100).fill({ ...data }).map((item, index) => {
-        return {
-            ...item,
-            id: `${item.id}-${index}`,
-            name: `${item.name}-${index}`,
-            type: types[index % 3],
-            value_type: dataTypes[index % 5],
-        } as typeof data;
-    });
-})();
 
 export default () => {
     const { deviceId } = useParams();

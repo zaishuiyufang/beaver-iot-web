@@ -3,7 +3,7 @@
  *
  * 注意：工具函数必须为纯函数
  */
-
+import { stringify } from 'qs';
 import axios, { type Canceler } from 'axios';
 import { camelCase, isPlainObject } from 'lodash-es';
 
@@ -638,3 +638,21 @@ export function flattenObject<T extends Record<string, any>>(obj: T) {
 
     return result;
 }
+
+/**
+ * 生成完整的 API 地址
+ * @param origin 服务器源
+ * @param path 路径
+ * @param params 参数
+ */
+export const genApiUrl = (origin = '', path = '', params?: Record<string, any>) => {
+    origin = origin.replace(/\/$/, '');
+    path = path.replace(/^\//, '');
+
+    if (params) {
+        const connector = path.includes('?') ? '&' : '?';
+        path += `${connector}${stringify(params, { arrayFormat: 'repeat' })}`;
+    }
+
+    return `${origin}/${path}`;
+};
