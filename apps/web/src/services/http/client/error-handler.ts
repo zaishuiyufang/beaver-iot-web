@@ -44,7 +44,12 @@ const handlerConfigs: ErrorHandlerConfig[] = [
                 key: errCode,
                 content: message,
                 duration: 1000,
-                onClose: () => location.replace(target),
+                onClose: () => {
+                    const { pathname } = window.location;
+
+                    if (target === pathname) return;
+                    location.replace(target);
+                },
             });
             iotLocalStorage.removeItem(TOKEN_CACHE_KEY);
         },
