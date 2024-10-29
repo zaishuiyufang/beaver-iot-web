@@ -32,7 +32,7 @@ const InformationDetail = () => {
     const { state } = useLocation();
     const [basicInfo, setBasicInfo] =
         useState<ObjectToCamelCase<IntegrationAPISchema['getList']['response'][0]>>();
-    const { data: entityList } = useRequest(
+    const { data: entityList, refresh: refreshInteDetail } = useRequest(
         async () => {
             if (!integrationId) return;
             const [error, resp] = await awaitWrap(integrationAPI.getDetail({ id: integrationId }));
@@ -52,7 +52,6 @@ const InformationDetail = () => {
         },
     );
 
-    console.log({ entityList });
     useLayoutEffect(() => {
         if (!state?.id || state.id !== integrationId) return;
         setBasicInfo(state);
@@ -64,7 +63,7 @@ const InformationDetail = () => {
             {
                 key: 'config',
                 label: getIntlText('setting.integration.configuration'),
-                component: <Config entities={entityList} />,
+                component: <Config entities={entityList} onUpdateSuccess={refreshInteDetail} />,
             },
             {
                 key: 'function',
@@ -72,7 +71,7 @@ const InformationDetail = () => {
                 component: <Functions />,
             },
         ];
-    }, [entityList, getIntlText]);
+    }, [entityList, getIntlText, refreshInteDetail]);
     const [tabKey, setTabKey] = useRouteTab<TabKey>(tabs[0].key);
 
     return (

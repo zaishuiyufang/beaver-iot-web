@@ -50,11 +50,18 @@
             &__header {
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
                 padding: @padding-md @padding-lg;
 
                 .title {
                     margin-left: @margin-sm;
                     font-weight: @font-weight-medium;
+                }
+
+                &-left {
+                    display: flex;
+                    flex: 1;
+                    align-items: center;
                 }
             }
 
