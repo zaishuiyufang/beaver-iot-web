@@ -120,7 +120,7 @@ const View = (props: Props) => {
 
         const { rawData } = entity || {};
         const { entityValueAttribute } = rawData || {};
-        const { min, max = 50 } = entityValueAttribute || {};
+        const { min, max } = entityValueAttribute || {};
         const getNumData = (value: unknown) => (Number.isNaN(Number(value)) ? 0 : Number(value));
 
         const currentValue = getNumData(value);
