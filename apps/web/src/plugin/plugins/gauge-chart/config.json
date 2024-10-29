@@ -19,7 +19,9 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY"
+                        "entityType": "PROPERTY",
+                        "entityValueTypes": ["STRING", "LONG", "DOUBLE"],
+                        "accessMods": ["R", "RW"]
                     }
                 }
             ]
@@ -34,7 +36,7 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Widget name",
+                    "title": "Title",
                     "key": "title",
                     "style": "width: 100%",
                     "defaultValue": "",
