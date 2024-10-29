@@ -20,8 +20,8 @@
                     "componentProps": {
                         "size": "small",
                         "entityType": "PROPERTY",
-                        "entityValueTypes": ["STRING", "INT", "LONG", "DOUBLE"],
-                        "accessMods": ["R"]
+                        "entityValueTypes": ["STRING", "LONG", "DOUBLE"],
+                        "accessMods": ["R", "RW"]
                     }
                 }
             ]
@@ -36,7 +36,7 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Widget name",
+                    "title": "Title",
                     "key": "title",
                     "style": "width: 100%",
                     "defaultValue": "",

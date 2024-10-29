@@ -2,12 +2,22 @@ import { useEffect, useRef } from 'react';
 import { useRequest } from 'ahooks';
 import Chart, { ChartConfiguration } from 'chart.js/auto'; // 引入 Chart.js
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
-import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
+import {
+    awaitWrap,
+    entityAPI,
+    EntityAPISchema,
+    getResponseData,
+    isRequestSuccess,
+} from '@/services/http';
 import { ViewConfigProps } from '../typings';
 import './style.less';
 
 interface IProps {
     config: ViewConfigProps;
+}
+interface AggregateHistoryList {
+    entity: EntityOptionType;
+    data: EntityAPISchema['getAggregateHistory']['response'];
 }
 const View = (props: IProps) => {
     const { config } = props;
@@ -40,16 +50,19 @@ const View = (props: IProps) => {
                 return {
                     entity,
                     data,
-                };
+                } as AggregateHistoryList;
             };
             const fetchList = entityList.map(entity => run(entity));
-            return Promise.all(fetchList.filter(Boolean));
+            return Promise.all(fetchList.filter(Boolean) as unknown as AggregateHistoryList[]);
         },
         { refreshDeps: [entityList, time, metrics] },
     );
 
     /** 渲染雷达图 */
-    const renderRadarChart = (data: ChartConfiguration['data']) => {
+    const renderRadarChart = (
+        data: ChartConfiguration['data'],
+        aggregateHistoryList: AggregateHistoryList[],
+    ) => {
         const ctx = chartRef.current!;
         if (!ctx) return;
 
@@ -57,6 +70,35 @@ const View = (props: IProps) => {
             type: 'radar',
             data,
             options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: context => {
+                                const { raw, dataset, dataIndex } = context || {};
+
+                                const label = dataset.label || '';
+
+                                const getUnit = () => {
+                                    const { entity } = aggregateHistoryList[dataIndex] || {};
+                                    const { rawData: currentEntity } = entity || {};
+                                    if (!currentEntity) return;
+
+                                    // 获取当前选中实体
+                                    const { entityValueAttribute } = currentEntity || {};
+                                    const { unit } = entityValueAttribute || {};
+                                    return unit;
+                                };
+                                const unit = getUnit();
+
+                                // 自定义悬停时显示的文字内容
+                                return `${label}${raw}${unit || ''}`;
+                            },
+                        },
+                    },
+                },
                 elements: {
                     line: {
                         borderWidth: 3,
@@ -79,7 +121,6 @@ const View = (props: IProps) => {
             labels: (aggregateHistoryList || []).map(item => item?.entity?.label),
             datasets: [
                 {
-                    label: '',
                     data: aggregateHistoryList.map(item => item?.data?.value || 0),
                     fill: true,
                     backgroundColor: blue[300],
@@ -91,7 +132,7 @@ const View = (props: IProps) => {
                 },
             ],
         };
-        return renderRadarChart(data);
+        return renderRadarChart(data, aggregateHistoryList);
     }, [aggregateHistoryList]);
 
     return (
