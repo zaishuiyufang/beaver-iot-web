@@ -1,6 +1,7 @@
 import { useMemo, forwardRef, useRef } from 'react';
 import { isEqual } from 'lodash-es';
 import { Form, FormItemsType, MUIForm as MUI } from '@milesight/shared/src/components';
+import { useI18n } from '@milesight/shared/src/hooks';
 import * as Milesight from '../components';
 import { parseStyleString } from './util';
 
@@ -24,6 +25,7 @@ export interface IPlugin {
 }
 
 const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
+    const { getIntlText } = useI18n();
     const { config, onOk, onChange, value: defaultValue } = props;
     const currentTheme = 'default';
     const defaultRef = useRef<Record<string, any>>({});
@@ -46,12 +48,21 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                     const commonStyle = component?.style
                         ? parseStyleString(component?.style)
                         : undefined;
-                    const { type, style, componentProps, ...restItem } = component;
-
+                    const { type, style, valueType, componentProps, ...restItem } = component;
+                    const rules: any = { ...(component.rules || {}) };
+                    // if (rules.required) {
+                    //     if (component.valueType === 'array') {
+                    //         rules.validate = (value: any[]) => value?.length > 0;
+                    //     }
+                    //     if (component.valueType === 'object') {
+                    //         rules.validate = (value: any) =>
+                    //             !!value || getIntlText('valid.input.required');
+                    //     }
+                    // }
                     formItems.push({
+                        rules,
                         label: component.title,
                         name: component.key,
-                        rules: component.rules || {},
                         multiple: components?.length > 1 ? components?.length : 0,
                         multipleIndex: index,
                         title: item?.title,
@@ -78,7 +89,7 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                                 <Component
                                     {...restItem}
                                     {...componentProps}
-                                    error={!!error}
+                                    error={error}
                                     helperText={error ? error.message : null}
                                     value={value || (component.valueType === 'array' ? [] : '')}
                                     onChange={onChange}
@@ -112,6 +123,8 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
     const formItems = useMemo(() => {
         return getFormItems.formItems;
     }, [getFormItems.formItems]);
+
+    console.log(formItems);
 
     return (
         <Form

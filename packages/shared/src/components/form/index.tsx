@@ -14,7 +14,7 @@ interface formProps<T extends FieldValues> {
 
 const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
     const { formItems, onOk, onChange, defaultValues } = props;
-    const { handleSubmit, control, watch, reset } = useForm<T>({
+    const { handleSubmit, control, watch, reset, trigger } = useForm<T>({
         mode: 'onChange',
         defaultValues: {
             ...defaultValues,
@@ -44,7 +44,6 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
                 values[key] = formValues[key];
             }
         });
-        console.log(values, formValues);
         if (
             (!formValuesRef?.current || !isEqual(formValuesRef?.current, formValues)) &&
             !!Object.keys(values)?.length
@@ -55,8 +54,13 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
         }
     }, [formValues]);
 
-    const onSubmit: SubmitHandler<T> = (data: T) => {
-        onOk(data);
+    const onSubmit: SubmitHandler<T> = async (data: T) => {
+        const result = await trigger(); // 手动触发验证
+        if (result) {
+            onOk(data);
+        } else {
+            console.error('Validation failed');
+        }
     };
 
     /** 暴露给父组件的方法 */

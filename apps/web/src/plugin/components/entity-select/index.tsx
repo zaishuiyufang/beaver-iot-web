@@ -1,7 +1,5 @@
 import { MenuItem, Autocomplete, TextField } from '@mui/material';
-
 import type { AutocompleteProps } from '@mui/material';
-
 import { useI18n } from '@milesight/shared/src/hooks';
 import { useEntitySelectOptions } from '../../hooks';
 
@@ -43,14 +41,26 @@ const EntitySelect = (props: EntitySelectProps) => {
             </MenuItem>
         );
     };
-
     return (
         <Autocomplete
             {...restProps}
             onChange={(_, option) => onChange(option)}
             options={options}
             renderInput={params => (
-                <TextField {...params} label={getIntlText('common.label.entity')} />
+                <TextField
+                    {...params}
+                    error={(restProps as any).error}
+                    helperText={
+                        (restProps as any).error ? (
+                            <div style={{ marginLeft: -14 }}>
+                                {(restProps as any).error.message}
+                            </div>
+                        ) : (
+                            ''
+                        )
+                    }
+                    label={getIntlText('common.label.entity')}
+                />
             )}
             renderOption={renderOption}
             getOptionLabel={option => option?.label || ''}
