@@ -46,7 +46,7 @@ export type GaugeOptions = {
     needle: GaugeNeedle;
     valueLabel: GaugeValueLabel;
     plugins: GaugePlugins;
-    ticks?: GaugeTicks;
+    ticks: GaugeTicks;
 };
 
 export type extraDatasets = {
