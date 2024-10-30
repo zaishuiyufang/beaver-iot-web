@@ -39,7 +39,7 @@ const Integration = () => {
         <>
             <Grid2 container spacing={2}>
                 {intList?.map(item => (
-                    <Grid2 key={item.id} size={{ sm: 6, md: 4, xl: 3 }}>
+                    <Grid2 key={item.id} size={{ xs: 12, sm: 6, md: 4, xl: 3 }}>
                         <div className="ms-int-card" onClick={() => handleCardClick(item.id, item)}>
                             <div className="icon">
                                 {!!item.icon && <img src={item.icon} alt={item.name} />}

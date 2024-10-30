@@ -18,6 +18,7 @@
                     "title": "Entity",
                     "key": "entity",
                     "style": "width: 100%",
+                    "valueType": "object",
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small"
