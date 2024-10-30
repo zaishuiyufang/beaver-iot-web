@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { isNil } from 'lodash-es';
-import { useRequest } from 'ahooks';
+import { useRequest, useSize } from 'ahooks';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
 import Chart from './gauge';
@@ -137,7 +137,9 @@ const View = (props: Props) => {
     return (
         <div className="ms-gauge-chart">
             <div className="ms-gauge-chart__header">{headerLabel}</div>
-            <canvas id="gaugeChart" ref={chartRef} />
+            <div className="ms-gauge-chart__content">
+                <canvas id="gaugeChart" ref={chartRef} />
+            </div>
         </div>
     );
 };
