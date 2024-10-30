@@ -1,7 +1,7 @@
 {
     "type": "iconRemaining",
     "name": "Icon Remaining",
-    "class": "icon_remaining",
+    "class": "data_chart",
     "icon": "./icon.png",
     "minCol": 4,
     "minRow": 5,

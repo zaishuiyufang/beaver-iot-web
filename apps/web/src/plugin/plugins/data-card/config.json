@@ -1,6 +1,7 @@
 {
     "type": "dataCard",
     "name": "Card",
+    "class": "data_card",
     "icon": "./icon.png",
     "minCol": 3,
     "minRow": 4,
