@@ -1,4 +1,5 @@
 import React, { CSSProperties, useEffect } from 'react';
+import { useTheme } from '@milesight/shared/src/hooks';
 import { useRender, useUpdate } from './hooks';
 import './style.less';
 
@@ -18,6 +19,7 @@ interface IProps {
     onChange?: (percent: number) => void;
 }
 export default React.memo(({ style, value, draggable, onChange }: IProps) => {
+    const { yellow, white } = useTheme();
     const clickSliderRef = React.useRef<HTMLDivElement>(null);
     const actualSliderRef = React.useRef<HTMLDivElement>(null);
     const { tooltip, slider, width, height, ...rest } = style || {};
@@ -30,9 +32,9 @@ export default React.memo(({ style, value, draggable, onChange }: IProps) => {
         width: width || '100%',
         height: height || '42px',
         '--remain-view-tooltip-font-size': `${fontSize || 12}px`,
-        '--remain-view-tooltip-bg-color': bgColor || '#fff',
+        '--remain-view-tooltip-bg-color': bgColor || white,
         '--remain-view-tooltip-position-top': `${offset ? -offset : -4}px`,
-        '--remain-view-slider-bg-color': sliderBgColor || '#F7BA1E',
+        '--remain-view-slider-bg-color': sliderBgColor || yellow[600],
     };
 
     const { updatePercent } = useUpdate({ clickSliderRef, actualSliderRef });

@@ -3,8 +3,8 @@
     "name": "Icon Remaining",
     "class": "icon_remaining",
     "icon": "./icon.png",
-    "minCol": 6,
-    "minRow": 6,
+    "minCol": 4,
+    "minRow": 5,
     "configProps": [
         {
             "style": "width: 100%",
