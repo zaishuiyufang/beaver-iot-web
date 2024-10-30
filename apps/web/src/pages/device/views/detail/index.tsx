@@ -1,40 +1,61 @@
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useMemo, useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { Tabs, Tab } from '@mui/material';
 import { useRequest } from 'ahooks';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { useRouteTab } from '@/hooks';
-import { deviceAPI, awaitWrap, getResponseData, isRequestSuccess } from '@/services/http';
+import {
+    deviceAPI,
+    awaitWrap,
+    getResponseData,
+    isRequestSuccess,
+    type DeviceAPISchema,
+} from '@/services/http';
 import { Breadcrumbs, TabPanel } from '@/components';
 import { BasicTable, EntityTable } from './components';
 import './style.less';
 
+type DeviceDetailType = ObjectToCamelCase<DeviceAPISchema['getDetail']['response']>;
+
 export default () => {
+    const { state } = useLocation();
     const { deviceId } = useParams();
     const { getIntlText } = useI18n();
+
+    // ---------- 设备详情相关逻辑 ----------
+    const [deviceDetail, setDeviceDetail] = useState<DeviceDetailType>();
     const {
         loading,
-        data: deviceDetail,
+        // data: deviceDetail,
         run: getDeviceDetail,
     } = useRequest(
         async () => {
             if (!deviceId) return;
-
-            // TODO: 判断路由 state 中是否已有详情数据，若有则无需请求接口？
-            // TODO: $ignoreError 为临时处理，待接口正常返回数据后删除
             const [error, resp] = await awaitWrap(deviceAPI.getDetail({ id: deviceId }));
-            const data = getResponseData(resp);
+            const respData = getResponseData(resp);
 
-            if (error || !data || !isRequestSuccess(resp)) return;
+            if (error || !respData || !isRequestSuccess(resp)) return;
+            const data = objectToCamelCase(respData);
 
-            return objectToCamelCase(data);
+            setDeviceDetail(data);
+            return data;
         },
         {
             debounceWait: 300,
             refreshDeps: [deviceId],
         },
     );
+
+    // 填充默认数据
+    useEffect(() => {
+        if (!state?.id || state.id !== deviceId) return;
+
+        setDeviceDetail(detail => {
+            if (detail) return detail;
+            return state;
+        });
+    }, [state, deviceId]);
 
     // ---------- Tab 切换相关逻辑 ----------
     const tabs = useMemo(() => {
@@ -61,7 +82,15 @@ export default () => {
 
     return (
         <div className="ms-main">
-            <Breadcrumbs />
+            <Breadcrumbs
+                rewrite={navs => {
+                    const newNavs = [...navs];
+                    const lastNav = newNavs[newNavs.length - 1];
+
+                    lastNav.title = deviceDetail?.name || lastNav.title;
+                    return newNavs;
+                }}
+            />
             <div className="ms-view ms-view-device-detail">
                 <div className="topbar">
                     <Tabs
