@@ -75,7 +75,7 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
 
                     return [...new Set([...a, ...times])];
                 }, [])
-                .sort((a, b) => a - b);
+                .sort((a, b) => Number(a) - Number(b));
             setChartLabels(newChartLabels);
 
             const newChartShowData: ChartShowDataProps[] = [];

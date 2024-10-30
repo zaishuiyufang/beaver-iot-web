@@ -21,7 +21,7 @@
                     "componentProps": {
                         "size": "small",
                         "entityType": "PROPERTY",
-                        "entityValueTypes": ["STRING", "LONG", "DOUBLE"],
+                        "entityValueTypes": ["LONG", "DOUBLE"],
                         "accessMods": ["R", "RW"]
                     }
                 }
