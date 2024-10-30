@@ -162,7 +162,9 @@ const View = (props: IProps) => {
     return (
         <div className="ms-radar-chart">
             <div className="ms-radar-chart__header">{headerLabel}</div>
-            <canvas id="radarChart" ref={chartRef} />
+            <div className="ms-radar-chart__content">
+                <canvas id="radarChart" ref={chartRef} />
+            </div>
         </div>
     );
 };

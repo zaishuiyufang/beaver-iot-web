@@ -51,29 +51,33 @@ export default () => {
 
     // ---------- 数据删除相关 ----------
     const confirm = useConfirm();
-    const handleDeleteConfirm = useCallback(() => {
-        confirm({
-            title: getIntlText('common.label.delete'),
-            description: getIntlText('device.message.delete_tip'),
-            confirmButtonText: getIntlText('common.label.delete'),
-            confirmButtonProps: {
-                color: 'error',
-            },
-            onConfirm: async () => {
-                console.log({ selectedIds });
-                const [error, resp] = await awaitWrap(
-                    deviceAPI.deleteDevices({ device_id_list: selectedIds as ApiKey[] }),
-                );
+    const handleDeleteConfirm = useCallback(
+        (ids?: ApiKey[]) => {
+            const idsToDelete = ids || [...selectedIds];
 
-                // console.log({ error, resp });
-                if (error || !isRequestSuccess(resp)) return;
+            confirm({
+                title: getIntlText('common.label.delete'),
+                description: getIntlText('device.message.delete_tip'),
+                confirmButtonText: getIntlText('common.label.delete'),
+                confirmButtonProps: {
+                    color: 'error',
+                },
+                onConfirm: async () => {
+                    const [error, resp] = await awaitWrap(
+                        deviceAPI.deleteDevices({ device_id_list: idsToDelete }),
+                    );
 
-                getDeviceList();
-                setSelectedIds([]);
-                toast.success(getIntlText('common.label.delete_success'));
-            },
-        });
-    }, [confirm, getIntlText, getDeviceList, selectedIds]);
+                    // console.log({ error, resp });
+                    if (error || !isRequestSuccess(resp)) return;
+
+                    getDeviceList();
+                    setSelectedIds([]);
+                    toast.success(getIntlText('common.label.delete_success'));
+                },
+            });
+        },
+        [confirm, getIntlText, getDeviceList, selectedIds],
+    );
 
     // ---------- Table 渲染相关 ----------
     const toolbarRender = useMemo(() => {
@@ -93,7 +97,7 @@ export default () => {
                     disabled={!selectedIds.length}
                     sx={{ height: 36, textTransform: 'none' }}
                     startIcon={<DeleteOutlineIcon />}
-                    onClick={handleDeleteConfirm}
+                    onClick={() => handleDeleteConfirm()}
                 >
                     {getIntlText('common.label.delete')}
                 </Button>
@@ -106,11 +110,11 @@ export default () => {
             // console.log(type, record);
             switch (type) {
                 case 'detail': {
-                    navigate(`/device/detail/${record.id}`);
+                    navigate(`/device/detail/${record.id}`, { state: record });
                     break;
                 }
                 case 'delete': {
-                    handleDeleteConfirm();
+                    handleDeleteConfirm([record.id]);
                     break;
                 }
                 default: {
@@ -140,7 +144,7 @@ export default () => {
                         onPaginationModelChange={setPaginationModel}
                         onRowSelectionModelChange={setSelectedIds}
                         onRowDoubleClick={({ row }) => {
-                            navigate(`/device/detail/${row.id}`);
+                            navigate(`/device/detail/${row.id}`, { state: row });
                         }}
                         onSearch={setKeyword}
                         onRefreshButtonClick={getDeviceList}

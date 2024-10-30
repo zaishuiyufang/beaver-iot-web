@@ -14,12 +14,19 @@ type Props = {
     /**
      * 自定义导航 title，kv 格式，key 为路由 pathname，value 为 title 值
      */
-    titles?: Record<string, string>;
+    // titles?: Record<string, string>;
 
     /**
      * 自定义导航 path & title，该属性有值时 `titles` 属性无效
      */
     navs?: NavsType;
+
+    /**
+     * 重写导航数据
+     * @param navs 当前导航数据
+     * @returns 返回最终导航数据
+     */
+    rewrite?: (navs: NavsType) => NavsType;
 
     /**
      * 自定义返回 Button 点击处理函数，默认回到第一个 nav 地址
@@ -30,7 +37,7 @@ type Props = {
 /**
  * 面包屑导航组件
  */
-const MSBreadcrumbs: React.FC<Props> = memo(({ navs, titles }) => {
+const MSBreadcrumbs: React.FC<Props> = memo(({ navs, rewrite }) => {
     const routes = useMatches();
     // const navigate = useNavigate();
     const { lang } = useI18n();
@@ -53,18 +60,18 @@ const MSBreadcrumbs: React.FC<Props> = memo(({ navs, titles }) => {
 
         if (!crumbs?.length) {
             crumbs = routes.slice(1).map(route => {
-                const { title: routeTitle } = (route.handle || {}) as Record<string, any>;
+                const { title } = (route.handle || {}) as Record<string, any>;
 
                 return {
-                    title: (titles && titles[route.pathname]) || routeTitle,
+                    title,
                     path: route.pathname,
                 };
             });
         }
 
         crumbs = crumbs.filter(nav => nav.title);
-        setInnerNavs(crumbs);
-    }, [routes, navs, titles, lang]);
+        setInnerNavs(!rewrite ? crumbs : rewrite(crumbs));
+    }, [routes, navs, lang, rewrite]);
 
     return (
         <div className="ms-breadcrumbs">
