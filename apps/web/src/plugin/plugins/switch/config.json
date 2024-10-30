@@ -108,5 +108,9 @@
             ]
         }
     ],
-    "view": []
+    "view": [],
+    "minRow": 3,
+    "maxRow": 5,
+    "minCol": 3,
+    "maxCol": 5
 }
