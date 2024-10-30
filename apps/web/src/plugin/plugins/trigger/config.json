@@ -3,6 +3,10 @@
     "name": "事件触发",
     "class": "operate",
     "icon": "./icon.png",
+    "minRow": 4,
+    "maxRow": 8,
+    "minCol": 2,
+    "maxCol": 4,
     "configProps": [
         {
             "style": "width: 100%",

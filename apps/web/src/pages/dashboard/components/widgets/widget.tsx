@@ -45,16 +45,16 @@ const Widget = (props: WidgetProps) => {
             });
         } else {
             const { unitHeight, unitWidth } = getSize();
-            let width = (data?.data.pos?.width || 0) * unitWidth;
-            let height = (data?.data.pos?.height || 0) * unitHeight;
-            if (width < data?.data.pos?.initWidth) {
-                const diff = Math.ceil(((data?.data.pos?.initWidth || 0) - width) / unitWidth);
-                width = ((data?.data.pos?.width || 0) + diff) * unitWidth;
-            }
-            if (height < data?.data.pos?.initHeight) {
-                const diff = Math.ceil(((data?.data.pos?.initHeight || 0) - height) / unitHeight);
-                height = ((data?.data.pos?.height || 0) + diff) * unitHeight;
-            }
+            const width = (data?.data.pos?.width || 0) * unitWidth;
+            const height = (data?.data.pos?.height || 0) * unitHeight;
+            // if (width < data?.data.pos?.initWidth) {
+            //     const diff = Math.ceil(((data?.data.pos?.initWidth || 0) - width) / unitWidth);
+            //     width = ((data?.data.pos?.width || 0) + diff) * unitWidth;
+            // }
+            // if (height < data?.data.pos?.initHeight) {
+            //     const diff = Math.ceil(((data?.data.pos?.initHeight || 0) - height) / unitHeight);
+            //     height = ((data?.data.pos?.height || 0) + diff) * unitHeight;
+            // }
             setPos({
                 ...(data.data.pos || {}),
                 width,
@@ -74,8 +74,8 @@ const Widget = (props: WidgetProps) => {
     return (
         <DraggableResizable
             {...(pos || {})}
-            limitWidth={pos?.initWidth}
-            limitHeight={pos?.initHeight}
+            limitWidth={(data?.data.minCol || 0) * getSize().unitWidth}
+            limitHeight={(data?.data.minRow || 0) * getSize().unitHeight}
             onResize={onResizeBox}
             onMove={onMove}
             id={data.widget_id as any}

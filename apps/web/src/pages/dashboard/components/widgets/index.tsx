@@ -91,8 +91,8 @@ const Widgets = (props: WidgetProps) => {
             const newWidgets = [...widgets];
             const unitHeight = (parentRef?.current?.clientHeight || 0) / 24;
             const unitWidth = (parentRef?.current?.clientWidth || 0) / 24;
-            const width = Math.ceil((rest.width || 0) / unitWidth);
-            const height = Math.ceil((rest.height || 0) / unitHeight);
+            let width = Math.ceil((rest.width || 0) / unitWidth);
+            let height = Math.ceil((rest.height || 0) / unitHeight);
             // const initWidth = newWidgets[index].pos?.initWidth
             //     ? newWidgets[index].pos?.initWidth
             //     : Math.ceil(rest.initWidth / unitWidth);
@@ -103,6 +103,18 @@ const Widgets = (props: WidgetProps) => {
             const initHeight = newWidgets[index].data?.pos?.initHeight || rest.initHeight || 0;
             const curLeft = newWidgets[index].data?.pos?.left;
             const cueTop = newWidgets[index].data?.pos?.top;
+            if (width < newWidgets[index]?.data.minCol) {
+                width = newWidgets[index].data.minCol;
+            }
+            if (width > newWidgets[index]?.data.maxCol) {
+                width = newWidgets[index].data.maxCol;
+            }
+            if (height < newWidgets[index]?.data.minRow) {
+                height = newWidgets[index].data.minRow;
+            }
+            if (height > newWidgets[index]?.data.maxRow) {
+                height = newWidgets[index].data.maxRow;
+            }
             // TODO：计算太慢先注释
             // if (curLeft === undefined && cueTop === undefined) {
             //     const { left, top } = getInitPos({

@@ -206,6 +206,26 @@ declare interface CustomComponentProps {
      * @description 默认非预览，不需要手动配置该项，在配置界面会默认传true
      */
     isPreview?: boolean;
+    /**
+     * 设置组件显示最小占用容器几行，最小值为1，最大为12
+     * @description 每行为容器高度是1/12
+     */
+    minRow?: number;
+    /**
+     * 设置组件显示最大占用容器几行，最小值为1，最大为24
+     * @description 每行为容器高度是1/24
+     */
+    maxRow?: number;
+    /**
+     * 设置组件显示最小占用容器几列，最小值为1，最大为24
+     * @description 每列为容器宽度是1/24
+     */
+    minCol?: number;
+    /**
+     * 设置组件显示最大占用容器几列，最小值为1，最大为24
+     * @description 每列为容器宽度是1/24
+     */
+    maxCol?: number;
 }
 
 /**
