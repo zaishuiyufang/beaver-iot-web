@@ -155,7 +155,8 @@ const Widgets = (props: WidgetProps) => {
         (data: WidgetDetail) => {
             const index = widgets.findIndex(
                 (item: WidgetDetail) =>
-                    item.widget_id === data.widget_id || item.tempId === data.tempId,
+                    item.widget_id === data.widget_id ||
+                    (item.tempId && item.tempId === data.tempId),
             );
             if (index > -1) {
                 const newWidgets = [...widgets];

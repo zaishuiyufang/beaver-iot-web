@@ -95,13 +95,13 @@ const Widget = (props: WidgetProps) => {
                 </div>
             )}
             {ComponentView ? (
-                <div ref={widgetRef}>
+                <div ref={widgetRef} className="dashboard-content-widget-main">
                     <Suspense>
                         <ComponentView config={data.data.config} configJson={data.data} />
                     </Suspense>
                 </div>
             ) : (
-                <div ref={widgetRef}>
+                <div ref={widgetRef} className="dashboard-content-widget-main">
                     <RenderView configJson={data.data as any} config={data.data.config} />
                 </div>
             )}

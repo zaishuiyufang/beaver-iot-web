@@ -72,12 +72,12 @@ export default () => {
     };
 
     // 添加dashboard
-    const handleAdd = async (data: AddDashboardType) => {
-        setShowAdd(false);
+    const handleAdd = async (data: DashboardDetail) => {
         const [_, res] = await awaitWrap(dashboardAPI.addDashboard(data));
         if (isRequestSuccess(res)) {
             const resData: any = getResponseData(res);
             setTabs([...tabs, { ...data, dashboard_id: resData.dashboard_id, widgets: [] }]);
+            setShowAdd(false);
         }
     };
 

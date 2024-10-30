@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { Modal, Form } from '@milesight/shared/src/components';
+import { DashboardDetail } from '@/services/http/dashboard';
 
 interface ConfigPluginProps {
     onCancel: () => void;
-    onOk: (data: AddDashboardType) => void;
-    data?: AddDashboardType;
+    onOk: (data: DashboardDetail) => void;
+    data?: DashboardDetail;
 }
 
 const AddDashboard = (props: ConfigPluginProps) => {
@@ -37,7 +38,7 @@ const AddDashboard = (props: ConfigPluginProps) => {
         formRef.current?.handleSubmit();
     };
 
-    const handleSubmit = (values: AddDashboardType) => {
+    const handleSubmit = (values: DashboardDetail) => {
         onOk(values);
     };
     return (
@@ -45,9 +46,9 @@ const AddDashboard = (props: ConfigPluginProps) => {
             visible
             onCancel={handleClose}
             onOk={handleOk}
-            title={`${getIntlText(data?.id ? 'dashboard.add_title' : 'dashboard.edit_title')}`}
+            title={`${getIntlText(data?.dashboard_id ? 'dashboard.add_title' : 'dashboard.edit_title')}`}
         >
-            <Form<AddDashboardType> ref={formRef} formItems={formItems} onOk={handleSubmit} />
+            <Form<DashboardDetail> ref={formRef} formItems={formItems} onOk={handleSubmit} />
         </Modal>
     );
 };

@@ -20,5 +20,6 @@
     "dashboard.label_max_value": "最大值",
     "dashboard.label_avg_value": "平均值",
     "dashboard.label_sum_value": "数据统计值",
-    "dashboard.label_count_value": "统计条数"
+    "dashboard.label_count_value": "统计条数",
+    "dashboard.label_rename": "重命名"
 }

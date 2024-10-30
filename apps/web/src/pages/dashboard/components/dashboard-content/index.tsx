@@ -5,6 +5,7 @@ import {
     DeleteOutlineIcon as DeleteOutline,
     CloseIcon as Close,
     CheckIcon as Check,
+    EditIcon as Edit,
 } from '@milesight/shared/src/components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -16,6 +17,7 @@ import AddWidget from '../add-widget';
 import PluginList from '../plugin-list';
 import PluginListClass from '../plugin-list-class';
 import AddCustomerWidget from '../custom-widget';
+import AddDashboard from '../add-dashboard';
 import Widgets from '../widgets';
 
 interface DashboardContentProps {
@@ -27,6 +29,7 @@ export default (props: DashboardContentProps) => {
     const { getIntlText } = useI18n();
     const { dashboardDetail, getDashboards } = props;
     const [isShowAddWidget, setIsShowAddWidget] = useState(false);
+    const [isShowEditDashboard, setIsShowEditDashboard] = useState(false);
     const [widgets, setWidgets] = useState<WidgetDetail[]>([]);
     const [plugin, setPlugin] = useState<WidgetDetail>();
     const [showCustom, setShowCustom] = useState(false);
@@ -34,8 +37,6 @@ export default (props: DashboardContentProps) => {
     const [isEdit, setIsEdit] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
     const widgetsRef = useRef<any[]>([]);
-
-    console.log(widgets);
 
     useEffect(() => {
         setWidgets(dashboardDetail.widgets);
@@ -73,7 +74,7 @@ export default (props: DashboardContentProps) => {
         const newWidgets = [...(widgets || [])];
         const index = newWidgets.findIndex(
             (item: WidgetDetail) =>
-                item.widget_id === data.widget_id || item.tempId === data.tempId,
+                item.widget_id === data.widget_id || (item.tempId && item.tempId === data.tempId),
         );
         if (index > -1) {
             newWidgets[index] = data;
@@ -132,6 +133,30 @@ export default (props: DashboardContentProps) => {
         }
     };
 
+    // 显示编辑dashbard弹框
+    const showEditDashboard = () => {
+        setIsShowEditDashboard(true);
+    };
+
+    const handleCloseEditDashboard = () => {
+        setIsShowEditDashboard(false);
+    };
+
+    // 添加dashboard
+    const handleEditDashboard = async (data: AddDashboardType) => {
+        const [_, res] = await awaitWrap(
+            dashboardAPI.updateDashboard({
+                dashboard_id: dashboardId,
+                name: data.name,
+                widgets: dashboardDetail.widgets,
+            }),
+        );
+        if (isRequestSuccess(res)) {
+            getDashboards();
+            setIsShowEditDashboard(false);
+        }
+    };
+
     return (
         <div className="dashboard-content">
             <div className="dashboard-content-operate">
@@ -155,7 +180,7 @@ export default (props: DashboardContentProps) => {
                             </Button> */}
                         </>
                     ) : (
-                        <Button variant="contained" onClick={changeEditStatus}>
+                        <Button startIcon={<Edit />} variant="contained" onClick={changeEditStatus}>
                             {getIntlText('common.button.edit')}
                         </Button>
                     )}
@@ -168,6 +193,14 @@ export default (props: DashboardContentProps) => {
                             startIcon={<DeleteOutline />}
                         >
                             {getIntlText('common.label.delete')}
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            onClick={showEditDashboard}
+                            sx={{ marginLeft: '20px' }}
+                            startIcon={<Edit />}
+                        >
+                            {getIntlText('dashboard.label_rename')}
                         </Button>
                         <Button
                             variant="outlined"
@@ -188,6 +221,13 @@ export default (props: DashboardContentProps) => {
                     </div>
                 )}
             </div>
+            {isShowEditDashboard && (
+                <AddDashboard
+                    onCancel={handleCloseEditDashboard}
+                    onOk={handleEditDashboard}
+                    data={dashboardDetail}
+                />
+            )}
             {!!plugin && <AddWidget plugin={plugin} onCancel={closeAddWidget} onOk={handleOk} />}
             {!widgets?.length ? (
                 <div className="dashboard-content-empty">
