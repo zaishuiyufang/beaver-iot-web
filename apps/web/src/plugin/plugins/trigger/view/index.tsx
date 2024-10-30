@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { Modal, EntityForm } from '@milesight/shared/src/components';
+import { useEntityApi, type CallServiceType } from '../../../hooks';
 import { RenderView } from '../../../render';
 import { ViewConfigProps } from './typings';
 import './style.less';
@@ -9,47 +10,66 @@ interface Props {
     configJson: CustomComponentProps;
 }
 
-const entities = [
-    {
-        id: '11',
-        key: '222',
-        name: '输入11',
-        value_attribute: {
-            min: 1,
-            max: 5,
-            displayType: 'int',
-        },
-    },
-    {
-        id: '112',
-        key: '2223',
-        name: '输入22',
-        value_attribute: {
-            minLength: 1,
-            maxLength: 5,
-            displayType: 'string',
-        },
-    },
-];
-
 const View = (props: Props) => {
+    const { getEntityChildren, callService, updateProperty } = useEntityApi();
     const { config, configJson } = props;
     const [visible, setVisible] = useState(false);
+    const [entities, setEntities] = useState([]);
     const ref = useRef<any>();
 
-    const handleClick = () => {
+    // 调用服务
+    const handleCallService = () => {
+        callService({
+            entity_id: (config?.entity as any)?.value as ApiKey,
+            exchange: {
+                entity_id: (config?.entity as any)?.value as ApiKey,
+            },
+        } as CallServiceType);
+    };
+
+    const handleUpdateProperty = async (data: Record<string, any>) => {
+        const { error } = await updateProperty({
+            entity_id: (config?.entity as any)?.value as ApiKey,
+            exchange: data,
+        } as CallServiceType);
+        console.log(error);
+        if (!error) {
+            setVisible(false);
+        }
+    };
+
+    const handleClick = async () => {
         if (configJson.isPreview) {
             return;
         }
-        setVisible(true);
+        const { error, res } = await getEntityChildren({
+            id: (config?.entity as any)?.value as ApiKey,
+        });
+        if (!error) {
+            if (res?.length) {
+                setEntities(
+                    res.map((item: EntityData) => {
+                        return {
+                            id: item.entity_id,
+                            key: item.entity_key,
+                            name: item.entity_name,
+                            value_attribute: item.entity_value_attribute,
+                        };
+                    }),
+                );
+                setVisible(true);
+            } else {
+                handleCallService();
+            }
+        }
     };
 
     const handleOk = () => {
         ref.current?.handleSubmit();
     };
 
-    const handleSubmit = (data: any) => {
-        console.log(data);
+    const handleSubmit = (data: Record<string, any>) => {
+        handleUpdateProperty(data);
     };
 
     return (

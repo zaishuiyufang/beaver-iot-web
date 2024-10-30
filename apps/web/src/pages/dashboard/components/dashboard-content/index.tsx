@@ -35,6 +35,8 @@ export default (props: DashboardContentProps) => {
     const mainRef = useRef<HTMLDivElement>(null);
     const widgetsRef = useRef<any[]>([]);
 
+    console.log(widgets);
+
     useEffect(() => {
         setWidgets(dashboardDetail.widgets);
         widgetsRef.current = cloneDeep(dashboardDetail.widgets);
@@ -54,6 +56,7 @@ export default (props: DashboardContentProps) => {
 
     const handleSelectPlugin = (plugin: WidgetDetail) => {
         handleCloseAddWidgetPopover();
+        changeEditStatus();
         setPlugin(plugin);
     };
 
@@ -66,12 +69,13 @@ export default (props: DashboardContentProps) => {
         setWidgets(data);
     };
 
-    const handleOk = (data: any) => {
+    const handleOk = (data: WidgetDetail) => {
         const newWidgets = [...(widgets || [])];
         const index = newWidgets.findIndex(
-            (item: WidgetDetail) => item.widget_id === data.widget_id,
+            (item: WidgetDetail) =>
+                item.widget_id === data.widget_id || item.tempId === data.tempId,
         );
-        if (index > -1 && data?.widget_id) {
+        if (index > -1) {
             newWidgets[index] = data;
         } else {
             newWidgets.push(data);

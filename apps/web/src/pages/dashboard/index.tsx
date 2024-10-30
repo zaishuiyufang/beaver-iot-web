@@ -89,7 +89,23 @@ export default () => {
                 <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
             )}
             <div className="ms-view ms-view-dashboard">
-                <Tabs className="ms-tabs" value={tabKey} onChange={handleChange}>
+                <Tabs
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    className="ms-tabs"
+                    value={tabKey}
+                    onChange={handleChange}
+                    sx={{
+                        '& .MuiTabs-scrollButtons': {
+                            '&.Mui-disabled': {
+                                width: 0, // 隐藏禁用的滚动按钮
+                            },
+                        },
+                        '& .MuiTabs-scrollButtons.Mui-disabled': {
+                            display: 'none', // 完全隐藏禁用的滚动按钮
+                        },
+                    }}
+                >
                     {tabs?.map(tabItem => {
                         return (
                             <Tab

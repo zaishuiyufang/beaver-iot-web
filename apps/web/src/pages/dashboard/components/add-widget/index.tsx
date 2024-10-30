@@ -34,7 +34,8 @@ export default (props: WidgetProps) => {
     const handleOk = (data: any) => {
         // TODO: 插件配置保存
         onOk({
-            id: config?.id || new Date().getTime(),
+            widget_id: plugin?.widget_id,
+            tempId: config.data.tempId || new Date().getTime(),
             data: {
                 ...config.data,
                 config: data,

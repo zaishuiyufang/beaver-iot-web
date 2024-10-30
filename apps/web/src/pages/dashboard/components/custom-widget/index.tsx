@@ -19,7 +19,7 @@ export default ({ onCancel }: CustomWidgetProps) => {
         setConfig(undefined);
     };
 
-    const handleCreatPlugin = () => {
+    const handleCreatePlugin = () => {
         if (json) {
             try {
                 const configJson = JSON.parse(json);
@@ -42,7 +42,7 @@ export default ({ onCancel }: CustomWidgetProps) => {
                     onChange={e => setJson(e.target.value)}
                     fullWidth
                 />
-                <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatPlugin}>
+                <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleCreatePlugin}>
                     生成组件
                 </Button>
 

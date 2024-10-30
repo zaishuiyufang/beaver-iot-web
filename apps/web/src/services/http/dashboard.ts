@@ -11,6 +11,7 @@ export interface DashboardDetail {
 
 export interface WidgetDetail {
     widget_id?: ApiKey;
+    tempId?: number; // 临时id，用于前端使用
     data: Record<string, any>;
 }
 

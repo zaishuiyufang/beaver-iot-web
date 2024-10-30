@@ -70,6 +70,11 @@ declare interface ComponentProps {
      * @description 无getDataUrl时生效
      */
     options?: OptionsProps[];
+    /**
+     * 校验规则
+     * @description 支持配置多个规则，参考react-hooks-form校验规则
+     */
+    rules?: rulesType;
 }
 
 declare interface ConfigProps {

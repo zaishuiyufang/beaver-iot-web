@@ -114,6 +114,14 @@ export interface EntityAPISchema extends APISchema {
             value_type: EntityValueDataType;
         };
     };
+
+    /** 获取子实体 */
+    getChildrenEntity: {
+        request: {
+            id: ApiKey;
+        };
+        response: unknown;
+    };
 }
 
 /**
@@ -130,5 +138,6 @@ export default attachAPI<EntityAPISchema>(client, {
         updateProperty: `POST ${API_PREFIX}/entity/property/update`,
         callService: `POST ${API_PREFIX}/entity/service/call`,
         getEntityStatus: `GET ${API_PREFIX}/entity/:id/status`,
+        getChildrenEntity: `GET ${API_PREFIX}/entity/:id/children`,
     },
 });
