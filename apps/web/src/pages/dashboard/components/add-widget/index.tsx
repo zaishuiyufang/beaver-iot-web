@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ConfigPlugin from '@/plugin/config-plugin';
 import { WidgetDetail } from '@/services/http/dashboard';
+import { useGetPluginConfigs } from '../../hooks';
 
 interface WidgetProps {
     plugin: WidgetDetail;
@@ -9,12 +10,20 @@ interface WidgetProps {
 }
 
 export default (props: WidgetProps) => {
+    const { pluginsConfigs } = useGetPluginConfigs();
     const { plugin, onCancel, onOk } = props;
     const [config, setConfig] = useState<any>();
 
     useEffect(() => {
-        setConfig(plugin);
-    }, [plugin]);
+        const sourceJson = pluginsConfigs.find(item => item.type === plugin.data.type);
+        setConfig({
+            ...plugin,
+            data: {
+                ...plugin.data,
+                ...sourceJson,
+            },
+        });
+    }, [plugin, pluginsConfigs]);
 
     const handleClose = () => {
         setConfig(undefined);

@@ -22,25 +22,9 @@
                     "componentProps": {
                         "size": "small"
                     },
-                    "options": [
-                        {
-                            "label": "选项1",
-                            "value": "1"
-                        },
-                        {
-                            "label": "选项2",
-                            "value": "2"
-                        },
-                        {
-                            "label": "选项3",
-                            "options": [
-                                {
-                                    "label": "3的子选项",
-                                    "value": "3"
-                                }
-                            ]
-                        }
-                    ]
+                    "rules": {
+                        "required": true
+                    }
                 }
             ]
         },

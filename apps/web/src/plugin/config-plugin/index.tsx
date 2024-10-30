@@ -57,7 +57,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         if (config?.config && Object.keys(config.config)?.length) {
             setFormValues({ ...config?.config });
         }
-    }, [config]);
+    }, [config.config]);
 
     return (
         <Modal

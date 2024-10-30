@@ -47,12 +47,11 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                         ? parseStyleString(component?.style)
                         : undefined;
                     const { type, style, componentProps, ...restItem } = component;
+
                     formItems.push({
                         label: component.title,
                         name: component.key,
-                        rules: {
-                            required: false,
-                        },
+                        rules: component.rules || {},
                         multiple: components?.length > 1 ? components?.length : 0,
                         multipleIndex: index,
                         title: item?.title,

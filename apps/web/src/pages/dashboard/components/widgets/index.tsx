@@ -151,12 +151,20 @@ const Widgets = (props: WidgetProps) => {
     }, []);
 
     // 删除组件
-    const handleDelete = useCallback((data: WidgetDetail) => {
-        const index = widgets.findIndex((item: WidgetDetail) => item.widget_id === data.widget_id);
-        const newWidgets = [...widgets];
-        newWidgets.splice(index, 1);
-        onChangeWidgets(newWidgets);
-    }, []);
+    const handleDelete = useCallback(
+        (data: WidgetDetail) => {
+            const index = widgets.findIndex(
+                (item: WidgetDetail) =>
+                    item.widget_id === data.widget_id || item.tempId === data.tempId,
+            );
+            if (index > -1) {
+                const newWidgets = [...widgets];
+                newWidgets.splice(index, 1);
+                onChangeWidgets(newWidgets);
+            }
+        },
+        [widgets],
+    );
 
     const resetWidgetsPos = useCallback(() => {
         // 遍历widgets并将pos按照窗口大小比例重新计算

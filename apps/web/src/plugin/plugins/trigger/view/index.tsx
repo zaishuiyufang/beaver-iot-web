@@ -32,7 +32,6 @@ const View = (props: Props) => {
             entity_id: (config?.entity as any)?.value as ApiKey,
             exchange: data,
         } as CallServiceType);
-        console.log(error);
         if (!error) {
             setVisible(false);
         }
