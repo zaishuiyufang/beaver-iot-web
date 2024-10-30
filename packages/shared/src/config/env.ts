@@ -1,6 +1,4 @@
-// import { isLocalIP } from '../utils/tools';
-
-// const { protocol, origin, hostname } = window.location;
+const { origin } = window.location;
 
 // 全局暴露构建时间、构建 Hash 信息，以便快速排查问题
 window.$metaEnv = {
@@ -12,7 +10,7 @@ window.$metaEnv = {
 export const mode = import.meta.env.MODE;
 
 /** 应用接口 Origin */
-export const apiOrigin = __APP_API_ORIGIN__;
+export const apiOrigin = __APP_API_ORIGIN__ === '/' ? origin : __APP_API_ORIGIN__;
 
 /**
  * 应用版本号

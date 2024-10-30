@@ -1,14 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useRequest, useMemoizedFn } from 'ahooks';
+import cls from 'classnames';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
-import {
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    FormHelperText,
-    type SelectProps,
-} from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, type SelectProps } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { Modal, toast, type ModalProps } from '@milesight/shared/src/components';
@@ -93,7 +87,7 @@ const AddModal: React.FC<Props> = ({ visible, onCancel, onError, onSuccess, ...p
             deviceAPI.addDevice({ name, integration: inteID, param_entities: entityParams }),
         );
 
-        console.log({ error, resp });
+        // console.log({ error, resp });
         if (error || !isRequestSuccess(resp)) {
             onError?.(error);
             return;
@@ -115,11 +109,12 @@ const AddModal: React.FC<Props> = ({ visible, onCancel, onError, onSuccess, ...p
         <Modal
             visible={visible}
             title={getIntlText('common.label.add')}
+            className={cls({ loading: formState.isSubmitting })}
             onOk={handleSubmit(onSubmit)}
             onCancel={handleCancel}
             {...props}
         >
-            <FormControl fullWidth size="small" disabled={formState.isSubmitting} sx={{ my: 1.5 }}>
+            <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
                 <InputLabel id="select-label-address">
                     {getIntlText('common.label.integration')}
                 </InputLabel>

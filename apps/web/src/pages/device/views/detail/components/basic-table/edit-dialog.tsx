@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { TextField } from '@mui/material';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
+import cls from 'classnames';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { Modal, toast, type ModalProps } from '@milesight/shared/src/components';
 import { checkRequired } from '@milesight/shared/src/utils/validators';
@@ -57,13 +58,13 @@ const EditDialog: React.FC<Props> = ({ data, visible, onCancel, onError, onSucce
         <Modal
             visible={visible}
             title={getIntlText('common.label.edit_title', { 1: data?.name })}
+            className={cls({ loading: formState.isSubmitting })}
             onCancel={onCancel}
             onOk={handleSubmit(onSubmit)}
         >
             <Controller<FormDataProps>
                 name="name"
                 control={control}
-                disabled={formState.isSubmitting}
                 rules={{
                     validate: { checkRequired: checkRequired() },
                 }}

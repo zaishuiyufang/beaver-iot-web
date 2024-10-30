@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import cls from 'classnames';
 import { useMemoizedFn } from 'ahooks';
 import {
     Dialog,
@@ -13,8 +14,6 @@ import LoadingButton from '../loading-button';
 import './style.less';
 
 export interface ModalProps {
-    onCancel: () => void;
-    onOk: () => void;
     /**
      * 取消按钮文字
      */
@@ -42,6 +41,10 @@ export interface ModalProps {
      */
     size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     /**
+     * 弹框类名
+     */
+    className?: string;
+    /**
      * 是否禁止点击遮罩层关闭弹框
      */
     disabledBackdropClose?: boolean;
@@ -49,6 +52,16 @@ export interface ModalProps {
      * 弹框内容
      */
     children?: React.ReactNode;
+
+    /**
+     * 确认按钮回调
+     */
+    onOk: () => void;
+
+    /**
+     * 取消按钮回调
+     */
+    onCancel: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -58,6 +71,7 @@ const Modal: React.FC<ModalProps> = ({
     visible,
     onOkText,
     onCancelText,
+    className,
     disabledBackdropClose = true,
     onOk,
     onCancel,
@@ -103,7 +117,7 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <Dialog
             aria-labelledby="customized-dialog-title"
-            className="ms-modal-root"
+            className={cls('ms-modal-root', className)}
             open={!!visible}
             onClose={handleClose}
             sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}

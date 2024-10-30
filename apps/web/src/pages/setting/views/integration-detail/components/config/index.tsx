@@ -35,7 +35,7 @@ type OpenapiStatusType = 'READY' | 'NOT_READY' | 'ERROR';
  */
 const Config: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
     const { getIntlText } = useI18n();
-    const { blue, green } = useTheme();
+    const { blue, green, red } = useTheme();
     const { getEntityKey, getEntityValues } = useEntity({ entities });
 
     // ---------- 表单相关处理逻辑 ----------
@@ -81,9 +81,10 @@ const Config: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
             },
             ERROR: {
                 intlKey: getIntlText('setting.integration.api_status_error'),
+                sx: { bgcolor: red[200], color: 'error.main' },
             },
         }),
-        [blue, green, getIntlText],
+        [blue, green, red, getIntlText],
     );
 
     // 表单数据回填
