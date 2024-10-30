@@ -2,7 +2,7 @@
     "type": "dataCard",
     "name": "Card",
     "icon": "./icon.png",
-    "minCol": 4,
+    "minCol": 3,
     "minRow": 4,
     "configProps": [
         {
