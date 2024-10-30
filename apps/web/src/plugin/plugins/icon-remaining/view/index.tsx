@@ -46,6 +46,7 @@ const View = (props: Props) => {
 
         const range = (max || 0) - (min || 0);
         if (range === 0) return 100;
+        if (!range) return 0;
 
         const percent = (value / range) * 100;
         return Math.min(100, Math.max(0, percent));
