@@ -9,7 +9,11 @@ type IntegrationDetailType = {
     name: string;
     /** 描述 */
     description?: string;
-    /** 添加设备的实体 Key */
+    /**
+     * 添加设备表单实体 Key
+     *
+     * 说明：当实体 key 中包含该值时，则添加设备时需将该实体渲染为表单项
+     */
     add_device_service_key: ApiKey;
     /** 设备数量 */
     device_count: number;

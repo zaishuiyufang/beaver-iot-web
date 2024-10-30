@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRequest, useMemoizedFn } from 'ahooks';
 import cls from 'classnames';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
-import { FormControl, InputLabel, Select, MenuItem, type SelectProps } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { Modal, toast, type ModalProps } from '@milesight/shared/src/components';
@@ -35,17 +35,16 @@ const AddModal: React.FC<Props> = ({ visible, onCancel, onError, onSuccess, ...p
         async () => {
             if (!visible) return;
             const [error, resp] = await awaitWrap(integrationAPI.getList({ device_addable: true }));
-            const data = getResponseData(resp);
+            const respData = getResponseData(resp);
 
-            if (error || !data || !isRequestSuccess(resp)) return;
-            return objectToCamelCase(data);
+            if (error || !respData || !isRequestSuccess(resp)) return;
+            const data = objectToCamelCase(respData);
+
+            setInteID(respData[0]?.id);
+            return data;
         },
         { debounceWait: 300, refreshDeps: [visible] },
     );
-    const handleIntegrationChange: SelectProps['onChange'] = e => {
-        console.log(e, e.target.value);
-        setInteID(e.target.value as string);
-    };
 
     // ---------- 实体表单相关逻辑处理 ----------
     const { control, formState, handleSubmit, reset } = useForm<FormDataProps>();
@@ -60,9 +59,7 @@ const AddModal: React.FC<Props> = ({ visible, onCancel, onError, onSuccess, ...p
             const data = objectToCamelCase(respData);
             const addDeviceKey = data.addDeviceServiceKey;
             const list = data.integrationEntities?.filter(item => {
-                // TODO: 接口 addDeviceKey 字段错误，暂时写死，方便调试
-                return `${item.key}`.includes('msc-integration.integration.add_device');
-                // return `${item.key}`.includes(`${addDeviceKey}`);
+                return `${item.key}`.includes(`${addDeviceKey}`);
             });
 
             return list;
@@ -122,7 +119,7 @@ const AddModal: React.FC<Props> = ({ visible, onCancel, onError, onSuccess, ...p
                     label={getIntlText('common.label.integration')}
                     labelId="select-label-address"
                     value={inteID}
-                    onChange={handleIntegrationChange}
+                    onChange={e => setInteID(e.target.value as string)}
                 >
                     {inteList?.map(item => (
                         <MenuItem key={item.id} value={item.id}>
