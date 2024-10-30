@@ -61,6 +61,7 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
     return (
         <Autocomplete
             {...restProps}
+            value={value}
             multiple
             onChange={(_, option) => onChange(option)}
             options={options}
