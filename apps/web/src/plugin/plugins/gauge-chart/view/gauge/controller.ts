@@ -335,11 +335,68 @@ export default class GaugeController extends DoughnutController {
         ctx.restore();
     }
 
+    drawTicks() {
+        const { ctx, chartArea } = this.chart;
+        const { innerRadius } = this;
+        const {
+            tickCount,
+            tickColor,
+            tickFontSize,
+            tickInnerPadding,
+            tickOuterPadding,
+            tickLineLength,
+        } = this.options.ticks;
+
+        const centerX = (chartArea.left + chartArea.right) / 2;
+        const centerY = (chartArea.top + chartArea.bottom) / 2;
+
+        // 计算刻度线和刻度值的半径
+        const tickRadius = innerRadius - (tickInnerPadding || 10); // 刻度值的半径
+        const lineRadius = tickRadius - (tickLineLength || 5); // 刻度线的起点半径
+        const textRadius = lineRadius - (tickOuterPadding || 5); // 刻度值的半径，调整数字与刻度线的距离
+
+        // 计算每个刻度的角度
+        const totalTicks = tickCount || 10;
+        const angleStep = this._getCircumference() / totalTicks;
+        const rotation = this._getRotation();
+
+        ctx.save();
+        ctx.translate(centerX + this.offsetX, centerY + this.offsetY);
+        ctx.fillStyle = tickColor || '#000';
+        ctx.strokeStyle = tickColor || '#000';
+        ctx.font = `${tickFontSize || 10}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        for (let i = 0; i <= totalTicks; i++) {
+            const angle = rotation + i * angleStep;
+            const xStart = lineRadius * Math.cos(angle);
+            const yStart = lineRadius * Math.sin(angle);
+            const xEnd = tickRadius * Math.cos(angle);
+            const yEnd = tickRadius * Math.sin(angle);
+            const xText = textRadius * Math.cos(angle);
+            const yText = textRadius * Math.sin(angle);
+            const value = this._cachedMeta.minValue + (i / totalTicks) * this._cachedMeta.total;
+
+            // 绘制刻度线
+            ctx.beginPath();
+            ctx.moveTo(xStart, yStart);
+            ctx.lineTo(xEnd, yEnd);
+            ctx.stroke();
+
+            // 绘制刻度值
+            ctx.fillText(value.toFixed(0), xText, yText);
+        }
+
+        ctx.restore();
+    }
+
     draw() {
         super.draw();
         this.drawNeedle();
 
         this.drawValueLabel();
+        this.drawTicks();
     }
 }
 
@@ -373,6 +430,14 @@ GaugeController.overrides = {
         },
         bottomMarginPercentage: 5,
         leftMarginPercentage: 0,
+    },
+    ticks: {
+        tickCount: 10,
+        tickColor: 'rgba(0, 0, 0, 1)',
+        tickFontSize: 12,
+        tickInnerPadding: 4,
+        tickOuterPadding: 12,
+        tickLineLength: 4,
     },
     // The percentage of the chart that we cut out of the middle.
     cutout: '50%',

@@ -30,6 +30,14 @@ export type GaugePlugins = {
         enabled: boolean;
     };
 };
+export type GaugeTicks = {
+    tickCount: number;
+    tickColor: string;
+    tickFontSize: number;
+    tickInnerPadding: number;
+    tickOuterPadding: number;
+    tickLineLength: number;
+};
 export type GaugeOptions = {
     cutout: string;
     rotation: number;
@@ -38,6 +46,7 @@ export type GaugeOptions = {
     needle: GaugeNeedle;
     valueLabel: GaugeValueLabel;
     plugins: GaugePlugins;
+    ticks?: GaugeTicks;
 };
 
 export type extraDatasets = {
