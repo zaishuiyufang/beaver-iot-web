@@ -10,17 +10,17 @@ interface IProps {
 export const useReducer = ({ value, config }: IProps) => {
     const { updateDynamicForm } = useDynamic();
 
-    /** config实时保存value */
-    const updateConfigState = (value: ViewConfigProps, config: ConfigureType) => {
-        config.config = value || {};
+    // /** config实时保存value */
+    // const updateConfigState = (value: ViewConfigProps, config: ConfigureType) => {
+    //     config.config = value || {};
 
-        return config;
-    };
+    //     return config;
+    // };
 
     /** 生成新的configure */
     const configure = useMemo(() => {
         // 按顺序执行回调，返回最新的configure
-        const ChainCallList = [updateConfigState, updateDynamicForm];
+        const ChainCallList = [updateDynamicForm];
 
         const newConfig = ChainCallList.reduce((config, fn) => {
             return fn(value, cloneDeep(config));
