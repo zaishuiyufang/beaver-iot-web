@@ -72,7 +72,7 @@ export default () => {
 
                     getDeviceList();
                     setSelectedIds([]);
-                    toast.success(getIntlText('common.label.delete_success'));
+                    toast.success(getIntlText('common.message.delete_success'));
                 },
             });
         },
