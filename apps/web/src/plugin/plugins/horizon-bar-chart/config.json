@@ -2,6 +2,7 @@
     "type": "horizonBarChart",
     "name": "Horizon Bar Chart",
     "class": "data_chart",
+    "icon": "./icon.png",
     "configProps": [
         {
             "style": "width: 100%",

@@ -2,6 +2,7 @@
     "type": "areaChart",
     "name": "Area Chart",
     "class": "data_chart",
+    "icon": "./icon.png",
     "configProps": [
         {
             "style": "width: 100%",

@@ -2,6 +2,7 @@
     "type": "switch",
     "name": "Switch",
     "class": "operate",
+    "icon": "./icon.png",
     "configProps": [
         {
             "style": "width: 100%",

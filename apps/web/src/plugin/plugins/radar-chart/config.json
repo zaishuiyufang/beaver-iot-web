@@ -2,6 +2,9 @@
     "type": "radarChart",
     "name": "Radar Chart",
     "class": "radar_chart",
+    "icon": "./icon.png",
+    "minCol": 6,
+    "minRow": 10,
     "configProps": [
         {
             "style": "width: 100%",

@@ -1,6 +1,9 @@
 {
     "type": "dataCard",
     "name": "Card",
+    "icon": "./icon.png",
+    "minCol": 4,
+    "minRow": 4,
     "configProps": [
         {
             "style": "width: 100%",
