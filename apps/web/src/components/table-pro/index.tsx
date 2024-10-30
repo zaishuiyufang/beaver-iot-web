@@ -58,6 +58,7 @@ const TablePro = <DataType extends GridValidRowModel>({
             const col = { ...column };
 
             col.sortable = isUndefined(col.sortable) ? false : col.sortable;
+            col.filterable = isUndefined(col.filterable) ? false : col.filterable;
             col.disableColumnMenu = isUndefined(col.disableColumnMenu)
                 ? true
                 : column.disableColumnMenu;
@@ -118,6 +119,7 @@ const TablePro = <DataType extends GridValidRowModel>({
             )}
             <div className="ms-table-pro__body">
                 <DataGrid<DataType>
+                    disableColumnSelector
                     disableRowSelectionOnClick
                     hideFooterSelectedRowCount
                     sx={{ border: 0 }}

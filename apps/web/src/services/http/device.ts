@@ -27,16 +27,6 @@ export interface DeviceDetail {
 }
 
 /**
- * 设备实体定义
- */
-export interface DeviceEntity {
-    id: ApiKey;
-    name: string;
-    type: string;
-    dataType: string;
-}
-
-/**
  * 设备相关接口定义
  */
 export interface DeviceAPISchema extends APISchema {

@@ -76,7 +76,21 @@ const InformationDetail = () => {
 
     return (
         <div className="ms-main">
-            <Breadcrumbs />
+            <Breadcrumbs
+                rewrite={navs => {
+                    const newNavs = [...navs];
+                    const lastNav = newNavs[newNavs.length - 1];
+
+                    if (basicInfo?.name) {
+                        newNavs.push({
+                            path: lastNav.path,
+                            title: basicInfo.name,
+                        });
+                    }
+
+                    return newNavs;
+                }}
+            />
             <div className="ms-view ms-view-int-detail">
                 <div className="ms-view-int-detail__header">
                     <div className="detail">

@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import { Stack, Chip, type ChipProps } from '@mui/material';
+import { getGridSingleSelectOperators, getGridStringOperators } from '@mui/x-data-grid';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { TablePro, type ColumnType } from '@/components';
-import { type DeviceEntity, type DeviceAPISchema } from '@/services/http';
+import { type DeviceAPISchema } from '@/services/http';
 
 interface Props {
     data?: ObjectToCamelCase<DeviceAPISchema['getDetail']['response']>;
@@ -26,6 +27,20 @@ const entityTypeColorMap: Record<string, ChipProps['color']> = {
 const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
     const { getIntlText } = useI18n();
     const columns = useMemo(() => {
+        const entityTypeFilterOptions: { label: EntityType; value: EntityType }[] = [
+            {
+                label: 'PROPERTY',
+                value: 'PROPERTY',
+            },
+            {
+                label: 'SERVICE',
+                value: 'SERVICE',
+            },
+            {
+                label: 'EVENT',
+                value: 'EVENT',
+            },
+        ];
         const result: ColumnType<TableRowDataType>[] = [
             {
                 field: 'name',
@@ -33,6 +48,9 @@ const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
                 flex: 1,
                 minWidth: 150,
                 ellipsis: true,
+                filterable: true,
+                disableColumnMenu: false,
+                filterOperators: getGridStringOperators().filter(item => item.value === 'contains'),
             },
             {
                 field: 'id',
@@ -46,6 +64,11 @@ const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
                 headerName: getIntlText('common.label.type'),
                 flex: 1,
                 minWidth: 150,
+                filterable: true,
+                disableColumnMenu: false,
+                type: 'singleSelect',
+                valueOptions: entityTypeFilterOptions,
+                filterOperators: getGridSingleSelectOperators().filter(item => item.value === 'is'),
                 renderCell({ value }) {
                     return (
                         <Chip
@@ -78,7 +101,7 @@ const EntityTable: React.FC<Props> = ({ data, onRefresh }) => {
                 loading={false}
                 columns={columns}
                 rows={data?.entities}
-                onRefreshButtonClick={() => console.log('refresh')}
+                onRefreshButtonClick={onRefresh}
             />
         </Stack>
     );
