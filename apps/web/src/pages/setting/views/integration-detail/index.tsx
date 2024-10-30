@@ -82,6 +82,7 @@ const InformationDetail = () => {
                     const lastNav = newNavs[newNavs.length - 1];
 
                     if (basicInfo?.name) {
+                        lastNav.path = undefined;
                         newNavs.push({
                             path: lastNav.path,
                             title: basicInfo.name,

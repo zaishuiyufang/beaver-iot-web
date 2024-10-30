@@ -5,7 +5,7 @@ import { Breadcrumbs, Link, Typography } from '@mui/material';
 import './style.less';
 
 export type NavsType = {
-    path: string;
+    path?: string;
     title: string;
     state?: any;
 }[];
@@ -79,9 +79,12 @@ const MSBreadcrumbs: React.FC<Props> = memo(({ navs, rewrite }) => {
                 {innerNavs.map((nav, index) => {
                     const isLast = index === innerNavs.length - 1;
 
-                    if (isLast) {
+                    if (isLast || !nav.path) {
                         return (
-                            <Typography key={nav.path} sx={{ color: 'text.primary' }}>
+                            <Typography
+                                key={nav.path}
+                                sx={!isLast ? undefined : { color: 'text.primary' }}
+                            >
                                 {nav.title}
                             </Typography>
                         );
