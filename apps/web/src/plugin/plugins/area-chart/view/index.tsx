@@ -19,32 +19,35 @@ const View = (props: ViewProps) => {
     const { entity, title, time } = config || {};
 
     const { getIntlText } = useI18n();
-    const { chartShowData, chartLabels } = useBasicChartEntity({
+    const { chartShowData, chartLabels, chartRef } = useBasicChartEntity({
         entity,
         time,
     });
 
     useEffect(() => {
-        const chart = new Chart(document.getElementById('areaChart') as HTMLCanvasElement, {
-            type: 'line',
-            data: {
-                labels: chartLabels,
-                datasets: chartShowData.map(chart => ({
-                    label: chart.entityLabel,
-                    data: chart.entityValues,
-                    borderWidth: 1,
-                    fill: true,
-                    spanGaps: true,
-                })),
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
+        let chart: Chart<'line', (string | number | null)[], string> | null = null;
+        if (chartRef.current) {
+            chart = new Chart(chartRef.current, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: chartShowData.map(chart => ({
+                        label: chart.entityLabel,
+                        data: chart.entityValues,
+                        borderWidth: 1,
+                        fill: true,
+                        spanGaps: true,
+                    })),
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
                     },
                 },
-            },
-        });
+            });
+        }
 
         return () => {
             /**
@@ -52,13 +55,13 @@ const View = (props: ViewProps) => {
              */
             chart?.destroy();
         };
-    }, [chartShowData, chartLabels]);
+    }, [chartShowData, chartLabels, chartRef]);
 
     return (
         <div className={styles['area-chart-wrapper']}>
             <div className={styles.name}>{title || getIntlText('common.label.title')}</div>
 
-            <canvas id="areaChart" />
+            <canvas ref={chartRef} />
         </div>
     );
 };

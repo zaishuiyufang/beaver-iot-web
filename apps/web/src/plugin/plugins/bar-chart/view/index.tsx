@@ -19,44 +19,47 @@ const View = (props: ViewProps) => {
     const { entity, title, time } = config || {};
 
     const { getIntlText } = useI18n();
-    const { chartShowData, chartLabels } = useBasicChartEntity({
+    const { chartShowData, chartLabels, chartRef } = useBasicChartEntity({
         entity,
         time,
     });
 
     useEffect(() => {
-        const chart = new Chart(document.getElementById('barChart') as HTMLCanvasElement, {
-            type: 'bar',
-            data: {
-                labels: chartLabels,
-                datasets: chartShowData.map(chart => ({
-                    label: chart.entityLabel,
-                    data: chart.entityValues,
-                    borderWidth: 1,
-                })),
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
+        let chart: Chart<'bar', (string | number | null)[], string> | null = null;
+        if (chartRef.current) {
+            chart = new Chart(chartRef.current, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: chartShowData.map(chart => ({
+                        label: chart.entityLabel,
+                        data: chart.entityValues,
+                        borderWidth: 1,
+                    })),
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
                     },
                 },
-            },
-        });
+            });
+        }
 
         return () => {
             /**
              * 清空图表数据
              */
-            chart.destroy();
+            chart?.destroy();
         };
-    }, [entity, chartLabels, chartShowData]);
+    }, [chartLabels, chartShowData, chartRef]);
 
     return (
         <div className={styles['bar-chart-wrapper']}>
             <div className={styles.name}>{title || getIntlText('common.label.title')}</div>
 
-            <canvas id="barChart" />
+            <canvas ref={chartRef} />
         </div>
     );
 };

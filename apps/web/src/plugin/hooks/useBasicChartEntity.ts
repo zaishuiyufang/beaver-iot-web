@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { useTime } from '@milesight/shared/src/hooks';
 import { entityAPI, isRequestSuccess, getResponseData } from '@/services/http';
@@ -22,6 +22,11 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
     const { entity, time } = props;
 
     const { getTimeFormat } = useTime();
+
+    /**
+     * canvas ref
+     */
+    const chartRef = useRef<HTMLCanvasElement>(null);
 
     /**
      * 图表所需展示的数据
@@ -111,6 +116,10 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
     }, [entity, time]);
 
     return {
+        /**
+         * canvas ref
+         */
+        chartRef,
         /**
          * 图表所需展示的数据
          */
