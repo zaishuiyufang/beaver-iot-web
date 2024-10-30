@@ -4,6 +4,5 @@
 /// <reference path="./config.d.ts" />
 /// <reference path="./common.d.ts" />
 /// <reference path="./mui.d.ts" />
-/// <reference path="./openapi.d.ts" />
 /// <reference path="./device.d.ts" />
 /// <reference path="./entity.d.ts" />

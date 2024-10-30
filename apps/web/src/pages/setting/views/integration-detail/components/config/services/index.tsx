@@ -258,7 +258,7 @@ const Services: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
                                 <Button
                                     variant="outlined"
                                     size="small"
-                                    startIcon={<EditIcon />}
+                                    startIcon={<EditIcon sx={{ width: 16, height: 16 }} />}
                                     onClick={() => setOpenApiModalVisible(true)}
                                 >
                                     {getIntlText('common.button.edit')}

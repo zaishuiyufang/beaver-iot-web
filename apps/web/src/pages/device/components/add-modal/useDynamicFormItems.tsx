@@ -24,6 +24,7 @@ const useDynamicFormItems = ({ entities }: Props) => {
 
     const formItems = useMemo(() => {
         const result: ControllerProps<FormDataProps>[] = [];
+
         if (!entities?.length) return result;
 
         result.push({

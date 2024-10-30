@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Tooltip, Chip, type SxProps } from '@mui/material';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
+import cls from 'classnames';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import { flattenObject } from '@milesight/shared/src/utils/tools';
 import { InfoOutlinedIcon, LoadingButton, toast } from '@milesight/shared/src/components';
@@ -133,7 +134,7 @@ const Config: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
                             /> */}
                         </span>
                     </div>
-                    <div className="form">
+                    <div className={cls('form', { loading: formState.isSubmitting })}>
                         {formItems.map(props => (
                             <Controller<FormDataProps>
                                 {...props}
