@@ -57,7 +57,7 @@ const BasicTable = (
             {
                 key: 'externalId',
                 label: getIntlText('device.label.param_external_id'),
-                content: data?.externalId,
+                content: data?.identifier,
             },
             {
                 key: 'source',

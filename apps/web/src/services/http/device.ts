@@ -10,8 +10,8 @@ export interface DeviceDetail {
     key: ApiKey;
     /** 名称 */
     name: string;
-    /** TODO: 当前接口返回值中无此字段 */
-    external_id: ApiKey;
+    /** 设备标识 */
+    identifier: ApiKey;
     /** 集成 ID */
     integration: ApiKey;
     /** 集成名称 */
@@ -22,8 +22,8 @@ export interface DeviceDetail {
     updated_at: number;
     /** 是否可删除 */
     deletable: boolean;
-    /** 额外数据 */
-    additional_data?: Record<string, any>;
+    /** 额外数据（通常为后端使用，前端暂不开放） */
+    // additional_data?: Record<string, any>;
 }
 
 /**
@@ -46,7 +46,7 @@ export interface DeviceAPISchema extends APISchema {
             /** 名称（模糊搜索） */
             name?: string;
         };
-        response: SearchResponseType<DeviceDetail[]>;
+        response: SearchResponseType<Omit<DeviceDetail, 'identifier'>[]>;
     };
 
     /** 获取设备详情 */
