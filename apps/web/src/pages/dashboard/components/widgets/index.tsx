@@ -97,7 +97,6 @@ const Widgets = (props: WidgetProps) => {
                 },
             };
             const isOver = isOverlapping(id, newWidgets[index]);
-            console.log(isOver, newWidgets[index]);
             if (isOver) {
                 newWidgets[index] = {
                     ...newWidgets[index],
@@ -178,6 +177,7 @@ const Widgets = (props: WidgetProps) => {
         [widgets],
     );
 
+    // 拖拉大小时判断是否与其他widget重叠
     const handleOverlapping = useCallback(
         ({ id, ...rest }: draggerType) => {
             const index = widgets.findIndex(
@@ -211,6 +211,13 @@ const Widgets = (props: WidgetProps) => {
             }
             if (height < 1) {
                 height = 1;
+            }
+            // 高度和宽度加上容器的偏移量是否超出容易可视区域
+            if ((rest.width || 0) + curLeft > parentRef?.current?.clientWidth) {
+                return true;
+            }
+            if ((rest.height || 0) + cueTop > parentRef?.current?.clientHeight) {
+                return true;
             }
             newWidgets[index] = {
                 ...newWidgets[index],
