@@ -5,6 +5,8 @@
     "icon": "./icon.png",
     "minCol": 5,
     "minRow": 6,
+    "maxCol": 10,
+    "maxRow": 12,
     "configProps": [
         {
             "style": "width: 100%",
