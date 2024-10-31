@@ -21,5 +21,6 @@
     "dashboard.label_avg_value": "平均值",
     "dashboard.label_sum_value": "数据统计值",
     "dashboard.label_count_value": "统计条数",
-    "dashboard.label_rename": "rename"
+    "dashboard.label_rename": "rename",
+    "dashboard.plugin.trigger_confirm_text": "是否确认执行操作？"
 }

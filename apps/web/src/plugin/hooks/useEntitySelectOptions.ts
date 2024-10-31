@@ -77,15 +77,18 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
      * 根据实体数据转换为选项数据处理
      */
     useEffect(() => {
-        const newOptions: EntityOptionType[] = (entityOptions || [])
+        const newEntityValueTypes = [...(entityValueTypes || [])];
+        if (newEntityValueTypes.includes('ENUM')) {
+            newEntityValueTypes.push('STRING');
+        }
+        let newOptions: EntityOptionType[] = (entityOptions || [])
             .filter(e => {
                 /**
                  * 过滤实体数据值类型
                  */
                 const isValidValueType =
                     !Array.isArray(entityValueTypes) ||
-                    entityValueTypes.includes(e.entity_value_type as EntityValueDataType);
-
+                    newEntityValueTypes.includes(e.entity_value_type as EntityValueDataType);
                 /**
                  * 过滤实体属性访问类型
                  */
@@ -103,6 +106,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                 return {
                     label: e.entity_name,
                     value: e.entity_id,
+                    valueType: e.entity_value_type,
                     description: [e.device_name, e.integration_name].filter(Boolean).join(', '),
                     rawData: {
                         ...objectToCamelCase(e),
@@ -110,7 +114,12 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                     },
                 };
             });
-
+        if (entityValueTypes?.includes('ENUM')) {
+            // 如果是枚举要过滤值类型是string并且有enum字段的
+            newOptions = newOptions.filter((e: EntityOptionType) => {
+                return e.valueType !== 'STRING' || e.rawData?.entityValueAttribute?.enum;
+            });
+        }
         setOptions(newOptions);
         setLoading(false);
     }, [entityOptions, entityValueTypes, accessMods]);

@@ -6,12 +6,13 @@ import {
     CloseIcon as Close,
     CheckIcon as Check,
     EditIcon as Edit,
+    toast,
 } from '@milesight/shared/src/components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep } from 'lodash-es';
 import { useI18n } from '@milesight/shared/src/hooks';
-import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
+import { dashboardAPI, awaitWrap, isRequestSuccess } from '@/services/http';
 import { DashboardDetail, WidgetDetail } from '@/services/http/dashboard';
 import AddWidget from '../add-widget';
 import PluginList from '../plugin-list';
@@ -39,8 +40,8 @@ export default (props: DashboardContentProps) => {
     const widgetsRef = useRef<any[]>([]);
 
     useEffect(() => {
-        setWidgets(dashboardDetail.widgets);
-        widgetsRef.current = cloneDeep(dashboardDetail.widgets);
+        setWidgets([...(dashboardDetail.widgets || [])]);
+        widgetsRef.current = cloneDeep(dashboardDetail.widgets || []);
     }, [dashboardDetail.widgets]);
 
     const dashboardId = dashboardDetail.dashboard_id;
@@ -119,6 +120,7 @@ export default (props: DashboardContentProps) => {
         if (isRequestSuccess(res)) {
             getDashboards();
             setIsEdit(false);
+            toast.success(getIntlText('common.message.operation_success'));
         }
     };
 
@@ -132,6 +134,7 @@ export default (props: DashboardContentProps) => {
         if (isRequestSuccess(res)) {
             getDashboards();
             setIsEdit(false);
+            toast.success(getIntlText('common.message.delete_success'));
         }
     };
 
@@ -156,6 +159,7 @@ export default (props: DashboardContentProps) => {
         if (isRequestSuccess(res)) {
             getDashboards();
             setIsShowEditDashboard(false);
+            toast.success(getIntlText('common.message.operation_success'));
         }
     };
 

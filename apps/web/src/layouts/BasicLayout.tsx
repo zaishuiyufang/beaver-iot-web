@@ -35,7 +35,7 @@ function BasicLayout() {
     useRequest(
         async () => {
             if (!token) {
-                // 若 localStorage 中无缓存 token 则直接跳转登录页
+                // 判断客户端是否已注册，若已注册则跳转登录页，否则跳转注册页
                 const target = iotLocalStorage.getItem(REGISTERED_KEY)
                     ? '/auth/login'
                     : '/auth/register';

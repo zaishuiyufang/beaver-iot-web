@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
-import { Modal, EntityForm } from '@milesight/shared/src/components';
+import { Modal, EntityForm, toast } from '@milesight/shared/src/components';
+import { useI18n } from '@milesight/shared/src/hooks';
+import { useConfirm } from '@/components';
 import { useEntityApi, type CallServiceType } from '../../../hooks';
 import { RenderView } from '../../../render';
 import { ViewConfigProps } from './typings';
@@ -11,6 +13,8 @@ interface Props {
 }
 
 const View = (props: Props) => {
+    const { getIntlText } = useI18n();
+    const confirm = useConfirm();
     const { getEntityChildren, callService, updateProperty } = useEntityApi();
     const { config, configJson } = props;
     const [visible, setVisible] = useState(false);
@@ -18,13 +22,16 @@ const View = (props: Props) => {
     const ref = useRef<any>();
 
     // 调用服务
-    const handleCallService = () => {
-        callService({
+    const handleCallService = async () => {
+        const { error } = await callService({
             entity_id: (config?.entity as any)?.value as ApiKey,
             exchange: {
                 entity_id: (config?.entity as any)?.value as ApiKey,
             },
         } as CallServiceType);
+        if (!error) {
+            toast.success(getIntlText('common.message.operation_success'));
+        }
     };
 
     const handleUpdateProperty = async (data: Record<string, any>) => {
@@ -58,7 +65,14 @@ const View = (props: Props) => {
                 );
                 setVisible(true);
             } else {
-                handleCallService();
+                confirm({
+                    title: '',
+                    description: getIntlText('dashboard.plugin.trigger_confirm_text'),
+                    confirmButtonText: getIntlText('common.button.confirm'),
+                    onConfirm: async () => {
+                        handleCallService();
+                    },
+                });
             }
         }
     };
