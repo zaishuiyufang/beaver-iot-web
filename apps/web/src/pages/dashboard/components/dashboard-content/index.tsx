@@ -39,7 +39,7 @@ export default (props: DashboardContentProps) => {
     const widgetsRef = useRef<any[]>([]);
 
     useEffect(() => {
-        setWidgets(dashboardDetail.widgets);
+        setWidgets([...dashboardDetail.widgets]);
         widgetsRef.current = cloneDeep(dashboardDetail.widgets);
     }, [dashboardDetail.widgets]);
 

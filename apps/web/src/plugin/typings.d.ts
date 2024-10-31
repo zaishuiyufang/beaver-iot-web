@@ -234,6 +234,7 @@ declare interface CustomComponentProps {
 declare interface EntityOptionType {
     label: string;
     value: string | number;
+    valueType: string;
     description: string;
     /** 源数据 */
     rawData?: ObjectToCamelCase<Omit<EntityData, 'entity_value_attribute'>> & {

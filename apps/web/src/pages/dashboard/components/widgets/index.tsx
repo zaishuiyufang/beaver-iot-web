@@ -14,6 +14,11 @@ interface WidgetProps {
 const Widgets = (props: WidgetProps) => {
     const { widgets, onChangeWidgets, parentRef, isEdit, onEdit } = props;
     const currentMoveWidgetRef = useRef<WidgetDetail>();
+    const widgetRef = useRef<WidgetDetail[]>();
+
+    useEffect(() => {
+        widgetRef.current = widgets;
+    }, [widgets]);
 
     const moveBox = useCallback(
         ({ id, ...rest }: any) => {
@@ -250,13 +255,15 @@ const Widgets = (props: WidgetProps) => {
     // 删除组件
     const handleDelete = useCallback(
         (data: WidgetDetail) => {
-            const index = widgets.findIndex(
-                (item: WidgetDetail) =>
-                    (item.widget_id && item.widget_id === data.widget_id) ||
-                    (item.tempId && item.tempId === data.tempId),
-            );
+            // 这里有点神奇，widgets一直取的是旧值，先用widgetRef.current确保最新值
+            const index =
+                widgetRef.current?.findIndex(
+                    (item: WidgetDetail) =>
+                        (item.widget_id && item.widget_id === data.widget_id) ||
+                        (item.tempId && item.tempId === data.tempId),
+                ) || -1;
             if (index > -1) {
-                const newWidgets = [...widgets];
+                const newWidgets = [...(widgetRef.current || [])];
                 newWidgets.splice(index, 1);
                 onChangeWidgets(newWidgets);
             }

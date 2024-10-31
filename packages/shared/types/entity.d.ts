@@ -17,7 +17,14 @@ declare type EntityType = 'SERVICE' | 'PROPERTY' | 'EVENT';
 /**
  * 物模型属性数据类型
  */
-declare type EntityValueDataType = 'STRING' | 'LONG' | 'DOUBLE' | 'BOOLEAN' | 'BINARY' | 'OBJECT';
+declare type EntityValueDataType =
+    | 'STRING'
+    | 'LONG'
+    | 'DOUBLE'
+    | 'BOOLEAN'
+    | 'BINARY'
+    | 'OBJECT'
+    | 'ENUM';
 
 /**
  * 数据聚合类型
