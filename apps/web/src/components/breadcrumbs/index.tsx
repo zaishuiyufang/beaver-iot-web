@@ -82,7 +82,7 @@ const MSBreadcrumbs: React.FC<Props> = memo(({ navs, rewrite }) => {
                     if (isLast || !nav.path) {
                         return (
                             <Typography
-                                key={nav.path}
+                                key={nav.path || `${index}-${nav.title}`}
                                 sx={!isLast ? undefined : { color: 'text.primary' }}
                             >
                                 {nav.title}
