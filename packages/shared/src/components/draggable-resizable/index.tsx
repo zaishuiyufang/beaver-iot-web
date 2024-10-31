@@ -8,7 +8,7 @@ interface DraggableResizableBoxProps {
     // id: string;
     left?: number;
     top?: number;
-    id?: string;
+    id: ApiKey;
     className?: string;
     width?: number;
     height?: number;
@@ -17,11 +17,13 @@ interface DraggableResizableBoxProps {
     isEdit: boolean;
     children: React.ReactNode;
     onResize: (data: draggerType) => void;
-    onMove: ({ id, left, top }: { id?: string; left: number; top: number }) => void;
+    onMove: ({ id, left, top }: { id: ApiKey; left: number; top: number }) => void;
     /**
      * 拖拽相对的元素
      */
     parentRef: any;
+    onStartMove: (id: ApiKey) => void;
+    onEndMove: ({ id, left, top }: { id: ApiKey; left: number; top: number }) => void;
 }
 
 const DraggableResizableBox = ({
@@ -38,6 +40,8 @@ const DraggableResizableBox = ({
     onResize,
     onMove,
     parentRef,
+    onStartMove,
+    onEndMove,
 }: DraggableResizableBoxProps) => {
     const [{ isDragging }, drag] = useDrag({
         type: 'BOX',
@@ -96,6 +100,7 @@ const DraggableResizableBox = ({
                         x: e.pageX - offset.left,
                         y: e.pageY - offset.top,
                     };
+                    onStartMove(id);
                 }}
                 onDrag={(e: any) => {
                     e.preventDefault();
@@ -121,6 +126,35 @@ const DraggableResizableBox = ({
                         top = parentRef.current.clientHeight - ref.current.clientHeight;
                     }
                     onMove({
+                        id,
+                        left,
+                        top,
+                    });
+                }}
+                onDragEnd={(e: any) => {
+                    e.preventDefault();
+                    const parentOffset = parentRef.current?.getBoundingClientRect?.();
+                    let left = e.pageX - parentOffset.left - offsetRef.current.x;
+                    let top = e.pageY - parentOffset.top - offsetRef.current.y;
+                    if (!isEdit) {
+                        return;
+                    }
+                    if (e.pageX === 0 && e.pageY === 0) {
+                        return;
+                    }
+                    if (left < 0) {
+                        left = 0;
+                    }
+                    if (top < 0) {
+                        top = 0;
+                    }
+                    if (left > parentRef.current.clientWidth - ref.current.clientWidth) {
+                        left = parentRef.current.clientWidth - ref.current.clientWidth;
+                    }
+                    if (top > parentRef.current.clientHeight - ref.current.clientHeight) {
+                        top = parentRef.current.clientHeight - ref.current.clientHeight;
+                    }
+                    onEndMove({
                         id,
                         left,
                         top,

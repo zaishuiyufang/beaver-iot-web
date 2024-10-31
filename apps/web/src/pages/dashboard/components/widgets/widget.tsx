@@ -11,7 +11,9 @@ import { WidgetDetail } from '@/services/http/dashboard';
 interface WidgetProps {
     data: WidgetDetail;
     onResizeBox: (data: draggerType) => void;
-    onMove: ({ id, left, top }: { id?: string; left: number; top: number }) => void;
+    onMove: ({ id, left, top }: { id: ApiKey; left: number; top: number }) => void;
+    onStartMove: (id: ApiKey) => void;
+    onEndMove: ({ id, left, top }: { id: ApiKey; left: number; top: number }) => void;
     isEdit: boolean;
     onEdit: (data: WidgetDetail) => void;
     onDelete: (data: WidgetDetail) => void;
@@ -19,7 +21,17 @@ interface WidgetProps {
 }
 
 const Widget = (props: WidgetProps) => {
-    const { data, onResizeBox, isEdit, onEdit, onDelete, onMove, parentRef } = props;
+    const {
+        data,
+        onResizeBox,
+        isEdit,
+        onEdit,
+        onDelete,
+        onMove,
+        onStartMove,
+        onEndMove,
+        parentRef,
+    } = props;
     const ComponentView = (plugins as any)[`${data.data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
     const [pos, setPos] = useState<draggerType>();
@@ -78,7 +90,9 @@ const Widget = (props: WidgetProps) => {
             limitHeight={(data?.data.minRow || 0) * getSize().unitHeight}
             onResize={onResizeBox}
             onMove={onMove}
-            id={data.widget_id as any}
+            onStartMove={onStartMove}
+            onEndMove={onEndMove}
+            id={(data.widget_id || data.tempId) as ApiKey}
             key={data.widget_id as any}
             isEdit={isEdit}
             parentRef={parentRef}

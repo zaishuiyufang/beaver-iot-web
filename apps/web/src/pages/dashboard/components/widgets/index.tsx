@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { WidgetDetail } from '@/services/http/dashboard';
 import Widget from './widget';
 
@@ -12,6 +12,7 @@ interface WidgetProps {
 
 const Widgets = (props: WidgetProps) => {
     const { widgets, onChangeWidgets, parentRef, isEdit, onEdit } = props;
+    const currentMoveWidgetRef = useRef<WidgetDetail>();
 
     const moveBox = useCallback(
         ({ id, ...rest }: any) => {
@@ -28,6 +29,88 @@ const Widgets = (props: WidgetProps) => {
                 },
             };
             onChangeWidgets(newWidgets);
+        },
+        [widgets],
+    );
+
+    // 开始移动组件事件
+    const handleStartMove = useCallback(
+        (id: ApiKey) => {
+            // 开始移动时记录当前移动的组件
+            currentMoveWidgetRef.current = widgets.find(
+                (item: WidgetDetail) =>
+                    (item.widget_id && item.widget_id === id) ||
+                    (item.tempId && item.tempId === id),
+            );
+        },
+        [widgets],
+    );
+
+    // 结束移动组件事件
+    const handleEndMove = useCallback(
+        ({ id, ...rest }: any) => {
+            // 判断当前移动的位置与其他组件位置是否有冲突
+            const isOverlapping = (newBox: WidgetDetail) => {
+                let isOver = false;
+                widgets.forEach((widget: WidgetDetail) => {
+                    const widgetId = widget?.widget_id || widget?.tempId;
+                    // 如果已经重叠或者是自己，则直接返回
+                    if (isOver || widgetId === id) {
+                        return;
+                    }
+                    const unitHeight = (parentRef?.current?.clientHeight || 0) / 24;
+                    const unitWidth = (parentRef?.current?.clientWidth || 0) / 24;
+                    // 判断当前移动后的组件的位置是否在遍历到的组件的位置中
+                    const right =
+                        (widget.data.pos?.left || 0) + (widget.data.pos?.width || 0) * unitWidth;
+                    const bottom =
+                        (widget.data.pos?.top || 0) + (widget.data.pos?.height || 0) * unitHeight;
+                    const left = widget.data.pos?.left || 0;
+                    const top = widget.data.pos?.top || 0;
+                    const newLeft = newBox.data.pos?.left || 0;
+                    const newTop = newBox.data.pos?.top || 0;
+                    const newRight =
+                        (newBox.data.pos?.left || 0) + (newBox.data.pos?.width || 0) * unitWidth;
+                    const newBottom =
+                        (newBox.data.pos?.top || 0) + (newBox.data.pos?.height || 0) * unitHeight;
+                    if (
+                        !(newRight < left || newLeft > right || newBottom < top || newTop > bottom)
+                    ) {
+                        isOver = true;
+                    }
+                });
+                return isOver;
+            };
+            const index = widgets.findIndex((item: WidgetDetail) => item.widget_id === id);
+            const newWidgets = [...widgets];
+            newWidgets[index] = {
+                ...newWidgets[index],
+                data: {
+                    ...(newWidgets[index].data || {}),
+                    pos: {
+                        ...newWidgets[index].data?.pos,
+                        ...rest,
+                    },
+                },
+            };
+            const isOver = isOverlapping(newWidgets[index]);
+            console.log(isOver, newWidgets[index]);
+            if (isOver) {
+                newWidgets[index] = {
+                    ...newWidgets[index],
+                    data: {
+                        ...(newWidgets[index].data || {}),
+                        pos: {
+                            ...newWidgets[index].data?.pos,
+                            ...currentMoveWidgetRef.current?.data?.pos,
+                        },
+                    },
+                };
+                // 存在位置冲突则将位置恢复到开始拖拽的位置
+                onChangeWidgets(newWidgets);
+            }
+            // 结束移动时清空当前移动的组件
+            currentMoveWidgetRef.current = undefined;
         },
         [widgets],
     );
@@ -229,6 +312,8 @@ const Widgets = (props: WidgetProps) => {
                         onResizeBox={resizeBox}
                         isEdit={isEdit}
                         onMove={moveBox}
+                        onStartMove={handleStartMove}
+                        onEndMove={handleEndMove}
                         parentRef={parentRef}
                     />
                 );
