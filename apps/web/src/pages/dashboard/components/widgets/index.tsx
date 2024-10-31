@@ -22,7 +22,11 @@ const Widgets = (props: WidgetProps) => {
 
     const moveBox = useCallback(
         ({ id, ...rest }: any) => {
-            const index = widgets.findIndex((item: WidgetDetail) => item.widget_id === id);
+            const index = widgets.findIndex(
+                (item: WidgetDetail) =>
+                    (item.widget_id && item.widget_id === id) ||
+                    (item.tempId && item.tempId === id),
+            );
             const newWidgets = [...widgets];
             newWidgets[index] = {
                 ...newWidgets[index],

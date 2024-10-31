@@ -72,8 +72,8 @@
         }
     ],
     "view": [],
-    "minRow": 8,
-    "maxRow": 12,
+    "minRow": 10,
+    "maxRow": 24,
     "minCol": 8,
     "maxCol": 12
 }
