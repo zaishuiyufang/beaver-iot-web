@@ -74,13 +74,15 @@ export default (props: DashboardContentProps) => {
         const newWidgets = [...(widgets || [])];
         const index = newWidgets.findIndex(
             (item: WidgetDetail) =>
-                item.widget_id === data.widget_id || (item.tempId && item.tempId === data.tempId),
+                (item.widget_id && item.widget_id === data.widget_id) ||
+                (item.tempId && item.tempId === data.tempId),
         );
         if (index > -1) {
             newWidgets[index] = data;
         } else {
             newWidgets.push(data);
         }
+        console.log(newWidgets);
         widgetsRef.current = cloneDeep(newWidgets);
         handleChangeWidgets(newWidgets);
     };
@@ -133,7 +135,7 @@ export default (props: DashboardContentProps) => {
         }
     };
 
-    // 显示编辑dashbard弹框
+    // 显示编辑dashboard弹框
     const showEditDashboard = () => {
         setIsShowEditDashboard(true);
     };

@@ -115,6 +115,12 @@ const Widgets = (props: WidgetProps) => {
             if (height > newWidgets[index]?.data.maxRow) {
                 height = newWidgets[index].data.maxRow;
             }
+            if (width < 1) {
+                width = 1;
+            }
+            if (height < 1) {
+                height = 1;
+            }
             // TODO：计算太慢先注释
             // if (curLeft === undefined && cueTop === undefined) {
             //     const { left, top } = getInitPos({
@@ -167,7 +173,7 @@ const Widgets = (props: WidgetProps) => {
         (data: WidgetDetail) => {
             const index = widgets.findIndex(
                 (item: WidgetDetail) =>
-                    item.widget_id === data.widget_id ||
+                    (item.widget_id && item.widget_id === data.widget_id) ||
                     (item.tempId && item.tempId === data.tempId),
             );
             if (index > -1) {
