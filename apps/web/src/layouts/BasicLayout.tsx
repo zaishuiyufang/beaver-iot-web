@@ -15,9 +15,6 @@ import { Sidebar, RouteLoadingIndicator } from '@/components';
 
 function BasicLayout() {
     const { lang } = useI18n();
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState<null | boolean>(null);
-    const setUserInfo = useUserStore(state => state.setUserInfo);
     const menus = useMemo(() => {
         return routes
             .filter(route => route.path && route.handle?.layout !== 'blank')
@@ -28,9 +25,13 @@ function BasicLayout() {
             }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lang]);
+
+    // ---------- 用户信息&鉴权&跳转相关处理逻辑 ----------
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState<null | boolean>(null);
+    const setUserInfo = useUserStore(state => state.setUserInfo);
     const token = iotLocalStorage.getItem(TOKEN_CACHE_KEY);
 
-    // 获取用户信息&鉴权&跳转逻辑
     useRequest(
         async () => {
             if (!token) {
