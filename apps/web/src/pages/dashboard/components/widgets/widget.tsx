@@ -18,6 +18,7 @@ interface WidgetProps {
     onEdit: (data: WidgetDetail) => void;
     onDelete: (data: WidgetDetail) => void;
     parentRef: any;
+    isOverlapping: (data: draggerType) => boolean;
 }
 
 const Widget = (props: WidgetProps) => {
@@ -31,10 +32,12 @@ const Widget = (props: WidgetProps) => {
         onStartMove,
         onEndMove,
         parentRef,
+        isOverlapping,
     } = props;
     const ComponentView = (plugins as any)[`${data.data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
     const [pos, setPos] = useState<draggerType>();
+    const id = (data.widget_id || data.tempId) as ApiKey;
 
     const getSize = () => {
         // 计算出24等分一格大小
@@ -49,7 +52,7 @@ const Widget = (props: WidgetProps) => {
     useEffect(() => {
         if (!data?.data.pos?.width && !data?.data.pos?.height && widgetRef?.current) {
             onResizeBox({
-                id: data.widget_id as any,
+                id,
                 width: widgetRef?.current?.clientWidth,
                 height: widgetRef?.current?.clientHeight,
                 initWidth: widgetRef?.current?.clientWidth,
@@ -86,14 +89,17 @@ const Widget = (props: WidgetProps) => {
     return (
         <DraggableResizable
             {...(pos || {})}
-            limitWidth={(data?.data.minCol || 0) * getSize().unitWidth}
-            limitHeight={(data?.data.minRow || 0) * getSize().unitHeight}
+            limitMinWidth={(data?.data.minCol || 0) * getSize().unitWidth}
+            limitMinHeight={(data?.data.minRow || 0) * getSize().unitHeight}
+            limitMaxWidth={(data?.data.maxCol || 0) * getSize().unitWidth}
+            limitMaxHeight={(data?.data.maxRow || 0) * getSize().unitHeight}
+            isOverLimit={isOverlapping}
             onResize={onResizeBox}
             onMove={onMove}
             onStartMove={onStartMove}
             onEndMove={onEndMove}
-            id={(data.widget_id || data.tempId) as ApiKey}
-            key={data.widget_id as any}
+            id={id}
+            key={id}
             isEdit={isEdit}
             parentRef={parentRef}
             className="dashboard-content-widget"

@@ -1,5 +1,5 @@
 declare type draggerType = {
-    id: string;
+    id: ApiKey;
     width?: number;
     height?: number;
     initWidth?: number;

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
@@ -12,8 +12,10 @@ interface DraggableResizableBoxProps {
     className?: string;
     width?: number;
     height?: number;
-    limitWidth?: number;
-    limitHeight?: number;
+    limitMinWidth?: number;
+    limitMinHeight?: number;
+    limitMaxWidth?: number;
+    limitMaxHeight?: number;
     isEdit: boolean;
     children: React.ReactNode;
     onResize: (data: draggerType) => void;
@@ -24,6 +26,7 @@ interface DraggableResizableBoxProps {
     parentRef: any;
     onStartMove: (id: ApiKey) => void;
     onEndMove: ({ id, left, top }: { id: ApiKey; left: number; top: number }) => void;
+    isOverLimit: (data: draggerType) => boolean;
 }
 
 const DraggableResizableBox = ({
@@ -33,8 +36,10 @@ const DraggableResizableBox = ({
     className,
     width,
     height,
-    limitWidth,
-    limitHeight,
+    limitMinWidth,
+    limitMinHeight,
+    limitMaxWidth,
+    limitMaxHeight,
     isEdit,
     children,
     onResize,
@@ -42,6 +47,7 @@ const DraggableResizableBox = ({
     parentRef,
     onStartMove,
     onEndMove,
+    isOverLimit,
 }: DraggableResizableBoxProps) => {
     const [{ isDragging }, drag] = useDrag({
         type: 'BOX',
@@ -52,6 +58,8 @@ const DraggableResizableBox = ({
     });
     const ref = useRef<any>(null);
     const offsetRef = useRef({ x: 0, y: 0 });
+    const currentSize = useRef({ width, height });
+    const [key, setKey] = useState('');
 
     const [, drop] = useDrop({
         accept: 'BOX',
@@ -71,16 +79,28 @@ const DraggableResizableBox = ({
     }, [left, top]);
 
     drag(drop(ref));
-
     return (
         <ResizableBox
+            key={`${id}-${key}`}
             width={width || 10}
             height={height || 10}
-            minConstraints={[limitWidth || 50, limitHeight || 50]}
-            maxConstraints={[600, 300]}
+            minConstraints={[limitMinWidth || 50, limitMinHeight || 50]}
+            maxConstraints={[limitMaxWidth || 600, limitMaxHeight || 300]}
             onResizeStop={(e: any, data: any) => {
                 // 处理调整大小后的逻辑
                 onResize({ ...data.size, id });
+                currentSize.current = { ...data.size };
+            }}
+            onResize={(e: any, data: any) => {
+                // 超出则不再允许拖拽大小
+                if (isOverLimit({ ...data.size, id })) {
+                    onResize({ ...currentSize.current, id });
+                    // 更新一次key强制重新渲染
+                    setKey(`${data.size.width}-${data.size.height}`);
+                    return;
+                }
+                // 存入当前调整大小值
+                currentSize.current = { ...data.size };
             }}
             resizeHandles={isEdit ? ['se'] : []} // 动态设置是否可调整大小
             handle={<span className="drag-resizable-handle" />}
