@@ -3,7 +3,7 @@ import * as path from 'path';
 import { defineConfig } from 'vite';
 import vitePluginImport from 'vite-plugin-imp';
 import stylelint from 'vite-plugin-stylelint';
-import progress from 'vite-plugin-progress';
+// import progress from 'vite-plugin-progress';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import {
     parseEnvVariables,
@@ -76,13 +76,9 @@ export default defineConfig({
         // progress(),
     ],
     resolve: {
-        // alias: {
-        //     '@': path.resolve(__dirname, 'src'), // src 路径别名
-        // },
-        alias: [
-            { find: '@', replacement: path.resolve(__dirname, 'src') },
-            // { find: /^zustand$/, replacement: 'zustand/umd/index.production.js' },
-        ],
+        alias: {
+            '@': path.resolve(__dirname, 'src'), // src 路径别名
+        },
     },
 
     define: runtimeVariables,
