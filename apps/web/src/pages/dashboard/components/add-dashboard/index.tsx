@@ -41,12 +41,13 @@ const AddDashboard = (props: ConfigPluginProps) => {
     const handleSubmit = (values: DashboardDetail) => {
         onOk(values);
     };
+
     return (
         <Modal
             visible
             onCancel={handleClose}
             onOk={handleOk}
-            title={`${getIntlText(data?.dashboard_id ? 'dashboard.add_title' : 'dashboard.edit_title')}`}
+            title={`${getIntlText(!data?.dashboard_id ? 'dashboard.add_title' : 'dashboard.edit_title')}`}
         >
             <Form<DashboardDetail> ref={formRef} formItems={formItems} onOk={handleSubmit} />
         </Modal>

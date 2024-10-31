@@ -4,7 +4,9 @@ import {
     FullscreenIcon,
     FullscreenExitIcon as FullscreenIconExit,
     AddIcon,
+    toast,
 } from '@milesight/shared/src/components';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
 import { DashboardDetail } from '@/services/http/dashboard';
 import { TabPanel } from '@/components';
@@ -13,6 +15,7 @@ import AddDashboard from './components/add-dashboard';
 import './style.less';
 
 export default () => {
+    const { getIntlText } = useI18n();
     const [tabs, setTabs] = useState<DashboardDetail[]>([]);
     const [tabKey, setTabKey] = useState<ApiKey>();
     const [isFullscreen, setIsFullscreen] = useState(false);
@@ -78,6 +81,7 @@ export default () => {
             const resData: any = getResponseData(res);
             setTabs([...tabs, { ...data, dashboard_id: resData.dashboard_id, widgets: [] }]);
             setShowAdd(false);
+            toast.success(getIntlText('common.message.operation_success'));
         }
     };
 

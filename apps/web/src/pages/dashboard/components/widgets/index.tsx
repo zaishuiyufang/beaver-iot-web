@@ -256,12 +256,14 @@ const Widgets = (props: WidgetProps) => {
     const handleDelete = useCallback(
         (data: WidgetDetail) => {
             // 这里有点神奇，widgets一直取的是旧值，先用widgetRef.current确保最新值
-            const index =
-                widgetRef.current?.findIndex(
-                    (item: WidgetDetail) =>
-                        (item.widget_id && item.widget_id === data.widget_id) ||
-                        (item.tempId && item.tempId === data.tempId),
-                ) || -1;
+            let index = widgetRef.current?.findIndex(
+                (item: WidgetDetail) =>
+                    (item.widget_id && item.widget_id === data.widget_id) ||
+                    (item.tempId && item.tempId === data.tempId),
+            );
+            if (!index && index !== 0) {
+                index = -1;
+            }
             if (index > -1) {
                 const newWidgets = [...(widgetRef.current || [])];
                 newWidgets.splice(index, 1);
