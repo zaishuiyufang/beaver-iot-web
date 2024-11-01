@@ -1,5 +1,6 @@
 /**
  * 自定义过滤实体选项数据
+ * 如果是枚举要过滤值类型是 string 并且有 enum 字段的
  */
 export const filterEntityStringHasEnum = (
     entityOptions: EntityOptionType[],
