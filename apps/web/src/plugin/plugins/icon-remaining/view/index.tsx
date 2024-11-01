@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
-import { useRequest } from 'ahooks';
 import * as Icons from '@milesight/shared/src/components/icons';
 import { useI18n } from '@milesight/shared/src/hooks';
-import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
 import RemainChart from './components/remain-chart';
+import { useSource } from './hooks';
 import type { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -14,27 +13,8 @@ const View = (props: Props) => {
     const { config } = props;
     const { title, entity, metrics, time } = config || {};
     const { getIntlText } = useI18n();
+    const { aggregateHistoryData } = useSource({ entity, metrics, time });
 
-    const { data: aggregateHistoryData } = useRequest(
-        async () => {
-            const { value: entityId } = entity || {};
-            if (!entityId) return;
-
-            const now = Date.now();
-            const [error, resp] = await awaitWrap(
-                entityAPI.getAggregateHistory({
-                    entity_id: entityId,
-                    aggregate_type: metrics,
-                    start_timestamp: now - time,
-                    end_timestamp: now,
-                }),
-            );
-            if (error || !isRequestSuccess(resp)) return;
-
-            return getResponseData(resp);
-        },
-        { refreshDeps: [entity, time, metrics] },
-    );
     // 百分比
     const percent = useMemo(() => {
         const { rawData } = entity || {};

@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { isNil } from 'lodash-es';
-import { useRequest, useSize } from 'ahooks';
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
-import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
 import Chart from './gauge';
+import { useSource } from './hooks';
 import type { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -16,27 +15,7 @@ const View = (props: Props) => {
     const { getIntlText } = useI18n();
     const chartRef = useRef<HTMLCanvasElement>(null);
     const { blue, grey } = useTheme();
-
-    const { data: aggregateHistoryData } = useRequest(
-        async () => {
-            const { value: entityId } = entity || {};
-            if (!entityId) return;
-
-            const now = Date.now();
-            const [error, resp] = await awaitWrap(
-                entityAPI.getAggregateHistory({
-                    entity_id: entityId,
-                    aggregate_type: metrics,
-                    start_timestamp: now - time,
-                    end_timestamp: now,
-                }),
-            );
-            if (error || !isRequestSuccess(resp)) return;
-
-            return getResponseData(resp);
-        },
-        { refreshDeps: [entity, time, metrics] },
-    );
+    const { aggregateHistoryData } = useSource({ entity, metrics, time });
 
     /** 渲染仪表图 */
     const renderGaugeChart = (datasets: {

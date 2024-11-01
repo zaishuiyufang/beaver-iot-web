@@ -1,62 +1,22 @@
 import { useEffect, useRef } from 'react';
-import { useRequest } from 'ahooks';
 import Chart, { ChartConfiguration } from 'chart.js/auto'; // 引入 Chart.js
 import { useI18n, useTheme } from '@milesight/shared/src/hooks';
-import {
-    awaitWrap,
-    entityAPI,
-    EntityAPISchema,
-    getResponseData,
-    isRequestSuccess,
-} from '@/services/http';
-import { ViewConfigProps } from '../typings';
+import { useSource } from './hooks';
+import type { AggregateHistoryList, ViewConfigProps } from '../typings';
 import './style.less';
 
 interface IProps {
     config: ViewConfigProps;
-}
-interface AggregateHistoryList {
-    entity: EntityOptionType;
-    data: EntityAPISchema['getAggregateHistory']['response'];
 }
 const View = (props: IProps) => {
     const { config } = props;
     const { entityList, title, metrics, time } = config || {};
     const { getIntlText } = useI18n();
     const { blue, white } = useTheme();
+    const { aggregateHistoryList } = useSource({ entityList, metrics, time });
     const headerLabel = title || getIntlText('common.label.title');
 
     const chartRef = useRef<HTMLCanvasElement>(null);
-    const { data: aggregateHistoryList } = useRequest(
-        async () => {
-            if (!entityList || entityList.length === 0) return;
-
-            const run = async (entity: EntityOptionType) => {
-                const { value: entityId } = entity || {};
-                if (!entityId) return;
-
-                const now = Date.now();
-                const [error, resp] = await awaitWrap(
-                    entityAPI.getAggregateHistory({
-                        entity_id: entityId,
-                        aggregate_type: metrics,
-                        start_timestamp: now - time,
-                        end_timestamp: now,
-                    }),
-                );
-                if (error || !isRequestSuccess(resp)) return;
-
-                const data = getResponseData(resp);
-                return {
-                    entity,
-                    data,
-                } as AggregateHistoryList;
-            };
-            const fetchList = entityList.map(entity => run(entity));
-            return Promise.all(fetchList.filter(Boolean) as unknown as AggregateHistoryList[]);
-        },
-        { refreshDeps: [entityList, time, metrics] },
-    );
 
     /** 渲染雷达图 */
     const renderRadarChart = (

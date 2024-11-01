@@ -1,3 +1,5 @@
+import type { EntityAPISchema } from '@/services/http';
+
 export interface ViewConfigProps {
     title: string;
     entityList: EntityOptionType[];
@@ -6,3 +8,8 @@ export interface ViewConfigProps {
 }
 
 export type ConfigureType = any;
+
+export interface AggregateHistoryList {
+    entity: EntityOptionType;
+    data: EntityAPISchema['getAggregateHistory']['response'];
+}

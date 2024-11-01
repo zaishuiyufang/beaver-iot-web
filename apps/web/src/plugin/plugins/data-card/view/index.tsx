@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
-import { useRequest } from 'ahooks';
 import { useI18n } from '@milesight/shared/src/hooks';
 import * as Icons from '@milesight/shared/src/components/icons';
 import { Tooltip } from '@/components';
-import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
+import { useSource } from './hooks';
 import type { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -14,18 +13,7 @@ const View = (props: Props) => {
     const { config } = props;
     const { title, entity } = config || {};
     const { getIntlText } = useI18n();
-    const { data: entityStatusValue } = useRequest(
-        async () => {
-            if (!entity) return;
-            const { value } = entity || {};
-
-            const [error, resp] = await awaitWrap(entityAPI.getEntityStatus({ id: value }));
-            if (error || !isRequestSuccess(resp)) return;
-
-            return getResponseData(resp)?.value;
-        },
-        { refreshDeps: [entity] },
-    );
+    const { entityStatusValue } = useSource({ entity });
 
     // 标题展示
     const headerLabel = title || getIntlText('common.label.title');
