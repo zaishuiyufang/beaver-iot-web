@@ -124,6 +124,7 @@ const Services: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
     // 获取 Service 数据
     useEffect(() => {
         const webhookFormData = getEntityValues([
+            WEBHOOK_KEYS.STATUS,
             WEBHOOK_KEYS.ENABLED_KEY,
             WEBHOOK_KEYS.SECRET_KEY,
         ]);
