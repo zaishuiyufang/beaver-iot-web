@@ -18,14 +18,17 @@ export default React.memo(({ Icon, iconColor, percent }: IProps) => {
             <div className="ms-remain-chart__percent">{percent}%</div>
             {RenderIcon && (
                 <div className="ms-remain-chart__content">
-                    <RenderIcon sx={{ color: renderIconColor }} className="ms-remain-chart__icon" />
+                    <div className="ms-remain-chart__icon">
+                        <RenderIcon sx={{ color: renderIconColor }} />
+                    </div>
                     <div className="ms-remain-chart__mask">
-                        <RenderIcon
-                            className="ms-remain-chart__mask-icon"
-                            sx={{ color: renderIconColor }}
-                            // @ts-ignore
-                            style={{ 'clip-path': `inset(${100 - (percent || 0)}% 0 0 0)` }}
-                        />
+                        <div className="ms-remain-chart__mask-icon">
+                            <RenderIcon
+                                sx={{ color: renderIconColor }}
+                                // @ts-ignore
+                                style={{ 'clip-path': `inset(${100 - (percent || 0)}% 0 0 0)` }}
+                            />
+                        </div>
                     </div>
                 </div>
             )}
