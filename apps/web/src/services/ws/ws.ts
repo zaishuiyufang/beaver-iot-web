@@ -1,7 +1,7 @@
 import { EventEmitter } from '@milesight/shared/src/utils/event-emitter';
 import { withPromiseResolvers } from '@milesight/shared/src/utils/tools';
-import { getExChangeTopic, splitExchangeTopic, transform } from './helper';
-import { EVENT_TYPE } from './constant';
+import { splitExchangeTopic, transform } from './helper';
+import { EVENT_TYPE, WS_READY_STATE } from './constant';
 import type { CallbackType, IEventEmitter, WsEvent } from './types';
 
 class WebSocketClient {
@@ -9,17 +9,30 @@ class WebSocketClient {
     private ws: WebSocket | null = null; // ws实例
     private readonly subscribeEvent: EventEmitter<IEventEmitter> = new EventEmitter(); // 事件总线
 
+    /**
+     * 是否正常连接
+     */
+    get isConnected(): boolean {
+        return this.ws?.readyState === WS_READY_STATE.CONNECTING;
+    }
+
+    /**
+     * 连接方法
+     * @param url ws地址
+     */
     connect(url: string) {
         if (!url) return Promise.reject(new Error('url is required'));
 
-        this.url = url;
         const ws = new window.WebSocket(url);
+        this.url = url;
+        this.ws = ws;
+
         const { resolve, reject, promise } = withPromiseResolvers<void>();
 
         // ws连接成功
         ws.onopen = () => {
-            this.emit();
             resolve();
+            this.emit();
         };
         // ws连接失败
         ws.onerror = e => {
@@ -95,6 +108,8 @@ class WebSocketClient {
      * 向后台发送消息订阅，目前只支持`Exchange`类型
      */
     private emit() {
+        if (!this.isConnected) return;
+
         const topics = this.subscribeEvent.getTopics();
         // 从主题中提取出`Exchange`类型
         const { Exchange } = splitExchangeTopic(topics);
