@@ -3,6 +3,10 @@
     "version": "0.0.1",
     "license": "MIT",
     "description": "Milesight IoT Assistant",
+    "engines": {
+        "node": ">=20.0.0",
+        "pnpm": ">=8.0.0"
+    },
     "scripts": {
         "dev:apps": "pnpm --filter=@app/* -r run dev",
         "dev:pkgs": "pnpm --filter=@milesight/* -r run watch",
