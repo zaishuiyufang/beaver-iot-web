@@ -19,7 +19,9 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
         onChange,
         entityType,
         entityValueTypes,
-        accessMods,
+        entityAccessMods,
+        entityExcludeChildren,
+        customFilterEntity,
         /**
          * 默认最大可选择 5 个
          */
@@ -39,7 +41,9 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
     } = useEntitySelectOptions({
         entityType,
         entityValueTypes,
-        accessMods,
+        entityAccessMods,
+        entityExcludeChildren,
+        customFilterEntity,
     });
 
     const renderOption: EntitySelectProps['renderOption'] = (optionProps, option, { selected }) => {

@@ -12,7 +12,15 @@ type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, false, u
  * 实体选择下拉框组件（单选）
  */
 const EntitySelect = (props: EntitySelectProps) => {
-    const { onChange, entityType, entityValueTypes, accessMods, ...restProps } = props;
+    const {
+        onChange,
+        entityType,
+        entityValueTypes,
+        entityAccessMods,
+        entityExcludeChildren,
+        customFilterEntity,
+        ...restProps
+    } = props;
 
     const { getIntlText } = useI18n();
 
@@ -26,7 +34,9 @@ const EntitySelect = (props: EntitySelectProps) => {
     } = useEntitySelectOptions({
         entityType,
         entityValueTypes,
-        accessMods,
+        entityAccessMods,
+        entityExcludeChildren,
+        customFilterEntity,
     });
 
     const renderOption: EntitySelectProps['renderOption'] = (optionProps, option) => {

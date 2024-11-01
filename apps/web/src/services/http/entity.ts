@@ -8,6 +8,14 @@ export interface EntityAPISchema extends APISchema {
             keyword?: string;
             /** 实体类型 */
             entity_type?: EntitySchema['type'];
+            /** 实体值类型 */
+            entity_value_type?: EntityValueDataType[];
+            /** 实体属性（可读、可写、只读） */
+            entity_access_mod?: EntityAccessMode[];
+            /**
+             * 不包含子节点(在选择触发服务实体的时候，不能直接下发子实体/在更新属性实体时，不能只更新某个子实体)
+             */
+            exclude_children?: boolean;
         };
         response: SearchResponseType<EntityData[]>;
     };

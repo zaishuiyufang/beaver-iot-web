@@ -24,7 +24,7 @@
                         "size": "small",
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["LONG", "DOUBLE"],
-                        "accessMods": ["R", "RW"]
+                        "entityAccessMods": ["R", "RW"]
                     },
                     "rules": {
                         "required": true
