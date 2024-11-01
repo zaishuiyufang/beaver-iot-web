@@ -656,3 +656,19 @@ export const genApiUrl = (origin = '', path = '', params?: Record<string, any>) 
 
     return `${origin}/${path}`;
 };
+
+/**
+ * 返回一个包含`Promise`和`resolve`、`reject`的对象，适用于减少代码层级的嵌套
+ * @docs https://github.com/tc39/proposal-promise-with-resolvers
+ */
+export const withPromiseResolvers = <T>() => {
+    let resolve: (value: T | PromiseLike<T>) => void;
+    let reject: (reason?: any) => void;
+
+    const promise = new Promise<T>((res, rej) => {
+        resolve = res;
+        reject = rej;
+    });
+
+    return { promise, resolve: resolve!, reject: reject! };
+};

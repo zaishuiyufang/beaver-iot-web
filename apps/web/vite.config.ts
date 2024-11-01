@@ -18,13 +18,19 @@ import { version } from './package.json';
 
 const isProd = process.env.NODE_ENV === 'production';
 const projectRoot = path.join(__dirname, '../../');
-const { WEB_DEV_PORT, WEB_API_ORIGIN, WEB_API_PROXY, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } =
-    parseEnvVariables([
-        path.join(projectRoot, '.env'),
-        path.join(projectRoot, '.env.local'),
-        path.join(__dirname, '.env'),
-        path.join(__dirname, '.env.local'),
-    ]);
+const {
+    WEB_DEV_PORT,
+    WEB_API_ORIGIN,
+    WEB_API_PROXY,
+    OAUTH_CLIENT_ID,
+    OAUTH_CLIENT_SECRET,
+    WEB_SOCKET_PROXY,
+} = parseEnvVariables([
+    path.join(projectRoot, '.env'),
+    path.join(projectRoot, '.env.local'),
+    path.join(__dirname, '.env'),
+    path.join(__dirname, '.env.local'),
+]);
 const runtimeVariables = getViteEnvVarsConfig({
     // APP_TYPE: 'web',
     APP_VERSION: version,
@@ -95,6 +101,10 @@ export default defineConfig({
                 target: WEB_API_PROXY,
                 changeOrigin: true,
                 rewrite: path => path.replace(/^\/api\/v1/, ''),
+            },
+            '/websocket': {
+                target: WEB_SOCKET_PROXY,
+                changeOrigin: true,
             },
         },
     },

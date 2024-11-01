@@ -7,6 +7,7 @@ import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import { ConfirmProvider } from '@/components';
 import BasicLayout from './BasicLayout';
 import BlankLayout from './BlankLayout';
+import { useWebsocket } from './hooks';
 
 const DEFAULT_LAYOUT = 'basic';
 const layouts: Record<string, React.ReactNode> = {
@@ -18,6 +19,7 @@ function Layout() {
     const routeMatches = useMatches();
     const { muiLocale, getIntlText } = useI18n();
     const { themeConfig } = useTheme();
+    useWebsocket();
     const muiTheme = createTheme(themeConfig, muiLocale!);
     const route = routeMatches[routeMatches.length - 1];
     let { layout = '' } = (route?.handle || {}) as Record<string, any>;
