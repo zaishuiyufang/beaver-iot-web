@@ -79,10 +79,8 @@ const Widgets = (props: WidgetProps) => {
                 const pos = {
                     w: data.data.minCol,
                     h: data.data.minRow,
-                    minW: data.data.minCol,
-                    minH: data.data.minRow,
-                    maxW: data.data.maxCol,
-                    maxH: data.data.maxRow,
+                    minW: 3,
+                    minH: 2,
                     i: data?.widget_id || data.data.tempId,
                     x: data.data.pos.x || 0,
                     y: data.data.pos.y || 0,

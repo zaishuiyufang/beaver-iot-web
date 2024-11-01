@@ -3,19 +3,11 @@
     "name": "事件触发",
     "class": "operate",
     "icon": "./icon.png",
-    "minRow": 3,
-    "maxRow": 8,
-    "minCol": 2,
-    "maxCol": 4,
+    "defaultRow": 3,
+    "defaultCol": 2,
     "configProps": [
         {
             "style": "width: 100%",
-            "theme": {
-                "default": {
-                    "class": "first-component-select",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "entitySelect",
@@ -34,12 +26,6 @@
             ]
         },
         {
-            "theme": {
-                "default": {
-                    "class": "first-component-switch",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "switch",
@@ -61,7 +47,6 @@
                     "type": "input",
                     "title": "Title",
                     "key": "title",
-                    "defaultValue": "事件组件",
                     "componentProps": {
                         "size": "small"
                     }
@@ -69,28 +54,18 @@
             ]
         },
         {
-            "theme": {
-                "default": {
-                    "class": "first-component-switch",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "title": "Display Icon",
                     "type": "switch",
-                    "key": "showIcon"
+                    "key": "showIcon",
+                    "defaultValue": true
                 }
             ]
         },
         {
             "title": "Appearance of status",
             "style": "display: flex;",
-            "theme": {
-                "default": {
-                    "class": "first-component-icon-select"
-                }
-            },
             "components": [
                 {
                     "type": "iconSelect",

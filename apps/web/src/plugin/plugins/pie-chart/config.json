@@ -3,10 +3,8 @@
     "name": "Pie Chart",
     "class": "data_chart",
     "icon": "./icon.png",
-    "minCol": 6,
-    "minRow": 6,
-    "maxCol": 12,
-    "maxRow": 12,
+    "defaultRow": 6,
+    "defaultCol": 6,
     "configProps": [
         {
             "style": "width: 100%",
@@ -22,6 +20,9 @@
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["BOOL", "ENUM"],
                         "accessMods": ["R", "RW"]
+                    },
+                    "rules": {
+                        "required": true
                     }
                 }
             ]

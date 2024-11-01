@@ -3,18 +3,11 @@
     "name": "Gauge chart",
     "class": "data_chart",
     "icon": "./icon.png",
-    "minRow": 6,
-    "maxRow": 12,
-    "minCol": 8,
-    "maxCol": 12,
+    "defaultRow": 6,
+    "defaultCol": 8,
     "configProps": [
         {
             "style": "width: 100%",
-            "theme": {
-                "default": {
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "entitySelect",
@@ -27,17 +20,14 @@
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["LONG", "DOUBLE"],
                         "accessMods": ["R", "RW"]
+                    },
+                    "rules": {
+                        "required": true
                     }
                 }
             ]
         },
         {
-            "theme": {
-                "default": {
-                    "class": "first-component-input",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "input",
@@ -56,11 +46,6 @@
         },
         {
             "style": "width: 100%;",
-            "theme": {
-                "default": {
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "ChartTimeSelect",
@@ -76,11 +61,6 @@
         },
         {
             "style": "width: 100%;",
-            "theme": {
-                "default": {
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "chartMetricsSelect",

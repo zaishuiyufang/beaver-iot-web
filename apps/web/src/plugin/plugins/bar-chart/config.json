@@ -6,11 +6,6 @@
     "configProps": [
         {
             "style": "width: 100%",
-            "theme": {
-                "default": {
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "multiEntitySelect",
@@ -24,17 +19,14 @@
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["LONG", "DOUBLE"],
                         "accessMods": ["R", "RW"]
+                    },
+                    "rules": {
+                        "required": true
                     }
                 }
             ]
         },
         {
-            "theme": {
-                "default": {
-                    "class": "first-component-input",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "input",
@@ -72,8 +64,6 @@
         }
     ],
     "view": [],
-    "minRow": 6,
-    "maxRow": 12,
-    "minCol": 8,
-    "maxCol": 12
+    "defaultRow": 6,
+    "defaultCol": 8
 }

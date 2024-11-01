@@ -3,19 +3,11 @@
     "name": "Card",
     "class": "data_card",
     "icon": "./icon.png",
-    "minCol": 2,
-    "minRow": 3,
-    "maxCol": 4,
-    "maxRow": 4,
+    "defaultRow": 3,
+    "defaultCol": 2,
     "configProps": [
         {
             "style": "width: 100%",
-            "theme": {
-                "default": {
-                    "class": "first-component-select",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "entitySelect",
@@ -27,18 +19,15 @@
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["STRING", "LONG", "DOUBLE", "BOOLEAN"],
                         "accessMods": ["R", "RW"]
+                    },
+                    "rules": {
+                        "required": true
                     }
                 }
             ]
         },
         {
             "style": "width: 100%",
-            "theme": {
-                "default": {
-                    "class": "first-component-input",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "input",

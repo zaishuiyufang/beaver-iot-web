@@ -6,11 +6,6 @@
     "configProps": [
         {
             "style": "width: 100%",
-            "theme": {
-                "default": {
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "entitySelect",
@@ -23,6 +18,9 @@
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["BOOLEAN"],
                         "accessMods": ["W", "RW"]
+                    },
+                    "rules": {
+                        "required": true
                     }
                 }
             ]
@@ -109,8 +107,6 @@
         }
     ],
     "view": [],
-    "minRow": 3,
-    "maxRow": 5,
-    "minCol": 3,
-    "maxCol": 5
+    "defaultRow": 3,
+    "defaultCol": 3
 }
