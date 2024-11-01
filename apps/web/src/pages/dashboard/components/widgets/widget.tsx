@@ -10,73 +10,15 @@ import { WidgetDetail } from '@/services/http/dashboard';
 
 interface WidgetProps {
     data: WidgetDetail;
-    onResizeBox: (data: draggerType) => void;
-    onMove: ({ id, left, top }: { id: ApiKey; left: number; top: number }) => void;
-    onStartMove: (id: ApiKey) => void;
-    onEndMove: ({ id, left, top }: { id: ApiKey; left: number; top: number }) => void;
     isEdit: boolean;
     onEdit: (data: WidgetDetail) => void;
     onDelete: (data: WidgetDetail) => void;
-    parentRef: any;
-    isOverlapping: (data: draggerType) => boolean;
 }
 
 const Widget = (props: WidgetProps) => {
-    const {
-        data,
-        onResizeBox,
-        isEdit,
-        onEdit,
-        onDelete,
-        onMove,
-        onStartMove,
-        onEndMove,
-        parentRef,
-        isOverlapping,
-    } = props;
+    const { data, isEdit, onEdit, onDelete } = props;
     const ComponentView = (plugins as any)[`${data.data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
-    const [pos, setPos] = useState<draggerType>();
-    const id = (data.widget_id || data.tempId) as ApiKey;
-
-    const getSize = () => {
-        // 计算出24等分一格大小
-        const unitHeight = (parentRef?.current?.clientHeight || 0) / 24;
-        const unitWidth = (parentRef?.current?.clientWidth || 0) / 24;
-        return {
-            unitHeight,
-            unitWidth,
-        };
-    };
-
-    useEffect(() => {
-        if (!data?.data.pos?.width && !data?.data.pos?.height && widgetRef?.current) {
-            onResizeBox({
-                id,
-                width: widgetRef?.current?.clientWidth,
-                height: widgetRef?.current?.clientHeight,
-                initWidth: widgetRef?.current?.clientWidth,
-                initHeight: widgetRef?.current?.clientHeight,
-            });
-        } else {
-            const { unitHeight, unitWidth } = getSize();
-            const width = (data?.data.pos?.width || 0) * unitWidth;
-            const height = (data?.data.pos?.height || 0) * unitHeight;
-            // if (width < data?.data.pos?.initWidth) {
-            //     const diff = Math.ceil(((data?.data.pos?.initWidth || 0) - width) / unitWidth);
-            //     width = ((data?.data.pos?.width || 0) + diff) * unitWidth;
-            // }
-            // if (height < data?.data.pos?.initHeight) {
-            //     const diff = Math.ceil(((data?.data.pos?.initHeight || 0) - height) / unitHeight);
-            //     height = ((data?.data.pos?.height || 0) + diff) * unitHeight;
-            // }
-            setPos({
-                ...(data.data.pos || {}),
-                width,
-                height,
-            });
-        }
-    }, [data]);
 
     const handleEdit = useCallback(() => {
         onEdit(data);
@@ -87,23 +29,7 @@ const Widget = (props: WidgetProps) => {
     }, [data]);
 
     return (
-        <DraggableResizable
-            {...(pos || {})}
-            limitMinWidth={(data?.data.minCol || 0) * getSize().unitWidth}
-            limitMinHeight={(data?.data.minRow || 0) * getSize().unitHeight}
-            limitMaxWidth={(data?.data.maxCol || 0) * getSize().unitWidth}
-            limitMaxHeight={(data?.data.maxRow || 0) * getSize().unitHeight}
-            isOverLimit={isOverlapping}
-            onResize={onResizeBox}
-            onMove={onMove}
-            onStartMove={onStartMove}
-            onEndMove={onEndMove}
-            id={id}
-            key={id}
-            isEdit={isEdit}
-            parentRef={parentRef}
-            className="dashboard-content-widget"
-        >
+        <div className="dashboard-content-widget">
             {isEdit && (
                 <div className="dashboard-content-widget-icon">
                     <span className="dashboard-content-widget-icon-img" onClick={handleEdit}>
@@ -125,7 +51,7 @@ const Widget = (props: WidgetProps) => {
                     <RenderView configJson={data.data as any} config={data.data.config} />
                 </div>
             )}
-        </DraggableResizable>
+        </div>
     );
 };
 

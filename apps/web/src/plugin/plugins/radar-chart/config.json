@@ -4,9 +4,9 @@
     "class": "data_chart",
     "icon": "./icon.png",
     "minCol": 6,
-    "minRow": 10,
+    "minRow": 6,
     "maxCol": 12,
-    "maxRow": 20,
+    "maxRow": 12,
     "configProps": [
         {
             "style": "width: 100%",

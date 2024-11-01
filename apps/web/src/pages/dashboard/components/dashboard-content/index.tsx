@@ -8,8 +8,6 @@ import {
     EditIcon as Edit,
     toast,
 } from '@milesight/shared/src/components';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep } from 'lodash-es';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess } from '@/services/http';
@@ -254,15 +252,12 @@ export default (props: DashboardContentProps) => {
                 </div>
             ) : (
                 <div className="dashboard-content-main" ref={mainRef}>
-                    <DndProvider backend={HTML5Backend}>
-                        <Widgets
-                            parentRef={mainRef}
-                            widgets={widgets}
-                            onChangeWidgets={handleChangeWidgets}
-                            isEdit={isEdit}
-                            onEdit={handleSelectPlugin}
-                        />
-                    </DndProvider>
+                    <Widgets
+                        widgets={widgets}
+                        onChangeWidgets={handleChangeWidgets}
+                        isEdit={isEdit}
+                        onEdit={handleSelectPlugin}
+                    />
                 </div>
             )}
             {!!showCustom && <AddCustomerWidget onCancel={closeAddCustomWidget} />}

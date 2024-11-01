@@ -111,36 +111,34 @@ export default (props: WidgetProps) => {
     };
 
     const handleOk = (data: any) => {
+        const now = String(new Date().getTime());
         const widgetData = {
             widget_id: plugin?.widget_id,
-            tempId: config.data.tempId || new Date().getTime(),
+            tempId: config.data.tempId || now,
             data: {
                 ...config.data,
                 config: data,
                 pos: {
-                    width: config.data.minCol || 0,
-                    height: config.data.minRow || 0,
+                    w: config.data.minCol,
+                    h: config.data.minRow,
+                    minW: config.data.minCol,
+                    minH: config.data.minRow,
+                    maxW: config.data.maxCol,
+                    maxH: config.data.maxRow,
+                    ...config.data.pos,
+                    i: plugin?.widget_id || config.data.tempId || now,
                 },
             },
         };
-        const { left, top } = getInitPos(widgetData);
-        handleClose();
-        if (!left && !top && left !== 0 && top !== 0) {
-            toast.error('当前位置无法放置widget，请调整后再添加');
-            return;
-        }
+        // const { left, top } = getInitPos(widgetData);
+        // handleClose();
+        // if (!left && !top && left !== 0 && top !== 0) {
+        //     toast.error('当前位置无法放置widget，请调整后再添加');
+        //     return;
+        // }
         // TODO: 插件配置保存
-        onOk({
-            ...widgetData,
-            data: {
-                ...widgetData.data,
-                pos: {
-                    ...widgetData.data.pos,
-                    left,
-                    top,
-                },
-            },
-        });
+        onOk(widgetData);
+        handleClose();
     };
 
     return config ? (
