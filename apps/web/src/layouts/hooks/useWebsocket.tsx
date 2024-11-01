@@ -15,16 +15,7 @@ export const useWebsocket = () => {
         const token = data?.access_token;
         const url = `/websocket?Authorization=Bearer ${token}`;
 
-        ws.connect(url)
-            .then(() => {
-                // eslint-disable-next-line no-console
-                console.log('ws 创建成功 >>>');
-            })
-            .catch(err => {
-                // eslint-disable-next-line no-console
-                console.log('ws 创建失败 >>>', err);
-            });
-
+        ws.connect(url);
         return () => {
             ws.destroy();
         };

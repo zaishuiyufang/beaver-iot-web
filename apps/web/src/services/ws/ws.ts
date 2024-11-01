@@ -13,7 +13,7 @@ class WebSocketClient {
      * 是否正常连接
      */
     get isConnected(): boolean {
-        return this.ws?.readyState === WS_READY_STATE.CONNECTING;
+        return this.ws?.readyState === WS_READY_STATE.OPEN;
     }
 
     /**
@@ -48,9 +48,7 @@ class WebSocketClient {
             // 处理订阅事件
             const { event_type: eventType, payload } = (data as WsEvent) || {};
             const { entity_key: topics } = payload || {};
-            topics.forEach(topic => {
-                this.subscribeEvent.publish(`${eventType}:${topic}`, data);
-            });
+            topics.forEach(topic => this.subscribeEvent.publish(`${eventType}:${topic}`, data));
         };
 
         return promise;
