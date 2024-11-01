@@ -67,28 +67,10 @@ const View = (props: Props) => {
     return (
         <div className="ms-icon-remaining">
             <div className="ms-icon-remaining__header">
-                <div className="ms-icon-remaining__icon">
-                    {Icon && <Icon sx={{ color: iconColor, fontSize: 28 }} />}
-                    <div
-                        className="ms-icon-remaining__icon-bg"
-                        style={{ backgroundColor: iconColor }}
-                    />
-                </div>
-                <div className="ms-icon-remaining__title">
-                    <div className="ms-icon-remaining__title-label">{headerLabel}</div>
-                    <div className="ms-icon-remaining__title-percent">{`${percent}%`}</div>
-                </div>
+                <div>{headerLabel}</div>
             </div>
-            <div className="ms-icon-remaining__chart">
-                <RemainChart
-                    draggable={false}
-                    value={percent}
-                    style={{
-                        slider: {
-                            bgColor: iconColor,
-                        },
-                    }}
-                />
+            <div className="ms-icon-remaining__content">
+                <RemainChart Icon={Icon} iconColor={iconColor} percent={percent} />
             </div>
         </div>
     );

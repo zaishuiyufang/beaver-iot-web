@@ -3,8 +3,8 @@
     "name": "Icon Remaining",
     "class": "data_chart",
     "icon": "./icon.png",
-    "defaultRow": 3,
-    "defaultCol": 2,
+    "defaultCol": 3,
+    "defaultRow": 6,
     "configProps": [
         {
             "style": "width: 100%",
@@ -89,7 +89,8 @@
                     "style": "flex: 1;padding-right: 12px;",
                     "componentProps": {
                         "size": "small"
-                    }
+                    },
+                    "defaultValue": "DeleteIcon"
                 },
                 {
                     "type": "iconColorSelect",
@@ -97,7 +98,8 @@
                     "style": "flex: 1;",
                     "componentProps": {
                         "size": "small"
-                    }
+                    },
+                    "defaultValue": "#3491FA"
                 }
             ]
         }

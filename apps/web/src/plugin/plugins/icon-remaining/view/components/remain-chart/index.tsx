@@ -1,59 +1,34 @@
-import React, { CSSProperties, useEffect } from 'react';
+import React from 'react';
+import * as Icons from '@milesight/shared/src/components/icons';
 import { useTheme } from '@milesight/shared/src/hooks';
-import { useRender, useUpdate } from './hooks';
 import './style.less';
 
 interface IProps {
-    style?: {
-        tooltip?: {
-            fontSize?: number;
-            bgColor?: string;
-            offset?: number;
-        };
-        slider?: {
-            bgColor?: string;
-        };
-    } & CSSProperties;
-    value: number;
-    draggable?: boolean;
-    onChange?: (percent: number) => void;
+    Icon: any;
+    iconColor: string;
+    percent: number;
 }
-export default React.memo(({ style, value, draggable, onChange }: IProps) => {
-    const { yellow, white } = useTheme();
-    const clickSliderRef = React.useRef<HTMLDivElement>(null);
-    const actualSliderRef = React.useRef<HTMLDivElement>(null);
-    const { tooltip, slider, width, height, ...rest } = style || {};
-    const { fontSize, bgColor, offset } = tooltip || {};
-    const { bgColor: sliderBgColor } = slider || {};
+export default React.memo(({ Icon, iconColor, percent }: IProps) => {
+    const { blue } = useTheme();
 
-    const newValue = Math.min(100, Math.max(0, value || 0));
-    const newStyle = {
-        ...rest,
-        width: width || '100%',
-        height: height || '42px',
-        '--remain-view-tooltip-font-size': `${fontSize || 12}px`,
-        '--remain-view-tooltip-bg-color': bgColor || white,
-        '--remain-view-tooltip-position-top': `${offset ? -offset : -4}px`,
-        '--remain-view-slider-bg-color': sliderBgColor || yellow[600],
-    };
-
-    const { updatePercent } = useUpdate({ clickSliderRef, actualSliderRef });
-    useRender({ clickSliderRef, draggable, updatePercent, onChange });
-
-    useEffect(() => {
-        updatePercent(newValue);
-    }, [newValue]);
-
+    const RenderIcon = Icon || Icons.DeleteIcon;
+    const renderIconColor = iconColor || blue[700];
     return (
-        <div className="ms-remain-chart" style={newStyle}>
-            <div className="ms-remain-view">
-                <div className="ms-remain-view__bg" />
-                <div className="ms-remain-view__slider" ref={actualSliderRef} />
-                <div className="ms-remain-view__event" ref={clickSliderRef} />
-            </div>
-            {/* <div className="ms-remain-tooltip">
-                <span>50%</span>
-            </div> */}
+        <div className="ms-remain-chart">
+            <div className="ms-remain-chart__percent">{percent}%</div>
+            {RenderIcon && (
+                <div className="ms-remain-chart__content">
+                    <RenderIcon sx={{ color: renderIconColor }} className="ms-remain-chart__icon" />
+                    <div className="ms-remain-chart__mask">
+                        <RenderIcon
+                            className="ms-remain-chart__mask-icon"
+                            sx={{ color: renderIconColor }}
+                            // @ts-ignore
+                            style={{ 'clip-path': `inset(${100 - (percent || 0)}% 0 0 0)` }}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 });
