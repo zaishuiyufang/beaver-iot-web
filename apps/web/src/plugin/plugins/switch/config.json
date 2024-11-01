@@ -17,7 +17,8 @@
                         "size": "small",
                         "entityType": "PROPERTY",
                         "entityValueTypes": ["BOOLEAN"],
-                        "accessMods": ["W", "RW"]
+                        "entityAccessMods": ["W", "RW"],
+                        "entityExcludeChildren": true
                     },
                     "rules": {
                         "required": true

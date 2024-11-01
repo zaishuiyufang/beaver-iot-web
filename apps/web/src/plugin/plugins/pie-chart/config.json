@@ -18,8 +18,9 @@
                     "componentProps": {
                         "size": "small",
                         "entityType": "PROPERTY",
-                        "entityValueTypes": ["BOOL", "ENUM"],
-                        "accessMods": ["R", "RW"]
+                        "entityValueTypes": ["BOOLEAN", "STRING"],
+                        "entityAccessMods": ["R", "RW"],
+                        "customFilterEntity": "filterEntityStringHasEnum"
                     },
                     "rules": {
                         "required": true
@@ -71,7 +72,7 @@
                         "size": "small"
                     },
                     "defaultValue": "COUNT",
-                    "filters": ["LAST","MIN","MAX","AVG","SUM"]
+                    "filters": ["LAST", "MIN", "MAX", "AVG", "SUM"]
                 }
             ]
         }

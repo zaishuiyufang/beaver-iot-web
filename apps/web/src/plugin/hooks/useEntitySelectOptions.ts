@@ -3,21 +3,7 @@ import { useRequest } from 'ahooks';
 
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
-
-interface EntityOptionProps {
-    /**
-     * 实体类型
-     */
-    entityType?: EntityType;
-    /**
-     * 实体数据值类型
-     */
-    entityValueTypes?: EntityValueDataType[];
-    /**
-     * 实体属性访问类型
-     */
-    accessMods?: EntityAccessMode[];
-}
+import { filterEntityStringHasEnum } from '../utils';
 
 function safeJsonParse(str: string) {
     try {
@@ -30,8 +16,23 @@ function safeJsonParse(str: string) {
 /**
  * 实体选项数据获取 hooks
  */
-export function useEntitySelectOptions(props: EntityOptionProps) {
-    const { entityType, entityValueTypes, accessMods } = props;
+export function useEntitySelectOptions(
+    props: Pick<
+        EntitySelectCommonProps,
+        | 'entityAccessMods'
+        | 'entityType'
+        | 'entityValueTypes'
+        | 'entityExcludeChildren'
+        | 'customFilterEntity'
+    >,
+) {
+    const {
+        entityType,
+        entityValueTypes,
+        entityAccessMods,
+        entityExcludeChildren = false,
+        customFilterEntity,
+    } = props;
 
     const [options, setOptions] = useState<EntityOptionType[]>([]);
     const [loading, setLoading] = useState(false);
@@ -48,8 +49,14 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
                 entityAPI.getList({
                     keyword,
                     entity_type: entityType,
-                    // TODO 是否做分页请求
+                    entity_value_type: entityValueTypes,
+                    entity_access_mod: entityAccessMods,
+                    exclude_children: entityExcludeChildren,
                     page_number: 1,
+                    /**
+                     * 默认不进行分页，请求最多为 999
+                     * 如无想要的数据，输入关键字再进行进一步的过滤
+                     */
                     page_size: 999,
                 }),
             );
@@ -63,7 +70,7 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
         },
         {
             manual: true,
-            refreshDeps: [entityType],
+            refreshDeps: [entityType, entityValueTypes, entityAccessMods, entityExcludeChildren],
             debounceWait: 300,
         },
     );
@@ -77,52 +84,35 @@ export function useEntitySelectOptions(props: EntityOptionProps) {
      * 根据实体数据转换为选项数据处理
      */
     useEffect(() => {
-        const newEntityValueTypes = [...(entityValueTypes || [])];
-        if (newEntityValueTypes.includes('ENUM')) {
-            newEntityValueTypes.push('STRING');
-        }
-        let newOptions: EntityOptionType[] = (entityOptions || [])
-            .filter(e => {
-                /**
-                 * 过滤实体数据值类型
-                 */
-                const isValidValueType =
-                    !Array.isArray(entityValueTypes) ||
-                    newEntityValueTypes.includes(e.entity_value_type as EntityValueDataType);
-                /**
-                 * 过滤实体属性访问类型
-                 */
-                const isValidAccessMod =
-                    !Array.isArray(accessMods) ||
-                    accessMods.includes(e.entity_access_mod as EntityAccessMode);
+        let newOptions: EntityOptionType[] = (entityOptions || []).map(e => {
+            const entityValueAttribute = safeJsonParse(
+                e.entity_value_attribute,
+            ) as EntityValueAttributeType;
 
-                return isValidValueType && isValidAccessMod;
-            })
-            .map(e => {
-                const entityValueAttribute = safeJsonParse(
-                    e.entity_value_attribute,
-                ) as EntityValueAttributeType;
+            return {
+                label: e.entity_name,
+                value: e.entity_id,
+                valueType: e.entity_value_type,
+                description: [e.device_name, e.integration_name].filter(Boolean).join(', '),
+                rawData: {
+                    ...objectToCamelCase(e),
+                    entityValueAttribute,
+                },
+            };
+        });
 
-                return {
-                    label: e.entity_name,
-                    value: e.entity_id,
-                    valueType: e.entity_value_type,
-                    description: [e.device_name, e.integration_name].filter(Boolean).join(', '),
-                    rawData: {
-                        ...objectToCamelCase(e),
-                        entityValueAttribute,
-                    },
-                };
-            });
-        if (entityValueTypes?.includes('ENUM')) {
-            // 如果是枚举要过滤值类型是string并且有enum字段的
-            newOptions = newOptions.filter((e: EntityOptionType) => {
-                return e.valueType !== 'STRING' || e.rawData?.entityValueAttribute?.enum;
-            });
+        /**
+         * 自定义过滤实体数据
+         * 若需自定义，往下扩展即可
+         */
+        if (customFilterEntity && customFilterEntity === 'filterEntityStringHasEnum') {
+            // 如果是枚举要过滤值类型是 string 并且有 enum 字段的
+            newOptions = filterEntityStringHasEnum(newOptions);
         }
+
         setOptions(newOptions);
         setLoading(false);
-    }, [entityOptions, entityValueTypes, accessMods]);
+    }, [entityOptions, entityValueTypes, customFilterEntity]);
 
     return {
         loading,

@@ -235,7 +235,7 @@ declare interface EntityOptionType {
 /**
  * 实体下拉选项组件通用 props
  */
-declare interface EntitySelectCommonProps<T> {
+declare interface EntitySelectCommonProps<T = EntityOptionType> {
     /**
      * 实体类型
      */
@@ -247,7 +247,15 @@ declare interface EntitySelectCommonProps<T> {
     /**
      * 实体属性访问类型
      */
-    accessMods?: EntityAccessMode[];
+    entityAccessMods?: EntityAccessMode[];
+    /**
+     * 实体是否排除子节点
+     */
+    entityExcludeChildren?: boolean;
+    /**
+     * 自定义实体过滤条件
+     */
+    customFilterEntity?: string;
     /**
      * 最大选中数量
      * 仅多选（multiple）时有效
