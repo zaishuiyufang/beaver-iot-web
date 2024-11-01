@@ -3,10 +3,10 @@
     "name": "Icon Remaining",
     "class": "data_chart",
     "icon": "./icon.png",
-    "minCol": 4,
-    "minRow": 5,
+    "minCol": 2,
+    "minRow": 3,
     "maxCol": 8,
-    "maxRow": 10,
+    "maxRow": 8,
     "configProps": [
         {
             "style": "width: 100%",

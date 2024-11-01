@@ -12,11 +12,12 @@ interface ConfigPluginProps {
     onClose: () => void;
     onOk?: (data: any) => void;
     onChange?: (data: any) => void;
+    title?: string;
 }
 
 const ConfigPlugin = (props: ConfigPluginProps) => {
     const { getIntlText } = useI18n();
-    const { config, onClose, onOk, onChange } = props;
+    const { config, onClose, onOk, onChange, title } = props;
     const ComponentConfig = (plugins as any)[`${config.type}Config`];
     const ComponentView = (plugins as any)[`${config.type}View`];
     const formRef = useRef<any>();
@@ -63,7 +64,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         <Modal
             onCancel={handleClose}
             onOk={handleOk}
-            title={getIntlText('common.plugin_add_title', { 1: config.type })}
+            title={title || getIntlText('common.plugin_add_title', { 1: config.type })}
             width="80%"
             visible
         >

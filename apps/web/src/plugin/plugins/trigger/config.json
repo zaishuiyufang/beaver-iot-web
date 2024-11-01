@@ -3,7 +3,7 @@
     "name": "事件触发",
     "class": "operate",
     "icon": "./icon.png",
-    "minRow": 2,
+    "minRow": 3,
     "maxRow": 8,
     "minCol": 2,
     "maxCol": 4,

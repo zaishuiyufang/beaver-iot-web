@@ -3,10 +3,10 @@
     "name": "Gauge chart",
     "class": "data_chart",
     "icon": "./icon.png",
-    "minCol": 5,
     "minRow": 6,
-    "maxCol": 10,
     "maxRow": 12,
+    "minCol": 8,
+    "maxCol": 12,
     "configProps": [
         {
             "style": "width: 100%",

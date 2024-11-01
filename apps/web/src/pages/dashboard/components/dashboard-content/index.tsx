@@ -76,6 +76,7 @@ export default (props: DashboardContentProps) => {
                 (item.widget_id && item.widget_id === data.widget_id) ||
                 (item.tempId && item.tempId === data.tempId),
         );
+        console.log(index, data);
         if (index > -1) {
             newWidgets[index] = data;
         } else {

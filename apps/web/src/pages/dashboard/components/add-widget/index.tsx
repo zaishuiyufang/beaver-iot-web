@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { toast } from '@milesight/shared/src/components';
+import { useI18n } from '@milesight/shared/src/hooks';
 import ConfigPlugin from '@/plugin/config-plugin';
 import { WidgetDetail } from '@/services/http/dashboard';
 import { useGetPluginConfigs } from '../../hooks';
@@ -13,10 +13,11 @@ interface WidgetProps {
 }
 
 export default (props: WidgetProps) => {
+    const { getIntlText } = useI18n();
     const { pluginsConfigs } = useGetPluginConfigs();
     const { plugin, widgets, onCancel, onOk, parentRef } = props;
     const [config, setConfig] = useState<any>();
-    console.log(widgets);
+
     useEffect(() => {
         const sourceJson = pluginsConfigs.find(item => item.type === plugin.data.type);
         setConfig({
@@ -112,9 +113,10 @@ export default (props: WidgetProps) => {
 
     const handleOk = (data: any) => {
         const now = String(new Date().getTime());
+        console.log(config.tempId);
         const widgetData = {
-            widget_id: plugin?.widget_id,
-            tempId: config.data.tempId || now,
+            widget_id: config?.widget_id,
+            tempId: config.tempId || now,
             data: {
                 ...config.data,
                 config: data,
@@ -126,7 +128,7 @@ export default (props: WidgetProps) => {
                     maxW: config.data.maxCol,
                     maxH: config.data.maxRow,
                     ...config.data.pos,
-                    i: plugin?.widget_id || config.data.tempId || now,
+                    i: plugin?.widget_id || config.tempId || now,
                 },
             },
         };
@@ -147,6 +149,11 @@ export default (props: WidgetProps) => {
             onOk={handleOk}
             config={config?.data}
             onChange={handleChange}
+            title={
+                config.widget_id || config.tempId
+                    ? getIntlText('common.plugin_add_title', { 1: config.type })
+                    : getIntlText('common.plugin_add_title', { 1: config?.type })
+            }
         />
     ) : null;
 };
