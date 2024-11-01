@@ -27,12 +27,6 @@
             ]
         },
         {
-            "theme": {
-                "default": {
-                    "class": "first-component-input",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "input",
@@ -51,11 +45,6 @@
         {
             "title": "Appearance of off status",
             "style": "display: flex;",
-            "theme": {
-                "default": {
-                    "class": "first-component-icon-select"
-                }
-            },
             "components": [
                 {
                     "type": "iconSelect",
@@ -80,11 +69,6 @@
         {
             "title": "Appearance of on status",
             "style": "display: flex;margin-top:20px;",
-            "theme": {
-                "default": {
-                    "class": "first-component-icon-select"
-                }
-            },
             "components": [
                 {
                     "type": "iconSelect",

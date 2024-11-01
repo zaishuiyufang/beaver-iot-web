@@ -17,7 +17,8 @@
                     "valueType": "object",
                     "getDataUrl": "",
                     "componentProps": {
-                        "size": "small"
+                        "size": "small",
+                        "accessMods": ["W", "RW"]
                     },
                     "rules": {
                         "required": true
