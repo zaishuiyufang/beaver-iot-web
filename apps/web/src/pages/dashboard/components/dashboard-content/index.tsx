@@ -83,7 +83,6 @@ export default (props: DashboardContentProps) => {
         } else {
             newWidgets.push(data);
         }
-        console.log(newWidgets);
         widgetsRef.current = cloneDeep(newWidgets);
         handleChangeWidgets(newWidgets);
     };
@@ -234,7 +233,15 @@ export default (props: DashboardContentProps) => {
                     data={dashboardDetail}
                 />
             )}
-            {!!plugin && <AddWidget plugin={plugin} onCancel={closeAddWidget} onOk={handleOk} />}
+            {!!plugin && (
+                <AddWidget
+                    parentRef={mainRef}
+                    widgets={widgets}
+                    plugin={plugin}
+                    onCancel={closeAddWidget}
+                    onOk={handleOk}
+                />
+            )}
             {!widgets?.length ? (
                 <div className="dashboard-content-empty">
                     <div className="dashboard-content-empty-title">
