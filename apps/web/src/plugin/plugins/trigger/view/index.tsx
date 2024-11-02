@@ -41,6 +41,7 @@ const View = (props: Props) => {
         } as CallServiceType);
         if (!error) {
             setVisible(false);
+            toast.success(getIntlText('common.message.operation_success'));
         }
     };
 
