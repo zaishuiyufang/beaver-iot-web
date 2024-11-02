@@ -60,8 +60,9 @@ const View = (props: ViewProps) => {
     return (
         <div className={styles['area-chart-wrapper']}>
             <div className={styles.name}>{title || getIntlText('common.label.title')}</div>
-
-            <canvas ref={chartRef} />
+            <div className={styles['area-chart-content']}>
+                <canvas ref={chartRef} />
+            </div>
         </div>
     );
 };

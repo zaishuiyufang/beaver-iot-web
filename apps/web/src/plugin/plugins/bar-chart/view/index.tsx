@@ -58,8 +58,9 @@ const View = (props: ViewProps) => {
     return (
         <div className={styles['bar-chart-wrapper']}>
             <div className={styles.name}>{title || getIntlText('common.label.title')}</div>
-
-            <canvas ref={chartRef} />
+            <div className={styles['bar-chart-content']}>
+                <canvas ref={chartRef} />
+            </div>
         </div>
     );
 };
