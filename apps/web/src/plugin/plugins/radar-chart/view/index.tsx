@@ -102,10 +102,10 @@ const View = (props: IProps) => {
         const lists = getFillList(historyList);
 
         const data = {
-            labels: (lists || []).map(item => item?.entity?.label),
+            labels: (lists || []).map((item: AggregateHistoryList) => item?.entity?.label),
             datasets: [
                 {
-                    data: historyList.map(item => item?.data?.value || 0),
+                    data: historyList.map((item: AggregateHistoryList) => item?.data?.value || 0),
                     fill: true,
                     backgroundColor: blue[300],
                     borderColor: blue[600],

@@ -12,6 +12,8 @@ import { cloneDeep } from 'lodash-es';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess } from '@/services/http';
 import { DashboardDetail, WidgetDetail } from '@/services/http/dashboard';
+import { useConfirm } from '@/components';
+import { useGetPluginConfigs } from '../../hooks';
 import AddWidget from '../add-widget';
 import PluginList from '../plugin-list';
 import PluginListClass from '../plugin-list-class';
@@ -26,6 +28,8 @@ interface DashboardContentProps {
 
 export default (props: DashboardContentProps) => {
     const { getIntlText } = useI18n();
+    const { pluginsConfigs } = useGetPluginConfigs();
+    const confirm = useConfirm();
     const { dashboardDetail, getDashboards } = props;
     const [isShowAddWidget, setIsShowAddWidget] = useState(false);
     const [isShowEditDashboard, setIsShowEditDashboard] = useState(false);
@@ -38,9 +42,23 @@ export default (props: DashboardContentProps) => {
     const widgetsRef = useRef<any[]>([]);
 
     useEffect(() => {
-        setWidgets([...(dashboardDetail.widgets || [])]);
-        widgetsRef.current = cloneDeep(dashboardDetail.widgets || []);
-    }, [dashboardDetail.widgets]);
+        // 将数据库里的数据与本地的进行合并，确保组件配置是本地最新的
+        const newWidgets = dashboardDetail.widgets?.map((item: WidgetDetail) => {
+            const sourceJson = pluginsConfigs.find(plugin => item.data.type === plugin.type);
+            if (sourceJson) {
+                return {
+                    ...item,
+                    data: {
+                        ...item.data,
+                        ...sourceJson,
+                    },
+                };
+            }
+            return item;
+        });
+        setWidgets([...(newWidgets || [])]);
+        widgetsRef.current = cloneDeep(newWidgets || []);
+    }, [dashboardDetail.widgets, pluginsConfigs]);
 
     const dashboardId = dashboardDetail.dashboard_id;
 
@@ -76,7 +94,6 @@ export default (props: DashboardContentProps) => {
                 (item.widget_id && item.widget_id === data.widget_id) ||
                 (item.tempId && item.tempId === data.tempId),
         );
-        console.log(index, data);
         if (index > -1) {
             newWidgets[index] = data;
         } else {
@@ -124,16 +141,23 @@ export default (props: DashboardContentProps) => {
 
     // 删除dashboard
     const handleDelete = async () => {
-        const [_, res] = await awaitWrap(
-            dashboardAPI.deleteDashboard({
-                id: dashboardId,
-            }),
-        );
-        if (isRequestSuccess(res)) {
-            getDashboards();
-            setIsEdit(false);
-            toast.success(getIntlText('common.message.delete_success'));
-        }
+        confirm({
+            title: '',
+            description: getIntlText('dashboard.plugin.trigger_confirm_text'),
+            confirmButtonText: getIntlText('common.button.confirm'),
+            onConfirm: async () => {
+                const [_, res] = await awaitWrap(
+                    dashboardAPI.deleteDashboard({
+                        id: dashboardId,
+                    }),
+                );
+                if (isRequestSuccess(res)) {
+                    getDashboards();
+                    setIsEdit(false);
+                    toast.success(getIntlText('common.message.delete_success'));
+                }
+            },
+        });
     };
 
     // 显示编辑dashboard弹框

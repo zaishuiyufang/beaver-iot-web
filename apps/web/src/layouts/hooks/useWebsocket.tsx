@@ -15,7 +15,7 @@ export const useWebsocket = () => {
         const token = data?.access_token;
         const url = `/websocket?Authorization=Bearer ${token}`;
 
-        ws.connect(url);
+        // ws.connect(url);
         return () => {
             ws.destroy();
         };

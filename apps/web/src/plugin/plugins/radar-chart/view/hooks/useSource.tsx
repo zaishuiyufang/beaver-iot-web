@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import ws, { getExChangeTopic } from '@/services/ws';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
-import type { AggregateHistoryList, ViewConfigProps } from '../typings';
+import { ViewConfigProps, AggregateHistoryList } from '../../typings';
 
 interface IProps {
     entityList: ViewConfigProps['entityList'];
@@ -37,7 +37,7 @@ export const useSource = (props: IProps) => {
                     data,
                 } as AggregateHistoryList;
             };
-            const fetchList = entityList.map(entity => run(entity));
+            const fetchList = entityList.map((entity: EntityOptionType) => run(entity));
             return Promise.all(fetchList.filter(Boolean) as unknown as AggregateHistoryList[]);
         },
         { manual: true },
@@ -49,7 +49,7 @@ export const useSource = (props: IProps) => {
 
     const topics = useMemo(() => {
         return (entityList || [])
-            .map(entity => {
+            .map((entity: EntityOptionType) => {
                 const entityKey = entity?.rawData?.entityKey?.toString();
                 return entityKey && getExChangeTopic(entityKey);
             })

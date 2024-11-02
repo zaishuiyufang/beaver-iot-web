@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useI18n } from '@milesight/shared/src/hooks';
 import ConfigPlugin from '@/plugin/config-plugin';
 import { WidgetDetail } from '@/services/http/dashboard';
-import { useGetPluginConfigs } from '../../hooks';
 
 interface WidgetProps {
     plugin: WidgetDetail;
@@ -14,20 +13,12 @@ interface WidgetProps {
 
 export default (props: WidgetProps) => {
     const { getIntlText } = useI18n();
-    const { pluginsConfigs } = useGetPluginConfigs();
     const { plugin, widgets, onCancel, onOk, parentRef } = props;
     const [config, setConfig] = useState<any>();
 
     useEffect(() => {
-        const sourceJson = pluginsConfigs.find(item => item.type === plugin.data.type);
-        setConfig({
-            ...plugin,
-            data: {
-                ...plugin.data,
-                ...sourceJson,
-            },
-        });
-    }, [plugin, pluginsConfigs]);
+        setConfig(plugin);
+    }, [plugin]);
 
     const handleClose = () => {
         setConfig(undefined);

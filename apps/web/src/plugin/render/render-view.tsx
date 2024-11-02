@@ -40,7 +40,7 @@ const View = (props: Props) => {
         if (isShow(tagProps?.showDepended) && tagProps?.tag) {
             const Tag: any = tagProps?.tag;
             const theme = tagProps?.themes?.default;
-            const style = `${tagProps?.style}${theme?.style}`;
+            const style = `${tagProps?.style || ''}${theme?.style}`;
             const dependStyle: Record<string, string> = {};
             if (tagProps?.styleDepended) {
                 for (const key in tagProps?.styleDepended) {

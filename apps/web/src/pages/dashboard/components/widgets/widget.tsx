@@ -1,8 +1,7 @@
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useRef } from 'react';
 import {
     DeleteOutlineIcon as DeleteOutline,
     EditOutlinedIcon as EditOutlined,
-    DraggableResizable,
 } from '@milesight/shared/src/components';
 import plugins from '@/plugin/plugins';
 import { RenderView } from '@/plugin/render';
