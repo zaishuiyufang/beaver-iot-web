@@ -39,6 +39,8 @@ const View = (props: ViewProps) => {
                     })),
                 },
                 options: {
+                    responsive: true, // 使图表响应式
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true,

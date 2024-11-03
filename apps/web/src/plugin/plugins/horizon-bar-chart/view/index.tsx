@@ -38,6 +38,8 @@ const View = (props: ViewProps) => {
                     })),
                 },
                 options: {
+                    responsive: true, // 使图表响应式
+                    maintainAspectRatio: false,
                     indexAxis: 'y',
                     scales: {
                         y: {

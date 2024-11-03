@@ -123,6 +123,7 @@
     "common.switch.sure": "是",
     "common.switch.no": "否",
     "common.plugin_add_title": "添加{1}",
+    "common.plugin_edit_title": "编辑{1}",
     "common.label.title": "Title",
     "common.label.entity": "实体"
 }
