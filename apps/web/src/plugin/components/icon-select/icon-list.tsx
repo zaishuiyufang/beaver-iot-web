@@ -39,6 +39,7 @@ const IconList = (props: IconListProps) => {
                 }
                 value={searchValue}
                 onChange={(e: any) => setSearchValue(e.target.value)}
+                size="small"
             />
             <div className="icon-select-list-main">
                 {filterOptions().map((option: OptionsProps) => {

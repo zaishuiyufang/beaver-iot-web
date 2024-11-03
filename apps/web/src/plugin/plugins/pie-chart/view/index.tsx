@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { useRequest } from 'ahooks';
-import Chart, { ChartConfiguration } from 'chart.js/auto'; // 引入 Chart.js
-import { useI18n, useTheme } from '@milesight/shared/src/hooks';
+import Chart from 'chart.js/auto'; // 引入 Chart.js
+import { useI18n } from '@milesight/shared/src/hooks';
 import {
     awaitWrap,
     entityAPI,
@@ -9,6 +9,7 @@ import {
     getResponseData,
     isRequestSuccess,
 } from '@/services/http';
+import ws, { getExChangeTopic } from '@/services/ws';
 import { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -23,11 +24,10 @@ const View = (props: IProps) => {
     const { config } = props;
     const { entity, title, metrics, time } = config || {};
     const { getIntlText } = useI18n();
-    const { blue, white } = useTheme();
     const headerLabel = title || getIntlText('common.label.title');
 
     const chartRef = useRef<HTMLCanvasElement>(null);
-    const { data: aggregateHistoryList } = useRequest(
+    const { data: countData, runAsync: getData } = useRequest(
         async () => {
             if (!entity?.value) return;
 
@@ -60,7 +60,7 @@ const View = (props: IProps) => {
     /** 渲染雷达图 */
     const renderRadarChart = () => {
         const ctx = chartRef.current!;
-        const data = aggregateHistoryList?.data?.count_result || [];
+        const data = countData?.data?.count_result || [];
         if (!ctx || !data?.length) return;
         const chart = new Chart(ctx, {
             type: 'pie',
@@ -96,7 +96,22 @@ const View = (props: IProps) => {
     };
     useEffect(() => {
         return renderRadarChart();
-    }, [aggregateHistoryList]);
+    }, [countData]);
+
+    const topic = useMemo(() => {
+        const entityKey = entity?.value?.toString();
+        return entityKey && getExChangeTopic(entityKey);
+    }, [entity]);
+
+    // 订阅 WS 主题
+    useEffect(() => {
+        if (!topic) return;
+
+        const unsubscribe = ws.subscribe(topic, getData);
+        return () => {
+            unsubscribe?.();
+        };
+    }, [topic]);
 
     return (
         <div className="ms-radar-chart">
