@@ -126,9 +126,9 @@ class WebSocketClient {
 export default new WebSocketClient();
 
 // /**
-//  * @example MQTT主题订阅示例
+//  * @example WebSocket主题订阅示例
 //  */
-// import { useMemo, useEffect, useCallback } from 'react';
+// import { useMemo, useEffect } from 'react';
 // import ws, { getExChangeTopic } from '@/services/ws';
 
 // export const App = () => {

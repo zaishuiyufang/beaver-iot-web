@@ -104,6 +104,7 @@ export default defineConfig({
             },
             '/websocket': {
                 target: WEB_SOCKET_PROXY,
+                ws: true, // 启用 WebSocket 代理
                 changeOrigin: true,
             },
         },
