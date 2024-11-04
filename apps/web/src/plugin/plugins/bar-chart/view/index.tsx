@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
-
 import { useI18n } from '@milesight/shared/src/hooks';
 import { useBasicChartEntity } from '@/plugin/hooks';
-
+import { Tooltip } from '@/components';
 import styles from './style.module.less';
 
 export interface ViewProps {
@@ -59,7 +58,7 @@ const View = (props: ViewProps) => {
 
     return (
         <div className={styles['bar-chart-wrapper']}>
-            <div className={styles.name}>{title || getIntlText('common.label.title')}</div>
+            <Tooltip className={styles.name} autoEllipsis title={title} />
             <div className={styles['bar-chart-content']}>
                 <canvas ref={chartRef} />
             </div>

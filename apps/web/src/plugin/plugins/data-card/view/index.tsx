@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useI18n } from '@milesight/shared/src/hooks';
 import * as Icons from '@milesight/shared/src/components/icons';
 import { Tooltip } from '@/components';
 import { useSource } from './hooks';
@@ -12,11 +11,8 @@ interface Props {
 const View = (props: Props) => {
     const { config } = props;
     const { title, entity } = config || {};
-    const { getIntlText } = useI18n();
     const { entityStatusValue } = useSource({ entity });
 
-    // 标题展示
-    const headerLabel = title || getIntlText('common.label.title');
     // 当前实体实时数据
     const currentEntityData = useMemo(() => {
         const { rawData: currentEntity, value: entityValue } = entity || {};
@@ -67,7 +63,7 @@ const View = (props: Props) => {
                     <Icon sx={{ color: iconColor, fontSize: 24 }} />
                 </div>
             )}
-            <Tooltip className="data-view__title" autoEllipsis title={headerLabel} />
+            <Tooltip className="data-view__title" autoEllipsis title={title} />
             <div className="data-view__container">
                 <span className="data-view__content">{currentEntityData?.label || '-'}</span>
             </div>

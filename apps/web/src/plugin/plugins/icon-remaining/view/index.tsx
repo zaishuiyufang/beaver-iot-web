@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import * as Icons from '@milesight/shared/src/components/icons';
-import { useI18n } from '@milesight/shared/src/hooks';
+import { Tooltip } from '@/components';
 import RemainChart from './components/remain-chart';
 import { useSource } from './hooks';
 import type { ViewConfigProps } from '../typings';
@@ -12,7 +12,6 @@ interface Props {
 const View = (props: Props) => {
     const { config } = props;
     const { title, entity, metrics, time } = config || {};
-    const { getIntlText } = useI18n();
     const { aggregateHistoryData } = useSource({ entity, metrics, time });
 
     // 百分比
@@ -32,7 +31,6 @@ const View = (props: Props) => {
         return Math.min(100, Math.max(0, percent));
     }, [entity, aggregateHistoryData]);
 
-    const headerLabel = title || getIntlText('common.label.title');
     const { Icon, iconColor } = useMemo(() => {
         const iconType = config?.icon;
         const Icon = iconType && Icons[iconType as keyof typeof Icons];
@@ -47,7 +45,7 @@ const View = (props: Props) => {
     return (
         <div className="ms-icon-remaining">
             <div className="ms-icon-remaining__header">
-                <div>{headerLabel}</div>
+                <Tooltip autoEllipsis title={title} />
             </div>
             <div className="ms-icon-remaining__content">
                 <RemainChart Icon={Icon} iconColor={iconColor} percent={percent} />

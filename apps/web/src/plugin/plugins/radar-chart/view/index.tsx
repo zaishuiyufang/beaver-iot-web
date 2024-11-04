@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Chart, { ChartConfiguration } from 'chart.js/auto'; // 引入 Chart.js
-import { useI18n, useTheme } from '@milesight/shared/src/hooks';
+import { useTheme } from '@milesight/shared/src/hooks';
+import { Tooltip } from '@/components';
 import { useSource } from './hooks';
 import type { AggregateHistoryList, ViewConfigProps } from '../typings';
 import './style.less';
@@ -11,10 +12,8 @@ interface IProps {
 const View = (props: IProps) => {
     const { config } = props;
     const { entityList, title, metrics, time } = config || {};
-    const { getIntlText } = useI18n();
     const { blue, white } = useTheme();
     const { aggregateHistoryList } = useSource({ entityList, metrics, time });
-    const headerLabel = title || getIntlText('common.label.title');
 
     const chartRef = useRef<HTMLCanvasElement>(null);
 
@@ -121,7 +120,7 @@ const View = (props: IProps) => {
 
     return (
         <div className="ms-radar-chart">
-            <div className="ms-radar-chart__header">{headerLabel}</div>
+            <Tooltip className="ms-radar-chart__header" autoEllipsis title={title} />
             <div className="ms-radar-chart__content">
                 <canvas id="radarChart" ref={chartRef} />
             </div>

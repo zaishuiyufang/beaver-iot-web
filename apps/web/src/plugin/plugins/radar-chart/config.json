@@ -35,7 +35,7 @@
                     "title": "Title",
                     "key": "title",
                     "style": "width: 100%",
-                    "defaultValue": "",
+                    "defaultValue": "Title",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {
