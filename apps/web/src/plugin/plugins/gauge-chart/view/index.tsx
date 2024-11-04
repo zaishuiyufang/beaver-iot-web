@@ -37,6 +37,8 @@ const View = (props: Props) => {
             // 没有数据时，展示为空状态
             data = [0, DEFAULT_RANGE];
         }
+        const diff = maxValue - minValue;
+        const tickCount = Math.floor(diff) > 1 ? diff : DEFAULT_RANGE;
 
         // 渲染图表
         const circumference = 216; // 定义仪表盘的周长
@@ -90,6 +92,9 @@ const View = (props: Props) => {
                             },
                         },
                     },
+                },
+                ticks: {
+                    tickCount,
                 },
             },
         });
