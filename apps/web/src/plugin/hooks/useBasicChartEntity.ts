@@ -1,11 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 
 import { useTime } from '@milesight/shared/src/hooks';
 import { entityAPI, isRequestSuccess, getResponseData } from '@/services/http';
+import ws, { getExChangeTopic } from '@/services/ws';
 
 export interface UseBasicChartEntityProps {
     entity?: EntityOptionType[];
     time: number;
+    isPreview?: boolean;
 }
 
 /** 图表所需展示的数据的类型 */
@@ -19,7 +21,7 @@ export interface ChartShowDataProps {
  * 目前使用于（柱状图、横向柱状图、折线图、面积图）
  */
 export function useBasicChartEntity(props: UseBasicChartEntityProps) {
-    const { entity, time } = props;
+    const { entity, time, isPreview } = props;
 
     const { getTimeFormat } = useTime();
 
@@ -36,8 +38,26 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
      * 图表 X 轴 label
      */
     const [chartLabels, setChartLabels] = useState<number[]>([]);
+    /**
+     * websocket 订阅主题
+     */
+    const topics = useMemo(() => {
+        if (!entity) return;
 
-    useEffect(() => {
+        const topicList: string[] = [];
+        entity.forEach(e => {
+            if (e?.rawData?.entityKey) {
+                topicList.push(getExChangeTopic(e.rawData?.entityKey));
+            }
+        });
+
+        return topicList;
+    }, [entity]);
+
+    /**
+     * 请求图表数据
+     */
+    const requestChartData = useCallback(() => {
         /**
          * 初始化数据
          */
@@ -114,6 +134,25 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
             setChartShowData(newChartShowData);
         });
     }, [entity, time]);
+
+    /**
+     * 获取数据
+     */
+    useEffect(() => {
+        requestChartData();
+    }, [entity, time, requestChartData]);
+
+    /**
+     * websocket 订阅
+     */
+    useEffect(() => {
+        /**
+         * 预览状态下不进行订阅
+         */
+        if (!topics || !topics.length || Boolean(isPreview)) return;
+
+        return ws.subscribe(topics, requestChartData);
+    }, [topics, requestChartData, isPreview]);
 
     return {
         /**

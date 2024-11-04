@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
-import { useI18n } from '@milesight/shared/src/hooks';
 import { useBasicChartEntity } from '@/plugin/hooks';
 import { Tooltip } from '@/components';
 import styles from './style.module.less';
@@ -11,16 +10,20 @@ export interface ViewProps {
         title?: string;
         time: number;
     };
+    configJson: {
+        isPreview?: boolean;
+    };
 }
 
 const View = (props: ViewProps) => {
-    const { config } = props;
+    const { config, configJson } = props;
     const { entity, title, time } = config || {};
+    const { isPreview } = configJson || {};
 
-    const { getIntlText } = useI18n();
     const { chartShowData, chartLabels, chartRef } = useBasicChartEntity({
         entity,
         time,
+        isPreview,
     });
 
     useEffect(() => {

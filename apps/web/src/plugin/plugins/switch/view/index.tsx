@@ -79,13 +79,16 @@ const View = (props: ViewProps) => {
      * websocket 订阅
      */
     useEffect(() => {
-        if (!topic) return;
+        /**
+         * 预览状态下不进行 websocket 订阅
+         */
+        if (!topic || Boolean(isPreview)) return;
 
         /**
          * 订阅主题时会返回取消订阅的函数，所以直接返回即可在卸载时取消订阅
          */
         return ws.subscribe(topic, requestEntityStatus);
-    }, [topic, requestEntityStatus]);
+    }, [topic, requestEntityStatus, isPreview]);
 
     /**
      * 切换 switch 状态时，
