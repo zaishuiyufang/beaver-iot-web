@@ -161,8 +161,10 @@ export default new WebSocketClient();
 // import ws, { getExChangeTopic } from '@/services/ws';
 
 // export const App = () => {
-//     const topic = useMemo(() => entityKey && getExChangeTopic(entityKey), [entityKey]);
+//     // TODO：获取需要订阅的实体key
+//     const entityKey = entity?.rawData?.entityKey;
 
+//     const topic = useMemo(() => entityKey && getExChangeTopic(entityKey), [entityKey]);
 //     // 订阅 WS 主题
 //     useEffect(() => {
 //         if (!topic) return;

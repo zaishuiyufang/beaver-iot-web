@@ -2,4 +2,4 @@
 export const URL_TAB_SEARCH_KEY = 'tab';
 
 /** 刷新token主题 */
-export const REFRESH_TOKEN_TOPIC = 'iot:lang:change';
+export const REFRESH_TOKEN_TOPIC = 'iot:token:refresh';

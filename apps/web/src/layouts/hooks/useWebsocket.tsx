@@ -24,6 +24,7 @@ export const useWebsocket = () => {
     useEffect(() => {
         if (!isLogin) return;
 
+        // 登录后，首次连接
         return connectSocket();
     }, [isLogin]);
 
