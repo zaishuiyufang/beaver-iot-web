@@ -46,6 +46,8 @@ interface Window {
 declare const __APP_VERSION__: string;
 /** 应用接口 Origin */
 declare const __APP_API_ORIGIN__: string;
+/** Websocket Host */
+declare const __APP_WS_HOST__: string;
 /** 应用 OAuth Client ID */
 declare const __APP_OAUTH_CLIENT_ID__: string;
 /** 应用 OAuth Client Secret */
