@@ -61,7 +61,6 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
             </li>
         );
     };
-
     return (
         <Autocomplete
             {...restProps}
@@ -81,7 +80,20 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
                 return currentValue.every(e => e.value !== option.value);
             }}
             renderInput={params => (
-                <TextField {...params} label={getIntlText('common.label.entity')} />
+                <TextField
+                    {...params}
+                    label={getIntlText('common.label.entity')}
+                    error={(restProps as any).error}
+                    helperText={
+                        (restProps as any).error ? (
+                            <div style={{ marginLeft: -14 }}>
+                                {(restProps as any).error.message}
+                            </div>
+                        ) : (
+                            ''
+                        )
+                    }
+                />
             )}
             renderOption={renderOption}
             getOptionLabel={option => option?.label || ''}
