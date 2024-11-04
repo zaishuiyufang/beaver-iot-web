@@ -10,8 +10,8 @@ const baseURL = (() => {
     const host = wsHost.endsWith('/') ? wsHost.slice(0, -1) : wsHost;
     if (['ws', 'wss'].some(prefix => host.startsWith(prefix))) return host;
 
-    if (host.startsWith('https')) return `https://${host}`;
-    return `http://${host}`;
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    return `${protocol}://${host}`;
 })();
 export const useWebsocket = () => {
     const { userInfo } = useUserStore(useShallow(state => ({ userInfo: state.userInfo })));
