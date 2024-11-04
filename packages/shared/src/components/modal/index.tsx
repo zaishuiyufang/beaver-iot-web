@@ -123,7 +123,7 @@ const Modal: React.FC<ModalProps> = ({
             sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}
         >
             {!!title && (
-                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                <DialogTitle sx={{ m: 0, paddingX: 3, paddingY: 2 }} id="customized-dialog-title">
                     {title}
                 </DialogTitle>
             )}
