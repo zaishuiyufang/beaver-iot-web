@@ -1,11 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
-import { Tabs, Tab, Box } from '@mui/material';
-import {
-    FullscreenIcon,
-    FullscreenExitIcon as FullscreenIconExit,
-    AddIcon,
-    toast,
-} from '@milesight/shared/src/components';
+import { useState, useEffect } from 'react';
+import { Tabs, Tab, Toolbar } from '@mui/material';
+import { AddIcon, toast } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
 import { DashboardDetail } from '@/services/http/dashboard';
@@ -18,9 +13,7 @@ export default () => {
     const { getIntlText } = useI18n();
     const [tabs, setTabs] = useState<DashboardDetail[]>([]);
     const [tabKey, setTabKey] = useState<ApiKey>();
-    const [isFullscreen, setIsFullscreen] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
-    const containerRef = useRef<any>(null);
 
     const getDashboards = async () => {
         const [_, res] = await awaitWrap(dashboardAPI.getDashboards());
@@ -49,22 +42,6 @@ export default () => {
         setTabKey(newValue);
     };
 
-    // 进入全屏
-    const enterFullscreen = () => {
-        if (containerRef.current?.requestFullscreen) {
-            containerRef.current.requestFullscreen();
-        }
-        setIsFullscreen(true);
-    };
-
-    // 退出全屏
-    const exitFullscreen = () => {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-        setIsFullscreen(false);
-    };
-
     // 显示新增dashboard弹框
     const showAddDashboard = () => {
         setShowAdd(true);
@@ -86,43 +63,43 @@ export default () => {
     };
 
     return (
-        <div className="ms-main dashboard" ref={containerRef}>
-            {!isFullscreen ? (
-                <FullscreenIcon className="dashboard-fullscreen" onClick={enterFullscreen} />
-            ) : (
-                <FullscreenIconExit className="dashboard-fullscreen" onClick={exitFullscreen} />
-            )}
+        <div className="ms-main dashboard">
             <div className="ms-view ms-view-dashboard">
-                <Tabs
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    className="ms-tabs"
-                    value={tabKey}
-                    onChange={handleChange}
-                    sx={{
-                        '& .MuiTabs-scrollButtons': {
-                            '&.Mui-disabled': {
-                                width: 0, // 隐藏禁用的滚动按钮
+                <Toolbar className="dashboard-toolbar">
+                    <Tabs
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        className="ms-tabs"
+                        value={tabKey}
+                        onChange={handleChange}
+                        sx={{
+                            '& .MuiTabs-scrollButtons': {
+                                '&.Mui-disabled': {
+                                    width: 0, // 隐藏禁用的滚动按钮
+                                },
                             },
-                        },
-                        '& .MuiTabs-scrollButtons.Mui-disabled': {
-                            display: 'none', // 完全隐藏禁用的滚动按钮
-                        },
-                    }}
-                >
-                    {tabs?.map(tabItem => {
-                        return (
-                            <Tab
-                                key={tabItem.dashboard_id}
-                                disableRipple
-                                title={tabItem.name}
-                                label={tabItem.name}
-                                value={tabItem.dashboard_id}
-                            />
-                        );
-                    })}
+                            '& .MuiTabs-scrollButtons.Mui-disabled': {
+                                display: 'none', // 完全隐藏禁用的滚动按钮
+                            },
+                        }}
+                        slotProps={{
+                            endScrollButtonIcon: () => '111',
+                        }}
+                    >
+                        {tabs?.map(tabItem => {
+                            return (
+                                <Tab
+                                    key={tabItem.dashboard_id}
+                                    disableRipple
+                                    title={tabItem.name}
+                                    label={tabItem.name}
+                                    value={tabItem.dashboard_id}
+                                />
+                            );
+                        })}
+                    </Tabs>
                     <AddIcon className="dashboard-add" onClick={showAddDashboard} />
-                </Tabs>
+                </Toolbar>
                 <div className="ms-tab-content">
                     {tabs?.map(tabItem => {
                         return (

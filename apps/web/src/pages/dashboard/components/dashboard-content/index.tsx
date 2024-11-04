@@ -6,6 +6,8 @@ import {
     CloseIcon as Close,
     CheckIcon as Check,
     EditIcon as Edit,
+    FullscreenIcon,
+    FullscreenExitIcon as FullscreenIconExit,
     toast,
 } from '@milesight/shared/src/components';
 import { cloneDeep } from 'lodash-es';
@@ -38,6 +40,7 @@ export default (props: DashboardContentProps) => {
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [isEdit, setIsEdit] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
     const widgetsRef = useRef<any[]>([]);
 
@@ -185,6 +188,22 @@ export default (props: DashboardContentProps) => {
         }
     };
 
+    // 进入全屏
+    const enterFullscreen = () => {
+        if (mainRef.current?.requestFullscreen) {
+            mainRef.current.requestFullscreen();
+        }
+        setIsFullscreen(true);
+    };
+
+    // 退出全屏
+    const exitFullscreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+        setIsFullscreen(false);
+    };
+
     return (
         <div className="dashboard-content">
             <div className="dashboard-content-operate">
@@ -213,7 +232,7 @@ export default (props: DashboardContentProps) => {
                         </Button>
                     )}
                 </div>
-                {isEdit && (
+                {isEdit ? (
                     <div className="dashboard-content-operate-right">
                         <Button
                             variant="outlined"
@@ -246,6 +265,13 @@ export default (props: DashboardContentProps) => {
                         >
                             {getIntlText('common.button.save')}
                         </Button>
+                    </div>
+                ) : (
+                    <div className="dashboard-content-operate-right">
+                        <FullscreenIcon
+                            className="dashboard-fullscreen"
+                            onClick={enterFullscreen}
+                        />
                     </div>
                 )}
             </div>
