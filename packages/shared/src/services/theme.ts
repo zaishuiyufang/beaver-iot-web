@@ -289,6 +289,9 @@ export const getMuiComponents = (mode: ThemeType = 'light') => {
             defaultProps: {
                 size: 'small',
                 margin: 'dense',
+                slotProps: {
+                    inputLabel: { shrink: true },
+                },
                 sx: { my: 1.5 },
             },
         },
