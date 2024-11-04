@@ -10,14 +10,19 @@ export interface ViewProps {
         title?: string;
         time: number;
     };
+    configJson: {
+        isPreview?: boolean;
+    };
 }
 
 const View = (props: ViewProps) => {
-    const { config } = props;
+    const { config, configJson } = props;
     const { entity, title, time } = config || {};
+    const { isPreview } = configJson || {};
     const { chartShowData, chartLabels, chartRef } = useBasicChartEntity({
         entity,
         time,
+        isPreview,
     });
 
     useEffect(() => {
