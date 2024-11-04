@@ -19,3 +19,6 @@ export enum WS_READY_STATE {
 export const MAX_RETRY = 3;
 // 重试时间
 export const RETRY_DELAY = 1000;
+
+// 限制上报频率
+export const THROTTLE_TIME = 300;

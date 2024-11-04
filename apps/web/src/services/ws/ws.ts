@@ -2,7 +2,7 @@ import { EventEmitter } from '@milesight/shared/src/utils/event-emitter';
 import { delay, withPromiseResolvers } from '@milesight/shared/src/utils/tools';
 import { awaitWrap } from '../http';
 import { splitExchangeTopic, transform } from './helper';
-import { EVENT_TYPE, MAX_RETRY, RETRY_DELAY, WS_READY_STATE } from './constant';
+import { EVENT_TYPE, MAX_RETRY, RETRY_DELAY, THROTTLE_TIME, WS_READY_STATE } from './constant';
 import type { CallbackType, IEventEmitter, WsEvent } from './types';
 
 class WebSocketClient {
@@ -11,6 +11,7 @@ class WebSocketClient {
     private readonly subscribeEvent: EventEmitter<IEventEmitter> = new EventEmitter(); // 事件总线
     private retryCount = 0; // 重连次数
     private delayTimer: ReturnType<typeof delay> | null = null;
+    private throttleTimer: ReturnType<typeof delay> | null = null; // 控制上报频率
 
     /**
      * 是否正常连接
@@ -118,8 +119,12 @@ class WebSocketClient {
      */
     close() {
         this.ws?.close();
+
         this.delayTimer?.cancel();
         this.delayTimer = null;
+
+        this.throttleTimer?.cancel();
+        this.throttleTimer = null;
     }
 
     /**
@@ -134,8 +139,14 @@ class WebSocketClient {
     /**
      * 向后台发送消息订阅，目前只支持`Exchange`类型
      */
-    private emit() {
+    private async emit() {
         if (!this.isConnected) return;
+
+        // 定时上报，避免频繁请求
+        if (this.throttleTimer) return;
+        this.throttleTimer = delay(THROTTLE_TIME);
+        await this.throttleTimer;
+        this.throttleTimer = null;
 
         const topics = this.subscribeEvent.getTopics();
         // 从主题中提取出`Exchange`类型
