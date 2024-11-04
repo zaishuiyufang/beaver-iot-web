@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 
 import { objectToCamelCase } from '@milesight/shared/src/utils/tools';
 import { awaitWrap, entityAPI, getResponseData, isRequestSuccess } from '@/services/http';
-import { filterEntityStringHasEnum } from '../utils';
+import { filterEntityMap } from '../utils';
 
 function safeJsonParse(str: string) {
     try {
@@ -103,11 +103,12 @@ export function useEntitySelectOptions(
 
         /**
          * 自定义过滤实体数据
-         * 若需自定义，往下扩展即可
+         * 若需自定义，通过 filterEntityMap 对象增加过滤函数往下扩展即可
+         * customFilterEntity 既为函数名称
          */
-        if (customFilterEntity && customFilterEntity === 'filterEntityStringHasEnum') {
-            // 如果是枚举要过滤值类型是 string 并且有 enum 字段的
-            newOptions = filterEntityStringHasEnum(newOptions);
+        const filterEntityFunction = Reflect.get(filterEntityMap, customFilterEntity || '');
+        if (filterEntityFunction) {
+            newOptions = filterEntityFunction(newOptions);
         }
 
         setOptions(newOptions);
