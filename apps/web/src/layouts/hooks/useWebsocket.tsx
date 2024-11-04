@@ -6,6 +6,13 @@ import iotStorage, { TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage
 import { useUserStore } from '@/stores';
 import ws from '@/services/ws';
 
+const baseURL = (() => {
+    const host = wsHost.endsWith('/') ? wsHost.slice(0, -1) : wsHost;
+    if (['ws', 'wss'].some(prefix => host.startsWith(prefix))) return host;
+
+    if (host.startsWith('https')) return `https://${host}`;
+    return `http://${host}`;
+})();
 export const useWebsocket = () => {
     const { userInfo } = useUserStore(useShallow(state => ({ userInfo: state.userInfo })));
     const isLogin = useMemo(() => Object.keys(userInfo || {}).length > 0, [userInfo]);
@@ -15,12 +22,7 @@ export const useWebsocket = () => {
         const data = iotStorage.getItem(TOKEN_CACHE_KEY);
         const token = data?.access_token;
 
-        const baseURL = wsHost.endsWith('/') ? wsHost.slice(0, -1) : wsHost;
-        const origin = ['ws', 'wss'].some(prefix => baseURL.startsWith(prefix))
-            ? baseURL
-            : `ws://${baseURL}`;
-        const url = `${origin}/websocket?Authorization=Bearer ${token}`;
-
+        const url = `${baseURL}/websocket?Authorization=Bearer ${token}`;
         ws.connect(url);
         return () => {
             ws.destroy();
