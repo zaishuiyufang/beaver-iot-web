@@ -14,3 +14,8 @@ export enum WS_READY_STATE {
     /** 连接已经关闭或无法打开 */
     CLOSED = 3,
 }
+
+// 重试最大次数
+export const MAX_RETRY = 3;
+// 重试时间
+export const RETRY_DELAY = 1000;

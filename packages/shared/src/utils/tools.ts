@@ -658,6 +658,23 @@ export const genApiUrl = (origin = '', path = '', params?: Record<string, any>) 
 };
 
 /**
+ * 延迟执行
+ * @param ms - 延迟时间（毫秒）
+ * @returns 返回PromiseLike，包含cancel和then方法，支持Promise A+调用
+ */
+export const delay = (ms: number): PromiseLike<void> & { cancel: () => void } => {
+    const { resolve, promise } = withPromiseResolvers<void>();
+    const timer = setTimeout(resolve, ms);
+
+    return {
+        then: promise.then.bind(promise),
+        cancel: () => {
+            timer && clearTimeout(timer);
+        },
+    };
+};
+
+/**
  * 返回一个包含`Promise`和`resolve`、`reject`的对象，适用于减少代码层级的嵌套
  * @docs https://github.com/tc39/proposal-promise-with-resolvers
  */

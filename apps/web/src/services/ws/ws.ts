@@ -1,13 +1,16 @@
 import { EventEmitter } from '@milesight/shared/src/utils/event-emitter';
-import { withPromiseResolvers } from '@milesight/shared/src/utils/tools';
+import { delay, withPromiseResolvers } from '@milesight/shared/src/utils/tools';
+import { awaitWrap } from '../http';
 import { splitExchangeTopic, transform } from './helper';
-import { EVENT_TYPE, WS_READY_STATE } from './constant';
+import { EVENT_TYPE, MAX_RETRY, RETRY_DELAY, WS_READY_STATE } from './constant';
 import type { CallbackType, IEventEmitter, WsEvent } from './types';
 
 class WebSocketClient {
     private url = ''; // ws地址
     private ws: WebSocket | null = null; // ws实例
     private readonly subscribeEvent: EventEmitter<IEventEmitter> = new EventEmitter(); // 事件总线
+    private retryCount = 0; // 重连次数
+    private delayTimer: ReturnType<typeof delay> | null = null;
 
     /**
      * 是否正常连接
@@ -31,11 +34,23 @@ class WebSocketClient {
 
         // ws连接成功
         ws.onopen = () => {
+            this.retryCount = 0;
             resolve();
             this.emit();
         };
         // ws连接失败
-        ws.onerror = e => {
+        ws.onerror = async e => {
+            // 判断重连次数
+            if (this.retryCount < MAX_RETRY) {
+                this.retryCount++;
+                this.delayTimer = delay(RETRY_DELAY);
+                await this.delayTimer;
+
+                // 重连
+                const [error, result] = await awaitWrap(this.reconnect.call(this));
+                if (error) return reject(error);
+                return resolve(result);
+            }
             reject(e);
         };
         // ws接收到消息
@@ -56,42 +71,55 @@ class WebSocketClient {
 
     /**
      * 订阅主题
-     * @param {string} topic - 主题
+     * @param {string | string[]} topics - 订阅的主题（支持传入单个主题或主题列表）
      * @param {Function} cb - 订阅的回调
      * @returns 订阅成功后返回一个函数，用于取消本次订阅
      */
-    subscribe(topic: string, cb: CallbackType) {
-        // 是否已经订阅过
-        const isSubscribed = this.subscribeEvent.subscribe(topic, cb);
+    subscribe(topics: string | string[], cb: CallbackType) {
+        const _topics = Array.isArray(topics) ? topics : [topics];
 
-        if (!isSubscribed) {
-            this.emit();
-        }
-
-        return this.unsubscribe.bind(this, topic, cb);
+        _topics.forEach(topic => {
+            // 是否已经订阅过
+            const isSubscribed = this.subscribeEvent.subscribe(topic, cb);
+            if (!isSubscribed) {
+                this.emit.call(this);
+            }
+        });
+        return () => {
+            this.unsubscribe.bind(this, _topics, cb);
+        };
     }
 
     /**
      * 取消订阅
-     * @param {string} topic - 主题
+     * @param {string | string[]} topics - 订阅的主题（支持传入单个主题或主题列表）
      * @param {Function} cb - 订阅的回调
      */
-    unsubscribe(topic: string, cb?: CallbackType) {
-        this.subscribeEvent.unsubscribe(topic, cb);
+    unsubscribe(topics: string | string[], cb?: CallbackType) {
+        const _topics = Array.isArray(topics) ? topics : [topics];
 
-        const subscriber = this.subscribeEvent.getSubscriber(topic);
-        if (!subscriber) {
-            this.emit();
-        }
+        _topics.forEach(topic => {
+            const isEmpty = this.subscribeEvent.unsubscribe(topic, cb);
+
+            isEmpty && this.emit.call(this);
+        });
     }
 
     /**
      * 重连
      */
-    reconnect() {
+    private reconnect() {
+        this.close.call(this);
+        return this.connect.call(this, this.url);
+    }
+
+    /**
+     * 关闭
+     */
+    close() {
         this.ws?.close();
-        // TODO token过期处理
-        this.connect.call(this, this.url);
+        this.delayTimer?.cancel();
+        this.delayTimer = null;
     }
 
     /**
@@ -99,7 +127,8 @@ class WebSocketClient {
      */
     destroy() {
         this.subscribeEvent.destroy();
-        this.ws?.close();
+        this.close.call(this);
+        this.ws = null;
     }
 
     /**

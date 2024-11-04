@@ -1,6 +1,12 @@
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios';
-import { apiOrigin, oauthClientID, oauthClientSecret } from '@milesight/shared/src/config';
+import {
+    apiOrigin,
+    oauthClientID,
+    oauthClientSecret,
+    REFRESH_TOKEN_TOPIC,
+} from '@milesight/shared/src/config';
+import eventEmitter from '@milesight/shared/src/utils/event-emitter';
 import { getResponseData } from '@milesight/shared/src/utils/request';
 import iotStorage, { TOKEN_CACHE_KEY } from '@milesight/shared/src/utils/storage';
 import { API_PREFIX } from './constant';
@@ -87,6 +93,7 @@ const oauthHandler = async (config: AxiosRequestConfig) => {
             // 每 60 分钟刷新一次 token
             data.expires_in = Date.now() + 60 * 60 * 1000;
             iotStorage.setItem(TOKEN_CACHE_KEY, data);
+            eventEmitter.publish(REFRESH_TOKEN_TOPIC);
         })
         .catch(_ => {
             // TODO: 若为 token 无效错误，则直接移除 token
