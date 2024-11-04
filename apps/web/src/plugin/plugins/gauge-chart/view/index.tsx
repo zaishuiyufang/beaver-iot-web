@@ -10,6 +10,7 @@ import './style.less';
 interface Props {
     config: ViewConfigProps;
 }
+const DEFAULT_RANGE = 10;
 const View = (props: Props) => {
     const { config } = props;
     const { entity, title, time, metrics } = config || {};
@@ -30,11 +31,11 @@ const View = (props: Props) => {
         const { minValue: min, maxValue: max, currentValue: value } = datasets || {};
         const currentValue = value || 0;
         const minValue = min || 0;
-        const maxValue = max ? Math.max(max, currentValue) : currentValue * 2;
+        const maxValue = max ? Math.max(max, currentValue) : Math.max(currentValue, DEFAULT_RANGE);
         let data = [...new Set([currentValue, maxValue])].filter(v => !isNil(v)) as number[];
         if (data.length === 1 && data[0] === 0) {
             // 没有数据时，展示为空状态
-            data = [0, 10];
+            data = [0, DEFAULT_RANGE];
         }
 
         // 渲染图表

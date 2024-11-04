@@ -59,12 +59,7 @@ export const useSource = (props: IProps) => {
     useEffect(() => {
         if (!topics?.length) return;
 
-        const unsubscribes = topics.map(topic => {
-            return ws.subscribe(topic, getAggregateHistoryList);
-        });
-        return () => {
-            unsubscribes?.forEach(unsubscribe => unsubscribe?.());
-        };
+        return ws.subscribe(topics, getAggregateHistoryList);
     }, [topics]);
 
     return {
