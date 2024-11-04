@@ -71,5 +71,6 @@ export {
     Https as HttpsIcon,
 } from '@mui/icons-material';
 
+export * from './iot-icons';
 // 导出所有自定义 SVG Icon 组件
 export * from './components';
