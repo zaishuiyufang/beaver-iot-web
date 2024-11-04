@@ -15,7 +15,8 @@ export const useWebsocket = () => {
         const data = iotStorage.getItem(TOKEN_CACHE_KEY);
         const token = data?.access_token;
 
-        const url = `${apiOrigin}/websocket?Authorization=Bearer ${token}`;
+        const baseURL = apiOrigin.endsWith('/') ? apiOrigin.slice(0, -1) : apiOrigin;
+        const url = `${baseURL}/websocket?Authorization=Bearer ${token}`;
         ws.connect(url);
         return () => {
             ws.destroy();
