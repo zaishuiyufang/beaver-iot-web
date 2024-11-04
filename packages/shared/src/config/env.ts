@@ -13,7 +13,7 @@ export const mode = import.meta.env.MODE;
 export const apiOrigin = __APP_API_ORIGIN__ === '/' ? origin : __APP_API_ORIGIN__;
 
 /** Websocket Host */
-export const wsHost = __APP_WS_HOST__ === '/' ? host : __APP_WS_HOST__;
+export const wsHost = !__APP_WS_HOST__ || __APP_WS_HOST__ === '/' ? host : __APP_WS_HOST__;
 
 /**
  * 应用版本号
