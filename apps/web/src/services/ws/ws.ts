@@ -87,7 +87,7 @@ class WebSocketClient {
             }
         });
         return () => {
-            this.unsubscribe.bind(this, _topics, cb);
+            this.unsubscribe.call(this, _topics, cb);
         };
     }
 
