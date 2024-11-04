@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { isNil } from 'lodash-es';
-import { useI18n, useTheme } from '@milesight/shared/src/hooks';
+import { useTheme } from '@milesight/shared/src/hooks';
+import { Tooltip } from '@/components';
 import Chart from './gauge';
 import { useSource } from './hooks';
 import type { ViewConfigProps } from '../typings';
@@ -12,7 +13,6 @@ interface Props {
 const View = (props: Props) => {
     const { config } = props;
     const { entity, title, time, metrics } = config || {};
-    const { getIntlText } = useI18n();
     const chartRef = useRef<HTMLCanvasElement>(null);
     const { blue, grey } = useTheme();
     const { aggregateHistoryData } = useSource({ entity, metrics, time });
@@ -95,7 +95,6 @@ const View = (props: Props) => {
         return () => chart?.destroy();
     };
 
-    const headerLabel = title || getIntlText('common.label.title');
     useEffect(() => {
         if (!aggregateHistoryData) {
             return renderGaugeChart({ minValue: 0, maxValue: 0, currentValue: 0 });
@@ -115,7 +114,7 @@ const View = (props: Props) => {
 
     return (
         <div className="ms-gauge-chart">
-            <div className="ms-gauge-chart__header">{headerLabel}</div>
+            <Tooltip className="ms-gauge-chart__header" autoEllipsis title={title} />
             <div className="ms-gauge-chart__content">
                 <canvas id="gaugeChart" ref={chartRef} />
             </div>

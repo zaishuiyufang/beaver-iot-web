@@ -37,17 +37,12 @@
             ]
         },
         {
-            "theme": {
-                "default": {
-                    "class": "first-component-input",
-                    "style": "font-size: 18px;"
-                }
-            },
             "components": [
                 {
                     "type": "input",
                     "title": "Title",
                     "key": "title",
+                    "defaultValue": "Title",
                     "componentProps": {
                         "size": "small"
                     }

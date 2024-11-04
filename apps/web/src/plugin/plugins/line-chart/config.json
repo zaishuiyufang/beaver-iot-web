@@ -32,7 +32,7 @@
                     "type": "input",
                     "title": "Title",
                     "key": "title",
-                    "defaultValue": "",
+                    "defaultValue": "Title",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {

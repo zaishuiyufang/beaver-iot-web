@@ -1,7 +1,6 @@
 import { useEffect, useRef, useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
-import { useI18n } from '@milesight/shared/src/hooks';
 import {
     awaitWrap,
     entityAPI,
@@ -10,6 +9,7 @@ import {
     isRequestSuccess,
 } from '@/services/http';
 import ws, { getExChangeTopic } from '@/services/ws';
+import { Tooltip } from '@/components';
 import { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -23,8 +23,6 @@ interface AggregateHistoryList {
 const View = (props: IProps) => {
     const { config } = props;
     const { entity, title, metrics, time } = config || {};
-    const { getIntlText } = useI18n();
-    const headerLabel = title || getIntlText('common.label.title');
 
     const chartRef = useRef<HTMLCanvasElement>(null);
     const { data: countData, runAsync: getData } = useRequest(
@@ -114,10 +112,10 @@ const View = (props: IProps) => {
     }, [topic]);
 
     return (
-        <div className="ms-radar-chart">
-            <div className="ms-radar-chart__header">{headerLabel}</div>
-            <div className="ms-radar-chart__content">
-                <canvas id="radarChart" ref={chartRef} />
+        <div className="ms-pie-chart">
+            <Tooltip className="ms-pie-chart__header" autoEllipsis title={title} />
+            <div className="ms-pie-chart__content">
+                <canvas id="pieChart" ref={chartRef} />
             </div>
         </div>
     );

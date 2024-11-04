@@ -1,11 +1,9 @@
 import { useMemo, useState, useCallback, useEffect } from 'react';
 import * as Icons from '@milesight/shared/src/components/icons';
-
 import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
-
+import { Tooltip } from '@/components';
 import { entityAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
-
 import styles from './style.module.less';
 
 export interface ViewProps {
@@ -123,7 +121,7 @@ const View = (props: ViewProps) => {
                 <div className={styles.body}>
                     <Switch value={isSwitchOn} title={switchTitle} onChange={handleSwitchChange} />
                 </div>
-                <div className={styles.text}>{title || getIntlText('common.label.title')}</div>
+                <Tooltip className={styles.text} autoEllipsis title={title} />
             </div>
             <div className={styles.icon}>{IconComponent}</div>
         </div>
