@@ -3,7 +3,7 @@ import { useMemo, useState, useCallback, useEffect } from 'react';
 import * as Icons from '@milesight/shared/src/components/icons';
 import { useI18n } from '@milesight/shared/src/hooks';
 import Switch from '@/plugin/components/switch';
-import { Tooltip } from '@/components';
+import { Tooltip } from '../../../view-components';
 import { entityAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
 import ws, { getExChangeTopic } from '@/services/ws';
 

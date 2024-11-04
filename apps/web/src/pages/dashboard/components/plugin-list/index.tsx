@@ -24,7 +24,7 @@ export default (props: PluginListProps) => {
             <Grid container>
                 {pluginsConfigs?.map((pluginConfig: any) => {
                     return (
-                        <Grid xs={3} className="dashboard-plugin-item">
+                        <Grid key={pluginConfig.type} xs={3} className="dashboard-plugin-item">
                             <div
                                 className="dashboard-plugin-item-content"
                                 onClick={() => handleClick(pluginConfig)}

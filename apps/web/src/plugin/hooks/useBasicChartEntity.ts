@@ -139,8 +139,17 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
      * 获取数据
      */
     useEffect(() => {
+        // console.log(time, time, requestChartData);
         requestChartData();
     }, [entity, time, requestChartData]);
+
+    useEffect(() => {
+        console.log(1111);
+    }, [requestChartData]);
+
+    useEffect(() => {
+        console.log(entity, time);
+    }, [entity, time]);
 
     /**
      * websocket 订阅

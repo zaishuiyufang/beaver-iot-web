@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import * as Icons from '@milesight/shared/src/components/icons';
-import { Tooltip } from '@/components';
+import { Tooltip } from '../../../view-components';
 import { useSource } from './hooks';
 import type { ViewConfigProps } from '../typings';
 import './style.less';

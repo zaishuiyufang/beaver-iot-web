@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Chart, { ChartConfiguration } from 'chart.js/auto'; // 引入 Chart.js
 import { useTheme } from '@milesight/shared/src/hooks';
-import { Tooltip } from '@/components';
+import { Tooltip } from '../../../view-components';
 import { useSource } from './hooks';
 import type { AggregateHistoryList, ViewConfigProps } from '../typings';
 import './style.less';

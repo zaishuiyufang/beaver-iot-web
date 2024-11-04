@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 import { useBasicChartEntity } from '@/plugin/hooks';
-import { Tooltip } from '@/components';
+import { Tooltip } from '../../../view-components';
 import styles from './style.module.less';
 
 export interface ViewProps {
@@ -70,4 +70,4 @@ const View = (props: ViewProps) => {
     );
 };
 
-export default View;
+export default React.memo(View);

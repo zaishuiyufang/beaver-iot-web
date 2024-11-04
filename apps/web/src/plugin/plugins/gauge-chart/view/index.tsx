@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { isNil } from 'lodash-es';
 import { useTheme } from '@milesight/shared/src/hooks';
-import { Tooltip } from '@/components';
+import { Tooltip } from '../../../view-components';
 import Chart from './gauge';
 import { useSource } from './hooks';
 import type { ViewConfigProps } from '../typings';

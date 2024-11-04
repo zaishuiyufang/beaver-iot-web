@@ -1,5 +1,6 @@
 import { isString } from 'lodash-es';
 import * as Icons from '@milesight/shared/src/components/icons';
+import * as PluginView from '../view-components';
 import { parseStyleToReactStyle, parseStyleString, convertCssToReactStyle } from './util';
 import './style.less';
 
@@ -36,9 +37,9 @@ const View = (props: Props) => {
     };
 
     // 渲染标签
-    const renderTag = (tagProps: ViewProps) => {
+    const renderTag = (tagProps: ViewProps, tabKey: string) => {
         if (isShow(tagProps?.showDepended) && tagProps?.tag) {
-            const Tag: any = tagProps?.tag;
+            const Tag: any = (PluginView as any)[tagProps?.tag] || tagProps?.tag;
             const theme = tagProps?.themes?.default;
             const style = `${tagProps?.style || ''}${theme?.style}`;
             const dependStyle: Record<string, string> = {};
@@ -61,10 +62,11 @@ const View = (props: Props) => {
                 <Tag
                     className={`${tagProps.class || ''} ${theme?.class || ''}`}
                     style={style ? parseStyleToReactStyle(style) : undefined}
+                    {...(tagProps.props || {})}
                 >
                     {!tagProps?.params ? tagProps?.content : renderParams(tagProps?.params)}
-                    {tagProps?.children?.map(subItem => {
-                        return renderTag(subItem);
+                    {tagProps?.children?.map((subItem, index) => {
+                        return renderTag(subItem, `${tabKey}-${index}`);
                     })}
                 </Tag>
             );
@@ -92,8 +94,8 @@ const View = (props: Props) => {
         <div onClick={onClick} className="plugin-view">
             {isString(configJson?.view)
                 ? renderHtml()
-                : configJson?.view?.map((viewItem: ViewProps) => {
-                      return renderTag(viewItem);
+                : configJson?.view?.map((viewItem: ViewProps, index: number) => {
+                      return renderTag(viewItem, `${index}`);
                   })}
         </div>
     );

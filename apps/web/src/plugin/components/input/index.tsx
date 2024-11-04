@@ -8,6 +8,7 @@ const Input = (props: InputType) => {
         <TextField
             {...rest}
             label={title}
+            fullWidth={rest.fullWidth !== false}
             sx={{
                 input: {
                     ...(sx as any),

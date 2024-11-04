@@ -4,7 +4,7 @@ import { useSize, useDebounceEffect } from 'ahooks';
 import { Tooltip as MTooltip, type TooltipProps } from '@mui/material';
 import './style.less';
 
-interface Props extends Omit<TooltipProps, 'children'> {
+export interface MSToolTipProps extends Omit<TooltipProps, 'children'> {
     /** 是否基于内容及容器宽度自动开启 */
     autoEllipsis?: boolean;
 
@@ -17,7 +17,13 @@ interface Props extends Omit<TooltipProps, 'children'> {
  *
  * 可根据内容及容器宽度自动处理文案省略，当省略时，鼠标移到文案上 Tooltip 显示完整文案
  */
-const Tooltip: React.FC<Props> = ({ autoEllipsis, className, title, children, ...props }) => {
+const Tooltip: React.FC<MSToolTipProps> = ({
+    autoEllipsis,
+    className,
+    title,
+    children,
+    ...props
+}) => {
     const wrapRef = useRef<HTMLDivElement>(null);
     const contRef = useRef<HTMLDivElement>(null);
     const [innerTitle, setInnerTitle] = useState<React.ReactNode>(title);

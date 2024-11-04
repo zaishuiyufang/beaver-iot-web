@@ -124,8 +124,6 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
         return getFormItems.formItems;
     }, [getFormItems.formItems]);
 
-    console.log(formItems);
-
     return (
         <Form
             ref={ref}

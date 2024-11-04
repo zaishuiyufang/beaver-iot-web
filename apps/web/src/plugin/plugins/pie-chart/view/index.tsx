@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 import {
@@ -9,7 +9,7 @@ import {
     isRequestSuccess,
 } from '@/services/http';
 import ws, { getExChangeTopic } from '@/services/ws';
-import { Tooltip } from '@/components';
+import { Tooltip } from '../../../view-components';
 import { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -121,4 +121,4 @@ const View = (props: IProps) => {
     );
 };
 
-export default View;
+export default React.memo(View);
