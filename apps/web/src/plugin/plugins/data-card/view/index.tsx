@@ -60,12 +60,14 @@ const View = (props: Props) => {
         <div className="data-view">
             {Icon && (
                 <div className="data-view__icon">
-                    <Icon sx={{ color: iconColor, fontSize: 24 }} />
+                    <Icon sx={{ color: iconColor, fontSize: 32 }} />
                 </div>
             )}
-            <Tooltip className="data-view__title" autoEllipsis title={title} />
-            <div className="data-view__container">
-                <span className="data-view__content">{currentEntityData?.label || '-'}</span>
+            <div className="data-view__text">
+                <Tooltip className="data-view__title" autoEllipsis title={title} />
+                <div className="data-view__container">
+                    <span className="data-view__content">{currentEntityData?.label || '-'}</span>
+                </div>
             </div>
         </div>
     );
