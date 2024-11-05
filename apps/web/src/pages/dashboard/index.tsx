@@ -1,19 +1,25 @@
 import { useState, useEffect } from 'react';
 import { Tabs, Tab, Toolbar } from '@mui/material';
 import { AddIcon, toast } from '@milesight/shared/src/components';
-import { useI18n } from '@milesight/shared/src/hooks';
+import { useI18n, usePreventLeave } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
 import { DashboardDetail } from '@/services/http/dashboard';
-import { TabPanel } from '@/components';
+import { TabPanel, useConfirm } from '@/components';
 import DashboardContent from './components/dashboard-content';
 import AddDashboard from './components/add-dashboard';
 import './style.less';
 
 export default () => {
     const { getIntlText } = useI18n();
+    const confirm = useConfirm();
     const [tabs, setTabs] = useState<DashboardDetail[]>([]);
     const [tabKey, setTabKey] = useState<ApiKey>();
     const [showAdd, setShowAdd] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const { showPrevent } = usePreventLeave({
+        confirm,
+        isPreventLeave: isEdit,
+    });
 
     const getDashboards = async () => {
         const [_, res] = await awaitWrap(dashboardAPI.getDashboards());
@@ -37,9 +43,19 @@ export default () => {
         getDashboards();
     }, []);
 
-    // 切换dasboard页签
+    // 切换dashboard页签
     const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-        setTabKey(newValue);
+        // 判断是否编辑状态并阻止跳转
+        if (isEdit) {
+            showPrevent({
+                onOk: () => {
+                    setTabKey(newValue);
+                    setIsEdit(false);
+                },
+            });
+        } else {
+            setTabKey(newValue);
+        }
     };
 
     // 显示新增dashboard弹框
@@ -111,6 +127,8 @@ export default () => {
                                 <DashboardContent
                                     dashboardDetail={tabItem}
                                     getDashboards={getDashboards}
+                                    isEdit={isEdit}
+                                    onChangeIsEdit={setIsEdit}
                                 />
                             </TabPanel>
                         );

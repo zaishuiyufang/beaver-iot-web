@@ -152,5 +152,7 @@
     "common.label.edit_title": "Edit {1}",
     "common.label.enable_title": "Enable {1}",
     "auth.message.register_success": "Register successfully.",
-    "common.label.entity": "Entity"
+    "common.label.entity": "Entity",
+    "common.modal.desc_leave_current_page": "Changes you made may not be saved. Are you sure you want to leave this page?",
+    "common.modal.title_leave_current_page": "Leave the current page"
 }

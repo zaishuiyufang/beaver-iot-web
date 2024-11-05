@@ -7,11 +7,10 @@ import {
     CheckIcon as Check,
     EditIcon as Edit,
     FullscreenIcon,
-    FullscreenExitIcon as FullscreenIconExit,
     toast,
 } from '@milesight/shared/src/components';
 import { cloneDeep } from 'lodash-es';
-import { useI18n } from '@milesight/shared/src/hooks';
+import { useI18n, usePreventLeave } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess } from '@/services/http';
 import { DashboardDetail, WidgetDetail } from '@/services/http/dashboard';
 import { useConfirm } from '@/components';
@@ -26,21 +25,22 @@ import Widgets from '../widgets';
 interface DashboardContentProps {
     dashboardDetail: DashboardDetail;
     getDashboards: () => void;
+    onChangeIsEdit: (isEdit: boolean) => void;
+    isEdit: boolean;
 }
 
 export default (props: DashboardContentProps) => {
     const { getIntlText } = useI18n();
     const { pluginsConfigs } = useGetPluginConfigs();
     const confirm = useConfirm();
-    const { dashboardDetail, getDashboards } = props;
+    const { dashboardDetail, getDashboards, onChangeIsEdit, isEdit } = props;
     const [isShowAddWidget, setIsShowAddWidget] = useState(false);
     const [isShowEditDashboard, setIsShowEditDashboard] = useState(false);
     const [widgets, setWidgets] = useState<WidgetDetail[]>([]);
     const [plugin, setPlugin] = useState<WidgetDetail>();
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-    const [isEdit, setIsEdit] = useState(false);
-    const [isFullscreen, setIsFullscreen] = useState(false);
+    // const [isEdit, setIsEdit] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
     const widgetsRef = useRef<any[]>([]);
 
@@ -64,6 +64,11 @@ export default (props: DashboardContentProps) => {
     }, [dashboardDetail.widgets, pluginsConfigs]);
 
     const dashboardId = dashboardDetail.dashboard_id;
+
+    // 变更编辑状态
+    const setIsEdit = (edit: boolean) => {
+        onChangeIsEdit(edit);
+    };
 
     const handleShowAddWidget = (event: React.MouseEvent<HTMLButtonElement>) => {
         setIsShowAddWidget(true);
@@ -193,15 +198,6 @@ export default (props: DashboardContentProps) => {
         if (mainRef.current?.requestFullscreen) {
             mainRef.current.requestFullscreen();
         }
-        setIsFullscreen(true);
-    };
-
-    // 退出全屏
-    const exitFullscreen = () => {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-        setIsFullscreen(false);
     };
 
     return (
