@@ -18,7 +18,8 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
-                        "accessMods": ["W", "RW"]
+                        "accessMods": ["W", "RW"],
+                        "entityExcludeChildren": true
                     },
                     "rules": {
                         "required": true

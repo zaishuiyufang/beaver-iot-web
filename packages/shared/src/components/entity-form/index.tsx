@@ -8,15 +8,20 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
     const { entities, onOk } = props;
 
     // 获取组件类型
-    const getComponentType = (entity: EntitySchema) => {
-        const type = entity?.value_attribute?.displayType;
+    const getComponentType = (entity: EntitySchema & EntityData) => {
+        const attr: any = entity?.value_attribute || {};
+        const type: any = entity?.entity_value_type;
+        const enumMap = attr?.enum || {};
         switch (type) {
             case entityType.string:
             case entityType.int:
             case entityType.float:
+                if (type === entityType.string && Object.keys(enumMap)?.length) {
+                    return 'Select';
+                }
                 return 'TextField';
             case entityType.boolean:
-                return 'Checkbox';
+                return 'Switch';
             case entityType.date:
                 return 'DatePicker';
             case entityType.enum:
@@ -27,12 +32,16 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
     };
 
     // 获取组件配置
-    const getComponentProps = (entity: EntitySchema) => {
-        const type = entity?.value_attribute?.displayType;
+    const getComponentProps = (entity: EntitySchema & EntityData, resultType?: string) => {
+        const attr: any = entity?.value_attribute || {};
+        const type = resultType || entity?.entity_value_type;
+        const keys = Object.keys(attr?.enum || {});
         const componentProps: any = {};
         switch (type) {
             case entityType.enum:
-                componentProps.options = entity?.value_attribute?.enumValues || [];
+                componentProps.options = keys?.map((key: string) => {
+                    return { label: key, value: attr?.enum[key] };
+                });
                 break;
             case entityType.int:
             case entityType.float:
@@ -44,9 +53,9 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
     };
 
     // 获取组件校验规则
-    const getComponentRules = (entity: EntitySchema) => {
-        const type = entity?.value_attribute?.displayType;
+    const getComponentRules = (entity: EntitySchema & EntityData) => {
         const attr: any = entity?.value_attribute || {};
+        const type: any = entity?.entity_value_type;
         const rules: rulesType = {};
         switch (type) {
             case entityType.string:
@@ -77,27 +86,51 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
         return rules;
     };
 
-    const formItems: UseFormItemsProps[] = useMemo(() => {
+    const formItems: Record<string, any> = useMemo(() => {
         if (entities?.length) {
             const forms: UseFormItemsProps[] = [];
-            entities.forEach((entity: EntitySchema) => {
+            const defaultValues: Record<string, any> = {};
+            entities.forEach((entity: any) => {
+                const type = getComponentType(entity);
+                const componentProps = {
+                    ...getComponentProps(entity, type === 'Select' ? entityType.enum : ''),
+                    size: 'small',
+                    isFullWidth: true,
+                    className: 'form-item',
+                };
+                if (entity?.entity_value_type !== entityType.boolean) {
+                    componentProps.style = { width: '100%' };
+                } else {
+                    defaultValues[entity.key] = false;
+                }
+                if (type === 'Select') {
+                    defaultValues[entity.key] = componentProps.options[0]?.value;
+                }
                 const item: UseFormItemsProps = {
-                    label: entity.name,
+                    label: entity.entity_name,
                     name: entity.key,
                     type: getComponentType(entity),
-                    props: {
-                        ...getComponentProps(entity),
-                    },
+                    props: componentProps,
                     rules: getComponentRules(entity),
                 };
                 forms.push(item);
             });
-            return forms;
+            return {
+                forms,
+                defaultValues,
+            };
         }
-        return [];
+        return {};
     }, [entities]);
 
-    return <Form formItems={formItems} onOk={onOk} ref={ref} />;
+    return (
+        <Form
+            formItems={formItems.forms || []}
+            defaultValues={formItems.defaultValues || {}}
+            onOk={onOk}
+            ref={ref}
+        />
+    );
 });
 
 export default EntityForm;

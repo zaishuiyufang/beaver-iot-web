@@ -1,8 +1,8 @@
 export enum entityType {
-    string = 'string',
-    int = 'int',
-    float = 'float',
-    boolean = 'boolean',
-    date = 'date',
-    enum = 'enum',
+    string = 'STRING',
+    int = 'INT',
+    float = 'FLOAT',
+    boolean = 'BOOLEAN',
+    date = 'DATA',
+    enum = 'ENUM',
 }

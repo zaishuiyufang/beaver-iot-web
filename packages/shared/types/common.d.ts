@@ -144,3 +144,9 @@ declare type ObjectToCamelCase<T extends object | undefined | null> = T extends 
                         ? ObjectToCamelCase<T[K]>
                         : T[K];
               };
+
+declare interface OptionsProps<T extends string | number = string | number> {
+    label: string;
+    value?: T;
+    options?: OptionsProps<T>[];
+}

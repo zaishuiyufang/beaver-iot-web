@@ -65,7 +65,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
             onCancel={handleClose}
             onOk={handleOk}
             title={title || getIntlText('common.plugin_add_title', { 1: config.type })}
-            width="80%"
+            width="1200px"
             visible
         >
             <div className="config-plugin-container">

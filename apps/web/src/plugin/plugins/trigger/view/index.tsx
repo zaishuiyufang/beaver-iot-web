@@ -58,6 +58,7 @@ const View = (props: Props) => {
                 setEntities(
                     res.map((item: EntityData) => {
                         return {
+                            ...item,
                             id: item.entity_id,
                             key: item.entity_key,
                             name: item.entity_name,
@@ -87,6 +88,13 @@ const View = (props: Props) => {
         handleUpdateProperty(data);
     };
 
+    if (configJson.isPreview) {
+        return (
+            <div className="trigger-view-preview">
+                <RenderView config={config} configJson={configJson} onClick={handleClick} />
+            </div>
+        );
+    }
     return (
         <>
             <RenderView config={config} configJson={configJson} onClick={handleClick} />
