@@ -44,10 +44,22 @@ const Widget = (props: WidgetProps) => {
                     <Suspense>
                         <ComponentView config={data.data.config} configJson={data.data} />
                     </Suspense>
+                    {isEdit && (
+                        <span
+                            className="dashboard-custom-resizable-handle dashboard-custom-resizable-handle-se"
+                            onClick={(e: any) => e.stopPropagation()}
+                        />
+                    )}
                 </div>
             ) : (
                 <div ref={widgetRef} className="dashboard-content-widget-main">
                     <RenderView configJson={data.data as any} config={data.data.config} />
+                    {isEdit && (
+                        <span
+                            className="dashboard-custom-resizable-handle dashboard-custom-resizable-handle-se"
+                            onClick={(e: any) => e.stopPropagation()}
+                        />
+                    )}
                 </div>
             )}
         </div>

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
-import RGL, { WidthProvider } from 'react-grid-layout';
+import GRL, { WidthProvider } from 'react-grid-layout';
 import { WidgetDetail } from '@/services/http/dashboard';
 import Widget from './widget';
 
-const ReactGridLayout = WidthProvider(RGL);
+const ReactGridLayout = WidthProvider(GRL);
 interface WidgetProps {
     onChangeWidgets: (widgets: any[]) => void;
     widgets: WidgetDetail[];
@@ -14,29 +14,44 @@ interface WidgetProps {
 const Widgets = (props: WidgetProps) => {
     const { widgets, onChangeWidgets, isEdit, onEdit } = props;
     const widgetRef = useRef<WidgetDetail[]>();
+    const requestRef = useRef<any>(null);
 
     useEffect(() => {
         widgetRef.current = widgets;
     }, [widgets]);
 
-    const handleChangeWidgets = (data: any[]) => {
-        const newData = widgets.map((widget: WidgetDetail) => {
-            const findWidget = data.find(
-                (item: any) =>
-                    (item.i && item.i === widget.widget_id) || (item.i && item.i === widget.tempId),
-            );
-            if (findWidget) {
-                return {
-                    ...widget,
-                    data: {
-                        ...widget.data,
-                        pos: findWidget,
-                    },
-                };
+    useEffect(() => {
+        return () => {
+            if (requestRef.current) {
+                cancelAnimationFrame(requestRef.current);
             }
-            return widget;
+        };
+    }, []);
+
+    const handleChangeWidgets = (data: any[]) => {
+        if (requestRef.current) {
+            cancelAnimationFrame(requestRef.current);
+        }
+        requestRef.current = requestAnimationFrame(() => {
+            const newData = widgets.map((widget: WidgetDetail) => {
+                const findWidget = data.find(
+                    (item: any) =>
+                        (item.i && item.i === widget.widget_id) ||
+                        (item.i && item.i === widget.tempId),
+                );
+                if (findWidget) {
+                    return {
+                        ...widget,
+                        data: {
+                            ...widget.data,
+                            pos: findWidget,
+                        },
+                    };
+                }
+                return widget;
+            });
+            onChangeWidgets(newData);
         });
-        onChangeWidgets(newData);
     };
 
     // 编辑组件
@@ -72,7 +87,11 @@ const Widgets = (props: WidgetProps) => {
             rowHeight={30}
             cols={24}
             onLayoutChange={handleChangeWidgets}
-            draggableCancel=".dashboard-content-widget-icon-img"
+            draggableCancel=".dashboard-content-widget-icon-img,.dashboard-custom-resizable-handle"
+            className={`${isEdit ? 'dashboard-content-widget-grid-edit' : 'dashboard-content-widget-grid-not-edit'}`}
+            resizeHandle={
+                <span className="dashboard-custom-resizable-handle dashboard-custom-resizable-handle-se" />
+            }
         >
             {widgets.map((data: WidgetDetail) => {
                 const id = (data.widget_id || data.tempId) as ApiKey;
