@@ -20,7 +20,21 @@
     position: relative;
 
     &-fullscreen {
+        padding: 6px @padding-md;
+        line-height: 1;
+        border: 1px solid rgba(52 145 250 / 0.5);
+        border-radius: @border-radius-base;
         cursor: pointer;
+        
+        &:hover {
+            background: rgba(52 145 250 / 0.04);
+            border: 1px solid var(--primary-color-6);
+        }
+
+        &-icon {
+            line-height: 0;
+            color: var(--primary-color-6);
+        }
     }
 
     &-add {
@@ -91,6 +105,8 @@
         &-widget {
             height: 100%;
             background: var(--main-background);
+            border: 1px solid transparent;
+            border-radius: @border-radius-base;
 
             &-main {
                 display: flex;
@@ -103,6 +119,7 @@
                 top: @margin-xs;
                 right: @margin-sm;
                 z-index: 2;
+                display: none;
 
                 &-img {
                     display: inline-block;
@@ -118,6 +135,14 @@
                         background: var(--gray-color-3);
                     }
                 }
+            }
+
+            &:hover {
+                border: 1px solid var(--primary-color-6);
+            }
+
+            &:hover &-icon-edit {
+                display: block;
             }
         }
     }

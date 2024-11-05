@@ -29,33 +29,16 @@
         {
             "components": [
                 {
-                    "type": "switch",
-                    "title": "Display Title",
-                    "key": "showTitle",
-                    "defaultValue": true
-                }
-            ]
-        },
-        {
-            "components": [
-                {
                     "type": "input",
                     "title": "Title",
                     "key": "title",
                     "defaultValue": "Title",
                     "componentProps": {
                         "size": "small"
+                    },
+                    "rules": {
+                        "required": true
                     }
-                }
-            ]
-        },
-        {
-            "components": [
-                {
-                    "title": "Display Icon",
-                    "type": "switch",
-                    "key": "showIcon",
-                    "defaultValue": true
                 }
             ]
         },
@@ -69,6 +52,9 @@
                     "style": "flex: 1;padding-right: 12px;",
                     "componentProps": {
                         "size": "small"
+                    },
+                    "rules": {
+                        "required": true
                     }
                 },
                 {
@@ -94,9 +80,6 @@
             "children": [
                 {
                     "tag": "icon",
-                    "showDepended": {
-                        "showIcon": true
-                    },
                     "styleDepended": {
                         "color": "iconColor"
                     },
@@ -106,9 +89,6 @@
                 },
                 {
                     "tag": "Tooltip",
-                    "showDepended": {
-                        "showTitle": true
-                    },
                     "params": [
                         "title"
                     ],

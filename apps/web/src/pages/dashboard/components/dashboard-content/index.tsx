@@ -10,7 +10,7 @@ import {
     toast,
 } from '@milesight/shared/src/components';
 import { cloneDeep } from 'lodash-es';
-import { useI18n, usePreventLeave } from '@milesight/shared/src/hooks';
+import { useI18n } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess } from '@/services/http';
 import { DashboardDetail, WidgetDetail } from '@/services/http/dashboard';
 import { useConfirm } from '@/components';
@@ -91,7 +91,6 @@ export default (props: DashboardContentProps) => {
     };
 
     const handleChangeWidgets = (data: any) => {
-        console.log('change', data);
         setWidgets(data);
     };
 
@@ -107,7 +106,7 @@ export default (props: DashboardContentProps) => {
         } else {
             newWidgets.push(data);
         }
-        widgetsRef.current = cloneDeep(newWidgets);
+        // widgetsRef.current = cloneDeep(newWidgets);
         handleChangeWidgets(newWidgets);
     };
 
@@ -264,10 +263,9 @@ export default (props: DashboardContentProps) => {
                     </div>
                 ) : (
                     <div className="dashboard-content-operate-right">
-                        <FullscreenIcon
-                            className="dashboard-fullscreen"
-                            onClick={enterFullscreen}
-                        />
+                        <div onClick={enterFullscreen} className="dashboard-fullscreen">
+                            <FullscreenIcon className="dashboard-fullscreen-icon" />
+                        </div>
                     </div>
                 )}
             </div>

@@ -10,6 +10,7 @@ import {
 } from '@/services/http';
 import ws, { getExChangeTopic } from '@/services/ws';
 import { Tooltip } from '../../../view-components';
+import { chartColorList } from '../../../constant';
 import { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -57,40 +58,50 @@ const View = (props: IProps) => {
 
     /** 渲染雷达图 */
     const renderRadarChart = () => {
-        const ctx = chartRef.current!;
-        const data = countData?.data?.count_result || [];
-        if (!ctx || !data?.length) return;
-        const chart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: data?.map(item => item.value), // 数据标签
-                datasets: [
-                    {
-                        // label: 'My First Dataset',
-                        data: data?.map(item => item.count) as any, // 数据值, // 数据值
-                        borderWidth: 1, // 边框宽度
-                    },
-                ],
-            },
-            options: {
-                responsive: true, // 使图表响应式
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right', // 图例位置
-                    },
-                    tooltip: {
-                        enabled: true, // 启用提示工具
+        try {
+            const ctx = chartRef.current!;
+            const data = countData?.data?.count_result || [];
+            if (!ctx || !data?.length) return;
+            const newChartColorList = [...chartColorList];
+            if (data.length < newChartColorList.length) {
+                newChartColorList.splice(data.length, newChartColorList.length - data.length);
+            }
+            const resultColor = newChartColorList.map(item => item.light);
+            const chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data?.map(item => String(item.value)), // 数据标签
+                    datasets: [
+                        {
+                            // label: 'My First Dataset',
+                            data: data?.map(item => item.count) as any, // 数据值, // 数据值
+                            borderWidth: 1, // 边框宽度
+                            backgroundColor: resultColor,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true, // 使图表响应式
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right', // 图例位置
+                        },
+                        tooltip: {
+                            enabled: true, // 启用提示工具
+                        },
                     },
                 },
-            },
-        });
-        return () => {
-            /**
-             * 清空图表数据
-             */
-            chart.destroy();
-        };
+            });
+            return () => {
+                /**
+                 * 清空图表数据
+                 */
+                chart.destroy();
+            };
+        } catch (error) {
+            console.error(error);
+        }
     };
     useEffect(() => {
         return renderRadarChart();

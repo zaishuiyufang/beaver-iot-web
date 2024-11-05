@@ -70,21 +70,23 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         >
             <div className="config-plugin-container">
                 <div className="config-plugin-container-left">
-                    <Suspense>
-                        {ComponentView ? (
-                            <Suspense>
-                                <ComponentView
-                                    config={formValues}
+                    <div className="config-plugin-container-left-view">
+                        <Suspense>
+                            {ComponentView ? (
+                                <Suspense>
+                                    <ComponentView
+                                        config={formValues}
+                                        configJson={{ ...config, isPreview: true }}
+                                    />
+                                </Suspense>
+                            ) : (
+                                <RenderView
                                     configJson={{ ...config, isPreview: true }}
+                                    config={formValues}
                                 />
-                            </Suspense>
-                        ) : (
-                            <RenderView
-                                configJson={{ ...config, isPreview: true }}
-                                config={formValues}
-                            />
-                        )}
-                    </Suspense>
+                            )}
+                        </Suspense>
+                    </div>
                 </div>
                 <div className="config-plugin-container-right">
                     {/* <Tabs className="ms-tabs" value={tabKey} onChange={handleChangeTabs}>

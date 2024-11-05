@@ -1,9 +1,16 @@
+.MuiTextField-root {
+    margin: 0 !important;
+    margin-top: @margin-sm !important;
+}
+
 .form {
     &-box {
         position: relative;
-        border: @border-base;
+        border: 1px solid rgba(var(--mui-palette-common-onBackgroundChannel) / 0.23);
         padding: @padding-sm;
         margin-bottom: @margin-md;
+        border-radius: @border-radius-base;
+
         &-label {
             position: absolute;
             background: var(--main-background);
@@ -14,6 +21,7 @@
     }
     &-item {
         margin: 0 !important;
-        margin-bottom: @margin-lg !important;
+        // margin-top: @margin-sm !important;
+        margin-bottom: @margin-xl !important;
     }
 }

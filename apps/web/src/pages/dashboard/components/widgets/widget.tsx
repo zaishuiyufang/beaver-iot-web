@@ -30,7 +30,9 @@ const Widget = (props: WidgetProps) => {
     return (
         <div className="dashboard-content-widget">
             {isEdit && (
-                <div className="dashboard-content-widget-icon">
+                <div
+                    className={`dashboard-content-widget-icon ${isEdit ? 'dashboard-content-widget-icon-edit' : ''}`}
+                >
                     <span className="dashboard-content-widget-icon-img" onClick={handleEdit}>
                         <EditOutlined />
                     </span>
