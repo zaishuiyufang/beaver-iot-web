@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { COMPONENTCLASS } from '@/plugin/constant';
 import { WidgetDetail } from '@/services/http/dashboard';
+import { Tooltip } from '@/components';
 import pluginImg from '@/assets/plugin.png';
 import { useGetPluginConfigs } from '../../hooks';
 import './style.less';
@@ -40,6 +41,9 @@ export default (props: PluginListProps) => {
                     plugins[className].list.push(plugin);
                 }
             });
+            if (!plugins.other?.list?.length) {
+                delete plugins.other;
+            }
             setPluginList(plugins);
         }
     }, [pluginsConfigs]);
@@ -83,12 +87,14 @@ export default (props: PluginListProps) => {
                                                                   }
                                                                   alt="plugin"
                                                               />
-                                                              <Typography
-                                                                  noWrap
-                                                                  className="dashboard-plugin-class-item-content-name"
+                                                              <Tooltip
+                                                                  title={pluginConfig.name}
+                                                                  autoEllipsis
                                                               >
-                                                                  {pluginConfig.name}
-                                                              </Typography>
+                                                                  <div className="dashboard-plugin-class-item-content-name">
+                                                                      {pluginConfig.name}
+                                                                  </div>
+                                                              </Tooltip>
                                                           </div>
                                                       </Grid>
                                                   );
