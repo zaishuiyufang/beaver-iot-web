@@ -45,7 +45,7 @@ export type ConfirmOptions = GlobalOptions & {
     title: string;
     /** 描述 */
     description?: React.ReactNode;
-    /** 确认按钮文案 */
+    /** 输入确认文案 */
     confirmText?: string;
     /** 自动关闭倒计时 */
     timer?: number;
