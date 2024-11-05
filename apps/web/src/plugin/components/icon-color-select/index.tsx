@@ -19,6 +19,7 @@ const IconColorSelect = (props: any) => {
     return (
         <Select
             {...rest}
+            className="icon-color-select"
             onOpen={handleOpen}
             onClose={handleClose}
             open={open}
@@ -36,13 +37,17 @@ const IconColorSelect = (props: any) => {
             )}
             renderOptions={() => {
                 return (
-                    <MenuItem onClick={handleOpen}>
+                    <MenuItem onClick={handleOpen} className="icon-color-select-menu">
                         <div
                             onClick={(e: any) => {
                                 e.stopPropagation();
                             }}
                         >
-                            <SketchPicker color={value} onChangeComplete={handleColorChange} />
+                            <SketchPicker
+                                width="320px"
+                                color={value}
+                                onChangeComplete={handleColorChange}
+                            />
                         </div>
                     </MenuItem>
                 );

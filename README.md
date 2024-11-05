@@ -1,25 +1,20 @@
-# Milesight IoT 应用构建助手
+# Beaver IOT 前端
 
-本仓库包含了 IOT 云生态所有前端项目，基于 Pnpm 的 Workspace 进行管理。基础技术栈包括：
-
-- 视图库：react
-- 请求库：axios
-- 组件库：@mui/material
-- 状态管理：zustand
-- 国际化：react-intl-universal
-- 通用 Hook：ahooks
+Beaver IOT 前端项目是一个 Monorepo 仓库，包含了 Web 应用及其依赖的构建脚本、项目规范、国际化、公共代码等子库，利用 Pnpm Workspace 进行管理，提供了统一的开发环境和构建流程，方便开发和维护。
 
 ## 目录结构
 
 ```
 mip-web
-├── apps
-│   └── web        # Web 应用
+├── apps            # 应用目录
+│   └── web         # Web 应用
 │
-├── packages
-│   ├── locales             # 国际化处理库
-│   ├── shared              # 共享资源库
-│   └── spec                # 项目规范库
+├── packages        # 依赖库目录
+│   ├── locales     # 国际化库
+│   ├── scripts     # 构建脚本库
+│   ├── shared      # 公共代码库
+│   └── spec        # 项目规范库
+│
 ├── README.md
 ├── package.json
 ├── pnpm-lock.yaml
@@ -30,35 +25,28 @@ mip-web
 
 ### 基础环境配置
 
-1. 安装 Node，Pnpm
+本项目推荐使用 Pnpm 对环境和依赖进行管理。以下介绍简单示例：
 
-    可以在 [Node 官网](https://nodejs.org/)下载最新的稳定版本（推荐下载 [nvm](https://github.com/nvm-sh/nvm) 管理本机 Node 版本）。
+> 为保证开发调试环境的一致性，我们约定基础环境版本需满足 `pnpm>=8.0.0`, `node>=20.0.0`，低于此版本的将不做额外的兼容支持。若已安装了 Pnpm & Node，可跳过此步骤。
 
-    > 为保证开发同学本地调试环境的一致性，请将本地基础依赖版本配置为 `node>=16.14`，`pnpm>=7.0`，低于此版本的基础环境将不做额外的兼容支持。
-
-    以 nvm 使用为例：
+1. 安装 Pnpm
 
     ```bash
-    # 安装最新稳定版
-    nvm install 16.17.1
-
-    # 使用 node@16.17.1 版本
-    nvm use 16.17.1
-
-    # 切换 16.17.1 为默认版本
-    nvm alias default 16.17.1
-
-    # 安装 pnpm
-    npm install -g pnpm
-
-    # 或者，从官网下载 Pnpm https://pnpm.io/zh/installation
-    # PowerShell on Windows
-    iwr https://get.pnpm.io/install.ps1 -useb | iex
+    curl -fsSL https://get.pnpm.io/install.sh | sh -
     ```
 
-    > 在 Windows 环境，若使用 NVM 切换 node 版本报权限错误，可右键「以管理员身份运行」打开终端，重新执行命令。
+    参考 [Pnpm 安装文档](https://pnpm.io/installation)。
 
-2. 克隆仓库到本地
+2. 安装 Node
+
+    ```bash
+    # 安装 Node.js 的 LTS 版本
+    pnpm env use --global lts
+    ```
+
+    参考 [Pnpm Node.js 环境管理文档](https://pnpm.io/cli/env)。
+
+3. 克隆仓库到本地
 
     生成 SSH Key（如果本地已有，可跳过）：
 
@@ -78,18 +66,16 @@ mip-web
 
     ```bash
     # 克隆仓库
-    git clone git@gitlab.yeastar.com:yeastar/mip/mip-web.git
+    git clone git@gitlab.milesight.com:oss/beaver-iot-web.git
 
     # 进入项目目录
-    cd mip-web
+    cd beaver-iot-web
 
     # 配置提交的用户名及邮箱
     # 若需全局修改，可增加 --global 参数
     git config user.name xxx
     git config user.email xxx@yeastar.com
     ```
-
-    > 访问 Gitlab 仓库需开通 LDAP 账户，可找运维 @徐世华 帮忙处理。账户开通后，再找项目负责人开通相应的仓库权限。
 
 ### 启动本地开发服务
 
@@ -102,40 +88,35 @@ pnpm i
 pnpm run start
 ```
 
-### 国际化语言包开发
+### 国际化开发
 
-智慧办公项目产品面向海外用户，因此我们所有展现在页面上的文案都需要经过国际化处理。前端依赖了 [react-intl-universal](https://github.com/alibaba/react-intl-universal)，文案处理步骤通常为：
+项目中集成了国际化支持，开发者可根据需要自行开启。
 
-1. 开发根据[国际化 key 规范](https://doc.weixin.qq.com/doc/w3_m_HnqAsZjvUYCX?scode=AMgAYAe8AAY8lvBdUEAUAAMga9AMs)，定义相应文案的 key 值
-2. 在 `locales/lang/en` 目录对应的模块增加相应国际化文案
-3. 在代码中使用，比如：
-    ```jsx
-    <h2>intl.get('common.button.confirm')<h2>
-    ```
-4. 提交代码库，待提测前 2~3 天，利用辅助工具，执行 `pnpm run i18n:export` 校验并导出所有增删的 key（该命令只校验新增文案，若要校验所有文案请使用 `pnpm run i18n:export-all`）
-5. 将映射表发到企微「智慧办公文案处理沟通群」，at 产品 @赵玉萍 处理
-6. 产品处理好文案后，会在群里回复
-7. 开发同学拿到文案包后，解压放入代码仓库 `packages/locales/import` 目录，覆盖原同名文件
-8. 在根目录执行 `pnpm run i18n:import`，完成国际化语言包的分包处理
-9. 检查格式无误后，开发同学即可将改动的 key 提交代码库，完成本次国际化语言包的处理
+所有文案均在 `packages/locales` 库维护，当要添加新的文案时，建议在 `packages/locales/src/lang/en` 相应模块中添加，开发完成后可使用 `pnpm run i18n:export` 命令将本次添加的所有文案导出为 json 文案，以便相关人员进行多语言翻译处理。
 
-### 部署发版
+翻译好的文案，可放入 `packages/locales/import` 目录下，然后执行 `pnpm run i18n:import` 命令将文案导入到 `packages/locales/src/lang` 中，即可在应用中使用。
 
-> Todo: 待补充..
+### 构建编译
+
+只需执行命令：
+
+```bash
+pnpm run build
+```
+
+以上命令将构建 Monorepo 中所有子应用和依赖库，构建产物将输出到各子库 `dist` 目录下。
 
 ### 常用命令
 
 | 命令 | 说明 |
 | ---- | ---- |
 | `pnpm run start` | 启动开发服务 |
-| `pnpm run dev` | 启动开发服务，包括 admin, open 两个子应用 |
-| `pnpm run dev:pkgs` | 启动 packages 开发服务（以 `@iot` 开头命名的库） |
+| `pnpm run build` | 开始构建编译 |
 | `pnpm run i18n:import` | 国际化文案导入 |
 | `pnpm run i18n:export` | 国际化文案导出，会同步执行文案校验（只校验新增文案） |
 | `pnpm run i18n:export-all` | 国际化文案导出，会同步执行文案校验（校验所有文案） |
 
-
 ## 相关链接
 
-- [Material UI](https://mui.com/material-ui)
-- [Zustand](https://zustand.docs.pmnd.rs)
+- [Pnpm](https://pnpm.io/)
+- [Node](https://nodejs.org/)
