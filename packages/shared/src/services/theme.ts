@@ -273,12 +273,21 @@ export const getMuiSchemes = () => {
  */
 export const getMuiComponents = (mode: ThemeType = 'light') => {
     const result: CssVarsThemeOptions['components'] = {
-        MuiButtonBase: {
-            defaultProps: {
-                // No more ripple, on the whole application 💣!
-                // disableRipple: true,
+        // MuiButtonBase: {
+        //     defaultProps: {
+        //         // No more ripple, on the whole application 💣!
+        //         // disableRipple: true,
+        //     },
+        //     styleOverrides: {
+        //         root: {
+        //             boxShadow: 'none',
+        //         },
+        //     },
+        // },
+        MuiButton: {
+            styleOverrides: {
+                root: { boxShadow: 'none' },
             },
-            // styleOverrides: {},
         },
         MuiChip: {
             defaultProps: {
@@ -299,6 +308,11 @@ export const getMuiComponents = (mode: ThemeType = 'light') => {
             defaultProps: {
                 size: 'small',
                 margin: 'dense',
+            },
+        },
+        MuiInputLabel: {
+            defaultProps: {
+                shrink: true,
             },
         },
         MuiTab: {
