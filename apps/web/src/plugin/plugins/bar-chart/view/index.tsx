@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import Chart from 'chart.js/auto'; // 引入 Chart.js
 import { useBasicChartEntity } from '@/plugin/hooks';
-import { Tooltip } from '../../../view-components';
+import { getChartColor } from '@/plugin/utils';
+import { Tooltip } from '@/plugin/view-components';
 import styles from './style.module.less';
 
 export interface ViewProps {
@@ -27,36 +28,42 @@ const View = (props: ViewProps) => {
     });
 
     useEffect(() => {
-        let chart: Chart<'bar', (string | number | null)[], string> | null = null;
-        if (chartRef.current) {
-            chart = new Chart(chartRef.current, {
-                type: 'bar',
-                data: {
-                    labels: chartLabels,
-                    datasets: chartShowData.map(chart => ({
-                        label: chart.entityLabel,
-                        data: chart.entityValues,
-                        borderWidth: 1,
-                    })),
-                },
-                options: {
-                    responsive: true, // 使图表响应式
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
+        try {
+            let chart: Chart<'bar', (string | number | null)[], string> | null = null;
+            const resultColor = getChartColor(chartShowData);
+            if (chartRef.current) {
+                chart = new Chart(chartRef.current, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: chartShowData.map((chart: any, index: number) => ({
+                            label: chart.entityLabel,
+                            data: chart.entityValues,
+                            borderWidth: 1,
+                            backgroundColor: resultColor[index],
+                        })),
+                    },
+                    options: {
+                        responsive: true, // 使图表响应式
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                            },
                         },
                     },
-                },
-            });
-        }
+                });
+            }
 
-        return () => {
-            /**
-             * 清空图表数据
-             */
-            chart?.destroy();
-        };
+            return () => {
+                /**
+                 * 清空图表数据
+                 */
+                chart?.destroy();
+            };
+        } catch (error) {
+            console.error(error);
+        }
     }, [chartLabels, chartShowData, chartRef]);
 
     return (

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Chart, { ChartConfiguration } from 'chart.js/auto'; // 引入 Chart.js
 import { useTheme } from '@milesight/shared/src/hooks';
-import { Tooltip } from '../../../view-components';
+import { Tooltip } from '@/plugin/view-components';
 import { useSource } from './hooks';
 import type { AggregateHistoryList, ViewConfigProps } from '../typings';
 import './style.less';
@@ -22,60 +22,64 @@ const View = (props: IProps) => {
         data: ChartConfiguration['data'],
         aggregateHistoryList: AggregateHistoryList[],
     ) => {
-        const ctx = chartRef.current!;
-        if (!ctx) return;
+        try {
+            const ctx = chartRef.current!;
+            if (!ctx) return;
 
-        const chart = new Chart(ctx, {
-            type: 'radar',
-            data,
-            options: {
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    tooltip: {
-                        filter: tooltipItem => {
-                            return tooltipItem.dataIndex <= aggregateHistoryList.length - 1; // 只显示真实的点
+            const chart = new Chart(ctx, {
+                type: 'radar',
+                data,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false,
                         },
-                        callbacks: {
-                            label: context => {
-                                const { raw, dataset, dataIndex } = context || {};
+                        tooltip: {
+                            filter: tooltipItem => {
+                                return tooltipItem.dataIndex <= aggregateHistoryList.length - 1; // 只显示真实的点
+                            },
+                            callbacks: {
+                                label: context => {
+                                    const { raw, dataset, dataIndex } = context || {};
 
-                                const label = dataset.label || '';
+                                    const label = dataset.label || '';
 
-                                // 获取单位
-                                const getUnit = () => {
-                                    const { entity } = aggregateHistoryList[dataIndex] || {};
-                                    const { rawData: currentEntity } = entity || {};
-                                    if (!currentEntity) return;
+                                    // 获取单位
+                                    const getUnit = () => {
+                                        const { entity } = aggregateHistoryList[dataIndex] || {};
+                                        const { rawData: currentEntity } = entity || {};
+                                        if (!currentEntity) return;
 
-                                    // 获取当前选中实体
-                                    const { entityValueAttribute } = currentEntity || {};
-                                    const { unit } = entityValueAttribute || {};
-                                    return unit;
-                                };
-                                const unit = getUnit();
+                                        // 获取当前选中实体
+                                        const { entityValueAttribute } = currentEntity || {};
+                                        const { unit } = entityValueAttribute || {};
+                                        return unit;
+                                    };
+                                    const unit = getUnit();
 
-                                // 自定义悬停时显示的文字内容
-                                return `${label}${raw}${unit || ''}`;
+                                    // 自定义悬停时显示的文字内容
+                                    return `${label}${raw}${unit || ''}`;
+                                },
                             },
                         },
                     },
-                },
-                elements: {
-                    line: {
-                        borderWidth: 3,
+                    elements: {
+                        line: {
+                            borderWidth: 3,
+                        },
                     },
                 },
-            },
-        });
+            });
 
-        return () => {
-            /**
-             * 清空图表数据
-             */
-            chart.destroy();
-        };
+            return () => {
+                /**
+                 * 清空图表数据
+                 */
+                chart.destroy();
+            };
+        } catch (error) {
+            console.error(error);
+        }
     };
     useEffect(() => {
         const historyList = aggregateHistoryList || [];

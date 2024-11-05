@@ -9,8 +9,8 @@ import {
     isRequestSuccess,
 } from '@/services/http';
 import ws, { getExChangeTopic } from '@/services/ws';
-import { Tooltip } from '../../../view-components';
-import { chartColorList } from '../../../constant';
+import { getChartColor } from '@/plugin/utils';
+import { Tooltip } from '@/plugin/view-components';
 import { ViewConfigProps } from '../typings';
 import './style.less';
 
@@ -62,11 +62,7 @@ const View = (props: IProps) => {
             const ctx = chartRef.current!;
             const data = countData?.data?.count_result || [];
             if (!ctx || !data?.length) return;
-            const newChartColorList = [...chartColorList];
-            if (data.length < newChartColorList.length) {
-                newChartColorList.splice(data.length, newChartColorList.length - data.length);
-            }
-            const resultColor = newChartColorList.map(item => item.light);
+            const resultColor = getChartColor(data);
             const chart = new Chart(ctx, {
                 type: 'pie',
                 data: {

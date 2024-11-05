@@ -1,3 +1,5 @@
+import { chartColorList } from './constant';
+
 /**
  * 自定义过滤实体选项数据映射对象
  * 若需自定义，通过 filterEntityMap 增加过滤函数往下扩展即可
@@ -15,4 +17,14 @@ export const filterEntityMap: Record<
             return e.valueType !== 'STRING' || e.rawData?.entityValueAttribute?.enum;
         });
     },
+};
+
+// 获取实际图表渲染的颜色顺序
+export const getChartColor = (data: any[]) => {
+    const newChartColorList = [...chartColorList];
+    if (data.length < newChartColorList.length) {
+        newChartColorList.splice(data.length, newChartColorList.length - data.length);
+    }
+    const resultColor = newChartColorList.map(item => item.light);
+    return resultColor;
 };

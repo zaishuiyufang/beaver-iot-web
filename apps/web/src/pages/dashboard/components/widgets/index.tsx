@@ -86,6 +86,7 @@ const Widgets = (props: WidgetProps) => {
             isResizable={isEdit}
             rowHeight={30}
             cols={24}
+            margin={[20, 20]}
             onLayoutChange={handleChangeWidgets}
             draggableCancel=".dashboard-content-widget-icon-img,.dashboard-custom-resizable-handle"
             className={`${isEdit ? 'dashboard-content-widget-grid-edit' : 'dashboard-content-widget-grid-not-edit'}`}
