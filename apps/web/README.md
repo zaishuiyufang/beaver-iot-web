@@ -1,6 +1,6 @@
-# MS 云生态管理后台
+# Beaver IoT Web
 
-本应用是 MileSight 云生态管理平台项目。基础技术栈包括：
+本项目是 Beaver IoT Web 应用，基础技术栈包括：
 
 - 视图库：React
 - 请求库：Axios
@@ -12,12 +12,11 @@
 ## 目录结构
 
 ```
-@iot/admin
+@app/web
 ├── public
 ├── src
 │   ├── assets                  # 图片资源
 │   ├── components              # 全局组件
-│   ├── config                  # 全局配置
 │   ├── hooks                   # 全局 Hooks
 │   ├── layouts                 # 布局组件
 │   ├── pages                   # 路由页面资源
@@ -34,8 +33,9 @@
 │   ├── services                # 通用服务
 │   ├── stores                  # 全局状态
 │   ├── styles                  # 全局样式
-│   ├── utils                   # 工具函数
+│   ├── main.ts                 # 应用入口
 │   └── typings.d.ts            # 类型约束
+│
 ├── index.html                  # 入口 Html
 ├── package.json
 ├── tsconfig.json

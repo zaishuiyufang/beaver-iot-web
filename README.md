@@ -1,6 +1,6 @@
-# Beaver IOT 前端
+# Beaver IoT 前端
 
-Beaver IOT 前端项目是一个 Monorepo 仓库，包含了 Web 应用及其依赖的构建脚本、项目规范、国际化、公共代码等子库，利用 Pnpm Workspace 进行管理，提供了统一的开发环境和构建流程，方便开发和维护。
+Beaver IoT 前端项目是一个 Monorepo 仓库，包含了 Web 应用及其依赖的构建脚本、项目规范、国际化、公共代码等子库，利用 Pnpm Workspace 进行管理，提供了统一的开发环境和构建流程，方便开发和维护。
 
 ## 目录结构
 
@@ -11,7 +11,7 @@ mip-web
 │
 ├── packages        # 依赖库目录
 │   ├── locales     # 国际化库
-│   ├── scripts     # 构建脚本库
+│   ├── scripts     # 公共脚本库
 │   ├── shared      # 公共代码库
 │   └── spec        # 项目规范库
 │
