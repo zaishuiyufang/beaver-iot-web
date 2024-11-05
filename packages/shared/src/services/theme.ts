@@ -191,7 +191,7 @@ export const getMuiSchemes = () => {
             contrastText: white,
         },
         background: {
-            default: grey[50],
+            default: grey[100],
         },
         text: {
             primary: grey[800],
