@@ -116,7 +116,9 @@ const InformationDetail = () => {
                                     </span>
                                 </div>
                             </div>
-                            <p className="desc">{basicInfo?.description}</p>
+                            {!!basicInfo?.description && (
+                                <p className="desc">{basicInfo.description}</p>
+                            )}
                         </Stack>
                     </div>
                     <Tabs
