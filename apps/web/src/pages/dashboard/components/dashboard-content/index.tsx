@@ -7,6 +7,7 @@ import {
     CheckIcon as Check,
     EditIcon as Edit,
     FullscreenIcon,
+    InfoIcon,
     toast,
 } from '@milesight/shared/src/components';
 import { cloneDeep } from 'lodash-es';
@@ -149,7 +150,8 @@ export default (props: DashboardContentProps) => {
     // 删除dashboard
     const handleDelete = async () => {
         confirm({
-            title: '',
+            title: getIntlText('common.label.delete'),
+            icon: <InfoIcon className="dashboard-confirm-delete-icon" />,
             description: getIntlText('dashboard.plugin.trigger_confirm_text'),
             confirmButtonText: getIntlText('common.button.confirm'),
             onConfirm: async () => {
