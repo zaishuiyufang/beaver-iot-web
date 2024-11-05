@@ -39,6 +39,8 @@ export type GlobalOptions = {
 };
 
 export type ConfirmOptions = GlobalOptions & {
+    /** 图标 */
+    icon?: React.ReactNode;
     /** 标题 */
     title: string;
     /** 描述 */

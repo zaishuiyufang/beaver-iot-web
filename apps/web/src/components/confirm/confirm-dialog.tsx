@@ -9,9 +9,11 @@ import {
     TextField,
     LinearProgress,
 } from '@mui/material';
+import cls from 'classnames';
 import { LoadingButton } from '@milesight/shared/src/components';
 import { DialogProps } from './types';
 import { defaultGlobalOptions } from './default-options';
+import './style.less';
 
 const initialConfirmInputState = {
     value: '',
@@ -29,6 +31,9 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
     const [confirmInput, setConfirmInput] = React.useState(initialConfirmInputState);
     const [loading, setLoading] = React.useState(false);
 
+    const className = cls(finalOptions.dialogProps?.className, 'ms-confirm', {
+        'ms-confirm-with-icon': finalOptions.icon,
+    });
     const isConfirmDisabled = Boolean(!confirmInput.isMatched && finalOptions?.confirmText);
 
     const handleConfirm = React.useCallback(async () => {
@@ -63,6 +68,7 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
         <Dialog
             {...finalOptions.dialogProps}
             open={show}
+            className={className}
             onClose={(_, reason) => {
                 if (finalOptions.disabledBackdropClose && reason === 'backdropClick') return;
                 handleCancelOnClose(onClose);
@@ -75,7 +81,12 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
                     {...finalOptions.timerProgressProps}
                 />
             )}
-            <DialogTitle {...finalOptions.dialogTitleProps}>{finalOptions.title!}</DialogTitle>
+            <DialogTitle {...finalOptions.dialogTitleProps}>
+                {!!finalOptions.icon && (
+                    <span className="ms-confirm-icon">{finalOptions.icon}</span>
+                )}
+                {finalOptions.title!}
+            </DialogTitle>
             <DialogContent {...finalOptions.dialogContentProps}>
                 {finalOptions?.description && (
                     <DialogContentText {...finalOptions.dialogContentTextProps}>
