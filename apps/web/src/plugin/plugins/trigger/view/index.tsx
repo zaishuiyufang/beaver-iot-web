@@ -10,13 +10,14 @@ import './style.less';
 interface Props {
     config: ViewConfigProps;
     configJson: CustomComponentProps;
+    isEdit?: boolean;
 }
 
 const View = (props: Props) => {
     const { getIntlText } = useI18n();
     const confirm = useConfirm();
     const { getEntityChildren, callService, updateProperty } = useEntityApi();
-    const { config, configJson } = props;
+    const { config, configJson, isEdit } = props;
     const [visible, setVisible] = useState(false);
     const [entities, setEntities] = useState([]);
     const ref = useRef<any>();
@@ -46,7 +47,7 @@ const View = (props: Props) => {
     };
 
     const handleClick = async () => {
-        if (configJson.isPreview) {
+        if (configJson.isPreview || isEdit) {
             return;
         }
         const { error, res } = await getEntityChildren({

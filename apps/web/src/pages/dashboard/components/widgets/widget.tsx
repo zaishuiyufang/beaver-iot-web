@@ -44,7 +44,11 @@ const Widget = (props: WidgetProps) => {
             {ComponentView ? (
                 <div ref={widgetRef} className="dashboard-content-widget-main">
                     <Suspense>
-                        <ComponentView config={data.data.config} configJson={data.data} />
+                        <ComponentView
+                            config={data.data.config}
+                            configJson={data.data}
+                            isEdit={isEdit}
+                        />
                     </Suspense>
                     {isEdit && (
                         <span
