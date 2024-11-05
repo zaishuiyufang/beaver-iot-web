@@ -1,4 +1,5 @@
 import { useMatches } from 'react-router';
+import { useTitle } from 'ahooks';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -27,6 +28,8 @@ function Layout() {
     if (!layout || !layouts[layout]) {
         layout = DEFAULT_LAYOUT;
     }
+
+    useTitle(getIntlText('common.document.title'));
 
     return (
         <ThemeProvider theme={muiTheme}>
