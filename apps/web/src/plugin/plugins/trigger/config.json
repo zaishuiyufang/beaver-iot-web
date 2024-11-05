@@ -1,6 +1,6 @@
 {
     "type": "trigger",
-    "name": "事件触发",
+    "name": "Trigger",
     "class": "operate",
     "icon": "./icon.png",
     "defaultRow": 3,
