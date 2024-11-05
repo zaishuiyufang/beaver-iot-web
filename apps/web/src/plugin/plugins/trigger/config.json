@@ -79,28 +79,40 @@
             },
             "children": [
                 {
-                    "tag": "icon",
-                    "styleDepended": {
-                        "color": "iconColor"
-                    },
-                    "params": [
-                        "icon"
-                    ]
-                },
-                {
                     "tag": "Tooltip",
+                    "class": "trigger-view-title",
+                    "style": "white-space: nowrap;overflow: hidden;text-overflow: ellipsis;",
                     "params": [
                         "title"
                     ],
                     "themes": {
                         "default": {
-                            "class": "trigger-view-title",
-                            "style": "white-space: nowrap;overflow: hidden;text-overflow: ellipsis"
+                            "style": "color: #272E3B"
+                        },
+                        "dark": {
+                            "style": "color: rgba(247, 248, 250, 0.86)"
                         }
                     },
                     "props": {
                         "autoEllipsis": true
                     }
+                },
+                {
+                    "tag": "div",
+                    "style": "display: flex;justify-content: center;flex: 1;align-items: center;",
+                    "children": [
+                        {
+                            "tag": "icon",
+                            "style": "font-size: 56px",
+                            "class": "trigger-view-icon",
+                            "styleDepended": {
+                                "color": "iconColor"
+                            },
+                            "params": [
+                                "icon"
+                            ]
+                        }
+                    ]
                 }
             ]
         }

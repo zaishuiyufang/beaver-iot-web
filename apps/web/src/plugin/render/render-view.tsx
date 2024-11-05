@@ -56,7 +56,14 @@ const View = (props: Props) => {
                 const icon = renderParams(tagProps?.params);
                 const IconTag = (Icons as any)[icon];
                 const iconStyle = style ? parseStyleString(style) : {};
-                return !!icon && <IconTag sx={{ ...iconStyle, ...dependStyle }} />;
+                return (
+                    !!icon && (
+                        <IconTag
+                            className={`${tagProps.class || ''} ${theme?.class || ''}`}
+                            sx={{ ...iconStyle, ...dependStyle }}
+                        />
+                    )
+                );
             }
             return (
                 <Tag
