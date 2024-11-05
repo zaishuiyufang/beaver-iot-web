@@ -1,8 +1,15 @@
 import { EventEmitter } from '@milesight/shared/src/utils/event-emitter';
 import { delay, withPromiseResolvers } from '@milesight/shared/src/utils/tools';
 import { awaitWrap } from '../http';
-import { splitExchangeTopic, transform } from './helper';
-import { EVENT_TYPE, MAX_RETRY, RETRY_DELAY, THROTTLE_TIME, WS_READY_STATE } from './constant';
+import { batchPush, splitExchangeTopic, transform } from './helper';
+import {
+    BATCH_PUSH_TIME,
+    EVENT_TYPE,
+    MAX_RETRY,
+    RETRY_DELAY,
+    THROTTLE_TIME,
+    WS_READY_STATE,
+} from './constant';
 import type { CallbackType, IEventEmitter, WsEvent } from './types';
 
 class WebSocketClient {
@@ -33,6 +40,32 @@ class WebSocketClient {
 
         const { resolve, reject, promise } = withPromiseResolvers<void>();
 
+        // WS消息批量推送
+        type Queue = { topics: string[]; data: any[] };
+        const { run: runWsPush, cancel: cancelWsPush } = batchPush((queue: Queue[][]) => {
+            const batchPushQueue = queue.reduce(
+                (bucket, item) => {
+                    const [{ topics, data }] = item || {};
+
+                    (topics || []).forEach(topic => {
+                        if (bucket[topic]) {
+                            bucket[topic].push(data);
+                        } else {
+                            bucket[topic] = [data];
+                        }
+                    });
+
+                    return bucket;
+                },
+                {} as Record<string, any[]>,
+            );
+
+            Object.keys(batchPushQueue).forEach(topic => {
+                const data = batchPushQueue[topic];
+                this.subscribeEvent.publish(topic, data);
+            });
+        }, BATCH_PUSH_TIME);
+
         // ws连接成功
         ws.onopen = () => {
             this.retryCount = 0;
@@ -41,6 +74,8 @@ class WebSocketClient {
         };
         // ws连接失败
         ws.onerror = async e => {
+            cancelWsPush();
+
             // 判断重连次数
             if (this.retryCount < MAX_RETRY) {
                 this.retryCount++;
@@ -64,6 +99,11 @@ class WebSocketClient {
             // 处理订阅事件
             const { event_type: eventType, payload } = (data as WsEvent) || {};
             const { entity_key: topics } = payload || {};
+
+            if (eventType === EVENT_TYPE.EXCHANGE) {
+                runWsPush({ topics: topics.map(topic => `${eventType}:${topic}`), data });
+                return;
+            }
             topics.forEach(topic => this.subscribeEvent.publish(`${eventType}:${topic}`, data));
         };
 

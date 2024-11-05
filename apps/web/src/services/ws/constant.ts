@@ -22,3 +22,5 @@ export const RETRY_DELAY = 1000;
 
 // 限制上报频率
 export const THROTTLE_TIME = 300;
+// 批量推送间隔
+export const BATCH_PUSH_TIME = 10 * 1000;
