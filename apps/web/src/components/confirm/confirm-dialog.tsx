@@ -33,6 +33,7 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
 
     const className = cls(finalOptions.dialogProps?.className, 'ms-confirm', {
         'ms-confirm-with-icon': finalOptions.icon,
+        'ms-confirm-without-title': !finalOptions.title && !finalOptions.icon,
     });
     const isConfirmDisabled = Boolean(!confirmInput.isMatched && finalOptions?.confirmText);
 
@@ -82,10 +83,14 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
                 />
             )}
             <DialogTitle {...finalOptions.dialogTitleProps}>
-                {!!finalOptions.icon && (
-                    <span className="ms-confirm-icon">{finalOptions.icon}</span>
+                {!!(finalOptions.icon || finalOptions.title) && (
+                    <div className="ms-confirm-title">
+                        {!!finalOptions.icon && (
+                            <span className="ms-confirm-icon">{finalOptions.icon}</span>
+                        )}
+                        {finalOptions.title!}
+                    </div>
                 )}
-                {finalOptions.title!}
             </DialogTitle>
             <DialogContent {...finalOptions.dialogContentProps}>
                 {finalOptions?.description && (
