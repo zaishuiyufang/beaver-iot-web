@@ -286,7 +286,10 @@ export const getMuiComponents = (mode: ThemeType = 'light') => {
         // },
         MuiButton: {
             styleOverrides: {
-                root: { boxShadow: 'none' },
+                root: {
+                    boxShadow: 'none',
+                    '&:hover': { boxShadow: 'none' },
+                },
             },
         },
         MuiChip: {
