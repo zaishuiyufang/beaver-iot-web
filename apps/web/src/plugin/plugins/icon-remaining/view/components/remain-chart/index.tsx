@@ -19,7 +19,6 @@ export default React.memo(({ Icon, iconColor, percent }: IProps) => {
             // @ts-ignore
             style={{ '--ms-remain-percent': percent }}
         >
-            <div className="ms-remain-chart__percent">{percent}%</div>
             {RenderIcon && (
                 <div className="ms-remain-chart__content">
                     <div className="ms-remain-chart__icon">

@@ -3,7 +3,6 @@ import { useForm, Controller, FieldValues, type SubmitHandler } from 'react-hook
 import { isEqual } from 'lodash-es';
 import useFormItems from './useForm';
 import { UseFormItemsProps, FormItemsProps } from './typings';
-import { flattenObject } from '../../utils/tools';
 import './style.less';
 
 interface formProps<T extends FieldValues> {
@@ -58,8 +57,7 @@ const Forms = <T extends FieldValues>(props: formProps<T>, ref: any) => {
     const onSubmit: SubmitHandler<T> = async (data: T) => {
         const result = await trigger(); // 手动触发验证
         if (result) {
-            const newData: any = flattenObject(data);
-            onOk(newData);
+            onOk(data);
         } else {
             console.error('Validation failed');
         }

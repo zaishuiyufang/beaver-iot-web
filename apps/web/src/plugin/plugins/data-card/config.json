@@ -3,8 +3,10 @@
     "name": "Card",
     "class": "data_card",
     "icon": "./icon.png",
-    "defaultRow": 3,
-    "defaultCol": 2,
+    "defaultRow": 4,
+    "defaultCol": 6,
+    "minRow": 4,
+    "minCol": 6,
     "configProps": [
         {
             "style": "width: 100%",

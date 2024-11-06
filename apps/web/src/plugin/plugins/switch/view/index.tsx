@@ -150,13 +150,13 @@ const View = (props: ViewProps) => {
 
     return (
         <div className={styles['switch-wrapper']}>
+            <div className={styles.icon}>{IconComponent}</div>
             <div className={styles.content}>
+                <Tooltip className={styles.text} autoEllipsis title={title} />
                 <div className={styles.body}>
                     <Switch value={isSwitchOn} title={switchTitle} onChange={handleSwitchChange} />
                 </div>
-                <Tooltip className={styles.text} autoEllipsis title={title} />
             </div>
-            <div className={styles.icon}>{IconComponent}</div>
         </div>
     );
 };

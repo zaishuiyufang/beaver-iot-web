@@ -104,6 +104,7 @@ export default (props: WidgetProps) => {
 
     const handleOk = (data: any) => {
         const now = String(new Date().getTime());
+        console.log(data);
         const widgetData = {
             widget_id: config?.widget_id,
             tempId: config.tempId || now,
@@ -113,8 +114,8 @@ export default (props: WidgetProps) => {
                 pos: {
                     w: config.data.defaultCol,
                     h: config.data.defaultRow,
-                    // minW: config.data.minCol,
-                    // minH: config.data.minRow,
+                    minW: config.data.minCol,
+                    minH: config.data.minRow,
                     // maxW: config.data.maxCol,
                     // maxH: config.data.maxRow,
                     ...config.data.pos,

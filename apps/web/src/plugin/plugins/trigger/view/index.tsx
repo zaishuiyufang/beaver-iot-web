@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Modal, EntityForm, toast } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
+import { flattenObject } from '@milesight/shared/src/utils/tools';
 import { useConfirm } from '@/components';
 import { useEntityApi, type CallServiceType } from '../../../hooks';
 import { RenderView } from '../../../render';
@@ -85,7 +86,8 @@ const View = (props: Props) => {
     };
 
     const handleSubmit = (data: Record<string, any>) => {
-        handleUpdateProperty(data);
+        const newData: any = flattenObject(data);
+        handleUpdateProperty(newData);
     };
 
     if (configJson.isPreview) {
