@@ -77,7 +77,10 @@ const EntitySelect = (props: EntitySelectProps) => {
             loading={loading}
             filterOptions={options => options}
             onInputChange={(_, keyword, reason) => {
-                if (reason !== 'input') return;
+                if (reason !== 'input') {
+                    getEntityOptions();
+                    return;
+                }
 
                 getEntityOptions(keyword);
             }}

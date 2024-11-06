@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, Checkbox } from '@mui/material';
+import { Autocomplete, TextField, Checkbox, Tooltip, Chip } from '@mui/material';
 
 import type { AutocompleteProps } from '@mui/material';
 
@@ -100,11 +100,24 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
             loading={loading}
             filterOptions={options => options}
             onInputChange={(_, keyword, reason) => {
-                if (reason !== 'input') return;
+                if (reason !== 'input') {
+                    getEntityOptions();
+                    return;
+                }
 
                 getEntityOptions(keyword);
             }}
             isOptionEqualToValue={(option, currentVal) => option.value === currentVal.value}
+            renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                    const { key, ...tagProps } = getTagProps({ index });
+                    return (
+                        <Tooltip key={key} title={option.description}>
+                            <Chip label={option.label} {...tagProps} />
+                        </Tooltip>
+                    );
+                })
+            }
         />
     );
 };
