@@ -1,2 +1,2 @@
-export { default as Config } from './config';
-export { default as Functions } from './functions';
+export { default as MscContent } from './msc-content';
+export { default as GeneralContent } from './general-content';

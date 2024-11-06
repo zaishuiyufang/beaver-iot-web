@@ -123,6 +123,7 @@ const EntityForm = forwardRef((props: EntityFormProps, ref: any) => {
         return {};
     }, [entities]);
 
+    console.log({ formItems });
     return (
         <Form
             formItems={formItems.forms || []}

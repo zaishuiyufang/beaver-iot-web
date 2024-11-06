@@ -3,7 +3,7 @@ import { useI18n } from '@milesight/shared/src/hooks';
 import { ChevronRightIcon, toast } from '@milesight/shared/src/components';
 import { entityAPI, awaitWrap, isRequestSuccess } from '@/services/http';
 import { useConfirm, Tooltip } from '@/components';
-import { useEntity, type InteEntityType } from '../../hooks';
+import { useEntity, type InteEntityType } from '../../../hooks';
 import './style.less';
 
 // interface FormDataProps {

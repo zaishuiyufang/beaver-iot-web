@@ -91,7 +91,7 @@ const useDynamicFormItems = ({ entities }: Props) => {
         });
 
         return result;
-    }, [entities]);
+    }, [entities, getIntlText]);
 
     return formItems;
 };

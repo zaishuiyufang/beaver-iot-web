@@ -17,7 +17,7 @@ const TabPanel = memo((props: TabPanelProps) => {
             role="tabpanel"
             hidden={value !== index}
             id={`ms-tabpanel-${index}`}
-            className="ms-tabpanel"
+            className={`ms-tabpanel ms-tabpanel-${index}`}
             aria-labelledby={`ms-tab-${index}`}
             {...other}
         >

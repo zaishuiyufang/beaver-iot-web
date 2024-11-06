@@ -49,8 +49,12 @@ export interface IntegrationAPISchema extends APISchema {
                 name: string;
                 /** 实体类型 */
                 type: EntityType;
+                /** 实体父级 ID */
+                parent?: ApiKey;
+                /** 访问模式 */
+                access_mod?: EntityAccessMode;
                 /** 实体属性 */
-                value_attribute: Record<string, any>;
+                value_attribute: Partial<EntityValueAttributeType>;
                 /** 实体值 */
                 value: string;
                 /** 实体值类型 */

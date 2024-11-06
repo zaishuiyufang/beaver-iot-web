@@ -1,0 +1,24 @@
+.@{prefix}-inte-detail-general {
+    .@{prefix}-tabpanel {
+        min-height: 100%;
+        border-radius: @border-radius-base;
+
+        &-property {
+            padding: @padding-lg;
+            background-color: var(--component-background);
+        }
+    }
+
+    .@{prefix}-entity-property {
+        .form-wrap {
+            max-width: 50%;
+        }
+
+        &.loading {
+            .form-wrap {
+                opacity: .5;
+                pointer-events: none;
+            }
+        }
+    }
+}

@@ -53,8 +53,16 @@
     }
 
     &__body {
+        display: flex;
         flex: 1;
-        padding: @padding-lg;
-        overflow: auto;
+        flex-direction: column;
+        height: 0;
+
+        .@{prefix}-tabs-content {
+            flex: 1;
+            height: 0;
+            padding: @padding-lg;
+            overflow: auto;
+        }
     }
 }

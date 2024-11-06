@@ -9,7 +9,7 @@ import {
     toast,
 } from '@milesight/shared/src/components';
 import { entityAPI, awaitWrap, isRequestSuccess } from '@/services/http';
-import { useEntity, type InteEntityType } from '../../../hooks';
+import { useEntity, type InteEntityType } from '../../../../hooks';
 import WebhookModal, {
     WEBHOOK_URL,
     WEBHOOK_KEYS,
@@ -75,7 +75,6 @@ const Services: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
                 {} as Record<string, any>,
             );
 
-        // console.log({ params, finalParams });
         if (!finalParams || !Object.keys(finalParams).length) {
             console.warn(`params is empty, the origin params is ${JSON.stringify(params)}`);
             return;
@@ -107,7 +106,6 @@ const Services: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
                 {} as Record<string, any>,
             );
 
-        console.log({ finalParams });
         if (!finalParams || !Object.keys(finalParams).length) {
             console.warn(`params is empty, the origin params is ${JSON.stringify(params)}`);
             return;
@@ -205,12 +203,6 @@ const Services: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
                                         ].sx
                                     }
                                 />
-                                {/* <Chip
-                                    label={getIntlText(
-                                        'setting.integration.webhook_status_waiting',
-                                    )}
-                                    sx={{ bgcolor: blue[200], color: 'primary.main' }}
-                                /> */}
                             </span>
                         </div>
                         <div className="service-prop">

@@ -50,7 +50,7 @@ export interface DeviceAPISchema extends APISchema {
                 key: ApiKey;
                 name: string;
                 type: EntityType;
-                value_attribute: Record<string, any>;
+                value_attribute: Partial<EntityValueAttributeType>;
                 value_type: EntityValueDataType;
             }[];
         };

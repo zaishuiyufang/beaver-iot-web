@@ -6,7 +6,7 @@ import { useI18n, useTheme } from '@milesight/shared/src/hooks';
 import { flattenObject } from '@milesight/shared/src/utils/tools';
 import { InfoOutlinedIcon, LoadingButton, toast } from '@milesight/shared/src/components';
 import { entityAPI, awaitWrap, isRequestSuccess } from '@/services/http';
-import { useEntity, type InteEntityType } from '../../hooks';
+import { useEntity, type InteEntityType } from '../../../hooks';
 import Services from './services';
 import useFormItems, { OPENAPI_KEYS, type FormDataProps } from './useFormItems';
 import './style.less';

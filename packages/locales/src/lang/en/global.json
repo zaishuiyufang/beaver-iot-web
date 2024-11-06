@@ -144,5 +144,7 @@
     "valid.input.username": "The username must include both upper and lower case letters.",
     "valid.input.value": "Input value: {0} only.",
     "valid.input.version": "The version number does not comply with the specification.",
-    "valid.resp.at_least_one": "Please select at least one {1}."
+    "valid.resp.at_least_one": "Please select at least one {1}.",
+    "common.label.property": "Property",
+    "common.label.service": "Service"
 }

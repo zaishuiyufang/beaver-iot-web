@@ -1,12 +1,10 @@
-import { useState, useMemo, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { Stack, Tabs, Tab } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useRequest } from 'ahooks';
-import { useI18n } from '@milesight/shared/src/hooks';
 import { DevicesOtherIcon, EntityIcon } from '@milesight/shared/src/components';
 import { thousandSeparate, objectToCamelCase } from '@milesight/shared/src/utils/tools';
-import { useRouteTab } from '@/hooks';
-import { Breadcrumbs, TabPanel } from '@/components';
+import { Breadcrumbs } from '@/components';
 import {
     integrationAPI,
     IntegrationAPISchema,
@@ -14,7 +12,7 @@ import {
     getResponseData,
     isRequestSuccess,
 } from '@/services/http';
-import { Config, Functions } from './components';
+import { GeneralContent, MscContent } from './components';
 import './style.less';
 
 type TabKey = 'config' | 'function';
@@ -26,7 +24,6 @@ type TabItem = {
 
 const InformationDetail = () => {
     const { integrationId } = useParams();
-    const { getIntlText } = useI18n();
 
     // ---------- 集成详情数据逻辑 ----------
     const { state } = useLocation();
@@ -51,28 +48,12 @@ const InformationDetail = () => {
             refreshDeps: [integrationId],
         },
     );
+    const isMscIntegration = basicInfo?.id === 'msc-integration';
 
     useLayoutEffect(() => {
         if (!state?.id || state.id !== integrationId) return;
         setBasicInfo(state);
     }, [state, integrationId]);
-
-    // ---------- Tab 相关逻辑 ----------
-    const tabs = useMemo<TabItem[]>(() => {
-        return [
-            {
-                key: 'config',
-                label: getIntlText('setting.integration.configuration'),
-                component: <Config entities={entityList} onUpdateSuccess={refreshInteDetail} />,
-            },
-            {
-                key: 'function',
-                label: getIntlText('setting.integration.available_function'),
-                component: <Functions entities={entityList} />,
-            },
-        ];
-    }, [entityList, getIntlText, refreshInteDetail]);
-    const [tabKey, setTabKey] = useRouteTab<TabKey>(tabs[0].key);
 
     return (
         <div className="ms-main">
@@ -121,24 +102,13 @@ const InformationDetail = () => {
                             )}
                         </Stack>
                     </div>
-                    <Tabs
-                        className="ms-tabs"
-                        value={tabKey}
-                        onChange={(_, value) => setTabKey(value)}
-                    >
-                        {tabs.map(({ key, label }) => (
-                            <Tab key={key} value={key} title={label} label={label} />
-                        ))}
-                    </Tabs>
                 </div>
                 <div className="ms-view-int-detail__body">
-                    <div className="content">
-                        {tabs.map(({ key, component }) => (
-                            <TabPanel value={tabKey} index={key} key={key}>
-                                {component}
-                            </TabPanel>
-                        ))}
-                    </div>
+                    {isMscIntegration ? (
+                        <MscContent entities={entityList} onUpdateSuccess={refreshInteDetail} />
+                    ) : (
+                        <GeneralContent entities={entityList} onUpdateSuccess={refreshInteDetail} />
+                    )}
                 </div>
             </div>
         </div>
