@@ -23,6 +23,9 @@ const Property: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
     const propEntities = useMemo(() => {
         return entities?.filter(item => item.type === 'PROPERTY' && item.accessMod?.includes('W'));
     }, [entities]);
+    const readOnlyProps = useMemo(() => {
+        return entities?.filter(item => item.type === 'PROPERTY' && item.accessMod === 'R');
+    }, [entities]);
 
     // ---------- 实体表单相关逻辑处理 ----------
     const { control, formState, handleSubmit, setValue } = useForm<EntityFormDataProps>();
@@ -56,8 +59,20 @@ const Property: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
         });
     }, [propEntities, setValue, encodeFormData]);
 
+    console.log({ readOnlyProps, propEntities });
     return (
         <div className={cls('ms-entity-property', { loading: formState.isSubmitting })}>
+            <div className="detail-wrap">
+                {readOnlyProps?.map(props => (
+                    <div className="detail-item" key={props.name}>
+                        <div className="detail-label">
+                            {props.name}
+                            {getIntlText('common.symbol.colon')}
+                        </div>
+                        <div className="detail-value">{props.value || '-'}</div>
+                    </div>
+                ))}
+            </div>
             <div className="form-wrap">
                 {formItems.map(props => (
                     <Controller<EntityFormDataProps>

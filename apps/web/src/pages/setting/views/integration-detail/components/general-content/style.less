@@ -10,6 +10,24 @@
     }
 
     .@{prefix}-entity-property {
+        .detail-wrap {
+            max-width: 50%;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: @margin-sm;
+
+            .detail-label {
+                color: var(--text-color-secondary);
+            }
+
+            .detail-value {
+                flex: 1;
+                margin-left: @margin-sm;
+            }
+        }
+
         .form-wrap {
             max-width: 50%;
         }

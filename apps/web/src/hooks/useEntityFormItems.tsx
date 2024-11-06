@@ -134,6 +134,7 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
             const attr = entity.valueAttribute || {};
             const validate = getValidators(entity, isAllRequired);
 
+            // OBJECT 类型为「分组」，暂不做处理
             switch (entity.valueType) {
                 case 'LONG':
                 case 'DOUBLE':
@@ -218,8 +219,7 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                     });
                     break;
                 }
-                case 'BINARY':
-                case 'OBJECT': {
+                case 'BINARY': {
                     result.push({
                         name: encodedEntityKeys[entity.key],
                         rules: { validate },
@@ -250,7 +250,7 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
         });
 
         return result;
-    }, [entities, encodedEntityKeys]);
+    }, [entities, isAllRequired, encodedEntityKeys]);
 
     return {
         formItems,
