@@ -13,7 +13,7 @@ import useI18n from '../../hooks/useI18n';
 import LoadingButton from '../loading-button';
 import './style.less';
 
-export interface ModalProps extends Omit<DialogProps, 'open'> {
+export interface ModalProps {
     /**
      * 取消按钮文字
      */
@@ -72,7 +72,6 @@ const Modal: React.FC<ModalProps> = ({
     onOkText,
     onCancelText,
     className,
-    sx,
     disabledBackdropClose = true,
     onOk,
     onCancel,
@@ -121,7 +120,7 @@ const Modal: React.FC<ModalProps> = ({
             className={cls('ms-modal-root', className)}
             open={!!visible}
             onClose={handleClose}
-            sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' }, ...sx }}
+            sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}
         >
             {!!title && (
                 <DialogTitle sx={{ m: 0, paddingX: 3, paddingY: 2 }} id="customized-dialog-title">

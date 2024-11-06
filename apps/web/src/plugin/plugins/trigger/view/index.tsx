@@ -105,9 +105,6 @@ const View = (props: Props) => {
                     title={configJson.name}
                     onOk={handleOk}
                     onCancel={() => setVisible(false)}
-                    sx={{
-                        zIndex: 9999,
-                    }}
                     visible
                 >
                     {/* @ts-ignore: Mock 数据字段缺失，暂忽略 ts 校验报错 */}
