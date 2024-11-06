@@ -30,7 +30,7 @@ export default (props: WidgetProps) => {
             ...config,
             data: {
                 ...(config?.data || {}),
-                ...data,
+                config: { ...data },
             },
         });
     };
@@ -104,7 +104,6 @@ export default (props: WidgetProps) => {
 
     const handleOk = (data: any) => {
         const now = String(new Date().getTime());
-        console.log(data);
         const widgetData = {
             widget_id: config?.widget_id,
             tempId: config.tempId || now,

@@ -45,8 +45,8 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
         formRef.current?.handleSubmit();
     };
 
-    const handleSubmit = (data: any) => {
-        onOk?.(data);
+    const handleSubmit = (_data: any) => {
+        onOk?.(formValues);
     };
 
     // 切换tab页签
