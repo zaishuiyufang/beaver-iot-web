@@ -123,7 +123,6 @@
     "common.switch.sure": "是",
     "common.switch.no": "否",
     "common.plugin_add_title": "添加{1}",
-    "common.plugin_edit_title": "编辑{1}",
     "common.label.title": "标题",
     "common.label.entity": "实体",
     "common.modal.desc_leave_current_page": "离开当前页面不会保存当前更改，您确定要离开吗？",

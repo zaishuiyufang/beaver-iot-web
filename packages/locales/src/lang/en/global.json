@@ -124,7 +124,6 @@
     "common.switch.no": "no",
     "common.message.error_user_business_details_not_exist": "用户没有商务参数",
     "common.plugin_add_title": "Add {1}",
-    "common.plugin_edit_title": "Edit {1}",
     "common.label.dashboard": "Dashboard",
     "common.label.device": "Device",
     "common.label.setting": "Setting",

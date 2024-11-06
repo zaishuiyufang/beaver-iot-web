@@ -142,7 +142,7 @@ export default (props: WidgetProps) => {
             onChange={handleChange}
             title={
                 config.widget_id || config.tempId
-                    ? getIntlText('common.plugin_edit_title', { 1: config?.data?.type })
+                    ? getIntlText('common.label.edit_title', { 1: config?.data?.type })
                     : getIntlText('common.plugin_add_title', { 1: config?.data?.type })
             }
         />
