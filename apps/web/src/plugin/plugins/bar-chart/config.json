@@ -3,6 +3,10 @@
     "name": "Bar Chart",
     "class": "data_chart",
     "icon": "./icon.png",
+    "defaultRow": 6,
+    "defaultCol": 8,
+    "minRow": 4,
+    "minCol": 4,
     "configProps": [
         {
             "style": "width: 100%",
@@ -63,7 +67,5 @@
             ]
         }
     ],
-    "view": [],
-    "defaultRow": 6,
-    "defaultCol": 8
+    "view": []
 }

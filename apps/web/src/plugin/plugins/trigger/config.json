@@ -3,8 +3,10 @@
     "name": "Trigger",
     "class": "operate",
     "icon": "./icon.png",
-    "defaultRow": 3,
-    "defaultCol": 2,
+    "defaultRow": 4,
+    "defaultCol": 4,
+    "minRow": 4,
+    "minCol": 4,
     "configProps": [
         {
             "style": "width: 100%",
@@ -82,7 +84,7 @@
                 {
                     "tag": "Tooltip",
                     "class": "trigger-view-title",
-                    "style": "white-space: nowrap;overflow: hidden;text-overflow: ellipsis;",
+                    "style": "white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-weight: 600;",
                     "params": [
                         "title"
                     ],

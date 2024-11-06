@@ -50,15 +50,6 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                         : undefined;
                     const { type, style, valueType, componentProps, ...restItem } = component;
                     const rules: any = { ...(component.rules || {}) };
-                    // if (rules.required) {
-                    //     if (component.valueType === 'array') {
-                    //         rules.validate = (value: any[]) => value?.length > 0;
-                    //     }
-                    //     if (component.valueType === 'object') {
-                    //         rules.validate = (value: any) =>
-                    //             !!value || getIntlText('valid.input.required');
-                    //     }
-                    // }
                     formItems.push({
                         rules,
                         label: component.title,
@@ -85,6 +76,10 @@ const CreatePlugin = forwardRef((props: IPlugin, ref: any) => {
                             } else {
                                 defaultValues[component.key] = value;
                             }
+                            if (!defaultValues[component.key] && value) {
+                                defaultValues[component.key] = value;
+                            }
+
                             return (
                                 <Component
                                     {...restItem}

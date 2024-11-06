@@ -3,6 +3,10 @@
     "name": "Line Chart",
     "class": "data_chart",
     "icon": "./icon.png",
+    "defaultRow": 8,
+    "defaultCol": 8,
+    "minRow": 4,
+    "minCol": 4,
     "configProps": [
         {
             "style": "width: 100%",
@@ -58,7 +62,5 @@
             ]
         }
     ],
-    "view": [],
-    "defaultRow": 8,
-    "defaultCol": 8
+    "view": []
 }
