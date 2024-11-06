@@ -304,6 +304,7 @@ export default (props: DashboardContentProps) => {
                         onChangeWidgets={handleChangeWidgets}
                         isEdit={isEdit}
                         onEdit={handleSelectPlugin}
+                        mainRef={mainRef}
                     />
                 </div>
             )}

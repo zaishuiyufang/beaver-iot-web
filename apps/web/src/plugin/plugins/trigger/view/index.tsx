@@ -12,13 +12,14 @@ interface Props {
     config: ViewConfigProps;
     configJson: CustomComponentProps;
     isEdit?: boolean;
+    mainRef: any;
 }
 
 const View = (props: Props) => {
     const { getIntlText } = useI18n();
     const confirm = useConfirm();
     const { getEntityChildren, callService, updateProperty } = useEntityApi();
-    const { config, configJson, isEdit } = props;
+    const { config, configJson, isEdit, mainRef } = props;
     const [visible, setVisible] = useState(false);
     const [entities, setEntities] = useState([]);
     const ref = useRef<any>();
@@ -32,7 +33,11 @@ const View = (props: Props) => {
             },
         } as CallServiceType);
         if (!error) {
-            toast.success(getIntlText('common.message.operation_success'));
+            toast.success({
+                key: 'callService',
+                // container: mainRef.current,
+                content: getIntlText('common.message.operation_success'),
+            });
         }
     };
 
@@ -43,7 +48,11 @@ const View = (props: Props) => {
         } as CallServiceType);
         if (!error) {
             setVisible(false);
-            toast.success(getIntlText('common.message.operation_success'));
+            toast.success({
+                key: 'updateProperty',
+                // container: mainRef.current,
+                content: getIntlText('common.message.operation_success'),
+            });
         }
     };
 
@@ -54,8 +63,9 @@ const View = (props: Props) => {
         const { error, res } = await getEntityChildren({
             id: (config?.entity as any)?.value as ApiKey,
         });
+        const entityType = config?.entity?.rawData?.entityType;
         if (!error) {
-            if (res?.length) {
+            if (res?.length && entityType === 'PROPERTY') {
                 setEntities(
                     res.map((item: EntityData) => {
                         return {
@@ -68,7 +78,7 @@ const View = (props: Props) => {
                     }),
                 );
                 setVisible(true);
-            } else {
+            } else if (entityType === 'SERVICE') {
                 confirm({
                     title: '',
                     description: getIntlText('dashboard.plugin.trigger_confirm_text'),
@@ -76,6 +86,15 @@ const View = (props: Props) => {
                     onConfirm: async () => {
                         handleCallService();
                     },
+                    dialogProps: {
+                        container: mainRef.current,
+                    },
+                });
+            } else {
+                toast.error({
+                    key: 'handleError',
+                    // container: mainRef.current,
+                    content: getIntlText('common.message.no_results_found'),
                 });
             }
         }
@@ -97,18 +116,22 @@ const View = (props: Props) => {
             </div>
         );
     }
+
     return (
         <>
             <RenderView config={config} configJson={configJson} onClick={handleClick} />
-            {visible && (
+            {visible && !!mainRef.current && (
                 <Modal
                     title={configJson.name}
                     onOk={handleOk}
                     onCancel={() => setVisible(false)}
+                    container={mainRef.current}
                     visible
                 >
-                    {/* @ts-ignore: Mock 数据字段缺失，暂忽略 ts 校验报错 */}
-                    <EntityForm ref={ref} entities={entities} onOk={handleSubmit} />
+                    <div className="trigger-view-form">
+                        {/* @ts-ignore: Mock 数据字段缺失，暂忽略 ts 校验报错 */}
+                        <EntityForm ref={ref} entities={entities} onOk={handleSubmit} />
+                    </div>
                 </Modal>
             )}
         </>

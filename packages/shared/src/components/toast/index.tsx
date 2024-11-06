@@ -15,7 +15,11 @@ interface Toast {
     onClose?: (event: Event | React.SyntheticEvent<any, Event>) => void;
 }
 
-type Params = string | PartialOptional<Omit<Toast, 'severity'>, 'key' | 'duration'>;
+type Params =
+    | string
+    | (PartialOptional<Omit<Toast, 'severity'>, 'key' | 'duration'> & {
+          container?: HTMLDivElement;
+      });
 
 const iconMap: Record<SeverityType, React.ReactNode> = {
     info: <InfoIcon />,
@@ -38,7 +42,11 @@ class ToastManager {
         document.body.appendChild(this.container);
     }
 
-    private renderToasts() {
+    private renderToasts(container?: HTMLDivElement) {
+        if (container) {
+            // this.root?.unmount();
+            this.root = createRoot(container);
+        }
         this.root?.render(
             <>
                 {this.toasts.map(toast => (
@@ -70,11 +78,12 @@ class ToastManager {
     private addToast({
         duration = 3000,
         key = Date.now(),
+        container,
         ...props
-    }: PartialOptional<Toast, 'key' | 'duration'>) {
+    }: PartialOptional<Toast, 'key' | 'duration'> & { container?: HTMLDivElement }) {
         const toast: Toast = { duration, key, ...props };
         this.toasts = uniqBy([...this.toasts, toast], 'key');
-        this.renderToasts();
+        this.renderToasts(container);
     }
 
     private removeToast(key: ApiKey) {

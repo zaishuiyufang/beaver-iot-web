@@ -3,7 +3,7 @@
     "name": "Line Chart",
     "class": "data_chart",
     "icon": "./icon.png",
-    "defaultRow": 8,
+    "defaultRow": 6,
     "defaultCol": 8,
     "minRow": 4,
     "minCol": 4,

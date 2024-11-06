@@ -40,8 +40,12 @@ const View = (props: Props) => {
                 // 没有数据时，展示为空状态
                 data = [0, DEFAULT_RANGE];
             }
-            const diff = maxValue - minValue;
-            const tickCount = Math.floor(diff) > 1 ? diff : DEFAULT_RANGE;
+            // const diff = maxValue - minValue;
+            const tickCount = DEFAULT_RANGE;
+            // 计算当前最大值，需要是刻度数的整数
+            const tickMaxValue = Math.floor(maxValue / tickCount) * tickCount + tickCount;
+            // 计算刻度间隔
+            const tickInterval = Math.floor(maxValue / tickCount);
 
             // 渲染图表
             const circumference = 216; // 定义仪表盘的周长
@@ -53,8 +57,10 @@ const View = (props: Props) => {
                         {
                             data,
                             minValue,
+                            maxValue: tickMaxValue,
                             value: currentValue,
                             backgroundColor: [blue[700], grey[100]],
+                            stepSize: tickInterval,
                         },
                     ],
                 },

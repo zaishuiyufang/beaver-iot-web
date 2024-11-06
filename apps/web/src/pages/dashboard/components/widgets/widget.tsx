@@ -12,10 +12,11 @@ interface WidgetProps {
     isEdit: boolean;
     onEdit: (data: WidgetDetail) => void;
     onDelete: (data: WidgetDetail) => void;
+    mainRef: any;
 }
 
 const Widget = (props: WidgetProps) => {
-    const { data, isEdit, onEdit, onDelete } = props;
+    const { data, isEdit, onEdit, onDelete, mainRef } = props;
     const ComponentView = (plugins as any)[`${data.data.type}View`];
     const widgetRef = useRef<HTMLDivElement>(null);
 
@@ -48,6 +49,7 @@ const Widget = (props: WidgetProps) => {
                             config={data.data.config}
                             configJson={data.data}
                             isEdit={isEdit}
+                            mainRef={mainRef}
                         />
                     </Suspense>
                     {isEdit && (

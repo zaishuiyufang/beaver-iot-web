@@ -62,6 +62,11 @@ export interface ModalProps {
      * 取消按钮回调
      */
     onCancel: () => void;
+
+    /**
+     * 挂载节点
+     */
+    container?: HTMLDivElement;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -75,6 +80,7 @@ const Modal: React.FC<ModalProps> = ({
     disabledBackdropClose = true,
     onOk,
     onCancel,
+    container,
     children,
 }) => {
     const { getIntlText } = useI18n();
@@ -120,6 +126,7 @@ const Modal: React.FC<ModalProps> = ({
             className={cls('ms-modal-root', className)}
             open={!!visible}
             onClose={handleClose}
+            container={container}
             sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}
         >
             {!!title && (

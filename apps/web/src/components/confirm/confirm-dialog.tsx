@@ -64,7 +64,6 @@ export const ConfirmDialog: React.FC<DialogProps> = ({
             isMatched: finalOptions?.confirmText === inputValue,
         });
     };
-
     return (
         <Dialog
             {...finalOptions.dialogProps}

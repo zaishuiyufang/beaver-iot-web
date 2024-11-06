@@ -9,10 +9,11 @@ interface WidgetProps {
     widgets: WidgetDetail[];
     isEdit: boolean;
     onEdit: (data: WidgetDetail) => void;
+    mainRef: any;
 }
 
 const Widgets = (props: WidgetProps) => {
-    const { widgets, onChangeWidgets, isEdit, onEdit } = props;
+    const { widgets, onChangeWidgets, isEdit, onEdit, mainRef } = props;
     const widgetRef = useRef<WidgetDetail[]>();
     const requestRef = useRef<any>(null);
 
@@ -118,6 +119,7 @@ const Widgets = (props: WidgetProps) => {
                             data={data}
                             isEdit={isEdit}
                             key={id}
+                            mainRef={mainRef}
                         />
                     </div>
                 );

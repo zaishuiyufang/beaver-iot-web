@@ -3,8 +3,8 @@
     "name": "Gauge chart",
     "class": "data_chart",
     "icon": "./icon.png",
-    "defaultRow": 6,
-    "defaultCol": 8,
+    "defaultRow": 4,
+    "defaultCol": 6,
     "configProps": [
         {
             "style": "width: 100%",

@@ -3,7 +3,7 @@
     "name": "Pie Chart",
     "class": "data_chart",
     "icon": "./icon.png",
-    "defaultRow": 6,
+    "defaultRow": 4,
     "defaultCol": 6,
     "minRow": 4,
     "minCol": 4,
