@@ -26,8 +26,7 @@ const View = (props: Props) => {
         // 枚举类型
         if (enumStruct) {
             const currentKey = Object.keys(enumStruct).find(enumKey => {
-                const enumValue = enumStruct[enumKey];
-                return enumValue === currentEntityStatus;
+                return enumKey === currentEntityStatus;
             });
             if (!currentKey) return;
 
