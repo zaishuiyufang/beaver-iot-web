@@ -16,13 +16,14 @@ import './style.less';
 
 interface IProps {
     config: ViewConfigProps;
+    configJson: CustomComponentProps;
 }
 interface AggregateHistoryList {
     entity: EntityOptionType;
     data: EntityAPISchema['getAggregateHistory']['response'];
 }
 const View = (props: IProps) => {
-    const { config } = props;
+    const { config, configJson } = props;
     const { entity, title, metrics, time } = config || {};
 
     const chartRef = useRef<HTMLCanvasElement>(null);
@@ -110,7 +111,7 @@ const View = (props: IProps) => {
 
     // 订阅 WS 主题
     useEffect(() => {
-        if (!topic) return;
+        if (!topic || configJson.isPreview) return;
 
         const unsubscribe = ws.subscribe(topic, getData);
         return () => {
