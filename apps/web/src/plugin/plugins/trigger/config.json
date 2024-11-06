@@ -38,9 +38,6 @@
                     "defaultValue": "Title",
                     "componentProps": {
                         "size": "small"
-                    },
-                    "rules": {
-                        "required": true
                     }
                 }
             ]
