@@ -47,8 +47,12 @@ const EntitySelect = (props: EntitySelectProps) => {
         return (
             <MenuItem {...(optionProps || {})} key={value}>
                 <div className="ms-entity-select-item">
-                    <div className="ms-entity-select-item__label">{label}</div>
-                    <div className="ms-entity-select-item__description">{description}</div>
+                    <div className="ms-entity-select-item__label" title={label}>
+                        {label}
+                    </div>
+                    <div className="ms-entity-select-item__description" title={description}>
+                        {description}
+                    </div>
                 </div>
             </MenuItem>
         );

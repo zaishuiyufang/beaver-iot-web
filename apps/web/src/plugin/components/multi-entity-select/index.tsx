@@ -54,8 +54,12 @@ const MultiEntitySelect = (props: EntitySelectProps) => {
                 <div className="ms-multi-entity-select">
                     <Checkbox style={{ marginRight: 8 }} checked={selected} />
                     <div className="ms-entity-select-item">
-                        <div className="ms-entity-select-item__label">{label}</div>
-                        <div className="ms-entity-select-item__description">{description}</div>
+                        <div className="ms-entity-select-item__label" title={label}>
+                            {label}
+                        </div>
+                        <div className="ms-entity-select-item__description" title={description}>
+                            {description}
+                        </div>
                     </div>
                 </div>
             </li>
