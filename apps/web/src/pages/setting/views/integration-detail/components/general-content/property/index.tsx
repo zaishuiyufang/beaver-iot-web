@@ -78,30 +78,34 @@ const Property: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
         />
     ) : (
         <div className={cls('ms-entity-property', { loading: formState.isSubmitting })}>
-            <div className="detail-wrap">
-                <h2 className="detail-title">{getIntlText('common.label.readonly')}</h2>
-                <Descriptions data={readOnlyProps} />
-            </div>
-            <div className="form-wrap">
-                <h2 className="detail-title">{getIntlText('common.label.writable')}</h2>
-                <div className="form-area">
-                    {formItems.map(props => (
-                        <Controller<EntityFormDataProps>
-                            {...props}
-                            key={props.name}
-                            control={control}
-                        />
-                    ))}
+            {!!readOnlyProps?.length && (
+                <div className="detail-wrap">
+                    <h2 className="detail-title">{getIntlText('common.label.readonly')}</h2>
+                    <Descriptions data={readOnlyProps} />
                 </div>
-                <LoadingButton
-                    variant="contained"
-                    loading={formState.isSubmitting}
-                    onClick={handleSubmit(onSubmit)}
-                    sx={{ mt: 1 }}
-                >
-                    {getIntlText('common.button.save')}
-                </LoadingButton>
-            </div>
+            )}
+            {!!writableProps?.length && (
+                <div className="form-wrap">
+                    <h2 className="detail-title">{getIntlText('common.label.writable')}</h2>
+                    <div className="form-area">
+                        {formItems.map(props => (
+                            <Controller<EntityFormDataProps>
+                                {...props}
+                                key={props.name}
+                                control={control}
+                            />
+                        ))}
+                    </div>
+                    <LoadingButton
+                        variant="contained"
+                        loading={formState.isSubmitting}
+                        onClick={handleSubmit(onSubmit)}
+                        sx={{ mt: 1 }}
+                    >
+                        {getIntlText('common.button.save')}
+                    </LoadingButton>
+                </div>
+            )}
         </div>
     );
 };
