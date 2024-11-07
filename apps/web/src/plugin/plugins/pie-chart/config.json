@@ -19,9 +19,8 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY",
+                        "entityType": ["PROPERTY", "EVENT"],
                         "entityValueTypes": ["BOOLEAN", "STRING"],
-                        "entityAccessMods": ["R", "RW"],
                         "customFilterEntity": "filterEntityStringHasEnum"
                     },
                     "rules": {

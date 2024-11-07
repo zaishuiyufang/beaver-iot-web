@@ -19,7 +19,7 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY",
+                        "entityType": ["SERVICE"],
                         "entityValueTypes": ["BOOLEAN"],
                         "entityAccessMods": ["W", "RW"],
                         "entityExcludeChildren": true

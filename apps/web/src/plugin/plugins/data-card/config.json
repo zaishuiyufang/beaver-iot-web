@@ -18,9 +18,8 @@
                     "style": "width: 100%",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY",
-                        "entityValueTypes": ["STRING", "LONG", "DOUBLE", "BOOLEAN"],
-                        "entityAccessMods": ["R", "RW"]
+                        "entityType": ["PROPERTY"],
+                        "entityValueTypes": ["STRING", "LONG", "DOUBLE", "BOOLEAN"]
                     },
                     "rules": {
                         "required": true

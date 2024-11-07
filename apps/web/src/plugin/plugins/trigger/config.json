@@ -20,6 +20,7 @@
                     "getDataUrl": "",
                     "componentProps": {
                         "size": "small",
+                        "entityType": ["SERVICE"],
                         "accessMods": ["W", "RW"],
                         "entityExcludeChildren": true
                     },
@@ -33,8 +34,24 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Label",
+                    "title": "Title",
                     "key": "title",
+                    "defaultValue": "Title",
+                    "componentProps": {
+                        "size": "small",
+                        "inputProps": {
+                            "maxLength": 15
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "components": [
+                {
+                    "type": "input",
+                    "title": "Label",
+                    "key": "label",
                     "defaultValue": "Label",
                     "componentProps": {
                         "size": "small",
@@ -104,7 +121,7 @@
                 },
                 {
                     "tag": "div",
-                    "style": "display: flex;justify-content: center;flex: 1;align-items: center;",
+                    "style": "display: flex;justify-content: center;flex: 1;align-items: center;flex-direction: column;",
                     "children": [
                         {
                             "tag": "icon",
@@ -116,6 +133,25 @@
                             "params": [
                                 "icon"
                             ]
+                        },
+                        {
+                            "tag": "Tooltip",
+                            "class": "trigger-view-title",
+                            "style": "white-space: nowrap;overflow: hidden;text-overflow: ellipsis;;text-align: center;margin-top: 8px;",
+                            "params": [
+                                "label"
+                            ],
+                            "themes": {
+                                "default": {
+                                    "style": "color: #6B7785"
+                                },
+                                "dark": {
+                                    "style": "color: rgba(247, 248, 250, 0.62)"
+                                }
+                            },
+                            "props": {
+                                "autoEllipsis": true
+                            }
                         }
                     ]
                 }

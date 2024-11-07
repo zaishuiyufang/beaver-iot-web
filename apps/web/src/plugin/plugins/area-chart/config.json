@@ -20,9 +20,8 @@
                     "valueType": "array",
                     "componentProps": {
                         "size": "small",
-                        "entityType": "PROPERTY",
-                        "entityValueTypes": ["LONG", "DOUBLE"],
-                        "entityAccessMods": ["R", "RW"]
+                        "entityType": ["PROPERTY", "EVENT"],
+                        "entityValueTypes": ["LONG", "DOUBLE"]
                     },
                     "rules": {
                         "required": true

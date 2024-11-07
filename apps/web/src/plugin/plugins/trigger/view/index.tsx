@@ -26,10 +26,10 @@ const View = (props: Props) => {
 
     // 调用服务
     const handleCallService = async () => {
+        const entityKey = (config?.entity as any).rawData?.entityKey;
         const { error } = await callService({
-            entity_id: (config?.entity as any)?.value as ApiKey,
             exchange: {
-                entity_id: (config?.entity as any)?.value as ApiKey,
+                [entityKey]: (config?.entity as any)?.value as ApiKey,
             },
         } as CallServiceType);
         if (!error) {

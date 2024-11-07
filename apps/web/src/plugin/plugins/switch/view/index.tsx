@@ -145,7 +145,7 @@ const View = (props: ViewProps) => {
         const Icon = Reflect.get(Icons, iconName);
         if (!Icon) return null;
 
-        return <Icon sx={{ color: iconColor || '#9B9B9B', fontSize: 56 }} />;
+        return <Icon sx={{ color: iconColor || '#9B9B9B', fontSize: 32 }} />;
     }, [isSwitchOn, onIcon, offIcon, iconColor]);
 
     return (
