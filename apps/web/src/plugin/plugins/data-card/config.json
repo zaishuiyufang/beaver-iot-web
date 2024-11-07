@@ -33,10 +33,10 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Title",
+                    "title": "Label",
                     "key": "title",
                     "style": "width: 100%",
-                    "defaultValue": "Title",
+                    "defaultValue": "Label",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {

@@ -34,9 +34,9 @@
             "components": [
                 {
                     "type": "input",
-                    "title": "Title",
+                    "title": "Label",
                     "key": "title",
-                    "defaultValue": "Title",
+                    "defaultValue": "Label",
                     "componentProps": {
                         "size": "small",
                         "inputProps": {
