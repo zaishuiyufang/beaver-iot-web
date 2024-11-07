@@ -1,4 +1,5 @@
-import { MenuItem, Autocomplete, TextField } from '@mui/material';
+import { useMemo } from 'react';
+import { MenuItem, Autocomplete, TextField, Tooltip } from '@mui/material';
 import type { AutocompleteProps } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { useEntitySelectOptions } from '../../hooks';
@@ -13,6 +14,7 @@ type EntitySelectProps = AutocompleteProps<EntityOptionType, undefined, false, u
  */
 const EntitySelect = (props: EntitySelectProps) => {
     const {
+        value,
         onChange,
         entityType,
         entityValueTypes,
@@ -51,26 +53,34 @@ const EntitySelect = (props: EntitySelectProps) => {
             </MenuItem>
         );
     };
+
+    const renderTooltipTitle = useMemo(() => {
+        return value?.description || undefined;
+    }, [value]);
+
     return (
         <Autocomplete
             {...restProps}
+            value={value}
             onChange={(_, option) => onChange(option)}
             options={options}
             renderInput={params => (
-                <TextField
-                    {...params}
-                    error={(restProps as any).error}
-                    helperText={
-                        (restProps as any).error ? (
-                            <div style={{ marginLeft: -14 }}>
-                                {(restProps as any).error.message}
-                            </div>
-                        ) : (
-                            ''
-                        )
-                    }
-                    label={getIntlText('common.label.entity')}
-                />
+                <Tooltip title={renderTooltipTitle}>
+                    <TextField
+                        {...params}
+                        error={(restProps as any).error}
+                        helperText={
+                            (restProps as any).error ? (
+                                <div style={{ marginLeft: -14 }}>
+                                    {(restProps as any).error.message}
+                                </div>
+                            ) : (
+                                ''
+                            )
+                        }
+                        label={getIntlText('common.label.entity')}
+                    />
+                </Tooltip>
             )}
             renderOption={renderOption}
             getOptionLabel={option => option?.label || ''}
