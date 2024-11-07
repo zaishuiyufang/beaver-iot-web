@@ -1,7 +1,7 @@
 import { useMemo, useEffect, useState } from 'react';
 import { Grid2, IconButton } from '@mui/material';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep, isEmpty, isUndefined } from 'lodash-es';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { Modal, ChevronRightIcon, toast } from '@milesight/shared/src/components';
 import { useEntityFormItems, type EntityFormDataProps } from '@/hooks';
@@ -61,7 +61,7 @@ const Service: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
             }),
             async onConfirm() {
                 const [error, resp] = await awaitWrap(
-                    entityAPI.callService({ exchange: { [service.key]: {} } }),
+                    entityAPI.callService({ exchange: { [service.key]: null } }),
                 );
                 if (error || !isRequestSuccess(resp)) return;
                 onUpdateSuccess?.();
@@ -86,7 +86,15 @@ const Service: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
         }
 
         const [error, resp] = await awaitWrap(
-            entityAPI.callService({ exchange: { [targetService.key]: finalParams } }),
+            entityAPI.callService({
+                exchange: {
+                    [targetService.key]:
+                        isEmpty(finalParams) ||
+                        Object.values(finalParams).every(val => isUndefined(val))
+                            ? null
+                            : finalParams,
+                },
+            }),
         );
         if (error || !isRequestSuccess(resp)) return;
 

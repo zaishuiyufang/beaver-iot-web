@@ -41,7 +41,7 @@ const Functions: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
                     return;
                 }
                 const [error, resp] = await awaitWrap(
-                    entityAPI.callService({ exchange: { [entityKey]: {} } }),
+                    entityAPI.callService({ exchange: { [entityKey]: null } }),
                 );
 
                 if (error || !isRequestSuccess(resp)) return;
