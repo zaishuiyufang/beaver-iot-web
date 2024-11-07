@@ -29,6 +29,10 @@
             color: var(--text-color-base);
             text-decoration: none;
 
+            .@{mui-prefix}SvgIcon-root {
+                color: var(--icon-color-gray-secondary);
+            }
+
             .@{prefix}-tooltip {
                 display: flex;
                 align-items: center;
@@ -45,6 +49,10 @@
 
             .@{prefix}-sidebar-menu-item-link {
                 color: var(--text-color-blue);
+
+                .@{mui-prefix}SvgIcon-root {
+                    color: var(--text-color-blue);
+                }
             }
         }
     }
@@ -78,6 +86,10 @@
                     transform: rotate(180deg);
                 }
             }
+        }
+
+        .@{prefix}-oprt-shrink {
+            color: var(--icon-color-gray-secondary);
         }
     }
 
