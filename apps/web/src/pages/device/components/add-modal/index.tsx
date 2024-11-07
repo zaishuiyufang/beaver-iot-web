@@ -69,17 +69,10 @@ const AddModal: React.FC<Props> = ({ visible, onCancel, onError, onSuccess, ...p
             refreshDeps: [inteID],
         },
     );
-    const formItems = useDynamicFormItems({ entities });
+    const { formItems, decodeFormParams } = useDynamicFormItems({ entities });
     const onSubmit: SubmitHandler<FormDataProps> = async ({ name, ...params }) => {
-        const entityParams = Object.entries(params).reduce(
-            (acc, [name, value]) => {
-                const entity = entities?.find(item => item.name === name);
+        const entityParams = decodeFormParams(params);
 
-                entity && (acc[entity?.key] = value);
-                return acc;
-            },
-            {} as Record<string, any>,
-        );
         const [error, resp] = await awaitWrap(
             deviceAPI.addDevice({ name, integration: inteID, param_entities: entityParams }),
         );

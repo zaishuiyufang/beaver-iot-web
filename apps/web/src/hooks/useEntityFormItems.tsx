@@ -44,24 +44,25 @@ export type EntityFormDataProps = Record<string, any>;
 const getValidators = (entity: NonNullable<Props['entities']>[0], required = false) => {
     const result: NonNullable<ControllerProps<EntityFormDataProps>['rules']>['validate'] = {};
     const attr = entity.valueAttribute || {};
+    const isValidNumber = (num: any): num is number => !isNil(num) && !isNaN(+num);
 
     if (required && entity.valueType !== 'BOOLEAN') {
         result.checkRequired = checkRequired();
     }
 
-    if (!isNil(attr.min) && !isNil(attr.max)) {
+    if (isValidNumber(attr.min) && isValidNumber(attr.max)) {
         result.checkRangeValue = checkRangeValue({ min: attr.min, max: attr.max });
-    } else if (!isNil(attr.min)) {
+    } else if (isValidNumber(attr.min)) {
         result.checkMinValue = checkMinValue({ min: attr.min });
-    } else if (!isNil(attr.max)) {
+    } else if (isValidNumber(attr.max)) {
         result.checkMaxValue = checkMaxValue({ max: attr.max });
     }
 
-    if (!isNil(attr.minLength) && !isNil(attr.maxLength)) {
+    if (isValidNumber(attr.minLength) && isValidNumber(attr.maxLength)) {
         result.checkRangeLength = checkRangeLength({ min: attr.minLength, max: attr.maxLength });
-    } else if (!isNil(attr.minLength)) {
+    } else if (isValidNumber(attr.minLength)) {
         result.checkMinLength = checkMinLength({ min: attr.minLength });
-    } else if (!isNil(attr.maxLength)) {
+    } else if (isValidNumber(attr.maxLength)) {
         result.checkMaxLength = checkMaxLength({ max: attr.maxLength });
     }
 

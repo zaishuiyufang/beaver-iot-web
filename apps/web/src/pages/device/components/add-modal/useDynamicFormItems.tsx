@@ -4,6 +4,7 @@ import { TextField } from '@mui/material';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { checkRequired } from '@milesight/shared/src/utils/validators';
 import { type IntegrationAPISchema } from '@/services/http';
+import { useEntityFormItems } from '@/hooks';
 
 interface Props {
     entities?: ObjectToCamelCase<
@@ -21,11 +22,15 @@ export type FormDataProps = Record<string, any>;
  */
 const useDynamicFormItems = ({ entities }: Props) => {
     const { getIntlText } = useI18n();
+    const { formItems: entityFormItems, decodeFormParams } = useEntityFormItems({
+        entities,
+        isAllRequired: true,
+    });
 
     const formItems = useMemo(() => {
         const result: ControllerProps<FormDataProps>[] = [];
 
-        if (!entities?.length) return result;
+        if (!entityFormItems?.length) return result;
 
         result.push({
             name: 'name',
@@ -49,51 +54,10 @@ const useDynamicFormItems = ({ entities }: Props) => {
             },
         });
 
-        entities?.forEach(entity => {
-            if (entity.valueType === 'OBJECT') return;
+        return [...result, ...entityFormItems];
+    }, [entityFormItems, getIntlText]);
 
-            switch (entity.valueType) {
-                case 'LONG':
-                case 'DOUBLE':
-                case 'STRING': {
-                    result.push({
-                        name: entity.name,
-                        // rules: {
-                        //     validate: { checkRequired: checkRequired() },
-                        // },
-                        defaultValue: '',
-                        render({ field: { onChange, value }, fieldState: { error } }) {
-                            return (
-                                <TextField
-                                    fullWidth
-                                    type="text"
-                                    label={entity.name}
-                                    error={!!error}
-                                    helperText={error ? error.message : null}
-                                    value={value}
-                                    onChange={onChange}
-                                />
-                            );
-                        },
-                    });
-                    break;
-                }
-                case 'BOOLEAN': {
-                    break;
-                }
-                case 'BINARY': {
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
-        });
-
-        return result;
-    }, [entities, getIntlText]);
-
-    return formItems;
+    return { formItems, decodeFormParams };
 };
 
 export default useDynamicFormItems;
