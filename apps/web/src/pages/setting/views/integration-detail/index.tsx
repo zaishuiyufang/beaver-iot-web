@@ -12,15 +12,9 @@ import {
     getResponseData,
     isRequestSuccess,
 } from '@/services/http';
+import { genInteIconUrl } from '../../helper';
 import { GeneralContent, MscContent } from './components';
 import './style.less';
-
-type TabKey = 'config' | 'function';
-type TabItem = {
-    key: TabKey;
-    label: string;
-    component: React.ReactNode;
-};
 
 const InformationDetail = () => {
     const { integrationId } = useParams();
@@ -29,7 +23,11 @@ const InformationDetail = () => {
     const { state } = useLocation();
     const [basicInfo, setBasicInfo] =
         useState<ObjectToCamelCase<IntegrationAPISchema['getList']['response'][0]>>();
-    const { data: entityList, refresh: refreshInteDetail } = useRequest(
+    const {
+        loading,
+        data: entityList,
+        refresh: refreshInteDetail,
+    } = useRequest(
         async () => {
             if (!integrationId) return;
             const [error, resp] = await awaitWrap(integrationAPI.getDetail({ id: integrationId }));
@@ -76,9 +74,11 @@ const InformationDetail = () => {
             <div className="ms-view ms-view-int-detail">
                 <div className="ms-view-int-detail__header">
                     <div className="detail">
-                        <div className="icon">
-                            {!!basicInfo?.icon && <img src={basicInfo.icon} alt={basicInfo.name} />}
-                        </div>
+                        {basicInfo?.icon && (
+                            <div className="logo">
+                                <img src={genInteIconUrl(basicInfo.icon)} alt={basicInfo.name} />
+                            </div>
+                        )}
                         <Stack direction="column">
                             <div className="title">
                                 <h2>{basicInfo?.name}</h2>
@@ -107,7 +107,11 @@ const InformationDetail = () => {
                     {isMscIntegration ? (
                         <MscContent entities={entityList} onUpdateSuccess={refreshInteDetail} />
                     ) : (
-                        <GeneralContent entities={entityList} onUpdateSuccess={refreshInteDetail} />
+                        <GeneralContent
+                            loading={loading}
+                            entities={entityList}
+                            onUpdateSuccess={refreshInteDetail}
+                        />
                     )}
                 </div>
             </div>

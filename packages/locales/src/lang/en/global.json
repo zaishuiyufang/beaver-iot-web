@@ -146,5 +146,7 @@
     "valid.input.version": "The version number does not comply with the specification.",
     "valid.resp.at_least_one": "Please select at least one {1}.",
     "common.label.property": "Property",
-    "common.label.service": "Service"
+    "common.label.service": "Service",
+    "common.label.readonly": "Readonly",
+    "common.label.writable": "Writable"
 }

@@ -143,12 +143,14 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                         name: encodedEntityKeys[entity.key],
                         rules: { validate },
                         defaultValue: '',
-                        render({ field: { onChange, value }, fieldState: { error } }) {
+                        render({ field: { onChange, value, disabled }, fieldState: { error } }) {
                             return (
                                 <TextField
                                     fullWidth
                                     type="text"
+                                    sx={{ my: 1.5 }}
                                     required={isAllRequired}
+                                    disabled={disabled}
                                     label={entity.name}
                                     error={!!error}
                                     helperText={error ? error.message : null}
@@ -162,11 +164,16 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                     // 如果是枚举类型，则渲染下拉框
                     if (attr.enum) {
                         formItem.render = ({
-                            field: { onChange, value },
+                            field: { onChange, value, disabled },
                             fieldState: { error },
                         }) => {
                             return (
-                                <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
+                                <FormControl
+                                    disabled={disabled}
+                                    fullWidth
+                                    size="small"
+                                    sx={{ my: 1.5 }}
+                                >
                                     <InputLabel
                                         required={isAllRequired}
                                         id={`select-label-${entity.name}`}
@@ -205,11 +212,18 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                         name: encodedEntityKeys[entity.key],
                         rules: { validate },
                         // defaultValue: false,
-                        render({ field: { onChange, value }, fieldState: { error } }) {
+                        render({ field: { onChange, value, disabled }, fieldState: { error } }) {
                             return (
-                                <FormControl fullWidth size="small" sx={{ my: 1.5 }}>
-                                    <FormLabel error={!!error}>{entity.name}</FormLabel>
-                                    <Switch checked={!!value} onChange={onChange} />
+                                <FormControl
+                                    disabled={disabled}
+                                    fullWidth
+                                    size="small"
+                                    sx={{ my: 1.5 }}
+                                >
+                                    <FormLabel error={!!error} sx={{ fontSize: 14 }}>
+                                        {entity.name}
+                                    </FormLabel>
+                                    <Switch size="small" checked={!!value} onChange={onChange} />
                                     {!!error && (
                                         <FormHelperText error>{error.message}</FormHelperText>
                                     )}
@@ -224,7 +238,7 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                         name: encodedEntityKeys[entity.key],
                         rules: { validate },
                         defaultValue: '',
-                        render({ field: { onChange, value }, fieldState: { error } }) {
+                        render({ field: { onChange, value, disabled }, fieldState: { error } }) {
                             return (
                                 <TextField
                                     fullWidth
@@ -232,6 +246,7 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                                     type="text"
                                     rows={4}
                                     required={isAllRequired}
+                                    disabled={disabled}
                                     label={entity.name}
                                     error={!!error}
                                     helperText={error ? error.message : null}

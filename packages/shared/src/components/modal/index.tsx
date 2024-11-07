@@ -123,7 +123,7 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <Dialog
             aria-labelledby="customized-dialog-title"
-            className={cls('ms-modal-root', className)}
+            className={cls('ms-modal-root', className, { loading })}
             open={!!visible}
             onClose={handleClose}
             container={container}

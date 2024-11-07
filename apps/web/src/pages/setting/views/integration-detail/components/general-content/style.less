@@ -1,39 +1,48 @@
 .@{prefix}-inte-detail-general {
+    position: relative;
+
     .@{prefix}-tabpanel {
-        min-height: 100%;
         border-radius: @border-radius-base;
 
+        &-service,
         &-property {
-            padding: @padding-lg;
-            background-color: var(--component-background);
+            > .@{prefix}-empty {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
         }
     }
 
     .@{prefix}-entity-property {
-        .detail-wrap {
-            max-width: 50%;
+        .detail-title {
+            margin: 0 0 @margin-lg;
         }
 
-        .detail-item {
-            display: flex;
-            margin-bottom: @margin-sm;
+        .detail-wrap {
+            padding: @padding-lg;
+            background-color: var(--component-background);
+            border-radius: @border-radius-base;
 
-            .detail-label {
-                color: var(--text-color-secondary);
-            }
-
-            .detail-value {
-                flex: 1;
-                margin-left: @margin-sm;
+            .@{prefix}-tooltip {
+                .ellipsis();
             }
         }
 
         .form-wrap {
-            max-width: 50%;
+            padding: @padding-lg;
+            margin-top: @margin-lg;
+            background-color: var(--component-background);
+            border-radius: @border-radius-base;
+
+            .form-area {
+                max-width: 50%;
+            }
         }
 
         &.loading {
-            .form-wrap {
+            .form-area {
                 opacity: .5;
                 pointer-events: none;
             }

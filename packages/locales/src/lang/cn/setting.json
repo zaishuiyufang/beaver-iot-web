@@ -25,5 +25,6 @@
     "setting.integration.webhook_status_error": "Webhook错误",
     "setting.integration.webhook_status_ready": "Webhook就绪",
     "setting.integration.webhook_status_waiting": "等待配置",
-    "setting.integration.webhook_url": "Webhook URL"
+    "setting.integration.webhook_url": "Webhook URL",
+    "setting.integration.service_operation_confirm": "确认操作 {1} ?"
 }

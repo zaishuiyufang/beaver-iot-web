@@ -16,6 +16,9 @@ type GeneralTabItem = {
 };
 
 interface Props {
+    /** 是否加载中 */
+    loading?: boolean;
+
     /** 实体列表 */
     entities?: InteEntityType[];
 
@@ -26,7 +29,7 @@ interface Props {
 /**
  * 通用集成详情内容
  */
-const GeneralContent: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
+const GeneralContent: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
     const { getIntlText } = useI18n();
 
     // ---------- Tab 相关逻辑 ----------
@@ -35,12 +38,24 @@ const GeneralContent: React.FC<Props> = ({ entities, onUpdateSuccess }) => {
             {
                 key: 'property',
                 label: getIntlText('common.label.property'),
-                component: <Property entities={entities} onUpdateSuccess={onUpdateSuccess} />,
+                component: (
+                    <Property
+                        loading={loading}
+                        entities={entities}
+                        onUpdateSuccess={onUpdateSuccess}
+                    />
+                ),
             },
             {
                 key: 'service',
                 label: getIntlText('common.label.service'),
-                component: <Service entities={entities} onUpdateSuccess={onUpdateSuccess} />,
+                component: (
+                    <Service
+                        loading={loading}
+                        entities={entities}
+                        onUpdateSuccess={onUpdateSuccess}
+                    />
+                ),
             },
         ];
     }, [entities, getIntlText, onUpdateSuccess]);

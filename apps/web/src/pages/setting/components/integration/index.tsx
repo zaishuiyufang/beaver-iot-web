@@ -11,6 +11,7 @@ import {
     isRequestSuccess,
 } from '@/services/http';
 import { Tooltip } from '@/components';
+import { genInteIconUrl } from '../../helper';
 import './style.less';
 
 const Integration = () => {
@@ -42,7 +43,9 @@ const Integration = () => {
                     <Grid2 key={item.id} size={{ xs: 12, sm: 6, md: 4, xl: 3 }}>
                         <div className="ms-int-card" onClick={() => handleCardClick(item.id, item)}>
                             <div className="icon">
-                                {!!item.icon && <img src={item.icon} alt={item.name} />}
+                                {!!item.icon && (
+                                    <img src={genInteIconUrl(item.icon)} alt={item.name} />
+                                )}
                             </div>
                             <Tooltip autoEllipsis className="title" title={item.name} />
                             <Tooltip autoEllipsis className="desc" title={item.description} />

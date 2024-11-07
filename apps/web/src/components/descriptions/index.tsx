@@ -3,7 +3,7 @@ import { Table, TableBody, TableRow, TableCell, CircularProgress } from '@mui/ma
 import cls from 'classnames';
 import './style.less';
 
-interface Props {
+export interface Props {
     /**
      * 描述列表数据
      */
