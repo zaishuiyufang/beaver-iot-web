@@ -148,5 +148,8 @@
     "common.label.property": "Property",
     "common.label.service": "Service",
     "common.label.readonly": "Readonly",
-    "common.label.writable": "Writable"
+    "common.label.writable": "Writable",
+    "common.message.something_wrong_title": "Something went wrong",
+    "common.label.copy_error_info": "复制错误信息",
+    "common.label.click_to_try_fix": "点击尝试修复"
 }

@@ -5,6 +5,7 @@ import {
     DevicesIcon,
     SettingsIcon,
 } from '@milesight/shared/src/components';
+import ErrorBoundaryComponent from './error-boundary';
 
 type RouteObjectType = RouteObject & {
     /** 自定义路由元数据 */
@@ -29,6 +30,8 @@ type RouteObjectType = RouteObject & {
     children?: RouteObjectType[];
 };
 
+const ErrorBoundary = () => <ErrorBoundaryComponent inline />;
+
 const routes: RouteObjectType[] = [
     {
         path: '/dashboard',
@@ -42,10 +45,12 @@ const routes: RouteObjectType[] = [
             const { default: Component } = await import('@/pages/dashboard');
             return { Component };
         },
+        ErrorBoundary,
     },
     {
         path: '/device',
         element: <Outlet />,
+        ErrorBoundary,
         handle: {
             get title() {
                 return intl.get('common.label.device');
@@ -59,6 +64,7 @@ const routes: RouteObjectType[] = [
                     const { default: Component } = await import('@/pages/device');
                     return { Component };
                 },
+                ErrorBoundary,
             },
             {
                 index: true,
@@ -72,12 +78,14 @@ const routes: RouteObjectType[] = [
                     const { default: Component } = await import('@/pages/device/views/detail');
                     return { Component };
                 },
+                ErrorBoundary,
             },
         ],
     },
     {
         path: '/setting',
         element: <Outlet />,
+        ErrorBoundary,
         handle: {
             get title() {
                 return intl.get('common.label.setting');
@@ -91,6 +99,7 @@ const routes: RouteObjectType[] = [
                     const { default: Component } = await import('@/pages/setting');
                     return { Component };
                 },
+                ErrorBoundary,
             },
             {
                 path: 'integration/:integrationId',
@@ -105,6 +114,7 @@ const routes: RouteObjectType[] = [
                     );
                     return { Component };
                 },
+                ErrorBoundary,
             },
         ],
     },
@@ -114,6 +124,7 @@ const routes: RouteObjectType[] = [
             layout: 'blank',
         },
         element: <Outlet />,
+        ErrorBoundary,
         children: [
             {
                 index: true,
@@ -128,6 +139,7 @@ const routes: RouteObjectType[] = [
                     const { default: Component } = await import('@/pages/auth/views/login');
                     return { Component };
                 },
+                ErrorBoundary,
             },
             {
                 path: 'register',
@@ -141,6 +153,7 @@ const routes: RouteObjectType[] = [
                     const { default: Component } = await import('@/pages/auth/views/register');
                     return { Component };
                 },
+                ErrorBoundary,
             },
         ],
     },
@@ -155,6 +168,7 @@ const routes: RouteObjectType[] = [
             const { default: Component } = await import('@/pages/404');
             return { Component };
         },
+        ErrorBoundary,
     },
 ];
 
