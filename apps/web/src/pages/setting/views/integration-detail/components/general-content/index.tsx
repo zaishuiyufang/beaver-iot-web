@@ -22,6 +22,9 @@ interface Props {
     /** 实体列表 */
     entities?: InteEntityType[];
 
+    /** Service 页面不做渲染的实体 Key */
+    excludeServiceKeys?: ApiKey[];
+
     /** 编辑成功回调 */
     onUpdateSuccess?: () => void;
 }
@@ -29,7 +32,12 @@ interface Props {
 /**
  * 通用集成详情内容
  */
-const GeneralContent: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
+const GeneralContent: React.FC<Props> = ({
+    loading,
+    entities,
+    excludeServiceKeys,
+    onUpdateSuccess,
+}) => {
     const { getIntlText } = useI18n();
 
     // ---------- Tab 相关逻辑 ----------
@@ -53,12 +61,13 @@ const GeneralContent: React.FC<Props> = ({ loading, entities, onUpdateSuccess })
                     <Service
                         loading={loading}
                         entities={entities}
+                        excludeKeys={excludeServiceKeys}
                         onUpdateSuccess={onUpdateSuccess}
                     />
                 ),
             },
         ];
-    }, [entities, getIntlText, onUpdateSuccess]);
+    }, [entities, loading, getIntlText, onUpdateSuccess]);
     const [tabKey, setTabKey] = useRouteTab<GeneralTabKey>(tabs[0].key);
 
     return (

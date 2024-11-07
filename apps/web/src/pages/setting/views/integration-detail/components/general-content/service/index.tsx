@@ -16,6 +16,9 @@ interface Props {
     /** 实体列表 */
     entities?: InteEntityType[];
 
+    /** 页面不做渲染的实体 Key */
+    excludeKeys?: ApiKey[];
+
     /** 编辑成功回调 */
     onUpdateSuccess?: () => void;
 }
@@ -27,10 +30,15 @@ type InteServiceType = InteEntityType & {
 /**
  * 属性实体渲染及操作组件
  */
-const Service: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
+const Service: React.FC<Props> = ({ loading, entities, excludeKeys, onUpdateSuccess }) => {
     const { getIntlText } = useI18n();
     const serviceEntities = useMemo(() => {
-        const services = entities?.filter(item => item.type === 'SERVICE');
+        const services = entities?.filter(item => {
+            return (
+                item.type === 'SERVICE' &&
+                !excludeKeys?.some(key => `${item.key}`.includes(`${key}`))
+            );
+        });
         const result: InteServiceType[] = cloneDeep(services || []);
 
         // TODO: 多层级服务参数处理
@@ -45,7 +53,7 @@ const Service: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
         });
 
         return result.filter(item => !item.parent);
-    }, [entities]);
+    }, [entities, excludeKeys]);
 
     // ---------- 卡片点击相关处理逻辑 ----------
     const confirm = useConfirm();

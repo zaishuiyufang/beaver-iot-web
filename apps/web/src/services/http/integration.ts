@@ -12,9 +12,16 @@ type IntegrationDetailType = {
     /**
      * 添加设备表单实体 Key
      *
-     * 说明：当实体 key 中包含该值时，则添加设备时需将该实体渲染为表单项
+     * 说明：该字段标识的实体 key 仅用于添加设备
      */
     add_device_service_key: ApiKey;
+
+    /**
+     * 删除设备表单实体 Key
+     *
+     * 说明：该字段标识的实体 key 仅用于删除设备
+     */
+    delete_device_service_key: ApiKey;
     /** 设备数量 */
     device_count: number;
     /** 实体数量 */

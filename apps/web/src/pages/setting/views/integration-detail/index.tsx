@@ -23,6 +23,7 @@ const InformationDetail = () => {
     const { state } = useLocation();
     const [basicInfo, setBasicInfo] =
         useState<ObjectToCamelCase<IntegrationAPISchema['getList']['response'][0]>>();
+    const [excludeServiceKeys, setExcludeServiceKeys] = useState<ApiKey[]>();
     const {
         loading,
         data: entityList,
@@ -37,8 +38,12 @@ const InformationDetail = () => {
                 return;
             }
             const data = objectToCamelCase(respData);
+            const excludeKeys = [data.addDeviceServiceKey, data.deleteDeviceServiceKey].filter(
+                Boolean,
+            );
 
             setBasicInfo(data);
+            setExcludeServiceKeys(excludeKeys);
             return data.integrationEntities;
         },
         {
@@ -110,6 +115,7 @@ const InformationDetail = () => {
                         <GeneralContent
                             loading={loading}
                             entities={entityList}
+                            excludeServiceKeys={excludeServiceKeys}
                             onUpdateSuccess={refreshInteDetail}
                         />
                     )}
