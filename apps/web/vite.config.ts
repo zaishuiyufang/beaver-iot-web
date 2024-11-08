@@ -21,6 +21,7 @@ const projectRoot = path.join(__dirname, '../../');
 const {
     WEB_DEV_PORT,
     WEB_API_ORIGIN,
+    WEB_WS_HOST,
     WEB_API_PROXY,
     OAUTH_CLIENT_ID,
     OAUTH_CLIENT_SECRET,
@@ -37,6 +38,7 @@ const runtimeVariables = getViteEnvVarsConfig({
     APP_API_ORIGIN: WEB_API_ORIGIN,
     APP_OAUTH_CLIENT_ID: OAUTH_CLIENT_ID,
     APP_OAUTH_CLIENT_SECRET: OAUTH_CLIENT_SECRET,
+    APP_WS_HOST: WEB_WS_HOST,
 });
 const DEFAULT_LESS_INJECT_MODULES = [
     '@import "@milesight/shared/src/styles/variables.less";',
