@@ -4,6 +4,7 @@ import {
     TextField,
     FormControl,
     FormLabel,
+    FormControlLabel,
     InputLabel,
     Select,
     MenuItem,
@@ -191,8 +192,8 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                                         value={value}
                                         onChange={onChange}
                                     >
-                                        {Object.entries(attr.enum || {}).map(([_, value]) => (
-                                            <MenuItem key={value} value={value}>
+                                        {Object.entries(attr.enum || {}).map(([key, value]) => (
+                                            <MenuItem key={value} value={key}>
                                                 {value}
                                             </MenuItem>
                                         ))}
@@ -216,15 +217,20 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                         render({ field: { onChange, value, disabled }, fieldState: { error } }) {
                             return (
                                 <FormControl
-                                    disabled={disabled}
                                     fullWidth
+                                    error={!!error}
+                                    disabled={disabled}
                                     size="small"
                                     sx={{ my: 1.5 }}
                                 >
-                                    <FormLabel error={!!error} sx={{ fontSize: 14 }}>
-                                        {entity.name}
-                                    </FormLabel>
-                                    <Switch size="small" checked={!!value} onChange={onChange} />
+                                    <FormControlLabel
+                                        label={entity.name}
+                                        required={isAllRequired}
+                                        checked={!!value}
+                                        onChange={onChange}
+                                        control={<Switch size="small" />}
+                                        sx={{ fontSize: '12px' }}
+                                    />
                                     {!!error && (
                                         <FormHelperText error>{error.message}</FormHelperText>
                                     )}

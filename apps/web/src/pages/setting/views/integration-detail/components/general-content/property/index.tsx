@@ -31,11 +31,16 @@ const Property: React.FC<Props> = ({ loading, entities, onUpdateSuccess }) => {
     const readOnlyProps = useMemo(() => {
         const props = entities?.filter(item => item.type === 'PROPERTY' && item.accessMod === 'R');
 
-        return props?.map(item => ({
-            key: item.key,
-            label: <Tooltip autoEllipsis title={item.name} />,
-            content: !isNil(item.value) ? item.value : '-',
-        }));
+        return props?.map(item => {
+            const value = !item.valueAttribute?.enum
+                ? item.value
+                : item.valueAttribute.enum[item.value as any];
+            return {
+                key: item.key,
+                label: <Tooltip autoEllipsis title={item.name} />,
+                content: !isNil(value) ? value : '-',
+            };
+        });
     }, [entities]);
 
     // ---------- 实体表单相关逻辑处理 ----------
