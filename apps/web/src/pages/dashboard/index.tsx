@@ -114,7 +114,9 @@ export default () => {
                             );
                         })}
                     </Tabs>
-                    <AddIcon className="dashboard-add" onClick={showAddDashboard} />
+                    <div className="dashboard-add" onClick={showAddDashboard}>
+                        <AddIcon className="dashboard-add-icon" />
+                    </div>
                 </Toolbar>
                 <div className="ms-tab-content">
                     {tabs?.map(tabItem => {
