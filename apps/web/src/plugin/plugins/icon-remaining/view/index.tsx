@@ -8,11 +8,13 @@ import './style.less';
 
 interface Props {
     config: ViewConfigProps;
+    configJson: CustomComponentProps;
 }
 const View = (props: Props) => {
-    const { config } = props;
+    const { config, configJson } = props;
     const { title, entity, metrics, time } = config || {};
     const { aggregateHistoryData } = useSource({ entity, metrics, time });
+    const { isPreview } = configJson || {};
 
     // 百分比
     const percent = useMemo(() => {
@@ -43,7 +45,7 @@ const View = (props: Props) => {
     }, [config]);
 
     return (
-        <div className="ms-icon-remaining">
+        <div className={`ms-icon-remaining ${isPreview ? 'ms-icon-remaining-preview' : ''}`}>
             <div className="ms-icon-remaining__header">
                 <Tooltip autoEllipsis title={title} />
             </div>

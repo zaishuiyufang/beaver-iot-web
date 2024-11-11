@@ -9,7 +9,7 @@
 
     .@{prefix}-tab-content {
         flex: 1;
-        padding: @padding-lg;
+        padding: @padding-lg 0;
         overflow: hidden;
         background: var(--gray-color-2);
     }
@@ -24,7 +24,7 @@
     position: relative;
 
     &-fullscreen {
-        padding: @padding-sm;
+        padding: 5px;
         line-height: 0;
         border: 1px solid rgba(52 145 250 / 0.5);
         border-radius: @border-radius-base;
@@ -36,6 +36,7 @@
         }
 
         &-icon {
+            font-size: 24px !important;
             line-height: 0;
             color: var(--primary-color-6);
         }
@@ -91,6 +92,7 @@
 
         &-operate {
             display: flex;
+            padding: 0 @padding-lg;
             margin-bottom: @margin-md;
 
             &-left {

@@ -35,7 +35,7 @@ const View = (props: Props) => {
         if (!error) {
             toast.success({
                 key: 'callService',
-                // container: mainRef.current,
+                container: mainRef.current,
                 content: getIntlText('common.message.operation_success'),
             });
         }
@@ -50,7 +50,7 @@ const View = (props: Props) => {
             setVisible(false);
             toast.success({
                 key: 'updateProperty',
-                // container: mainRef.current,
+                container: mainRef.current,
                 content: getIntlText('common.message.operation_success'),
             });
         }
