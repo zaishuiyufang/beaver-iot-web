@@ -70,7 +70,7 @@
                     "type": "iconSelect",
                     "key": "icon",
                     "style": "flex: 1;padding-right: 12px;",
-                    "defaultValue": "WifiTetheringIcon",
+                    "defaultValue": "AdsClickIcon",
                     "componentProps": {
                         "size": "small"
                     },
