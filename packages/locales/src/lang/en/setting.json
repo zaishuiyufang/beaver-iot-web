@@ -26,5 +26,5 @@
     "setting.integration.webhook_status_error": "Webhook Error",
     "setting.integration.webhook_status_ready": "Webhook Ready",
     "setting.integration.webhook_status_waiting": "Waiting For Config",
-    "setting.integration.webhook_url": "Webhook URL, Webhook URL"
+    "setting.integration.webhook_url": "Webhook URL"
 }
