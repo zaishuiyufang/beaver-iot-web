@@ -76,7 +76,7 @@ const View = (props: Props) => {
                     }),
                 );
                 setVisible(true);
-            } else if (entityType === 'SERVICE') {
+            } else {
                 confirm({
                     title: '',
                     description: getIntlText('dashboard.plugin.trigger_confirm_text'),
@@ -85,23 +85,17 @@ const View = (props: Props) => {
                         const entityKey = (config?.entity as any).rawData?.entityKey;
                         if (entityType === 'SERVICE') {
                             handleCallService({
-                                [entityKey]: (config?.entity as any)?.value as ApiKey,
+                                [entityKey]: null,
                             });
                         } else if (entityType === 'PROPERTY') {
                             handleUpdateProperty({
-                                [entityKey]: (config?.entity as any)?.value as ApiKey,
+                                [entityKey]: null,
                             });
                         }
                     },
                     dialogProps: {
                         container: mainRef.current,
                     },
-                });
-            } else {
-                toast.error({
-                    key: 'handleError',
-                    // container: mainRef.current,
-                    content: getIntlText('common.message.no_results_found'),
                 });
             }
         }
