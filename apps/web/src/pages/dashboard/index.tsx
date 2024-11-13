@@ -98,9 +98,6 @@ export default () => {
                                 display: 'none', // 完全隐藏禁用的滚动按钮
                             },
                         }}
-                        slotProps={{
-                            endScrollButtonIcon: () => '111',
-                        }}
                     >
                         {tabs?.map(tabItem => {
                             return (
