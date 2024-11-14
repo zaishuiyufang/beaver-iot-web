@@ -69,6 +69,8 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
             sx={{
                 '& .MuiDialogContent-root': {
                     padding: '0px',
+                    overflow: 'hidden',
+                    display: 'flex',
                 },
             }}
             footer={null}

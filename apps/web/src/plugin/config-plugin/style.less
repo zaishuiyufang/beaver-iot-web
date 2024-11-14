@@ -1,5 +1,6 @@
 .config-plugin-container {
     display: flex;
+    width: 100%;
 
     &-left {
         display: flex;
@@ -23,12 +24,20 @@
 
     &-right {
         width: 400px;
-        padding: @padding-sm @padding-lg @padding-lg;
+        padding: @padding-sm @padding-lg 56px;
+        overflow-y: auto;
         border-top: 1px solid var(--border-color-base);
     }
 
     &-footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: calc(400px - 36px);
+        height: 72px;
         padding: 0 !important;
+        margin-right: 36px;
+        background: var(--main-background);
     }
 
     .@{prefix}-tabs {
