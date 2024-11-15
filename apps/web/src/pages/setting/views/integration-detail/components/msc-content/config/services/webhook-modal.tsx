@@ -39,7 +39,7 @@ interface Props extends Omit<ModalProps, 'onOk'> {
 /**
  * Webhook 地址
  */
-export const WEBHOOK_URL = genApiUrl(apiOrigin, '/public/integration/msc/webhook');
+export const WEBHOOK_URL = genApiUrl(apiOrigin, '/api/v1/public/integration/msc/webhook');
 
 /**
  * Webhook 编辑弹窗
