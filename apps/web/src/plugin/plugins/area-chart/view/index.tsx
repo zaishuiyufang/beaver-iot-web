@@ -86,7 +86,7 @@ const View = (props: ViewProps) => {
                                     mode: 'x', // 仅在 x 轴上缩放
                                 },
                             },
-                        },
+                        } as any,
                     },
                 });
             }
